@@ -1,0 +1,369 @@
+/* ========================================================================== */
+/*                          Blue Topaz for MkDocs Adapter                     */
+/*          Glassmorphism UI | Blue-Grey Theme | Original Topaz Styles        */
+/* ========================================================================== */
+
+/* -------------------------------------------------------------------------- */
+/* 1. 全局变量 (Variables)                                                    */
+/* -------------------------------------------------------------------------- */
+:root {
+  /* 字体族 */
+  --font-text: "LXGW WenKai Screen", "Microsoft YaHei", sans-serif;
+  --font-monospace: "JetBrains Mono", "Sarasa Mono SC", "Consolas", monospace;
+  
+  /* 基础尺寸 */
+  --radius-s: 5px;
+  --radius-m: 8px;
+  --radius-l: 15px;
+  --line-height-main: 1.6;
+  
+  /* 排版间距 */
+  --mkdocs-paragraph-spacing: 0.8; /* 单位: em */
+  
+  /* 毛玻璃效果 */
+  --glass-blur: 18px;
+}
+
+/* -------------------------------------------------------------------------- */
+/* 2. 配色方案 (Color Schemes)                                                */
+/* -------------------------------------------------------------------------- */
+
+/* === 亮色模式 (Default Light) === */
+[data-md-color-scheme="default"] {
+  --background-primary: #ffffff; 
+  --background-secondary: #fcfcfc;
+  --background-secondary-alt: #f3f3f3;
+  --background-blockquote: rgba(213, 213, 213, 0.17);
+  --background-code: rgba(230, 230, 230, 0.44);
+
+  --text-normal: #0e0e0e;
+  --text-muted: #7f7f7f;
+  --text-italic: #88b337; 
+  
+  /* 主色调: 蓝灰色 */
+  --interactive-accent: #5c7a91; 
+  --interactive-accent-rgb: 92, 122, 145;
+  --text-accent: #5c7a91;
+
+  /* 标题颜色: 原始蓝色阶梯 */
+  --h1-color: hsl(216, 88%, 26%); 
+  --h2-color: hsl(212, 100%, 33%);
+  --h3-color: hsl(210, 86%, 39%);
+  --h4-color: hsl(208, 58%, 49%);
+  --h5-color: hsl(209, 70%, 62%);
+  --h6-color: hsl(209, 65%, 72%);
+
+  --list-ul-marker-color: #f39c55;
+  --hr-color: var(--interactive-accent);
+
+  /* MkDocs 映射 */
+  --md-default-fg-color: var(--text-normal);
+  --md-default-bg-color: var(--background-primary);
+  --md-primary-fg-color: var(--interactive-accent);
+  
+  /* 亮色毛玻璃背景 */
+  --header-bg-glass: rgba(210, 230, 255, 0.75);
+  --tabs-bg-glass: rgba(240, 245, 250, 0.7);
+}
+
+/* === 暗色模式 (Default Dark) === */
+[data-md-color-scheme="slate"] {
+  --background-primary: #202020;
+  --background-secondary: #282828;
+  --background-secondary-alt: #1a1a1a;
+  --background-blockquote: rgba(145, 145, 145, 0.11);
+  --background-code: rgba(17, 17, 17, 0.55);
+
+  --text-normal: #c6c6c6;
+  --interactive-accent: #3674bb;
+  --interactive-accent-rgb: 54, 116, 187;
+
+  /* 标题颜色: 原始彩虹色阶梯 */
+  --h1-color: hsl(78, 62%, 47%); 
+  --h2-color: hsl(118, 42%, 49%);
+  --h3-color: hsl(180, 53%, 48%);
+  --h4-color: hsl(216, 69%, 68%);
+  --h5-color: hsl(258, 79%, 77%);
+  --h6-color: hsl(290, 85%, 81%);
+
+  --list-ul-marker-color: #eb9563;
+  --md-primary-fg-color: #2c2e31;
+
+  /* 暗色毛玻璃背景 */
+  --header-bg-glass: rgba(30, 30, 35, 0.85);
+  --tabs-bg-glass: rgba(28, 28, 32, 0.8);
+}
+
+/* -------------------------------------------------------------------------- */
+/* 3. 全局排版规则                                                            */
+/* -------------------------------------------------------------------------- */
+
+body {
+  font-family: var(--font-text);
+  line-height: var(--line-height-main);
+  background-color: var(--background-primary);
+}
+
+.md-typeset p {
+  margin-block-start: calc(var(--mkdocs-paragraph-spacing) * 1em);
+  margin-block-end: calc(var(--mkdocs-paragraph-spacing) * 1em);
+}
+
+/* 链接效果 */
+.md-typeset a {
+  color: var(--interactive-accent);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: all 0.3s;
+}
+
+.md-typeset a:hover {
+  border-bottom-color: currentColor;
+}
+
+.md-typeset mark {
+  background-color: rgba(255, 200, 0, 0.25);
+  border-radius: 4px;
+  padding: 0 2px;
+}
+
+.md-typeset em {
+  color: var(--text-italic);
+  font-style: italic;
+}
+
+/* -------------------------------------------------------------------------- */
+/* 4. 毛玻璃 UI 组件与 Header 增强 (含搜索框与仓库按钮)                        */
+/* -------------------------------------------------------------------------- */
+
+/* Header 基础样式 */
+.md-header {
+  background-color: var(--header-bg-glass) !important;
+  backdrop-filter: blur(var(--glass-blur)) saturate(160%);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(160%);
+  color: var(--text-normal) !important;
+  transition: transform 0.25s, background-color 0.25s;
+}
+
+.md-header__title, .md-header__button {
+  color: var(--text-normal) !important;
+}
+
+/* Header 内部元素位置调整 */
+.md-header__inner {
+  display: flex;
+  align-items: center;
+}
+
+.md-header__title {
+  flex-grow: 1; /* 占据剩余空间，将后面元素推向右边 */
+}
+
+/* 搜索框胶囊化 */
+.md-search {
+  margin-right: 0.5rem;
+}
+
+.md-search__form {
+  background-color: rgba(0, 0, 0, 0.06) !important;
+  backdrop-filter: blur(10px);
+  border-radius: 20px !important;
+  transition: width 0.3s, background-color 0.3s;
+}
+
+[data-md-color-scheme="slate"] .md-search__form {
+  background-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+/* 仓库按钮按钮化 */
+.md-header__source {
+  margin-left: 0.5rem;
+  width: 155px;
+  height: 60px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.md-source {
+  background-color: rgba(var(--interactive-accent-rgb), 0.1);
+  padding: 0.2rem 0.6rem;
+  border-radius: 20px;
+  transition: background-color 0.3s;
+}
+
+.md-source:hover {
+  background-color: rgba(var(--interactive-accent-rgb), 0.2);
+}
+
+/* 粘性标签栏 */
+.md-tabs {
+  background-color: var(--tabs-bg-glass) !important;
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+.md-tabs__link {
+  color: var(--text-normal) !important;
+  opacity: 0.8;
+}
+
+.md-tabs__item--active .md-tabs__link {
+  color: var(--interactive-accent) !important;
+  opacity: 1;
+}
+
+/* 内容卡片 */
+.md-content__inner {
+  background-color: var(--background-secondary);
+  border-radius: var(--radius-l);
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.05);
+  padding: 1.5rem 2rem !important;
+}
+
+
+
+/* -------------------------------------------------------------------------- */
+/* 5. Markdown 元素 (标题与列表)                                              */
+/* -------------------------------------------------------------------------- */
+
+/* 标题基础 */
+.md-typeset h1, .md-typeset h2, .md-typeset h3, 
+.md-typeset h4, .md-typeset h5, .md-typeset h6 {
+  margin-top: calc(var(--mkdocs-paragraph-spacing) * 0.75em);
+  margin-bottom: calc(var(--mkdocs-paragraph-spacing) * 0.25em);
+  font-weight: 700;
+  text-transform: none; /* 彻底修复H5/H6全大写问题 */
+  letter-spacing: normal;
+}
+
+.md-typeset h1 {
+  color: var(--h1-color);
+  font-size: 1.9em;
+  border-bottom: 2px solid var(--h1-color);
+  padding-bottom: 0.3em;
+  background: linear-gradient(to right, rgba(var(--interactive-accent-rgb), 0.1) 0%, transparent 100%);
+  border-radius: var(--radius-s);
+  padding-left: 10px;
+}
+
+.md-typeset h2 {
+  color: var(--h2-color);
+  font-size: 1.7em;
+  border-left: 5px solid var(--h2-color);
+  padding-left: 10px;
+  background: linear-gradient(to right, rgba(var(--interactive-accent-rgb), 0.05) 0%, transparent 80%);
+  border-radius: 0 var(--radius-s) var(--radius-s) 0;
+}
+
+.md-typeset h3 {
+  color: var(--h3-color);
+  font-size: 1.5em;
+  border-bottom: 1px solid rgba(var(--interactive-accent-rgb), 0.3);
+  padding-bottom: 5px;
+  display: inline-block;
+}
+
+.md-typeset h4 { color: var(--h4-color); font-size: 1.25em; }
+.md-typeset h5 { color: var(--h5-color); font-size: 1.125em; }
+.md-typeset h6 { color: var(--h6-color); font-size: 1em; }
+
+/* 列表修复 */
+.md-typeset ul, .md-typeset ol {
+  padding-left: 0;
+  margin-top: calc(var(--mkdocs-paragraph-spacing) * 1em);
+  margin-bottom: calc(var(--mkdocs-paragraph-spacing) * 1em);
+}
+
+.md-typeset ul { list-style: none !important; }
+.md-typeset ol { list-style: decimal !important; padding-left: 1.5rem; }
+
+.md-typeset ul > li, .md-typeset ol > li {
+  position: relative;
+  padding-left: 0.8rem;
+  margin-bottom: 0.4em;
+  border-left: 2px solid rgba(var(--interactive-accent-rgb), 0.15);
+  transition: all 0.3s;
+}
+
+.md-typeset ul > li:hover, .md-typeset ol > li:hover {
+  border-left-color: var(--interactive-accent);
+  background-color: rgba(var(--interactive-accent-rgb), 0.03);
+}
+
+/* 列表自定义圆点 (仅ul) */
+.md-typeset ul > li::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  background-color: var(--list-ul-marker-color);
+  border-radius: 50%;
+  position: absolute;
+  left: -4px;
+  top: 0.65rem;
+}
+
+.md-typeset ol > li::before { display: none !important; }
+
+.md-typeset ul ul, .md-typeset ol ol {
+  padding-left: 1.2rem;
+  border-left: none;
+  margin: 0.2em 0;
+}
+
+/* -------------------------------------------------------------------------- */
+/* 6. 布局调整 (桌面端宽度扩充)                                               */
+/* -------------------------------------------------------------------------- */
+
+
+@media screen and (min-width: 76.25em) {
+  /* 1. 总容器：使用百分比配合 max-width，保证在大屏下撑开，缩放时自适应 */
+  .md-grid {
+    max-width: 95%;      /* 缩放时优先利用边缘空间 */
+    width: 88rem;        /* 目标最大宽度 */
+    display: flex;
+  }
+
+  /* 2. 中间内容区：设定 Min-Width 保证不被挤压 */
+  .md-content {
+    flex: 1;
+    min-width: 42rem;    /* 核心：保证中间正文最少占据 42rem (约670px) */
+    padding-inline: 1rem;
+    transition: width 0.2s ease;
+  }
+
+  /* 3. 侧边栏：设定固定宽度，并利用 margin 推开距离 */
+  .md-sidebar--primary {
+    width: 11.5rem;
+
+  }
+
+  .md-sidebar--secondary {
+    width: 11.5rem;
+
+  }
+
+  /* 4. 调整布局间距 */
+  .md-main__inner {
+    display: flex;
+    justify-content: center; /* 窗口宽时居中显示 */
+    gap: 1rem;              /* 侧栏与正文的间距 */
+  }
+}
+
+/* 适配超大屏显示器 (2K/4K) */
+@media screen and (min-width: 120rem) {
+  .md-grid {
+    width: 100rem;
+  }
+  .md-content {
+    min-width: 55rem;
+  }
+}
+
+/* 针对缩放时的精细调整：当侧栏开始拥挤时 */
+@media screen and (max-width: 85rem) and (min-width: 76.25em) {
+  .md-sidebar--primary, .md-sidebar--secondary {
+    width: 11rem; /* 稍微缩小侧边栏以给正文腾空间 */
+  }
+}
