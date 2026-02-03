@@ -48,7 +48,6 @@ We call a series of propositions **==consistent== (一致的)** if they can poss
 - **p :** **假设(hypothesis / antecedent / premise)**
 - **q :** **结论(conclusion / consequence)**
 
-![image-20250222151844435](C:\Users\Fffffx\AppData\Roaming\Typora\typora-user-images\image-20250222151844435.png)
 
 对于推断 p→q可定义以下条件语句：
 
@@ -803,7 +802,7 @@ where the initial term a and the **公差(common difference)** d are real number
 
 ## 3.3 算法的复杂度 Complexity of Algorithms
 
-<img src="离散数学及其应用.assets/image-20250324193656175.png" alt="image-20250324193656175" style="zoom:50%;" />
+<img src="images/image-20250324193656175.png" alt="image-20250324193656175" style="zoom:50%;" />
 
 # Ch4 The Number Theory and Cryptography
 
@@ -969,7 +968,7 @@ The Euclidian algorithm is an efficient method for computing the greatest common
 
 * let $a=bq+r$, then $gcd(a,b) = gcd(b,r)$
 
-<img src="离散数学及其应用.assets/image-20250326103806432.png" alt="image-20250326103806432" style="zoom: 80%;" />
+<img src="images/image-20250326103806432.png" alt="image-20250326103806432" style="zoom: 80%;" />
 
 ### 8. gcds as Linear Combinations 
 
@@ -1117,7 +1116,7 @@ $(P(n_0 )∧∀k ( k\geq n_0 ∧P(n_0 )∧P(n_0 +1)∧…∧P(k) →  P(k+1)))�
 
 * 假设 $r≥d$，因为 $a=dq_0+r$，所以 $a−d(q_0+1)=r−d≥0$，因此存在 $q$ 和 $r$，使得 $0≤r<d$ 成立（且 $q$ 和 $r$ 是唯一的）
 
-<img src="离散数学及其应用.assets/image-20250409103839783.png" alt="image-20250409103839783" style="zoom:67%;" />
+<img src="images/image-20250409103839783.png" alt="image-20250409103839783" style="zoom:67%;" />
 
 ## 5.3 Recursive Definition and Structural Induction
 
@@ -1132,7 +1131,7 @@ $(P(n_0 )∧∀k ( k\geq n_0 ∧P(n_0 )∧P(n_0 +1)∧…∧P(k) →  P(k+1)))�
 
 **LAME’S Theorem** Let $a , b$ be positive integers with $a≥b$. Then the number of divisions used by the Euclidean algorithm to find $gcd (a, b)$ is less than or equal to <u>five times the number of decimal digits in b</u>.
 
-<img src="离散数学及其应用.assets/image-20250409135735686.png" alt="image-20250409135735686"  />
+<img src="images/image-20250409135735686.png" alt="image-20250409135735686"  />
 
 因为 b 的十进制位数为 $⌊log⁡_{10}b⌋+1≤log⁡_{10}b+1$，由定理 1 知除法次数小于等于 $5(log⁡_{10}b+1)$。又因为 $5(log_{⁡10}b+1)$ 是 $O(log⁡b)$，因此可以得到上述结论。
 
@@ -1310,7 +1309,7 @@ $$
   
   > 即 $r$ 个不可区分的物体放入 $n$ 个可区分的箱子中, 共 $H_n^r=C_{n-1+r}^r$ 种情况
 
-<img src="离散数学及其应用.assets/image-20250416130507966.png" alt="image-20250416130507966" style="zoom:80%;" />
+<img src="images/image-20250416130507966.png" alt="image-20250416130507966" style="zoom:80%;" />
 
 ### Permutations of Sets With Indistinguishable Objects
 n-Permutation with limited repetition $A = { n_{1•} a_1 ,n_{2 •} a_2 ,…,n_{k •} a_k } ，where n_1 +n_2 +…+n_k = n$
@@ -1319,7 +1318,7 @@ n-Permutation with limited repetition $A = { n_{1•} a_1 ,n_{2 •} a_2 ,…,n_
   
   对 $n$ 个物体进行排列，其中有 $n_i$ 个属于类型 $i$ 的物体$(i=1,2,\dots,n)$，则排列种数为$\frac{n!}{n_1! n_2! \ldots n_k!}$
   
-  <img src="离散数学及其应用.assets/image-20250416131025490.png" alt="image-20250416131025490" style="zoom:130%;" />
+  <img src="images/image-20250416131025490.png" alt="image-20250416131025490" style="zoom:130%;" />
 
 ### 3. Distributing objects into boxes
 #### 3.1 Distinguishable Objects and Distinguishable Boxes
@@ -1531,13 +1530,13 @@ $$
 
 ### Counting Problems and Generating Functions
 
-<img src="离散数学及其应用.assets/image-20250423201325630.png" alt="image-20250423201325630" style="zoom:80%;" />
+<img src="images/image-20250423201325630.png" alt="image-20250423201325630" style="zoom:80%;" />
 
 ### Use Generating Function To Solve Recurrence Relations
 
 
 
-<img src="离散数学及其应用.assets/image-20250423201416355.png" alt="image-20250423201416355" style="zoom:80%;" />
+<img src="images/image-20250423201416355.png" alt="image-20250423201416355" style="zoom:80%;" />
 
 ### Proving Identities Via Generating Functions
 
@@ -1886,7 +1885,7 @@ To construct a ***Hasse diagram哈斯图*** :
 3)  由于其他边的存在和传递性，我们需要移除所有多余的边，即当存在元素 $z∈S$ 使得 $x≺z$ 且 $z≺y$时，移除边 $(x,y)$
 4)  对所有边重新排序，使得***起点在终点的下面***，并且移除所有箭头 ( 因为现在所有的边都是向上指的，方向已知 )
 
-<img src="离散数学及其应用.assets/image-20250603193832040.png" alt="image-20250603193832040" style="zoom:120%;" />
+<img src="images/image-20250603193832040.png" alt="image-20250603193832040" style="zoom:120%;" />
 
 #### Chain and Antichain
 
@@ -2005,19 +2004,19 @@ Let $(u, v)$ be an edge in $G$. Then $u$ is an **initial vertex起点** and is a
 
   exactly **one edge** between **every pair** of distinct vertices
 
-  <img src="离散数学及其应用.assets/image-20250603202522549.png" alt="image-20250603202522549" style="zoom:150%;" />
+  <img src="images/image-20250603202522549.png" alt="image-20250603202522549" style="zoom:150%;" />
 
 * ***Cycles环*** - ==$C_n (n>2)$==
 
   $C_n=(V,E),where \space V=\{v_1,v_2,\dots , v_n\},E=\{(v_1,v_2),(v_2,v_3),\dots , (v_{n-1},v_n),(v_n,v_1)\},n \geq 3$
 
-  <img src="离散数学及其应用.assets/image-20250514201741328.png" alt="image-20250514201741328" style="zoom:70%;" />
+  <img src="images/image-20250514201741328.png" alt="image-20250514201741328" style="zoom:70%;" />
 
 * ***Wheels轮*** - ==$W_n(n>2)$==
 
   Add one additional vertex to the cycle $C_n$ and add an edge from each vertex to the new vertex to produce $W_n$.
 
-  <img src="离散数学及其应用.assets/image-20250514201803199.png" alt="image-20250514201803199" style="zoom:80%;" />
+  <img src="images/image-20250514201803199.png" alt="image-20250514201803199" style="zoom:80%;" />
 
 * ***n-Cubes*** - ==$Q_n (n>0)$==
 
@@ -2094,7 +2093,7 @@ The union of two simple graphs $G1 = ( V1 , E1 )$ and $G2 = ( V2 , E2 )$ is the 
 
 * lists that specify the vertices that are adjacent to each vertex
 
-  <img src="离散数学及其应用.assets/image-20250514204913332.png" alt="image-20250514204913332" style="zoom:80%;" />
+  <img src="images/image-20250514204913332.png" alt="image-20250514204913332" style="zoom:80%;" />
 
 ### 2. Adjacency Matrices
 
@@ -2118,7 +2117,7 @@ The union of two simple graphs $G1 = ( V1 , E1 )$ and $G2 = ( V2 , E2 )$ is the 
 
 $G = (V, E)$, $V = \{v_1, v_2, ..., v_n\}$, $E = \{e_1, e_2, ..., e_m\}$. The ***incidence matrix关联矩阵*** with respect to this ordering of $V$ and $E$ is an $n \times m$ matrix $M = [m_{ij}]_{n \times m}$, where $m_{ij} = \begin{cases} 1 & \text{when edge } e_j \text{ is incident with } v_i \\ 0 & \text{otherwise} \end{cases}$
 
-<img src="离散数学及其应用.assets/image-20250514210326735.png" alt="image-20250514210326735" style="zoom:80%;" />
+<img src="images/image-20250514210326735.png" alt="image-20250514210326735" style="zoom:80%;" />
 
 ### 4. Isomorphism Of Graphs
 
@@ -2409,15 +2408,15 @@ Terminologies:
 
    
 
-   <img src="离散数学及其应用.assets/image-20250531162954522.png" alt="image-20250531162954522"  />
+   <img src="images/image-20250531162954522.png" alt="image-20250531162954522"  />
 
 4. $K_n$
 
-   $χ(K_n)=n$  $χ(K_n-e)=n-1$ <img src="离散数学及其应用.assets/image-20250531162921690.png" alt="image-20250531162921690" style="zoom:50%;" />
+   $χ(K_n)=n$  $χ(K_n-e)=n-1$ <img src="images/image-20250531162921690.png" alt="image-20250531162921690" style="zoom:50%;" />
 
 5. $K_{m,n}$
 
-   $χ(K_{m,n})=2$ <img src="离散数学及其应用.assets/image-20250531162939223.png" alt="image-20250531162939223" style="zoom:50%;" />
+   $χ(K_{m,n})=2$ <img src="images/image-20250531162939223.png" alt="image-20250531162939223" style="zoom:50%;" />
 
 ### Algorithm for coloring simple graphs
 
@@ -2516,14 +2515,14 @@ The **height高度** of a rooted tree is the <u>maximum of the levels</u> of its
   * The key values in the tree can be compared using “greater than” and “less than”, and
   * The key value of each vertex in the tree is **less than every key value in its right subtree**, and **greater than every key value in its left subtree**.
 
-<img src="离散数学及其应用.assets/image-20250531202859165.png" alt="image-20250531202859165" style="zoom:67%;" />
+<img src="images/image-20250531202859165.png" alt="image-20250531202859165" style="zoom:67%;" />
 
 ### 2. Decision Trees 
 
 * Rooted trees can be used to model problems in which a series of decisions leads to a solution.  
 * A rooted tree in which each internal vertex corresponds to a decision, with a subtree at these vertices for each possible outcome of the decision, is called a **decision tree决策树**.
 
-<img src="离散数学及其应用.assets/image-20250531203145819.png" alt="image-20250531203145819" style="zoom:60%;" />
+<img src="images/image-20250531203145819.png" alt="image-20250531203145819" style="zoom:60%;" />
 
 ### 3. Prefix Codes
 
@@ -2531,7 +2530,7 @@ The **height高度** of a rooted tree is the <u>maximum of the levels</u> of its
 
 #### Huffman Coding
 
-<img src="离散数学及其应用.assets/image-20250601104000549.png" alt="image-20250601104000549" style="zoom:80%;" />
+<img src="images/image-20250601104000549.png" alt="image-20250601104000549" style="zoom:80%;" />
 
 * **Huffman Tree 哈夫曼树**
 
@@ -2604,7 +2603,7 @@ A Binary Expression Tree is a special kind of binary tree in which:
 * Each **nonleaf node** contains a single operator, and 
 * The left and right subtrees of an operator node represent **subexpressions** that must be evaluated **before** applying the operator at the root of the subtree.
 
-<img src="离散数学及其应用.assets/image-20250601105129898.png" alt="image-20250601105129898" style="zoom:80%;" />
+<img src="images/image-20250601105129898.png" alt="image-20250601105129898" style="zoom:80%;" />
 
 * **Infix Form中缀式**: An **inorder traversal** of the tree representing an expression produces the original expression when parentheses are included except for unary operations, which now immediately follow their operands. 
   * infix form: $3*ln(x+1)+a/x \uparrow 2$

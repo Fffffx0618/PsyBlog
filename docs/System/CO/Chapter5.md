@@ -1,4 +1,4 @@
-# Memory Hierarchy
+# Chap5.Memory Hierarchy
 ## 5.1 Memory Technologies
 - ==SRAM== (Static Random Access Memory)
 	- value is stored on a pair of inverting gates

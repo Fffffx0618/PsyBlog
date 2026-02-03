@@ -268,53 +268,76 @@ body {
 .md-typeset h5 { color: var(--h5-color); font-size: 1.125em; }
 .md-typeset h6 { color: var(--h6-color); font-size: 1em; }
 
-/* 列表修复 */
-.md-typeset ul, .md-typeset ol {
+/* -------------------------------------------------------------------------- */
+/* 列表样式                                                                    */
+/* -------------------------------------------------------------------------- */
+
+.md-typeset ul,
+.md-typeset ol {
   padding-left: 0;
   margin-top: calc(var(--mkdocs-paragraph-spacing) * 1em);
   margin-bottom: calc(var(--mkdocs-paragraph-spacing) * 1em);
+  list-style: none !important; /* 关键：禁用原生标记 */
 }
 
-.md-typeset ul { list-style: none !important; }
-.md-typeset ol { list-style: decimal !important; padding-left: 1.5rem; }
+/* 启用 CSS 计数器用于有序列表 */
+.md-typeset ol {
+  counter-reset: ordered-list;
+}
 
-.md-typeset ul > li, .md-typeset ol > li {
+.md-typeset ul > li,
+.md-typeset ol > li {
   position: relative;
-  padding-left: 0.8rem;
+  padding-left: 1rem; /* 文字内容统一缩进（给标记留出空间）*/
   margin-bottom: 0.4em;
   border-left: 2px solid rgba(var(--interactive-accent-rgb), 0.15);
   transition: all 0.3s;
 }
 
-.md-typeset ul > li:hover, .md-typeset ol > li:hover {
+.md-typeset ul > li:hover,
+.md-typeset ol > li:hover {
   border-left-color: var(--interactive-accent);
   background-color: rgba(var(--interactive-accent-rgb), 0.03);
 }
 
-/* 列表自定义圆点 (仅ul) */
+/* 无序列表：自定义圆点 */
 .md-typeset ul > li::before {
   content: '';
+  position: absolute;
+  left: 0.25rem; /* 距离左侧 0.2rem */
+  top: 0.55rem;
   width: 6px;
   height: 6px;
   background-color: var(--list-ul-marker-color);
   border-radius: 50%;
-  position: absolute;
-  left: -4px;
-  top: 0.65rem;
 }
 
-.md-typeset ol > li::before { display: none !important; }
+/* 有序列表：用计数器生成数字 */
+.md-typeset ol > li {
+  counter-increment: ordered-list;
+}
 
-.md-typeset ul ul, .md-typeset ol ol {
-  padding-left: 1.2rem;
+.md-typeset ol > li::before {
+  content: counter(ordered-list) ".";
+  position: absolute;
+  left: 0.2rem;
+  font-weight: 600;
+  color: var(--interactive-accent);
+  /* 可选：微调字体大小 */
+  font-size: 0.95em;
+}
+
+/* 嵌套列表 */
+.md-typeset ul ul,
+.md-typeset ol ol,
+.md-typeset ul ol,
+.md-typeset ol ul {
+  padding-left: 0.5rem;
   border-left: none;
   margin: 0.2em 0;
 }
 
-/* -------------------------------------------------------------------------- */
-/* 6. 布局调整 (桌面端宽度扩充)                                               */
-/* -------------------------------------------------------------------------- */
-
+/* 布局调整 (桌面端宽度扩充)                                               */
 
 @media screen and (min-width: 76.25em) {
   /* 1. 总容器：使用百分比配合 max-width，保证在大屏下撑开，缩放时自适应 */
@@ -365,5 +388,116 @@ body {
 @media screen and (max-width: 85rem) and (min-width: 76.25em) {
   .md-sidebar--primary, .md-sidebar--secondary {
     width: 11rem; /* 稍微缩小侧边栏以给正文腾空间 */
+  }
+}
+
+@media screen and (max-width: 76.24em) {
+  .md-content__inner {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+}
+
+
+/* -------------------------------------------------------------------------- */
+/* 7. 表格美化 (Simplicity Topaz Style)                                       */
+/* -------------------------------------------------------------------------- */
+
+/* 通用表格容器 */
+.md-typeset table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin: 1.2em 0;
+  background: var(--background-primary);
+  border-radius: var(--radius-l);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+  font-size: 1em; /* 与正文字号一致（Material 默认为 0.75rem = 12px）*/
+  line-height: 1.5;
+}
+
+/* 表头 */
+.md-typeset thead th {
+  background-color: var(--background-secondary);
+  color: var(--text-normal);
+  font-weight: 600;
+  text-align: left;
+  padding: 0.85em 1em;
+  border-bottom: 1px solid var(--interactive-accent);
+}
+
+/* 表体单元格 */
+.md-typeset tbody td {
+  padding: 0.75em 1em;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  color: var(--text-normal);
+}
+
+/* 最后一行去除底边框 */
+.md-typeset tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* 斑马纹：偶数行浅灰背景 */
+.md-typeset tbody tr:nth-child(even) {
+  background-color: var(--background-secondary-alt);
+}
+
+/* 悬停高亮：使用主色浅背景 */
+.md-typeset tbody tr:hover {
+  background-color: rgba(var(--interactive-accent-rgb), 0.08);
+}
+
+/* 表格内链接 */
+.md-typeset table a {
+  color: var(--interactive-accent);
+  font-weight: 600;
+  text-decoration: none;
+}
+.md-typeset table a:hover {
+  text-decoration: underline;
+}
+
+/* 响应式：小屏堆叠显示 */
+@media (max-width: 600px) {
+  .md-typeset table,
+  .md-typeset thead,
+  .md-typeset tbody,
+  .md-typeset th,
+  .md-typeset td,
+  .md-typeset tr {
+    display: block;
+  }
+
+  .md-typeset thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+
+  .md-typeset tr {
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: var(--radius-m);
+    margin-bottom: 0.8em;
+    padding: 0.8em;
+    background: var(--background-primary);
+  }
+
+  .md-typeset td {
+    border: none;
+    position: relative;
+    padding-left: 40% !important;
+    text-align: right;
+  }
+
+  .md-typeset td:before {
+    content: attr(data-label) ": ";
+    position: absolute;
+    left: 1em;
+    width: calc(40% - 2em);
+    font-weight: 600;
+    color: var(--text-normal);
+    text-align: left;
   }
 }

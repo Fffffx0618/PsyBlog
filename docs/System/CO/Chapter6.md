@@ -1,4 +1,4 @@
-# APPENDIX：Storage, Networks and Other Peripherals
+# Chap6.APPENDIX：Storage, Networks and Other Peripherals
 ## A.1 Introduction
 I/O Designers must consider many factors 
 - expandability 

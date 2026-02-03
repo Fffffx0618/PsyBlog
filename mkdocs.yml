@@ -9,7 +9,7 @@ use_directory_urls: false
 theme:
   name: material
   language: zh
-  html_sanitizer: true
+  html_sanitizer: false
   features:
     - header.autohide
     - content.math
@@ -115,14 +115,6 @@ plugins:
       safe_mode: false
       image_embed: true
       image_path: "images"
-  - blog
-  - rss:
-      match_path: blog/posts/.*
-      date_from_meta:
-        as_creation: date
-      categories:
-        - categories
-        - tags
 
 extra_javascript:
   - javascripts/mathjax.js
@@ -134,3 +126,51 @@ extra_css:
   - https://gcore.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.1.0/style.css
   - https://cdn.jsdelivr.net/npm/sarasa-gothic@0.43.0/css/sarasa-mono-sc.css
   - stylesheets/blueTopaz.css
+
+
+nav:
+  - 首页: 
+    - index.md
+
+  - 我的Blog: 
+    - blog/index.md
+  - 编程语言: 
+    - Language/index.md
+    - C:
+      - Language/C/index.md
+      - Language/C/C.md
+    - Python:
+      - Language/Python/Python.md
+  - 程序算法: 
+    - Algorithm/index.md
+    - 数据结构基础
+    - 高级数据结构与算法分析:
+      - Algorithm/ADS/index.md
+      - Algorithm/ADS/Lec1.md
+      - Algorithm/ADS/Lec2.md
+      - Algorithm/ADS/Lec3.md
+      - Algorithm/ADS/Lec4.md
+      - Algorithm/ADS/Lec5.md
+      - Algorithm/ADS/Lec6.md
+      - Algorithm/ADS/Lec7.md
+      - Algorithm/ADS/Lec8.md
+      - Algorithm/ADS/Lec9.md
+      - Algorithm/ADS/Lec10.md
+      - Algorithm/ADS/Lec11.md
+      - Algorithm/ADS/Lec12.md
+      - Algorithm/ADS/Lec13.md
+      - Algorithm/ADS/Lec14.md
+      - Algorithm/ADS/Lec15.md
+  - 体系结构: 
+    - System/index.md
+    - 计算机组成:
+      - System/CO/index.md
+      - System/CO/Chapter1.md
+      - System/CO/Chapter2.md
+      - System/CO/Chapter3.md
+      - System/CO/Chapter4.md
+      - System/CO/Chapter5.md
+      - System/CO/Chapter6.md
+  - 数学基础: Math/index.md
+  - 前后端开发: Develop/index.md
+
