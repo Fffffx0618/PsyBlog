@@ -1,0 +1,529 @@
+/* ========================================================================== */
+/*                          Blue Topaz for MkDocs Adapter                     */
+/*          Glassmorphism UI | Blue-Grey Theme | Original Topaz Styles        */
+/* ========================================================================== */
+
+/* -------------------------------------------------------------------------- */
+/* 1. 全局变量 (Variables)                                                    */
+/* -------------------------------------------------------------------------- */
+:root {
+  /* 字体族 */
+  --font-text: "LXGW WenKai Screen", "Microsoft YaHei", sans-serif;
+  --font-monospace: "JetBrains Mono", "Sarasa Mono SC", "Consolas", monospace;
+  
+  /* 基础尺寸 */
+  --radius-s: 5px;
+  --radius-m: 8px;
+  --radius-l: 15px;
+  --line-height-main: 1.6;
+  
+  /* 排版间距 */
+  --mkdocs-paragraph-spacing: 0.8; /* 单位: em */
+  
+  /* 毛玻璃效果 */
+  --glass-blur: 18px;
+}
+
+/* 确保代码块使用 JB Mono */
+.md-typeset code,
+.md-typeset pre {
+  font-family: "JetBrains Mono", "Sarasa Mono SC", Consolas, monospace !important;
+}
+
+/* -------------------------------------------------------------------------- */
+/* 2. 配色方案 (Color Schemes)                                                */
+/* -------------------------------------------------------------------------- */
+
+/* === 亮色模式 (Default Light) === */
+[data-md-color-scheme="default"] {
+  --background-primary: #ffffff; 
+  --background-secondary: #fcfcfc;
+  --background-secondary-alt: #f3f3f3;
+  --background-blockquote: rgba(213, 213, 213, 0.17);
+  --background-code: rgba(230, 230, 230, 0.44);
+
+  --text-normal: #0e0e0e;
+  --text-muted: #7f7f7f;
+  --text-italic: #88b337; 
+  
+  /* 主色调: 蓝灰色 */
+  --interactive-accent: #5c7a91; 
+  --interactive-accent-rgb: 92, 122, 145;
+  --text-accent: #5c7a91;
+
+  /* 标题颜色: 原始蓝色阶梯 */
+  --h1-color: hsl(216, 88%, 26%); 
+  --h2-color: hsl(212, 100%, 33%);
+  --h3-color: hsl(210, 86%, 39%);
+  --h4-color: hsl(208, 58%, 49%);
+  --h5-color: hsl(209, 70%, 62%);
+  --h6-color: hsl(209, 65%, 72%);
+
+  --list-ul-marker-color: #f39c55;
+  --hr-color: var(--interactive-accent);
+
+  /* MkDocs 映射 */
+  --md-default-fg-color: var(--text-normal);
+  --md-default-bg-color: var(--background-primary);
+  --md-primary-fg-color: var(--interactive-accent);
+  
+  /* 亮色毛玻璃背景 */
+  --header-bg-glass: rgba(210, 230, 255, 0.75);
+  --tabs-bg-glass: rgba(240, 245, 250, 0.7);
+}
+
+/* === 暗色模式 (Default Dark) === */
+[data-md-color-scheme="slate"] {
+  --background-primary: #202020;
+  --background-secondary: #282828;
+  --background-secondary-alt: #1a1a1a;
+  --background-blockquote: rgba(145, 145, 145, 0.11);
+  --background-code: rgba(17, 17, 17, 0.55);
+
+  --text-normal: #c6c6c6;
+  --interactive-accent: #3674bb;
+  --interactive-accent-rgb: 54, 116, 187;
+
+  /* 标题颜色: 原始彩虹色阶梯 */
+  --h1-color: hsl(78, 62%, 47%); 
+  --h2-color: hsl(118, 42%, 49%);
+  --h3-color: hsl(180, 53%, 48%);
+  --h4-color: hsl(216, 69%, 68%);
+  --h5-color: hsl(258, 79%, 77%);
+  --h6-color: hsl(290, 85%, 81%);
+
+  --list-ul-marker-color: #eb9563;
+  --md-primary-fg-color: #2c2e31;
+
+  /* 暗色毛玻璃背景 */
+  --header-bg-glass: rgba(30, 30, 35, 0.85);
+  --tabs-bg-glass: rgba(28, 28, 32, 0.8);
+}
+
+/* -------------------------------------------------------------------------- */
+/* 3. 全局排版规则                                                            */
+/* -------------------------------------------------------------------------- */
+
+body {
+  font-family: var(--font-text);
+  line-height: var(--line-height-main);
+  background-color: var(--background-primary);
+}
+
+.md-typeset p {
+  margin-block-start: calc(var(--mkdocs-paragraph-spacing) * 1em);
+  margin-block-end: calc(var(--mkdocs-paragraph-spacing) * 1em);
+}
+
+/* 链接效果 */
+.md-typeset a {
+  color: var(--interactive-accent);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: all 0.3s;
+}
+
+.md-typeset a:hover {
+  border-bottom-color: currentColor;
+}
+
+.md-typeset mark {
+  background-color: rgba(255, 200, 0, 0.25);
+  border-radius: 4px;
+  padding: 0 2px;
+}
+
+.md-typeset em {
+  color: var(--text-italic);
+  font-style: italic;
+}
+
+/* -------------------------------------------------------------------------- */
+/* 4. 毛玻璃 UI 组件与 Header 增强 (含搜索框与仓库按钮)                        */
+/* -------------------------------------------------------------------------- */
+
+/* Header 基础样式 */
+.md-header {
+  background-color: var(--header-bg-glass) !important;
+  backdrop-filter: blur(var(--glass-blur)) saturate(160%);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(160%);
+  color: var(--text-normal) !important;
+  transition: transform 0.25s, background-color 0.25s;
+}
+
+.md-header__title, .md-header__button {
+  color: var(--text-normal) !important;
+}
+
+/* Header 内部元素位置调整 */
+.md-header__inner {
+  display: flex;
+  align-items: center;
+}
+
+.md-header__title {
+  flex-grow: 1; /* 占据剩余空间，将后面元素推向右边 */
+}
+
+/* 搜索框胶囊化 */
+.md-search {
+  margin-right: 0.5rem;
+}
+
+.md-search__form {
+  background-color: rgba(0, 0, 0, 0.06) !important;
+  backdrop-filter: blur(10px);
+  border-radius: 20px !important;
+  transition: width 0.3s, background-color 0.3s;
+}
+
+[data-md-color-scheme="slate"] .md-search__form {
+  background-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+/* 仓库按钮按钮化 */
+.md-header__source {
+  margin-left: 0.5rem;
+  width: 155px;
+  height: 60px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.md-source {
+  background-color: rgba(var(--interactive-accent-rgb), 0.1);
+  padding: 0.2rem 0.6rem;
+  border-radius: 20px;
+  transition: background-color 0.3s;
+}
+
+.md-source:hover {
+  background-color: rgba(var(--interactive-accent-rgb), 0.2);
+}
+
+/* 粘性标签栏 */
+.md-tabs {
+  background-color: var(--tabs-bg-glass) !important;
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+.md-tabs__link {
+  color: var(--text-normal) !important;
+  opacity: 0.8;
+}
+
+.md-tabs__item--active .md-tabs__link {
+  color: var(--interactive-accent) !important;
+  opacity: 1;
+}
+
+/* 内容卡片 */
+.md-content__inner {
+  background-color: var(--background-secondary);
+  border-radius: var(--radius-l);
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.05);
+  padding: 1.5rem 2rem !important;
+}
+
+
+
+/* -------------------------------------------------------------------------- */
+/* 5. Markdown 元素 (标题与列表)                                              */
+/* -------------------------------------------------------------------------- */
+
+/* 标题基础 */
+.md-typeset h1, .md-typeset h2, .md-typeset h3, 
+.md-typeset h4, .md-typeset h5, .md-typeset h6 {
+  margin-top: calc(var(--mkdocs-paragraph-spacing) * 0.75em);
+  margin-bottom: calc(var(--mkdocs-paragraph-spacing) * 0.25em);
+  font-weight: 700;
+  text-transform: none; /* 彻底修复H5/H6全大写问题 */
+  letter-spacing: normal;
+}
+
+.md-typeset h1 {
+  color: var(--h1-color);
+  font-size: 1.9em;
+  border-bottom: 2px solid var(--h1-color);
+  padding-bottom: 0.3em;
+  background: linear-gradient(to right, rgba(var(--interactive-accent-rgb), 0.1) 0%, transparent 100%);
+  border-radius: var(--radius-s);
+  padding-left: 10px;
+}
+
+.md-typeset h2 {
+  color: var(--h2-color);
+  font-size: 1.7em;
+  border-left: 5px solid var(--h2-color);
+  padding-left: 10px;
+  background: linear-gradient(to right, rgba(var(--interactive-accent-rgb), 0.05) 0%, transparent 80%);
+  border-radius: 0 var(--radius-s) var(--radius-s) 0;
+}
+
+.md-typeset h3 {
+  color: var(--h3-color);
+  font-size: 1.5em;
+  border-bottom: 1px solid rgba(var(--interactive-accent-rgb), 0.3);
+  padding-bottom: 5px;
+  display: inline-block;
+}
+
+.md-typeset h4 { color: var(--h4-color); font-size: 1.25em; }
+.md-typeset h5 { color: var(--h5-color); font-size: 1.125em; }
+.md-typeset h6 { color: var(--h6-color); font-size: 1em; }
+
+/* -------------------------------------------------------------------------- */
+/* 5. 列表样式 (删除竖线、紧凑缩进版)                                          */
+/* -------------------------------------------------------------------------- */
+
+.md-typeset ul,
+.md-typeset ol {
+  padding-left: 0;
+  margin-top: calc(var(--mkdocs-paragraph-spacing) * 1em);
+  margin-bottom: calc(var(--mkdocs-paragraph-spacing) * 1em);
+  list-style: none !important; 
+}
+
+.md-typeset ol {
+  counter-reset: ordered-list;
+}
+
+.md-typeset ul > li,
+.md-typeset ol > li {
+  position: relative;
+  /* 保持较小的缩进 */
+  padding-left: 0.3rem; 
+  margin-bottom: 0.4em;
+  /* --- 已删除 border-left --- */
+  border-left: none; 
+  transition: all 0.3s;
+}
+
+.md-typeset ul > li:hover,
+.md-typeset ol > li:hover {
+  /* 悬停时仅保留背景微显，不再显示竖线 */
+  background-color: rgba(var(--interactive-accent-rgb), 0.05);
+  border-radius: 4px;
+}
+
+/* 无序列表：自定义圆点位置 */
+.md-typeset ul > li::before {
+  content: '';
+  position: absolute;
+  left: -0.3rem; /* 调整圆点距离边缘的距离 */
+  top: 0.65em;
+  width: 6px;
+  height: 6px;
+  background-color: var(--list-ul-marker-color);
+  border-radius: 50%;
+}
+
+/* 有序列表：数字位置 */
+.md-typeset ol > li {
+  counter-increment: ordered-list;
+}
+
+.md-typeset ol > li::before {
+  content: counter(ordered-list) ".";
+  position: absolute;
+  left: -0.4rem; /* 数字靠最左侧 */
+  font-weight: 600;
+  color: var(--interactive-accent);
+  font-size: 0.95em;
+}
+
+/* 嵌套列表 */
+.md-typeset ul ul,
+.md-typeset ol ol,
+.md-typeset ul ol,
+.md-typeset ol ul {
+  padding-left: 0rem; /* 嵌套缩进也相应减小 */
+  margin: 0.2em 0;
+  border-left: none;
+}
+
+/* 布局调整 (桌面端宽度扩充)                                               */
+
+@media screen and (min-width: 76.25em) {
+  /* 1. 总容器：使用百分比配合 max-width，保证在大屏下撑开，缩放时自适应 */
+  .md-grid {
+    max-width: 95%;      /* 缩放时优先利用边缘空间 */
+    width: 88rem;        /* 目标最大宽度 */
+    display: flex;
+  }
+
+  /* 2. 中间内容区：设定 Min-Width 保证不被挤压 */
+  .md-content {
+    flex: 1;
+    min-width: 42rem;    /* 核心：保证中间正文最少占据 42rem (约670px) */
+    padding-inline: 1rem;
+    transition: width 0.2s ease;
+  }
+
+  /* 3. 侧边栏：设定固定宽度，并利用 margin 推开距离 */
+  .md-sidebar--primary {
+    width: 11.5rem;
+
+  }
+
+  .md-sidebar--secondary {
+    width: 11.5rem;
+
+  }
+
+  /* 4. 调整布局间距 */
+  .md-main__inner {
+    display: flex;
+    justify-content: center; /* 窗口宽时居中显示 */
+    gap: 1rem;              /* 侧栏与正文的间距 */
+  }
+}
+
+/* 适配超大屏显示器 (2K/4K) */
+@media screen and (min-width: 120rem) {
+  .md-grid {
+    width: 100rem;
+  }
+  .md-content {
+    min-width: 55rem;
+  }
+}
+
+/* 针对缩放时的精细调整：当侧栏开始拥挤时 */
+@media screen and (max-width: 85rem) and (min-width: 76.25em) {
+  .md-sidebar--primary, .md-sidebar--secondary {
+    width: 11rem; /* 稍微缩小侧边栏以给正文腾空间 */
+  }
+}
+
+@media screen and (max-width: 76.24em) {
+  .md-content__inner {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+}
+
+
+/* -------------------------------------------------------------------------- */
+/* 7. 表格美化 (Simplicity Topaz Style)                                       */
+/* -------------------------------------------------------------------------- */
+
+/* 通用表格容器 */
+.md-typeset table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin: 1.2em 0;
+  background: var(--background-primary);
+  border-radius: var(--radius-l);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+  font-size: 1em; /* 与正文字号一致（Material 默认为 0.75rem = 12px）*/
+  line-height: 1.5;
+}
+
+/* 表头 */
+.md-typeset thead th {
+  background-color: var(--background-secondary);
+  color: var(--text-normal);
+  font-weight: 600;
+  text-align: left;
+  padding: 0.85em 1em;
+  border-bottom: 1px solid var(--interactive-accent);
+}
+
+/* 表体单元格 */
+.md-typeset tbody td {
+  padding: 0.75em 1em;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  color: var(--text-normal);
+}
+
+/* 最后一行去除底边框 */
+.md-typeset tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* 斑马纹：偶数行浅灰背景 */
+.md-typeset tbody tr:nth-child(even) {
+  background-color: var(--background-secondary-alt);
+}
+
+/* 悬停高亮：使用主色浅背景 */
+.md-typeset tbody tr:hover {
+  background-color: rgba(var(--interactive-accent-rgb), 0.08);
+}
+
+/* 表格内链接 */
+.md-typeset table a {
+  color: var(--interactive-accent);
+  font-weight: 600;
+  text-decoration: none;
+}
+.md-typeset table a:hover {
+  text-decoration: underline;
+}
+
+/* 响应式：小屏堆叠显示 */
+@media (max-width: 600px) {
+  .md-typeset table,
+  .md-typeset thead,
+  .md-typeset tbody,
+  .md-typeset th,
+  .md-typeset td,
+  .md-typeset tr {
+    display: block;
+  }
+
+  .md-typeset thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+
+  .md-typeset tr {
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: var(--radius-m);
+    margin-bottom: 0.8em;
+    padding: 0.8em;
+    background: var(--background-primary);
+  }
+
+  .md-typeset td {
+    border: none;
+    position: relative;
+    padding-left: 40% !important;
+    text-align: right;
+  }
+
+  .md-typeset td:before {
+    content: attr(data-label) ": ";
+    position: absolute;
+    left: 1em;
+    width: calc(40% - 2em);
+    font-weight: 600;
+    color: var(--text-normal);
+    text-align: left;
+  }
+}
+/* -------------------------------------------------------------------------- */
+/* 8. 数学公式 (LaTeX) 统一化                                                 */
+/* -------------------------------------------------------------------------- */
+
+/* 统一行内和块级公式的字号，微调至 1.05em 以适配霞鹜文楷 */
+.arithmatex, 
+.MathJax, 
+.MathJax_Display,
+.katex,
+.katex-display {
+  font-size: 1.03em !important; 
+  font-family: inherit; /* 尽可能继承上下文逻辑 */
+  color: inherit;
+}
+
+/* 针对行内公式的特殊微调 */
+.md-typeset :not(pre) > .arithmatex > .MathJax {
+  vertical-align: middle; /* 修正对齐问题 */
+}

@@ -1,0 +1,2418 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="可达鸭的笔记本，记录了 ZJU-CS 的一些课程笔记。">
+      
+      
+        <meta name="author" content="Fffffx">
+      
+      
+      
+        <link rel="prev" href="Chapter2.html">
+      
+      
+        <link rel="next" href="Chapter4.html">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>Chap3.Arithmetic for Computer - Fffffx's Note</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+  
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+  
+  <style>:root{--md-admonition-icon--note:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M1%207.775V2.75C1%201.784%201.784%201%202.75%201h5.025c.464%200%20.91.184%201.238.513l6.25%206.25a1.75%201.75%200%200%201%200%202.474l-5.026%205.026a1.75%201.75%200%200%201-2.474%200l-6.25-6.25A1.75%201.75%200%200%201%201%207.775m1.5%200c0%20.066.026.13.073.177l6.25%206.25a.25.25%200%200%200%20.354%200l5.025-5.025a.25.25%200%200%200%200-.354l-6.25-6.25a.25.25%200%200%200-.177-.073H2.75a.25.25%200%200%200-.25.25ZM6%205a1%201%200%201%201%200%202%201%201%200%200%201%200-2%22/%3E%3C/svg%3E');--md-admonition-icon--abstract:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M2.5%201.75v11.5c0%20.138.112.25.25.25h3.17a.75.75%200%200%201%200%201.5H2.75A1.75%201.75%200%200%201%201%2013.25V1.75C1%20.784%201.784%200%202.75%200h8.5C12.216%200%2013%20.784%2013%201.75v7.736a.75.75%200%200%201-1.5%200V1.75a.25.25%200%200%200-.25-.25h-8.5a.25.25%200%200%200-.25.25m13.274%209.537zl-4.557%204.45a.75.75%200%200%201-1.055-.008l-1.943-1.95a.75.75%200%200%201%201.062-1.058l1.419%201.425%204.026-3.932a.75.75%200%201%201%201.048%201.074M4.75%204h4.5a.75.75%200%200%201%200%201.5h-4.5a.75.75%200%200%201%200-1.5M4%207.75A.75.75%200%200%201%204.75%207h2a.75.75%200%200%201%200%201.5h-2A.75.75%200%200%201%204%207.75%22/%3E%3C/svg%3E');--md-admonition-icon--info:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M0%208a8%208%200%201%201%2016%200A8%208%200%200%201%200%208m8-6.5a6.5%206.5%200%201%200%200%2013%206.5%206.5%200%200%200%200-13M6.5%207.75A.75.75%200%200%201%207.25%207h1a.75.75%200%200%201%20.75.75v2.75h.25a.75.75%200%200%201%200%201.5h-2a.75.75%200%200%201%200-1.5h.25v-2h-.25a.75.75%200%200%201-.75-.75M8%206a1%201%200%201%201%200-2%201%201%200%200%201%200%202%22/%3E%3C/svg%3E');--md-admonition-icon--tip:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M3.499.75a.75.75%200%200%201%201.5%200v.996C5.9%202.903%206.793%203.65%207.662%204.376l.24.202c-.036-.694.055-1.422.426-2.163C9.1.873%2010.794-.045%2012.622.26%2014.408.558%2016%201.94%2016%204.25c0%201.278-.954%202.575-2.44%202.734l.146.508.065.22c.203.701.412%201.455.476%202.226.142%201.707-.4%203.03-1.487%203.898C11.714%2014.671%2010.27%2015%208.75%2015h-6a.75.75%200%200%201%200-1.5h1.376a4.5%204.5%200%200%201-.563-1.191%203.84%203.84%200%200%201-.05-2.063%204.65%204.65%200%200%201-2.025-.293.75.75%200%200%201%20.525-1.406c1.357.507%202.376-.006%202.698-.318l.009-.01a.747.747%200%200%201%201.06%200%20.75.75%200%200%201-.012%201.074c-.912.92-.992%201.835-.768%202.586.221.74.745%201.337%201.196%201.621H8.75c1.343%200%202.398-.296%203.074-.836.635-.507%201.036-1.31.928-2.602-.05-.603-.216-1.224-.422-1.93l-.064-.221c-.12-.407-.246-.84-.353-1.29a2.4%202.4%200%200%201-.507-.441%203.1%203.1%200%200%201-.633-1.248.75.75%200%200%201%201.455-.364c.046.185.144.436.31.627.146.168.353.305.712.305.738%200%201.25-.615%201.25-1.25%200-1.47-.95-2.315-2.123-2.51-1.172-.196-2.227.387-2.706%201.345-.46.92-.27%201.774.019%203.062l.042.19.01.05c.348.443.666.949.94%201.553a.75.75%200%201%201-1.365.62c-.553-1.217-1.32-1.94-2.3-2.768L6.7%205.527c-.814-.68-1.75-1.462-2.692-2.619a3.7%203.7%200%200%200-1.023.88c-.406.495-.663%201.036-.722%201.508.116.122.306.21.591.239.388.038.797-.06%201.032-.19a.75.75%200%200%201%20.728%201.31c-.515.287-1.23.439-1.906.373-.682-.067-1.473-.38-1.879-1.193L.75%205.677V5.5c0-.984.48-1.94%201.077-2.664.46-.559%201.05-1.055%201.673-1.353z%22/%3E%3C/svg%3E');--md-admonition-icon--success:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M13.78%204.22a.75.75%200%200%201%200%201.06l-7.25%207.25a.75.75%200%200%201-1.06%200L2.22%209.28a.75.75%200%200%201%20.018-1.042.75.75%200%200%201%201.042-.018L6%2010.94l6.72-6.72a.75.75%200%200%201%201.06%200%22/%3E%3C/svg%3E');--md-admonition-icon--question:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M0%208a8%208%200%201%201%2016%200A8%208%200%200%201%200%208m8-6.5a6.5%206.5%200%201%200%200%2013%206.5%206.5%200%200%200%200-13M6.92%206.085h.001a.749.749%200%201%201-1.342-.67c.169-.339.436-.701.849-.977C6.845%204.16%207.369%204%208%204a2.76%202.76%200%200%201%201.637.525c.503.377.863.965.863%201.725%200%20.448-.115.83-.329%201.15-.205.307-.47.513-.692.662-.109.072-.22.138-.313.195l-.006.004a6%206%200%200%200-.26.16%201%201%200%200%200-.276.245.75.75%200%200%201-1.248-.832c.184-.264.42-.489.692-.661q.154-.1.313-.195l.007-.004c.1-.061.182-.11.258-.161a1%201%200%200%200%20.277-.245C8.96%206.514%209%206.427%209%206.25a.61.61%200%200%200-.262-.525A1.27%201.27%200%200%200%208%205.5c-.369%200-.595.09-.74.187a1%201%200%200%200-.34.398M9%2011a1%201%200%201%201-2%200%201%201%200%200%201%202%200%22/%3E%3C/svg%3E');--md-admonition-icon--warning:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M6.457%201.047c.659-1.234%202.427-1.234%203.086%200l6.082%2011.378A1.75%201.75%200%200%201%2014.082%2015H1.918a1.75%201.75%200%200%201-1.543-2.575Zm1.763.707a.25.25%200%200%200-.44%200L1.698%2013.132a.25.25%200%200%200%20.22.368h12.164a.25.25%200%200%200%20.22-.368Zm.53%203.996v2.5a.75.75%200%200%201-1.5%200v-2.5a.75.75%200%200%201%201.5%200M9%2011a1%201%200%201%201-2%200%201%201%200%200%201%202%200%22/%3E%3C/svg%3E');--md-admonition-icon--failure:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M2.344%202.343za8%208%200%200%201%2011.314%2011.314A8.002%208.002%200%200%201%20.234%2010.089a8%208%200%200%201%202.11-7.746m1.06%2010.253a6.5%206.5%200%201%200%209.108-9.275%206.5%206.5%200%200%200-9.108%209.275M6.03%204.97%208%206.94l1.97-1.97a.749.749%200%200%201%201.275.326.75.75%200%200%201-.215.734L9.06%208l1.97%201.97a.749.749%200%200%201-.326%201.275.75.75%200%200%201-.734-.215L8%209.06l-1.97%201.97a.749.749%200%200%201-1.275-.326.75.75%200%200%201%20.215-.734L6.94%208%204.97%206.03a.75.75%200%200%201%20.018-1.042.75.75%200%200%201%201.042-.018%22/%3E%3C/svg%3E');--md-admonition-icon--danger:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M9.504.43a1.516%201.516%200%200%201%202.437%201.713L10.415%205.5h2.123c1.57%200%202.346%201.909%201.22%203.004l-7.34%207.142a1.25%201.25%200%200%201-.871.354h-.302a1.25%201.25%200%200%201-1.157-1.723L5.633%2010.5H3.462c-1.57%200-2.346-1.909-1.22-3.004zm1.047%201.074L3.286%208.571A.25.25%200%200%200%203.462%209H6.75a.75.75%200%200%201%20.694%201.034l-1.713%204.188%206.982-6.793A.25.25%200%200%200%2012.538%207H9.25a.75.75%200%200%201-.683-1.06l2.008-4.418.003-.006-.004-.009-.006-.006-.008-.001q-.005%200-.009.004%22/%3E%3C/svg%3E');--md-admonition-icon--bug:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M4.72.22a.75.75%200%200%201%201.06%200l1%20.999a3.5%203.5%200%200%201%202.441%200l.999-1a.748.748%200%200%201%201.265.332.75.75%200%200%201-.205.729l-.775.776c.616.63.995%201.493.995%202.444v.327q0%20.15-.025.292c.408.14.764.392%201.029.722l1.968-.787a.75.75%200%200%201%20.556%201.392L13%207.258V9h2.25a.75.75%200%200%201%200%201.5H13v.5q-.002.615-.141%201.186l2.17.868a.75.75%200%200%201-.557%201.392l-2.184-.873A5%205%200%200%201%208%2016a5%205%200%200%201-4.288-2.427l-2.183.873a.75.75%200%200%201-.558-1.392l2.17-.868A5%205%200%200%201%203%2011v-.5H.75a.75.75%200%200%201%200-1.5H3V7.258L.971%206.446a.75.75%200%200%201%20.558-1.392l1.967.787c.265-.33.62-.583%201.03-.722a1.7%201.7%200%200%201-.026-.292V4.5c0-.951.38-1.814.995-2.444L4.72%201.28a.75.75%200%200%201%200-1.06m.53%206.28a.75.75%200%200%200-.75.75V11a3.5%203.5%200%201%200%207%200V7.25a.75.75%200%200%200-.75-.75ZM6.173%205h3.654A.17.17%200%200%200%2010%204.827V4.5a2%202%200%201%200-4%200v.327c0%20.096.077.173.173.173%22/%3E%3C/svg%3E');--md-admonition-icon--example:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M5%205.782V2.5h-.25a.75.75%200%200%201%200-1.5h6.5a.75.75%200%200%201%200%201.5H11v3.282l3.666%205.76C15.619%2013.04%2014.543%2015%2012.767%2015H3.233c-1.776%200-2.852-1.96-1.899-3.458Zm-2.4%206.565a.75.75%200%200%200%20.633%201.153h9.534a.75.75%200%200%200%20.633-1.153L12.225%2010.5h-8.45ZM9.5%202.5h-3V6c0%20.143-.04.283-.117.403L4.73%209h6.54L9.617%206.403A.75.75%200%200%201%209.5%206Z%22/%3E%3C/svg%3E');--md-admonition-icon--quote:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M1.75%202.5h10.5a.75.75%200%200%201%200%201.5H1.75a.75.75%200%200%201%200-1.5m4%205h8.5a.75.75%200%200%201%200%201.5h-8.5a.75.75%200%200%201%200-1.5m0%205h8.5a.75.75%200%200%201%200%201.5h-8.5a.75.75%200%200%201%200-1.5M2.5%207.75v6a.75.75%200%200%201-1.5%200v-6a.75.75%200%200%201%201.5%200%22/%3E%3C/svg%3E');}</style>
+
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=LXGW+WenKai+Screen,+Microsoft+YaHei,+sans-serif:300,300i,400,400i,700,700i%7CJetBrains+Mono,+Sarasa+Mono+SC,+Consolas,+monospace:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"LXGW WenKai Screen, Microsoft YaHei, sans-serif";--md-code-font:"JetBrains Mono, Sarasa Mono SC, Consolas, monospace"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="https://fonts.loli.net/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap">
+    
+      <link rel="stylesheet" href="https://gcore.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.1.0/style.css">
+    
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap">
+    
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sarasa-gothic@0.43.0/css/sarasa-mono-sc.css">
+    
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/one-dark.min.css">
+    
+      <link rel="stylesheet" href="../../stylesheets/blueTopaz.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue-grey" data-md-color-accent="blue-grey">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#chap3arithmetic-for-computer" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="Fffffx&#39;s Note" class="md-header__button md-logo" aria-label="Fffffx's Note" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m19.07 14.88 2.05 2.05L15.06 23H13v-2.06zm1.97-1.75c.14 0 .27.06.38.17l1.28 1.28c.22.21.22.56 0 .77l-1 1-2.05-2.05 1-1c.11-.11.25-.17.39-.17M17 4v6l-2-2-2 2V4H9v16h2v2H7c-1.05 0-2-.95-2-2v-1H3v-2h2v-4H3v-2h2V7H3V5h2V4a2 2 0 0 1 2-2h12c1.05 0 2 .95 2 2v6l-2 2V4zM5 5v2h2V5zm0 6v2h2v-2zm0 6v2h2v-2z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Fffffx's Note
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Chap3.Arithmetic for Computer
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="blue-grey" data-md-color-accent="blue-grey"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4M7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="blue-grey" data-md-color-accent="teal"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256l137.3-137.4c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="分享" aria-label="分享" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Fffffx0618/PsyBlog" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Fffffx
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  首页
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../blog/index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  我的Blog
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Language/index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  编程语言
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Algorithm/index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  程序算法
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  体系结构
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Math/index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  数学基础
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../Develop/index.md" class="md-tabs__link">
+        
+  
+  
+    
+  
+  前后端开发
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Fffffx&#39;s Note" class="md-nav__button md-logo" aria-label="Fffffx's Note" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m19.07 14.88 2.05 2.05L15.06 23H13v-2.06zm1.97-1.75c.14 0 .27.06.38.17l1.28 1.28c.22.21.22.56 0 .77l-1 1-2.05-2.05 1-1c.11-.11.25-.17.39-.17M17 4v6l-2-2-2 2V4H9v16h2v2H7c-1.05 0-2-.95-2-2v-1H3v-2h2v-4H3v-2h2V7H3V5h2V4a2 2 0 0 1 2-2h12c1.05 0 2 .95 2 2v6l-2 2V4zM5 5v2h2V5zm0 6v2h2v-2zm0 6v2h2v-2z"/></svg>
+
+    </a>
+    Fffffx's Note
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Fffffx0618/PsyBlog" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Fffffx
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../index.html" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    首页
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../blog/index.html" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    我的Blog
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../Language/index.html" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    编程语言
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../Algorithm/index.html" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    程序算法
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../index.html" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    体系结构
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    体系结构
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_2" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="index.html" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    计算机组成
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5_2" id="__nav_5_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    计算机组成
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Chapter1.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chap1.Computer Abstractions and Technology
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Chapter2.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chap2.Language of the Machine
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chap3.Arithmetic for Computer
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="Chapter3.html" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chap3.Arithmetic for Computer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#31-signed-and-unsigned-numbers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Signed and Unsigned Numbers
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#32-addition-subtraction-and-alu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Addition, subtraction and ALU
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.2 Addition, subtraction and ALU">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-overflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Overflow
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-constructing-an-alu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Constructing an ALU
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Constructing an ALU">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a-1-bit-alu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A 1-bit ALU
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#a-64-bit-alu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A 64-bit ALU
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fast-adders" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fast adders
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#33-multiplication" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 Multiplication
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.3 Multiplication">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-multipliers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Multipliers
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Multipliers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-multiplier-v1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Multiplier V1
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-multiplier-v2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Multiplier V2
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-multiplier-v3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 Multiplier V3
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-signed-multiplication" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Signed multiplication
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Signed multiplication">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#booth-algorithm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Booth Algorithm
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-faster-multiplication" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Faster Multiplication
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#34-division" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4 Division
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.4 Division">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-divisions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Divisions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Divisions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-division-v1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Division V1
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-division-v3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Division V3
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-signed-division" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Signed Division
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-fast-division" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Fast Division
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#35-floating-point-numbers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.5 Floating point numbers
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.5 Floating point numbers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-standardised-format-ieee-754" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Standardised format IEEE 754
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-floating-point-addition" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Floating point addition
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-floating-point-multiplication" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Floating point multiplication
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-accurate-arithmetic" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Accurate Arithmetic
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Chapter4.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chap4.The Processor
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Chapter5.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chap5.Memory Hierarchy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Chapter6.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chap6.APPENDIX：Storage, Networks and Other Peripherals
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../Math/index.html" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    数学基础
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Develop/index.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    前后端开发
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#31-signed-and-unsigned-numbers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Signed and Unsigned Numbers
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#32-addition-subtraction-and-alu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Addition, subtraction and ALU
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.2 Addition, subtraction and ALU">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-overflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Overflow
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-constructing-an-alu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Constructing an ALU
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Constructing an ALU">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a-1-bit-alu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A 1-bit ALU
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#a-64-bit-alu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A 64-bit ALU
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fast-adders" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fast adders
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#33-multiplication" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 Multiplication
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.3 Multiplication">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-multipliers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Multipliers
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Multipliers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-multiplier-v1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Multiplier V1
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-multiplier-v2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Multiplier V2
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-multiplier-v3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 Multiplier V3
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-signed-multiplication" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Signed multiplication
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Signed multiplication">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#booth-algorithm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Booth Algorithm
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-faster-multiplication" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Faster Multiplication
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#34-division" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4 Division
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.4 Division">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-divisions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Divisions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Divisions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-division-v1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Division V1
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-division-v3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Division V3
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-signed-division" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Signed Division
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-fast-division" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Fast Division
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#35-floating-point-numbers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.5 Floating point numbers
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.5 Floating point numbers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-standardised-format-ieee-754" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Standardised format IEEE 754
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-floating-point-addition" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Floating point addition
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-floating-point-multiplication" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Floating point multiplication
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-accurate-arithmetic" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Accurate Arithmetic
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+
+  <nav class="md-path" aria-label="导航栏" >
+    <ol class="md-path__list">
+      
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../index.html" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    体系结构
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="index.html" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    计算机组成
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/Fffffx0618/PsyBlog/edit/master/docs/System/CO/Chapter3.md" title="编辑此页" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+    
+      
+    
+    <a href="https://github.com/Fffffx0618/PsyBlog/raw/master/docs/System/CO/Chapter3.md" title="查看本页的源代码" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.2 8.2 0 0 1-1.23-2"/></svg>
+    </a>
+  
+
+
+<h1 id="chap3arithmetic-for-computer">Chap3.Arithmetic for Computer<a class="headerlink" href="#chap3arithmetic-for-computer" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p>[!note]
+考试的时候 <span class="arithmatex">\(1\text{ word}=32\text{bit}\)</span> !！</p>
+</blockquote>
+<h2 id="31-signed-and-unsigned-numbers">3.1 Signed and Unsigned Numbers<a class="headerlink" href="#31-signed-and-unsigned-numbers" title="Permanent link">&para;</a></h2>
+<p><strong>Number systems</strong></p>
+<div style="text-align: center"><img src="images/image-2.png" width="85%"></div>
+
+<p><strong>Signed Number Representation</strong>
+ 采用补码
+ - 正数的补码是它本身
+ - 负数的补码是它的绝对值<u>各位取反再加 1</u>，并确保最高位是 1</p>
+<blockquote>
+<p>[!example]
+<span class="arithmatex">\(100=-4,101=-3,110=-2,111=-1,000=0,001=1,010=2,011=3\)</span>
+即 n-bit 的数可以表示的范围是 <span class="arithmatex">\(-2^{n-1}\)</span>~<span class="arithmatex">\(2^{n-1}-1\)</span></p>
+</blockquote>
+<hr />
+<h2 id="32-addition-subtraction-and-alu">3.2 Addition, subtraction and ALU<a class="headerlink" href="#32-addition-subtraction-and-alu" title="Permanent link">&para;</a></h2>
+<h3 id="1-overflow">1. Overflow<a class="headerlink" href="#1-overflow" title="Permanent link">&para;</a></h3>
+<ul>
+<li>General overflow conditions</li>
+</ul>
+<div style="text-align: center"><img src="images/image-1.png" width="85%"></div>
+<ul>
+<li>对于<strong>无符号数</strong>，将“溢出”看作<strong>进位</strong>(carry) 或<strong>借位</strong>(borrow)，计算机会将其视为一般情况而不做特殊处理</li>
+<li>对于<strong>符号数</strong>，有以下应对<strong>溢出</strong>的处理方式：<ul>
+<li>ALU 检测到溢出问题</li>
+<li>处理器会抛出<strong>异常(exception)</strong> 或<strong>中断 (interrupt)</strong>，将指令地址保存在特定的寄存器 EPC 上</li>
+<li>跳转到操作系统的特定例程：纠正程序、返回错误代码、或者中止程序</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-constructing-an-alu">2. Constructing an ALU<a class="headerlink" href="#2-constructing-an-alu" title="Permanent link">&para;</a></h3>
+<h4 id="a-1-bit-alu">A 1-bit ALU<a class="headerlink" href="#a-1-bit-alu" title="Permanent link">&para;</a></h4>
+<blockquote>
+<p>注：中间这个圆角矩形代表多路选择器，Operation 表示选择输入</p>
+</blockquote>
+<div style="text-align: center"><img src="images/image-3.png" width="40%"></div>
+
+<h4 id="a-64-bit-alu">A 64-bit ALU<a class="headerlink" href="#a-64-bit-alu" title="Permanent link">&para;</a></h4>
+<blockquote>
+<p>[!Ripple carry adder]
+<div text-align="center"><img src="images/image-5.png" width="40%"></div></p>
+</blockquote>
+<h4 id="fast-adders">Fast adders<a class="headerlink" href="#fast-adders" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Carry look-ahead adder (CLA)<ul>
+<li>Calculating the carries before the sum is ready</li>
+</ul>
+</li>
+<li>Carry skip adder<ul>
+<li>Accelerating the carry calculation by skipping some blocks</li>
+</ul>
+</li>
+<li>Carry select adder<ul>
+<li>Calculate two results and use the correct one</li>
+</ul>
+</li>
+</ul>
+<hr />
+<h2 id="33-multiplication">3.3 Multiplication<a class="headerlink" href="#33-multiplication" title="Permanent link">&para;</a></h2>
+<ul>
+<li>如果当前乘数 (multiplier) 位置上的数字为 <span class="arithmatex">\(1\)</span>，那么就将被乘数 (multiplicand)（乘积就是被乘数）复制到正确的位置上（因为乘数数位每上升一位，这个乘积就要往右移一位）</li>
+<li>如果数字为 <span class="arithmatex">\(0\)</span>，那么就将 <span class="arithmatex">\(0\)</span> 放在正确的位置上</li>
+<li>如果被乘数为 <span class="arithmatex">\(n\)</span> 位，乘数为 <span class="arithmatex">\(m\)</span> 位，那么乘积的位数最多为 <span class="arithmatex">\(n+m\)</span> 位</li>
+</ul>
+<h3 id="1-multipliers">1. Multipliers<a class="headerlink" href="#1-multipliers" title="Permanent link">&para;</a></h3>
+<h4 id="11-multiplier-v1">1.1 Multiplier V1<a class="headerlink" href="#11-multiplier-v1" title="Permanent link">&para;</a></h4>
+<blockquote>
+<p>[!Diagram]
+<div text-align="center"><img src="images/image-6.png" width="70%"></div></p>
+<ul>
+<li>其中乘数寄存器是 64 位，被乘数寄存器、ALU、乘积寄存器都是 128 位</li>
+<li>在每一步的计算后，被乘数都需要向左移一位。因此在 64 次计算后，64 位的被乘数被移动了 64 位，所以被乘数寄存器需要 128 位</li>
+</ul>
+</blockquote>
+<h4 id="12-multiplier-v2">1.2 Multiplier V2<a class="headerlink" href="#12-multiplier-v2" title="Permanent link">&para;</a></h4>
+<ul>
+<li>改进方案：不移动被乘数，改为<strong>移动乘积</strong><blockquote>
+<p>[!Diagram]
+<div text-align="center"><img src="images/image-7.png" width="80%"></div></p>
+<ul>
+<li>被乘数寄存器和 ALU 可以只用 64 位，而乘积寄存器需要扩展到 128+1 位</li>
+<li>寄存器多出的 1 位用来存储进位</li>
+<li>此时的中间计算就是 64 位加法运算，有效提升了乘法运算速度</li>
+</ul>
+</blockquote>
+</li>
+</ul>
+<h4 id="13-multiplier-v3">1.3 Multiplier V3<a class="headerlink" href="#13-multiplier-v3" title="Permanent link">&para;</a></h4>
+<p>V2 的问题
+ - 初始状态下，乘积寄存器只有左半边保存数值，右半边在刚开始没有什么意义，乘积寄存器的<strong>空间利用率太低</strong>
+ - 每一趟循环中，乘数寄存器和乘积寄存器都需要往右移 1 位</p>
+<blockquote>
+<p>[!Diagram]
+<div text-align="center"><img src="images/image-8.png" width="80%"></div></p>
+<p>Solution:<strong>将乘数放在乘积寄存器的右半边</strong>
+- 每一趟循环中，乘积寄存器里的所有位整体向右移一位，中间结果和乘数同时向右移一位。这样做的好处在于：
+    - 节省存储空间：少用一个 64 位的寄存器
+    - 加快运算速度：每趟循环中少了一次右移操作，提升了速度</p>
+</blockquote>
+<h3 id="2-signed-multiplication">2. Signed multiplication<a class="headerlink" href="#2-signed-multiplication" title="Permanent link">&para;</a></h3>
+<p>基础的解决方法：
+- 先存储两个操作数的符号位
+- 将这两个操作数暂时转化为无符号数（令它们的最高位为 0）
+- 执行乘法运算
+- 对两个符号位进行异或运算，得到乘积符号位（相同为 0，不同为 1）</p>
+<h4 id="booth-algorithm">Booth Algorithm<a class="headerlink" href="#booth-algorithm" title="Permanent link">&para;</a></h4>
+<ul>
+<li>An improved method<blockquote>
+<p>[!Examples]
+<div text-align="center"><img src="images/image-9.png" width="70%"></div></p>
+<ul>
+<li>Less additions and More shifts</li>
+</ul>
+<p><strong>原理</strong>：乘数中存在一连串 "1" 的部分（形如 <code>00..00111..1100..000</code>）
+- 假设连续的 <span class="arithmatex">\(1\)</span> 出现在第 <span class="arithmatex">\(i\)</span> 位和第 <span class="arithmatex">\(j\)</span> 位之间（包括这两位）
+- 转为形如 <span class="arithmatex">\(1000...000 - 100...00\)</span> 的减法（前者为 <span class="arithmatex">\(i+1\)</span> 位，后者为 <span class="arithmatex">\(j\)</span> 位）</p>
+<p>结果：
+- less addition and more shifts
+- 这样乘数与被乘数相乘，分别对应一个加法和一个减法，原本 <span class="arithmatex">\(O(n)\)</span> 次加法运算降为 <span class="arithmatex">\(O(1)\)</span> 次</p>
+</blockquote>
+</li>
+</ul>
+<p>计算机通过判别相邻两位的数字来判断：
+- <span class="arithmatex">\(10\)</span>：发现（可能）一连串 <span class="arithmatex">\(1\)</span> 的开端（低位），做<strong>减法</strong>
+- <span class="arithmatex">\(11、00\)</span>：移位
+- <span class="arithmatex">\(01\)</span>：发现（可能）一连串 <span class="arithmatex">\(1\)</span> 的末端（高位），做<strong>加法</strong>
+- 预留一个 <span class="arithmatex">\(-1\)</span> 位且初始化为 <span class="arithmatex">\(\text{Bit}_{−1}=0\)</span>，便于最低位的判别
+    - 当进行右移运算时，原本最右边的数保留在 <span class="arithmatex">\(-1\)</span> 位上，直至下一次右移运算</p>
+<blockquote>
+<p>[!Example]
+- Booth 算法可用上述的乘法器来实现
+- Booth 算法可以用于处理负数的乘法，且无需改变规则
+<div text-align="center"><img src="images/image-11.png" width="65%"></div></p>
+</blockquote>
+<h3 id="3-faster-multiplication">3. Faster Multiplication<a class="headerlink" href="#3-faster-multiplication" title="Permanent link">&para;</a></h3>
+<p><strong>Unrolls the loop</strong>
+- 另一种方法是<strong>提升加法的速度</strong>，利用大量的 ALU 分层进行加法运算。</p>
+<div text-align="center"><img src="images/image-13.png" width="70%"></div>
+<ul>
+<li>对于 64 位乘法，第 1 层用到 32 个 ALU，每个 ALU 计算相邻 2 位的乘数分别与被乘数的乘积之和；得到的 32 个和在第二层的 16 个 ALU 中再一次汇总，最终得到总和</li>
+<li>原本需要 64 次的加法时间，就缩短到 <span class="arithmatex">\(log_2​(64)=6\)</span> 次<blockquote>
+<p>[!Multiplications in RISC-V]
+- <code>mul rd, rs1, rs2</code>：64 位乘法，<code>rd</code>保存 128 位乘积的低 64 位
+- <code>mulh rd, rs1, rs2</code>：64 位乘法，<code>rd</code>保存 128 位<strong>符号数</strong>之间的乘积的高 64 位
+- <code>mulhu rd, rs1, rs2</code>：64 位乘法，<code>rd</code>保存 128 位<strong>无符号数</strong>之间的乘积的高 64 位
+- <code>mulhsu rd, rs1, rs2</code>：64 位乘法，<code>rd</code>保存 128 位<strong>无符号数与符号数</strong>的乘积的高 64 位</p>
+</blockquote>
+</li>
+</ul>
+<hr />
+<h2 id="34-division">3.4 Division<a class="headerlink" href="#34-division" title="Permanent link">&para;</a></h2>
+<h3 id="1-divisions">1. Divisions<a class="headerlink" href="#1-divisions" title="Permanent link">&para;</a></h3>
+<h4 id="11-division-v1">1.1 Division V1<a class="headerlink" href="#11-division-v1" title="Permanent link">&para;</a></h4>
+<blockquote>
+<p>[!Examples]
+<div text-align="center"><img src="images/image-14.png" width="70%"></div></p>
+<ul>
+<li>Component：</li>
+<li>128 位除数 (divisor) 寄存器：初始状态下，64 位的除数被存储在除数寄存器的<strong>左半边</strong></li>
+<li>64 位商 (quotient) 寄存器</li>
+<li>128 位余数 (remainder) 寄存器：初始状态下，64 位的<strong>被除数</strong>(dividend) 被存储在余数寄存器的<strong>右半边</strong>（从低位开始存储）</li>
+<li>128 位 ALU</li>
+<li>控制器</li>
+<li>Steps：</li>
+<li>用余数寄存器的值减去除数寄存器的值，并将结果放在余数寄存器</li>
+<li>将商寄存器里的值左移一位，然后检查余数寄存器内的值</li>
+<li>若其值 ≥0（看符号位（最高位）的数字），则将商寄存器最右端的位设成 1</li>
+<li>若其值 &lt;0，则将除数寄存器的值加到余数寄存器的值以撤销上一步的减法操作，并将商寄存器最右端的位设成 0</li>
+<li>将除数寄存器的值右移一位</li>
+<li>如果上面的步骤已经重复了<strong>65 次</strong>，中止整个流程，否则返回第一步</li>
+</ul>
+</blockquote>
+<h4 id="12-division-v3">1.2 Division V3<a class="headerlink" href="#12-division-v3" title="Permanent link">&para;</a></h4>
+<blockquote>
+<p>[!Examples]
+<div text-align="center"><img src="images/image-15.png" width="70%"></div></p>
+<p>计算步骤为（仍是以 64 位除法器为例）：
+ 1. 将<strong>被除数</strong>放在余数寄存器的右半边，然后将余数寄存器左移一位
+ 2. ALU 计算（余数寄存器的高 64 位 - 除数寄存器），将结果放在与余数寄存器的高 64 位上
+    - 如果计算结果 &gt;0，余数寄存器左移一位，将 1 放入余数寄存器的最右端
+    - 如果计算结果 &lt;0，则加上除数以撤销前面的减法操作，然后余数寄存器左移一位，将 0 放入余数寄存器的最右端
+ 3. 若第 2 步已经执行过 64 次，则结束循环，否则继续执行第 2 步
+ 4. 将余数寄存器的左半边右移一位，此时左半边存的是余数，右半边存的是商</p>
+</blockquote>
+<h3 id="2-signed-division">2. Signed Division<a class="headerlink" href="#2-signed-division" title="Permanent link">&para;</a></h3>
+<ol>
+<li>先将被除数和除数的符号位提取出来</li>
+<li>然后计算无符号除法</li>
+<li>最后根据两个符号位决定商的符号位<ul>
+<li>如果两者相同，商的符号位为 0，否则为 1。</li>
+</ul>
+</li>
+</ol>
+<p>余数的值遵循以下规则：
+- 余数的符号位同被除数的符号位
+- 余数的绝对值不超过除数的绝对值</p>
+<h3 id="3-fast-division">3. Fast Division<a class="headerlink" href="#3-fast-division" title="Permanent link">&para;</a></h3>
+<ul>
+<li>RISC-V 会忽视除法运算过程中出现的溢出和除以 0 的问题，一般由软件决定怎么处置这两类异常情况<blockquote>
+<p>[!Divisions in RISC-V]
+- <code>div rd, rs1, rs2</code>：<code>rd</code>保存符号数除法的商
+- <code>divu rd, rs1, rs2</code>：<code>rd</code> 保存无符号数除法的商
+- <code>rem rd, rs1, rs2</code>：<code>rd</code>保存符号数除法的余数
+- <code>remu rd, rs1, rs2</code>：<code>rd</code> 保存无符号数除法的余数</p>
+</blockquote>
+</li>
+</ul>
+<hr />
+<h2 id="35-floating-point-numbers">3.5 Floating point numbers<a class="headerlink" href="#35-floating-point-numbers" title="Permanent link">&para;</a></h2>
+<h3 id="1-standardised-format-ieee-754">1. Standardised format IEEE 754<a class="headerlink" href="#1-standardised-format-ieee-754" title="Permanent link">&para;</a></h3>
+<p>浮点数表示法由三部分组成：符号 <span class="arithmatex">\(S\)</span>、<strong>指数</strong>(exponent)<span class="arithmatex">\(E\)</span>、<strong>尾数</strong>(fraction)<span class="arithmatex">\(F\)</span>。其中指数和尾数分别指定了浮点数的范围和精度。用符号化的语言可以将浮点数表示为：
+$$
+x = (-1)^s \times (1+\text{Fraction}) \times 2^{\text{Exponent}-\text{Bias}}
+$$
+- <span class="arithmatex">\(S\)</span> (1 bit) 代表==符号位 (sign bit)==, <span class="arithmatex">\(0\)</span> 为表示非负数, <span class="arithmatex">\(1\)</span> 为表示负数
+- 有效位数 (<span class="arithmatex">\(\text{Significand}=1+\text{Fraction}\)</span>) 中 <span class="arithmatex">\(1\)</span> 是默认的，只存储小数点后面的位数 (即 Fraction)</p>
+<blockquote>
+<p>[!Note]
+单精度（float）
+<div text-align="center"><img src="images/float.png" width="100%"></div></p>
+<ul>
+<li>指数取值范围为 <span class="arithmatex">\([−126,127]\)</span>（最低的 <span class="arithmatex">\(-127\)</span> 和最高的 <span class="arithmatex">\(128\)</span> 被保留了无法使用）</li>
+<li>表示范围为 <span class="arithmatex">\((-2.0\times 2^{127},2.0 \times 2^{127})\)</span></li>
+</ul>
+<p>双精度（double）
+<div text-align="center"><img src="images/double.png" width="100%"></div></p>
+<ul>
+<li>指数取值范围为 <span class="arithmatex">\([−1022,1023]\)</span>（最低的 <span class="arithmatex">\(-1023\)</span> 和最高的 <span class="arithmatex">\(1024\)</span> 无法使用）</li>
+<li>表示范围为 <span class="arithmatex">\((-2.0\times 2^{1023},2.0 \times 2^{1023})\)</span></li>
+</ul>
+</blockquote>
+<ul>
+<li><strong>Fraction</strong> 代表==尾数==部分 (也称作<strong>mantissa</strong>)<ul>
+<li>Single: 23 bits &amp; Double: 52 bits</li>
+</ul>
+</li>
+<li><strong>Exponent</strong> 表示==指数==部分 (也称作<strong>characteristic</strong>)<ul>
+<li>Single: 8 bits &amp; Double: 11 bits</li>
+<li><strong>excess representation</strong>(偏移表示法) <ul>
+<li><span class="arithmatex">\(\text{Exponent }= \text{actual exponent} +\text{bias}\)</span></li>
+<li>Single:  bias = 127 bits &amp; Double:  bias = 1023 bits</li>
+</ul>
+</li>
+<li>指数为全 <span class="arithmatex">\(0\)</span> 和全 <span class="arithmatex">\(1\)</span> 时保留，用作<strong>特殊值</strong>处理</li>
+</ul>
+</li>
+</ul>
+<p><strong>Infinites and NaNs</strong>
+- <span class="arithmatex">\(\text{Exponent}=111\dots1,\text{Fraction}=000\dots0\)</span>
+    - <span class="arithmatex">\(\pm \infty\)</span>
+- <span class="arithmatex">\(\text{Exponent}=111\dots1,\text{Fraction}\ne000\dots0\)</span>
+    - Not-a-Number (NaN)
+    - Indicates illegal or undefined result</p>
+<blockquote>
+<p>[!info] 异常情况的处理
+<strong>NaN</strong>(Not a Number)：表示<strong>未定义的</strong>(undefined) 或<strong>非法的</strong>(illegal) 结果
+- 任何涉及 NaN 的运算结果
+- 不定式（无穷之间的运算、无穷与 0 的运算）：
+  - 除法运算：<span class="arithmatex">\(0/0\)</span>、<span class="arithmatex">\(\infty / \infty\)</span>、<span class="arithmatex">\(\infty / (-\infty)\)</span>、<span class="arithmatex">\((-\infty) / \infty\)</span>、<span class="arithmatex">\((-\infty) / (-\infty)\)</span>
+  - 求余运算：任意值 % <span class="arithmatex">\(0\)</span>、<span class="arithmatex">\(\infty\)</span> % 任意值
+  - 乘法运算：<span class="arithmatex">\(0\times \infty\)</span>、<span class="arithmatex">\(0 \times -\infty\)</span>
+  - 加法运算：<span class="arithmatex">\(\infty+(-\infty)\)</span>、<span class="arithmatex">\((-\infty)+\infty\)</span>
+  - 减法运算：<span class="arithmatex">\(\infty-\infty\)</span>、<span class="arithmatex">\((-\infty)-(-\infty)\)</span>
+  - 指数运算：<span class="arithmatex">\(0^0\)</span>、<span class="arithmatex">\(\infty^0\)</span>、<span class="arithmatex">\(1^{\infty}\)</span>、<span class="arithmatex">\(\infty^{-\infty}\)</span>
+- 产生复数结果或无意义的实数运算</p>
+<p>在 IEEE 754 标准下，非零数除以 0 的结果被定义为 <span class="arithmatex">\(\infty\)</span> 或 <span class="arithmatex">\(-\infty\)</span></p>
+</blockquote>
+<h3 id="2-floating-point-addition">2. Floating point addition<a class="headerlink" href="#2-floating-point-addition" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>对齐</strong>(alignment)：比较两个数的指数部分，将<strong>指数较小的数</strong>的尾数部分往右移，直到两个数指数部分相同<ul>
+<li>这样可以减小截断误差</li>
+</ul>
+</li>
+<li><strong>相加</strong>(addition)：将两个数的有效数字 (significand) 相加</li>
+<li><strong>规范化</strong>(normalization)：使结果规范化
+    &gt; 注：前往下一步之前要判断数字是否溢出，如果是的话抛出异常，否则继续</li>
+<li><strong>舍入</strong>(rounding)：如果舍入后结果变得不规范，则需要返回到第 3 步再做调整，否则的话计算完成<blockquote>
+<p>[!流程图]
+<div style="text-align: center"><img src="images/image-4.png" width="85%"></div></p>
+</blockquote>
+</li>
+</ol>
+<h3 id="3-floating-point-multiplication">3. Floating point multiplication<a class="headerlink" href="#3-floating-point-multiplication" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Add exponents：将两个带偏移量的指数相加，并减去多算的一个 bias</li>
+<li>Multiply the significands：有效位数相乘</li>
+<li>Normalise：如有必要，使乘积规范化</li>
+<li>Over-underflow：如果有溢出，抛出异常并中止程序，否则继续下一步</li>
+<li>Rounding：对有效数字四舍五入，如果结果不规范，需要回到第 3 步再次调整，否则继续下一步</li>
+<li>Sign：如果两个操作数的符号位相同，乘积的符号位为正；否则乘积的符号位为负</li>
+</ol>
+<h3 id="4-accurate-arithmetic">4. Accurate Arithmetic<a class="headerlink" href="#4-accurate-arithmetic" title="Permanent link">&para;</a></h3>
+<p>为了提高舍入的精度，IEEE 754 标准规定为浮点数额外添加低 2 位，从左到右分别称为==guard==和==round==，这两位数字保留了浮点数计算的中间过程</p>
+<blockquote>
+<p>还可以再额外添加第 3 位，称为<strong>sticky</strong></p>
+</blockquote>
+<ul>
+<li><strong>Units in the last place</strong> (ulp，最低有效位单位): The number of bits in error in the least significant bits of the significant between the actual number and the number that can be represented.<blockquote>
+<p>[!Note]
+ Ulp：<strong>在某个数值附近，浮点数格式所能表示的最小变化量</strong>
+- 假设只能表示到小数点后两位（如 0.01 精度）：
+- 想要表示 0.123。
+- 最接近的可表示数是 0.12 或 0.13
+  - 则ulp = 0.01（因为最后一位是百分之一位）。
+- 0.123 和 0.12 的误差是 0.003，也就是 0.3 ulp
+ulp 不是直接的绝对误差，而是一个<strong>相对精度的度量</strong></p>
+</blockquote>
+</li>
+</ul>
+<p>IEEE 754 标准提供了四种舍入模式 (rounding mode)：
+- Always round up 向上取整
+- Always round down 向下取整
+- Truncate 截断取整
+- Round to nearest even 舍入至最近的偶数</p>
+<div text-align="center"><img src="images/image-16.png" width="75%"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="页脚" >
+        
+          
+          <a href="Chapter2.html" class="md-footer__link md-footer__link--prev" aria-label="上一页: Chap2.Language of the Machine">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256l137.3-137.4c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              <div class="md-ellipsis">
+                Chap2.Language of the Machine
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="Chapter4.html" class="md-footer__link md-footer__link--next" aria-label="下一页: Chap4.The Processor">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              <div class="md-ellipsis">
+                Chap4.The Processor
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M247.1 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L179.2 256 41.9 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["header.autohide", "content.math", "content.action.edit", "content.action.view", "content.code.copy", "content.code.annotate", "content.tooltips", "navigation.footer", "navigation.indexes", "navigation.path", "navigation.prune", "navigation.tabs", "navigation.tabs.sticky", "navigation.top", "navigation.tracking", "search.share", "search.suggest", "search.highlight", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+        <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+      
+    
+  </body>
+</html>

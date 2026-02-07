@@ -1,0 +1,3526 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="可达鸭的笔记本，记录了 ZJU-CS 的一些课程笔记。">
+      
+      
+        <meta name="author" content="Fffffx">
+      
+      
+      
+        <link rel="prev" href="Chapter1.html">
+      
+      
+        <link rel="next" href="Chapter3.html">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>Chap2.Language of the Machine - Fffffx's Note</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+  
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+  
+  <style>:root{--md-admonition-icon--note:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M1%207.775V2.75C1%201.784%201.784%201%202.75%201h5.025c.464%200%20.91.184%201.238.513l6.25%206.25a1.75%201.75%200%200%201%200%202.474l-5.026%205.026a1.75%201.75%200%200%201-2.474%200l-6.25-6.25A1.75%201.75%200%200%201%201%207.775m1.5%200c0%20.066.026.13.073.177l6.25%206.25a.25.25%200%200%200%20.354%200l5.025-5.025a.25.25%200%200%200%200-.354l-6.25-6.25a.25.25%200%200%200-.177-.073H2.75a.25.25%200%200%200-.25.25ZM6%205a1%201%200%201%201%200%202%201%201%200%200%201%200-2%22/%3E%3C/svg%3E');--md-admonition-icon--abstract:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M2.5%201.75v11.5c0%20.138.112.25.25.25h3.17a.75.75%200%200%201%200%201.5H2.75A1.75%201.75%200%200%201%201%2013.25V1.75C1%20.784%201.784%200%202.75%200h8.5C12.216%200%2013%20.784%2013%201.75v7.736a.75.75%200%200%201-1.5%200V1.75a.25.25%200%200%200-.25-.25h-8.5a.25.25%200%200%200-.25.25m13.274%209.537zl-4.557%204.45a.75.75%200%200%201-1.055-.008l-1.943-1.95a.75.75%200%200%201%201.062-1.058l1.419%201.425%204.026-3.932a.75.75%200%201%201%201.048%201.074M4.75%204h4.5a.75.75%200%200%201%200%201.5h-4.5a.75.75%200%200%201%200-1.5M4%207.75A.75.75%200%200%201%204.75%207h2a.75.75%200%200%201%200%201.5h-2A.75.75%200%200%201%204%207.75%22/%3E%3C/svg%3E');--md-admonition-icon--info:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M0%208a8%208%200%201%201%2016%200A8%208%200%200%201%200%208m8-6.5a6.5%206.5%200%201%200%200%2013%206.5%206.5%200%200%200%200-13M6.5%207.75A.75.75%200%200%201%207.25%207h1a.75.75%200%200%201%20.75.75v2.75h.25a.75.75%200%200%201%200%201.5h-2a.75.75%200%200%201%200-1.5h.25v-2h-.25a.75.75%200%200%201-.75-.75M8%206a1%201%200%201%201%200-2%201%201%200%200%201%200%202%22/%3E%3C/svg%3E');--md-admonition-icon--tip:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M3.499.75a.75.75%200%200%201%201.5%200v.996C5.9%202.903%206.793%203.65%207.662%204.376l.24.202c-.036-.694.055-1.422.426-2.163C9.1.873%2010.794-.045%2012.622.26%2014.408.558%2016%201.94%2016%204.25c0%201.278-.954%202.575-2.44%202.734l.146.508.065.22c.203.701.412%201.455.476%202.226.142%201.707-.4%203.03-1.487%203.898C11.714%2014.671%2010.27%2015%208.75%2015h-6a.75.75%200%200%201%200-1.5h1.376a4.5%204.5%200%200%201-.563-1.191%203.84%203.84%200%200%201-.05-2.063%204.65%204.65%200%200%201-2.025-.293.75.75%200%200%201%20.525-1.406c1.357.507%202.376-.006%202.698-.318l.009-.01a.747.747%200%200%201%201.06%200%20.75.75%200%200%201-.012%201.074c-.912.92-.992%201.835-.768%202.586.221.74.745%201.337%201.196%201.621H8.75c1.343%200%202.398-.296%203.074-.836.635-.507%201.036-1.31.928-2.602-.05-.603-.216-1.224-.422-1.93l-.064-.221c-.12-.407-.246-.84-.353-1.29a2.4%202.4%200%200%201-.507-.441%203.1%203.1%200%200%201-.633-1.248.75.75%200%200%201%201.455-.364c.046.185.144.436.31.627.146.168.353.305.712.305.738%200%201.25-.615%201.25-1.25%200-1.47-.95-2.315-2.123-2.51-1.172-.196-2.227.387-2.706%201.345-.46.92-.27%201.774.019%203.062l.042.19.01.05c.348.443.666.949.94%201.553a.75.75%200%201%201-1.365.62c-.553-1.217-1.32-1.94-2.3-2.768L6.7%205.527c-.814-.68-1.75-1.462-2.692-2.619a3.7%203.7%200%200%200-1.023.88c-.406.495-.663%201.036-.722%201.508.116.122.306.21.591.239.388.038.797-.06%201.032-.19a.75.75%200%200%201%20.728%201.31c-.515.287-1.23.439-1.906.373-.682-.067-1.473-.38-1.879-1.193L.75%205.677V5.5c0-.984.48-1.94%201.077-2.664.46-.559%201.05-1.055%201.673-1.353z%22/%3E%3C/svg%3E');--md-admonition-icon--success:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M13.78%204.22a.75.75%200%200%201%200%201.06l-7.25%207.25a.75.75%200%200%201-1.06%200L2.22%209.28a.75.75%200%200%201%20.018-1.042.75.75%200%200%201%201.042-.018L6%2010.94l6.72-6.72a.75.75%200%200%201%201.06%200%22/%3E%3C/svg%3E');--md-admonition-icon--question:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M0%208a8%208%200%201%201%2016%200A8%208%200%200%201%200%208m8-6.5a6.5%206.5%200%201%200%200%2013%206.5%206.5%200%200%200%200-13M6.92%206.085h.001a.749.749%200%201%201-1.342-.67c.169-.339.436-.701.849-.977C6.845%204.16%207.369%204%208%204a2.76%202.76%200%200%201%201.637.525c.503.377.863.965.863%201.725%200%20.448-.115.83-.329%201.15-.205.307-.47.513-.692.662-.109.072-.22.138-.313.195l-.006.004a6%206%200%200%200-.26.16%201%201%200%200%200-.276.245.75.75%200%200%201-1.248-.832c.184-.264.42-.489.692-.661q.154-.1.313-.195l.007-.004c.1-.061.182-.11.258-.161a1%201%200%200%200%20.277-.245C8.96%206.514%209%206.427%209%206.25a.61.61%200%200%200-.262-.525A1.27%201.27%200%200%200%208%205.5c-.369%200-.595.09-.74.187a1%201%200%200%200-.34.398M9%2011a1%201%200%201%201-2%200%201%201%200%200%201%202%200%22/%3E%3C/svg%3E');--md-admonition-icon--warning:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M6.457%201.047c.659-1.234%202.427-1.234%203.086%200l6.082%2011.378A1.75%201.75%200%200%201%2014.082%2015H1.918a1.75%201.75%200%200%201-1.543-2.575Zm1.763.707a.25.25%200%200%200-.44%200L1.698%2013.132a.25.25%200%200%200%20.22.368h12.164a.25.25%200%200%200%20.22-.368Zm.53%203.996v2.5a.75.75%200%200%201-1.5%200v-2.5a.75.75%200%200%201%201.5%200M9%2011a1%201%200%201%201-2%200%201%201%200%200%201%202%200%22/%3E%3C/svg%3E');--md-admonition-icon--failure:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M2.344%202.343za8%208%200%200%201%2011.314%2011.314A8.002%208.002%200%200%201%20.234%2010.089a8%208%200%200%201%202.11-7.746m1.06%2010.253a6.5%206.5%200%201%200%209.108-9.275%206.5%206.5%200%200%200-9.108%209.275M6.03%204.97%208%206.94l1.97-1.97a.749.749%200%200%201%201.275.326.75.75%200%200%201-.215.734L9.06%208l1.97%201.97a.749.749%200%200%201-.326%201.275.75.75%200%200%201-.734-.215L8%209.06l-1.97%201.97a.749.749%200%200%201-1.275-.326.75.75%200%200%201%20.215-.734L6.94%208%204.97%206.03a.75.75%200%200%201%20.018-1.042.75.75%200%200%201%201.042-.018%22/%3E%3C/svg%3E');--md-admonition-icon--danger:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M9.504.43a1.516%201.516%200%200%201%202.437%201.713L10.415%205.5h2.123c1.57%200%202.346%201.909%201.22%203.004l-7.34%207.142a1.25%201.25%200%200%201-.871.354h-.302a1.25%201.25%200%200%201-1.157-1.723L5.633%2010.5H3.462c-1.57%200-2.346-1.909-1.22-3.004zm1.047%201.074L3.286%208.571A.25.25%200%200%200%203.462%209H6.75a.75.75%200%200%201%20.694%201.034l-1.713%204.188%206.982-6.793A.25.25%200%200%200%2012.538%207H9.25a.75.75%200%200%201-.683-1.06l2.008-4.418.003-.006-.004-.009-.006-.006-.008-.001q-.005%200-.009.004%22/%3E%3C/svg%3E');--md-admonition-icon--bug:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M4.72.22a.75.75%200%200%201%201.06%200l1%20.999a3.5%203.5%200%200%201%202.441%200l.999-1a.748.748%200%200%201%201.265.332.75.75%200%200%201-.205.729l-.775.776c.616.63.995%201.493.995%202.444v.327q0%20.15-.025.292c.408.14.764.392%201.029.722l1.968-.787a.75.75%200%200%201%20.556%201.392L13%207.258V9h2.25a.75.75%200%200%201%200%201.5H13v.5q-.002.615-.141%201.186l2.17.868a.75.75%200%200%201-.557%201.392l-2.184-.873A5%205%200%200%201%208%2016a5%205%200%200%201-4.288-2.427l-2.183.873a.75.75%200%200%201-.558-1.392l2.17-.868A5%205%200%200%201%203%2011v-.5H.75a.75.75%200%200%201%200-1.5H3V7.258L.971%206.446a.75.75%200%200%201%20.558-1.392l1.967.787c.265-.33.62-.583%201.03-.722a1.7%201.7%200%200%201-.026-.292V4.5c0-.951.38-1.814.995-2.444L4.72%201.28a.75.75%200%200%201%200-1.06m.53%206.28a.75.75%200%200%200-.75.75V11a3.5%203.5%200%201%200%207%200V7.25a.75.75%200%200%200-.75-.75ZM6.173%205h3.654A.17.17%200%200%200%2010%204.827V4.5a2%202%200%201%200-4%200v.327c0%20.096.077.173.173.173%22/%3E%3C/svg%3E');--md-admonition-icon--example:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M5%205.782V2.5h-.25a.75.75%200%200%201%200-1.5h6.5a.75.75%200%200%201%200%201.5H11v3.282l3.666%205.76C15.619%2013.04%2014.543%2015%2012.767%2015H3.233c-1.776%200-2.852-1.96-1.899-3.458Zm-2.4%206.565a.75.75%200%200%200%20.633%201.153h9.534a.75.75%200%200%200%20.633-1.153L12.225%2010.5h-8.45ZM9.5%202.5h-3V6c0%20.143-.04.283-.117.403L4.73%209h6.54L9.617%206.403A.75.75%200%200%201%209.5%206Z%22/%3E%3C/svg%3E');--md-admonition-icon--quote:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M1.75%202.5h10.5a.75.75%200%200%201%200%201.5H1.75a.75.75%200%200%201%200-1.5m4%205h8.5a.75.75%200%200%201%200%201.5h-8.5a.75.75%200%200%201%200-1.5m0%205h8.5a.75.75%200%200%201%200%201.5h-8.5a.75.75%200%200%201%200-1.5M2.5%207.75v6a.75.75%200%200%201-1.5%200v-6a.75.75%200%200%201%201.5%200%22/%3E%3C/svg%3E');}</style>
+
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=LXGW+WenKai+Screen,+Microsoft+YaHei,+sans-serif:300,300i,400,400i,700,700i%7CJetBrains+Mono,+Sarasa+Mono+SC,+Consolas,+monospace:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"LXGW WenKai Screen, Microsoft YaHei, sans-serif";--md-code-font:"JetBrains Mono, Sarasa Mono SC, Consolas, monospace"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="https://fonts.loli.net/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap">
+    
+      <link rel="stylesheet" href="https://gcore.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.1.0/style.css">
+    
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap">
+    
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sarasa-gothic@0.43.0/css/sarasa-mono-sc.css">
+    
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/one-dark.min.css">
+    
+      <link rel="stylesheet" href="../../stylesheets/blueTopaz.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue-grey" data-md-color-accent="blue-grey">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#chap2language-of-the-machine" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="Fffffx&#39;s Note" class="md-header__button md-logo" aria-label="Fffffx's Note" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m19.07 14.88 2.05 2.05L15.06 23H13v-2.06zm1.97-1.75c.14 0 .27.06.38.17l1.28 1.28c.22.21.22.56 0 .77l-1 1-2.05-2.05 1-1c.11-.11.25-.17.39-.17M17 4v6l-2-2-2 2V4H9v16h2v2H7c-1.05 0-2-.95-2-2v-1H3v-2h2v-4H3v-2h2V7H3V5h2V4a2 2 0 0 1 2-2h12c1.05 0 2 .95 2 2v6l-2 2V4zM5 5v2h2V5zm0 6v2h2v-2zm0 6v2h2v-2z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Fffffx's Note
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Chap2.Language of the Machine
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="blue-grey" data-md-color-accent="blue-grey"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4M7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="blue-grey" data-md-color-accent="teal"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256l137.3-137.4c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="分享" aria-label="分享" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Fffffx0618/PsyBlog" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Fffffx
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  首页
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../blog/index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  我的Blog
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Language/index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  编程语言
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Algorithm/index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  程序算法
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  体系结构
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Math/index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  数学基础
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../Develop/index.md" class="md-tabs__link">
+        
+  
+  
+    
+  
+  前后端开发
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Fffffx&#39;s Note" class="md-nav__button md-logo" aria-label="Fffffx's Note" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m19.07 14.88 2.05 2.05L15.06 23H13v-2.06zm1.97-1.75c.14 0 .27.06.38.17l1.28 1.28c.22.21.22.56 0 .77l-1 1-2.05-2.05 1-1c.11-.11.25-.17.39-.17M17 4v6l-2-2-2 2V4H9v16h2v2H7c-1.05 0-2-.95-2-2v-1H3v-2h2v-4H3v-2h2V7H3V5h2V4a2 2 0 0 1 2-2h12c1.05 0 2 .95 2 2v6l-2 2V4zM5 5v2h2V5zm0 6v2h2v-2zm0 6v2h2v-2z"/></svg>
+
+    </a>
+    Fffffx's Note
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Fffffx0618/PsyBlog" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Fffffx
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../index.html" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    首页
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../blog/index.html" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    我的Blog
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../Language/index.html" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    编程语言
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../Algorithm/index.html" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    程序算法
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../index.html" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    体系结构
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    体系结构
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_2" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="index.html" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    计算机组成
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5_2" id="__nav_5_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    计算机组成
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Chapter1.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chap1.Computer Abstractions and Technology
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chap2.Language of the Machine
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="Chapter2.html" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chap2.Language of the Machine
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#21-introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Introduction
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#22-arithmetic-operations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Arithmetic Operations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#23-operands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 Operands
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.3 Operands">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-risc-v-registers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. RISC-V Registers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-memory-operands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Memory Operands
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-brief-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Brief Summary
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#24-signed-and-unsigned-numbers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 Signed and unsigned numbers
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.4 Signed and unsigned numbers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-unsigned-binary-integers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Unsigned Binary Integers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-signed-binary-integers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Signed Binary Integers
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#25-representing-instructions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.5 Representing Instructions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.5 Representing Instructions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-r-format-instructions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. R-Format Instructions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-i-format-instructions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. I-Format Instructions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-s-format-instructions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. S-Format Instructions
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#26-logical-operations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.6 Logical Operations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#27-instructions-for-making-decisions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.7 Instructions for making decisions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#28-supporting-procedures" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.8 Supporting Procedures
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.8 Supporting Procedures">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-procedure-call-instructions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Procedure Call Instructions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Procedure Call Instructions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#instruction-for-procedures-jal-jump-and-link" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Instruction for procedures: jal (jump-and-link)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#procedure-return-jalr-jump-and-link-register" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Procedure return: jalr (jump and link register)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-using-more-registers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Using More Registers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-nested-procedures" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Nested Procedures
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-memory-layout" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Memory Layout
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#29-communicating-with-people" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.9 Communicating with People
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.9 Communicating with People">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-character-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Character Data
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-bytehalfwordword-operations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Byte/Halfword/Word Operations
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#210-addressing-for-32-bit-immediate-and-addresses" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.10 Addressing for 32-Bit Immediate and Addresses
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.10 Addressing for 32-Bit Immediate and Addresses">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-32-bit-constants" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 32-bit Constants
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-branch-addressing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Branch Addressing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-jump-addressing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Jump Addressing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-while-branch-target-is-far-away" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. While branch target is far away
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. While branch target is far away">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step1反转条件判断" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step1：反转条件判断
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step2-添加无条件跳转" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step2 ：添加无条件跳转
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Summary
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#211-synchronization-in-risc-v" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.11 Synchronization in RISC-V
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.11 Synchronization in RISC-V">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#load-reserved" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Load Reserved
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#store-conditional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Store Conditional
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Store Conditional">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#atomic-swap原子交换" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        atomic swap（原子交换）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lock-获取锁" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        lock （获取锁）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#unlock释放锁" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Unlock（释放锁）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#212-translating-and-starting-a-program" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.12 Translating and starting a program
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.12 Translating and starting a program">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#producing-an-object-module" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Producing an Object Module
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Linker
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#loader" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Loader
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dynamic-linking" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dynamic Linking
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Dynamic Linking">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#懒过程链接lazy-procedure-linkage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        懒过程链接(lazy procedure linkage)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#213-a-c-sort-example-to-put-it-all-together" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.13 A C Sort Example To Put it All Together
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#214-arrays-versus-pointers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.14 Arrays versus Pointers
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Chapter3.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chap3.Arithmetic for Computer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Chapter4.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chap4.The Processor
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Chapter5.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chap5.Memory Hierarchy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Chapter6.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chap6.APPENDIX：Storage, Networks and Other Peripherals
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../Math/index.html" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    数学基础
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Develop/index.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    前后端开发
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#21-introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Introduction
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#22-arithmetic-operations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Arithmetic Operations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#23-operands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 Operands
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.3 Operands">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-risc-v-registers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. RISC-V Registers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-memory-operands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Memory Operands
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-brief-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Brief Summary
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#24-signed-and-unsigned-numbers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 Signed and unsigned numbers
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.4 Signed and unsigned numbers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-unsigned-binary-integers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Unsigned Binary Integers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-signed-binary-integers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Signed Binary Integers
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#25-representing-instructions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.5 Representing Instructions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.5 Representing Instructions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-r-format-instructions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. R-Format Instructions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-i-format-instructions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. I-Format Instructions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-s-format-instructions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. S-Format Instructions
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#26-logical-operations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.6 Logical Operations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#27-instructions-for-making-decisions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.7 Instructions for making decisions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#28-supporting-procedures" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.8 Supporting Procedures
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.8 Supporting Procedures">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-procedure-call-instructions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Procedure Call Instructions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Procedure Call Instructions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#instruction-for-procedures-jal-jump-and-link" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Instruction for procedures: jal (jump-and-link)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#procedure-return-jalr-jump-and-link-register" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Procedure return: jalr (jump and link register)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-using-more-registers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Using More Registers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-nested-procedures" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Nested Procedures
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-memory-layout" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Memory Layout
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#29-communicating-with-people" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.9 Communicating with People
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.9 Communicating with People">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-character-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Character Data
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-bytehalfwordword-operations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Byte/Halfword/Word Operations
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#210-addressing-for-32-bit-immediate-and-addresses" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.10 Addressing for 32-Bit Immediate and Addresses
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.10 Addressing for 32-Bit Immediate and Addresses">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-32-bit-constants" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 32-bit Constants
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-branch-addressing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Branch Addressing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-jump-addressing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Jump Addressing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-while-branch-target-is-far-away" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. While branch target is far away
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. While branch target is far away">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step1反转条件判断" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step1：反转条件判断
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step2-添加无条件跳转" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step2 ：添加无条件跳转
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Summary
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#211-synchronization-in-risc-v" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.11 Synchronization in RISC-V
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.11 Synchronization in RISC-V">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#load-reserved" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Load Reserved
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#store-conditional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Store Conditional
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Store Conditional">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#atomic-swap原子交换" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        atomic swap（原子交换）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lock-获取锁" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        lock （获取锁）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#unlock释放锁" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Unlock（释放锁）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#212-translating-and-starting-a-program" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.12 Translating and starting a program
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.12 Translating and starting a program">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#producing-an-object-module" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Producing an Object Module
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Linker
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#loader" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Loader
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dynamic-linking" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dynamic Linking
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Dynamic Linking">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#懒过程链接lazy-procedure-linkage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        懒过程链接(lazy procedure linkage)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#213-a-c-sort-example-to-put-it-all-together" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.13 A C Sort Example To Put it All Together
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#214-arrays-versus-pointers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.14 Arrays versus Pointers
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+
+  <nav class="md-path" aria-label="导航栏" >
+    <ol class="md-path__list">
+      
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../index.html" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    体系结构
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="index.html" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    计算机组成
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/Fffffx0618/PsyBlog/edit/master/docs/System/CO/Chapter2.md" title="编辑此页" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+    
+      
+    
+    <a href="https://github.com/Fffffx0618/PsyBlog/raw/master/docs/System/CO/Chapter2.md" title="查看本页的源代码" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.2 8.2 0 0 1-1.23-2"/></svg>
+    </a>
+  
+
+
+<h1 id="chap2language-of-the-machine">Chap2.Language of the Machine<a class="headerlink" href="#chap2language-of-the-machine" title="Permanent link">&para;</a></h1>
+<h2 id="21-introduction">2.1 Introduction<a class="headerlink" href="#21-introduction" title="Permanent link">&para;</a></h2>
+<p><strong>Language of the machine</strong></p>
+<ul>
+<li>Instructions → Word  </li>
+<li>Instruction set → Vocabulary  </li>
+</ul>
+<p><strong>Instruction formats</strong></p>
+<div style="text-align: center"><img src="images/image-20.png" width="80%"></div>
+
+<ul>
+<li>Type of internal storage in <u>processor</u>  </li>
+<li>The number of memory operands in the instruction  </li>
+</ul>
+<hr />
+<h2 id="22-arithmetic-operations">2.2 Arithmetic Operations<a class="headerlink" href="#22-arithmetic-operations" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Only one operation per instruction  </li>
+<li>Add and subtract, three operands (two sources and one destination)  <ul>
+<li><code>add a,b,c // a gets b + c</code><br />
+此处简单略过，下面有具体介绍  </li>
+</ul>
+</li>
+</ul>
+<hr />
+<h2 id="23-operands">2.3 Operands<a class="headerlink" href="#23-operands" title="Permanent link">&para;</a></h2>
+<p>RISC-V has a 32 × <strong>64-bit register</strong> file（32 个 64 bit 的寄存器）</p>
+<ul>
+<li>Used for frequently accessed data  </li>
+<li>64-bit data is called a "doubleword"  <ul>
+<li>32 × 64-bit general purpose registers x0 to x31  </li>
+</ul>
+</li>
+<li>32-bit data is called a <strong>"word"</strong></li>
+</ul>
+<h3 id="1-risc-v-registers">1. RISC-V Registers<a class="headerlink" href="#1-risc-v-registers" title="Permanent link">&para;</a></h3>
+<p><mark>寄存器（register）</mark>：CPU 用来暂存指令、数据、地址的内部存储器，可被简单理解为 CPU 的全局变量<br />
+- 寄存器存储空间有限，大规模数据存储在计算机的内存（memory）中  </p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Register Name</th>
+<th>Usage</th>
+<th>Preserved On Call?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>x0</td>
+<td>0</td>
+<td>The constant value 0</td>
+<td>n.a.</td>
+</tr>
+<tr>
+<td>x1(ra)</td>
+<td>1</td>
+<td>Return address(link register)</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>x2(sp)</td>
+<td>2</td>
+<td>Stack pointer</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>x3(gp)</td>
+<td>3</td>
+<td>Global pointer</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>x4(tp)</td>
+<td>4</td>
+<td>Thread pointer</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>x5-x7</td>
+<td>5-7</td>
+<td>Temporaries 临时寄存器</td>
+<td>no</td>
+</tr>
+<tr>
+<td>x8-x9</td>
+<td>8-9</td>
+<td>Saved 保存寄存器</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>x10-x17</td>
+<td>10-17</td>
+<td>Arguments/results</td>
+<td>no</td>
+</tr>
+<tr>
+<td>x18-x27</td>
+<td>18-27</td>
+<td>Saved 保存寄存器</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>x28-x31</td>
+<td>28-31</td>
+<td>Temporaries 临时寄存器</td>
+<td>no</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Preserved on call</strong>（调用时保留）是函数调用约定中的一个核心概念。它规定了在进行函数调用时，<u>哪些寄存器的值必须由被调用的函数负责恢复到调用前的状态</u>。</p>
+<div class="admonition note">
+<p class="admonition-title">Register vs. Memory</p>
+<ul>
+<li>Registers are faster to access than memory  </li>
+<li>Operating on memory data requires loads and stores  <ul>
+<li>More instructions to be executed  </li>
+</ul>
+</li>
+<li>Compiler must use registers for variables as much as possible  <ul>
+<li>Only spill to memory for less frequently used variables  </li>
+<li>Register optimization is important!</li>
+</ul>
+</li>
+</ul>
+</div>
+<h3 id="2-memory-operands">2. Memory Operands<a class="headerlink" href="#2-memory-operands" title="Permanent link">&para;</a></h3>
+<p><strong>Main memory used for composite data</strong></p>
+<ul>
+<li>主内存用于复合数据  </li>
+<li>Arrays, structures, dynamic data   </li>
+</ul>
+<p><strong>To apply arithmetic operations</strong></p>
+<ul>
+<li>Load values from memory into registers   </li>
+<li>Store result from register to memory   </li>
+</ul>
+<p><strong>Memory is byte addressed</strong></p>
+<ul>
+<li>Each address identifies an <mark>8-bit byte</mark>   </li>
+</ul>
+<p><strong>RISC-V is Little Endian</strong></p>
+<ul>
+<li>当计算机从 0x1000 这个地址读出一个 doubleword 时，实际读取的是 0x1000~0x1007 这 8 个字节，并将 0x1000 存入低位  </li>
+</ul>
+<div class="admonition info">
+<p class="admonition-title">Endianness</p>
+<p><div style="text-align: center"><img src="images/image-22.png" width="70%"></div> </p>
+<ul>
+<li>Little Endian: 低位字节存储在低地址  </li>
+<li>Big Endian: 低位字节存储在高地址  </li>
+</ul>
+</div>
+<p><strong>RISC-V does not require words to be aligned in memory</strong></p>
+<div class="admonition info">
+<p class="admonition-title">Memory Alignment</p>
+<p><div style="text-align: center"><img src="images/image-21.png" width="70%"></div></p>
+<ul>
+<li>Unlike some other ISAs  </li>
+<li>读取速度更快&amp;内存占用更多  </li>
+</ul>
+</div>
+<h3 id="3-brief-summary">3. Brief Summary<a class="headerlink" href="#3-brief-summary" title="Permanent link">&para;</a></h3>
+<div style="text-align: center"><img src="images/image-42.png" width="70%"></div>
+
+<hr />
+<h2 id="24-signed-and-unsigned-numbers">2.4 Signed and unsigned numbers<a class="headerlink" href="#24-signed-and-unsigned-numbers" title="Permanent link">&para;</a></h2>
+<h3 id="1-unsigned-binary-integers">1. Unsigned Binary Integers<a class="headerlink" href="#1-unsigned-binary-integers" title="Permanent link">&para;</a></h3>
+<div class="arithmatex">\[
+x = x_{n-1}2^{n-1}+x_{n-2}2^{n-2}+\dots+x_12^1+x_02^0
+\]</div>
+<ul>
+<li>Range：<span class="arithmatex">\(0\)</span> to <span class="arithmatex">\(+ 2^n-1\)</span></li>
+</ul>
+<h3 id="2-signed-binary-integers">2. Signed Binary Integers<a class="headerlink" href="#2-signed-binary-integers" title="Permanent link">&para;</a></h3>
+<p><strong>2s-Complement Signed Integers</strong></p>
+<ul>
+<li>正数的补码是它本身  </li>
+<li>负数的补码是<u>源码取反+1（第一位作符号位）</u>  </li>
+</ul>
+<p>Bit 63 is <strong>sign bit 符号位</strong></p>
+<ul>
+<li>1 for negative numbers  </li>
+<li>0 for non-negative numbers  </li>
+</ul>
+<p>Bit Extension：</p>
+<ul>
+<li>当将一个数扩展到更多位时，<strong>在高位（左边）填充与原符号位相同的值</strong>  </li>
+</ul>
+<hr />
+<h2 id="25-representing-instructions">2.5 Representing Instructions<a class="headerlink" href="#25-representing-instructions" title="Permanent link">&para;</a></h2>
+<p>Instructions are encoded in binary </p>
+<ul>
+<li>Called <mark>machine code</mark>  </li>
+</ul>
+<h3 id="1-r-format-instructions">1. R-Format Instructions<a class="headerlink" href="#1-r-format-instructions" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>寄存器-寄存器格式</strong>：主要用于<em>算数</em>（add, sub, and, or, xor...）  </li>
+</ul>
+<div style="text-align: center"><img src="images/image-23.png" width="90%"></div>
+
+<p>Instruction fields</p>
+<ul>
+<li>rs1: the first source register number  </li>
+<li>rs2: the second source register number   </li>
+<li>rd: destination register number（存放结果）  </li>
+<li>opcode: 操作码，定义指令的基本类别  </li>
+<li>funct3: 3-bit function code (additional opcode)  </li>
+<li>funct7: 7-bit function code (additional opcode)  </li>
+</ul>
+<p><mark>根据 opcode、funct3、funct7 确定具体操作，从 rs1、rs2 读取操作数，将结果写入 rd</mark>  </p>
+<h3 id="2-i-format-instructions">2. I-Format Instructions<a class="headerlink" href="#2-i-format-instructions" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>立即数格式</strong>：<em>寄存器与常数的算术和逻辑运算</em>以及 <em>load 指令</em>  </li>
+</ul>
+<div style="text-align: center"><img src="images/image-24.png" width="90%"></div>
+
+<ul>
+<li>rs1: source or base address register number  </li>
+<li>对于 <code>addi</code> 类指令，它是第一个操作数；对于 <code>lw</code> 类指令，它是基地址   </li>
+<li>rd: destination register number（存放结果）  </li>
+<li>immediate: 12-bit constant operand, or offset added to base address  </li>
+<li>2 s-complement, sign extended  </li>
+</ul>
+<p><mark>根据 opcode、funct3 确定具体操作，从 rs1 读取值，并和 immediate 计算，将结果写入 rd</mark>  </p>
+<h3 id="3-s-format-instructions">3. S-Format Instructions<a class="headerlink" href="#3-s-format-instructions" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>存储格式</strong>：用于<em>存储</em>操作，即将寄存器中的数据写入到内存中  </li>
+</ul>
+<div style="text-align: center"><img src="images/image-25.png" width="90%"></div>
+
+<p>Different immediate format for store instructions</p>
+<ul>
+<li>rs1（基址寄存器）: <strong>base address</strong> register number  </li>
+<li>rs2（源操作数寄存器）: <strong>source</strong> operand register number  </li>
+<li>immediate（立即数偏移量）: <strong>offset</strong> added to base address  <ul>
+<li>Split so that rs1 and rs2 fields always in the same place  </li>
+</ul>
+</li>
+</ul>
+<p><mark>根据 opcode、funct3 确定具体操作，读取 rs2 中存储的值，存入 rs1 + immediate 指向的地址</mark>  </p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><div style="text-align: center"><img src="images/image-26.png" width="70%"></div></p>
+</div>
+<hr />
+<h2 id="26-logical-operations">2.6 Logical Operations<a class="headerlink" href="#26-logical-operations" title="Permanent link">&para;</a></h2>
+<p><strong>Shift Operations</strong></p>
+<ul>
+<li><code>sll, srl, slli, srli</code>  </li>
+</ul>
+<div style="text-align: center"><img src="images/image-27.png" width="90%"></div>
+
+<p>immed: 偏移量  </p>
+<ul>
+<li>Shift left logical  <ul>
+<li>Shift left and fill with 0 bits  </li>
+<li><code>slli</code> by <span class="arithmatex">\(i\)</span> bits ：multiplies by <span class="arithmatex">\(2^i\)</span>  </li>
+</ul>
+</li>
+<li>Shift right logical  <ul>
+<li>Shift right and fill with 0 bits  </li>
+<li><code>srli</code> by <span class="arithmatex">\(i\)</span> bits ：divides by <span class="arithmatex">\(2^i\)</span> (unsigned only)  </li>
+</ul>
+</li>
+</ul>
+<p><mark>根据 opcode、funct3、funct7 确定具体操作，从 rs1、immed 读取值，将结果写入 rd</mark>  </p>
+<p><strong>And Operations, Or Operations, Xor Operation, etc...</strong></p>
+<div class="admonition note">
+<p class="admonition-title">RISC-V operands</p>
+<p><div style="text-align: center"><img src="images/image-28.png" width="70%"></div></p>
+</div>
+<hr />
+<h2 id="27-instructions-for-making-decisions">2.7 Instructions for making decisions<a class="headerlink" href="#27-instructions-for-making-decisions" title="Permanent link">&para;</a></h2>
+<p><strong>Branch instructions</strong><br />
+- Branch to a labeled instruction if a condition is true<br />
+- Otherwise, continue sequentially  </p>
+<p><strong>常见指令</strong>：</p>
+<ul>
+<li><code>beq rs1, rs2, L1</code> // if (rs1 == rs2) branch to instruction labeled L1  </li>
+<li><code>bne rs1, rs2, L1</code> // if (rs1 != rs2) branch to instruction labeled L1  </li>
+<li><code>blt rs1, rs2, L1</code> // if (rs1 &lt; rs2) branch to instruction labeled L1  </li>
+<li><code>bge rs1, rs2, L1</code> // if (rs1 &gt;= rs2) branch to instruction labeled L  </li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Signed comparision: <code>blt</code>, <code>bge</code><br />
+Unsigned comparison: <code>bltu</code>, <code>bgeu</code>  </p>
+</div>
+<table>
+<thead>
+<tr>
+<th>If</th>
+<th>If-then-else</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><div style="text-align: center"><img src="images/image-31.png" width="100%"></div></td>
+<td><div style="text-align: center"><img src="images/image-33.png" width="100%"></div></td>
+</tr>
+<tr>
+<td><strong>LOOPs</strong></td>
+<td><strong>While</strong></td>
+</tr>
+<tr>
+<td><div style="text-align: center"><img src="images/image-37.png" width="100%"></div></td>
+<td><div style="text-align: center"><img src="images/image-39.png" width="100%"></div></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Hold out Case/Switch</strong> </p>
+<ul>
+<li>Compiling a switch using <u>jump address table</u>  </li>
+</ul>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<p>Assume: f~k -- x20~x25，x5 contains 4/8<br />
+ <div class="highlight"><pre><span></span><code><span class="k">switch</span><span class="p">(</span><span class="n">k</span><span class="p">){</span>
+<span class="w">   </span><span class="k">case</span><span class="w"> </span><span class="mi">0</span><span class="p">:</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">j</span><span class="p">;</span><span class="w"> </span><span class="k">break</span><span class="p">;</span><span class="w"> </span>
+<span class="w">   </span><span class="k">case</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">h</span><span class="p">;</span><span class="w"> </span><span class="k">break</span><span class="p">;</span>
+<span class="w">   </span><span class="k">case</span><span class="w"> </span><span class="mi">2</span><span class="p">:</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">h</span><span class="p">;</span><span class="w"> </span><span class="k">break</span><span class="p">;</span>
+<span class="w">   </span><span class="k">case</span><span class="w"> </span><span class="mi">3</span><span class="p">:</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">j</span><span class="p">;</span><span class="w"> </span><span class="k">break</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+ 如下图，根据 k 跳转到对应情况：<br />
+ <div style="text-align: center"><img src="images/image-41.png" width="60%"></div> 
+ 最终流程：<br />
+ <div style="text-align: center"><img src="images/image-40.png" width="70%"></div> </p>
+</div>
+<ul>
+<li><code>jalr x1, 0(x7)</code> 表示跳转到 <code>x7</code> 指向的地址，并把返回地址存入 <code>x1</code>  <ul>
+<li><code>jalr x0, 0(x1)</code> 相当于返回，因为它把 <code>x1</code> 中的地址作为跳转目标，而 <code>x1</code> 是之前 <code>jalr</code> 保存的返回地址  </li>
+</ul>
+</li>
+</ul>
+<hr />
+<h2 id="28-supporting-procedures">2.8 Supporting Procedures<a class="headerlink" href="#28-supporting-procedures" title="Permanent link">&para;</a></h2>
+<p>Procedure/function be used to structure programs  </p>
+<ul>
+<li>一个存储的子程序能够根据提供的参数执行特定任务  <ul>
+<li>程序更容易理解，并允许代码重用  </li>
+</ul>
+</li>
+</ul>
+<p>实现过程分为六个步骤：<br />
+1. <strong>传递参数</strong>：将参数放在子程序可以访问的位置<br />
+2. <strong>转移控制权</strong>：跳转到子程序的起始地址<br />
+3. <strong>获取资源</strong>：为子程序分配所需的存储资源（如栈空间）<br />
+4. <strong>执行任务</strong>：执行子程序所需的功能或计算<br />
+5. <strong>返回结果</strong>：将结果存放到调用程序能够访问的位置（如寄存器或内存）<br />
+6. <strong>返回控制权</strong>：将控制权返回到调用点（即原程序继续执行的位置）  </p>
+<h3 id="1-procedure-call-instructions">1. Procedure Call Instructions<a class="headerlink" href="#1-procedure-call-instructions" title="Permanent link">&para;</a></h3>
+<h4 id="instruction-for-procedures-jal-jump-and-link"><strong>Instruction for procedures</strong>: <u>jal</u> (jump-and-link)<a class="headerlink" href="#instruction-for-procedures-jal-jump-and-link" title="Permanent link">&para;</a></h4>
+<p><mark>Caller</mark>：<u>jal rd, ProcedureAddress</u> </p>
+<ul>
+<li><code>rd</code>: 目标寄存器 (Destination Register)，用于存储返回地址  </li>
+<li><code>ProcedureAddress</code>: 要跳转到的目标地址（立即数偏移）  <ul>
+<li>是一个<strong>有符号的立即数偏移量 (signed immediate offset)</strong>  </li>
+<li><code>imm[0]</code> 被省略了（隐含为 0），所以实际的偏移量是 <code>imm &lt;&lt; 1</code>  </li>
+<li>目标地址 = PC + (sign_extend(ProcedureAddress) &lt;&lt; 1)  </li>
+</ul>
+</li>
+</ul>
+<p>实际操作：<br />
+<div class="highlight"><pre><span></span><code><span class="n">rd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PC</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span>
+<span class="n">PC</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PC</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">sign_extend</span><span class="p">(</span><span class="n">imm</span><span class="p">[</span><span class="mi">20</span><span class="p">]</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">imm</span><span class="p">[</span><span class="mi">10</span><span class="o">:</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">imm</span><span class="p">[</span><span class="mi">11</span><span class="p">]</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">imm</span><span class="p">[</span><span class="mi">19</span><span class="o">:</span><span class="mi">12</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+</code></pre></div>
+1. <strong>保存返回地址</strong>：将下一条指令的地址（当前 PC 值 + 4）写入寄存器 <code>rd</code><br />
+2. <strong>跳转</strong>：将程序计数器 (PC) 更新为计算出的目标地址  </p>
+<h4 id="procedure-return-jalr-jump-and-link-register"><strong>Procedure return</strong>: <u>jalr</u> (jump and link register)<a class="headerlink" href="#procedure-return-jalr-jump-and-link-register" title="Permanent link">&para;</a></h4>
+<p><mark>Callee</mark>：<u>jalr x0, 0(x1)</u> </p>
+<ul>
+<li>Like jal, but jumps to <em>0+address</em> in x1  </li>
+<li>Use x0 as rd (x0 cannot be changed)  </li>
+<li>Can also be used for computed jumps (for case/switch statements)  </li>
+</ul>
+<p><strong>实际操作</strong>：<br />
+1. <strong>获取返回地址</strong>：CPU 从 <code>x1</code> 寄存器中读取地址（即 <code>jal</code> 指令之前保存的返回地址）<br />
+2. <strong>跳转</strong>：CPU 将程序计数器（PC）设置为 <code>x1</code> 中的地址，从而跳转回调用者<br />
+3. <strong>特殊处理</strong>：<code>x0</code> 是固定为 0 的特殊寄存器，<code>jalr</code> 指令将 <code>x0</code> 作为目标寄存器，意味着它不会改变任何寄存器的值，但仍然可以完成跳转  </p>
+<h3 id="2-using-more-registers">2. Using More Registers<a class="headerlink" href="#2-using-more-registers" title="Permanent link">&para;</a></h3>
+<p><strong>More Registers for procedure calling</strong>  </p>
+<ul>
+<li>a0 ~ a7(x10-x17): 参数寄存器  <ul>
+<li>用于传递函数的<strong>参数</strong>（arguments）和<strong>返回值</strong>（return values）  </li>
+</ul>
+</li>
+<li>ra/x1：返回地址寄存器  <ul>
+<li>保存当前函数调用后需要返回的地址（即调用点）  </li>
+</ul>
+</li>
+</ul>
+<p><strong>Stack</strong>  </p>
+<ul>
+<li>ideal data structure for spilling registers  <ul>
+<li>Push, pop  </li>
+<li>Stack pointer(sp)  </li>
+</ul>
+</li>
+<li>在RISC-V中，<code>sp</code> 是 <code>x2</code> 寄存器  </li>
+</ul>
+<p>临时寄存器&amp;保留寄存器：  </p>
+<div style="text-align: center"><img src="images/image-81.png" width="80%"></div>
+
+<p><strong>Stack grow from higher address to lower</strong><br />
+在 RISC-V 中，栈是<em>向下生长</em>的  </p>
+<ul>
+<li>Push: 先 <code>sp = sp - 8</code>，然后写入数据  </li>
+<li>Pop: 先读取数据，然后 <code>sp = sp + 8</code>  </li>
+</ul>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<p>C code:
+<div class="highlight"><pre><span></span><code><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">leaf_example</span><span class="p">(</span>
+<span class="w">    </span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">g</span><span class="p">,</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">h</span><span class="p">,</span>
+<span class="w">    </span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="p">){</span>
+<span class="w">         </span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">f</span><span class="p">;</span>
+<span class="w">         </span><span class="n">f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">g</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">h</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">j</span><span class="p">);</span>
+<span class="w">         </span><span class="k">return</span><span class="w"> </span><span class="n">f</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<p>RISC-V code:
+<div class="highlight"><pre><span></span><code><span class="nf">addi</span><span class="w"> </span><span class="nb">sp</span><span class="p">,</span><span class="w"> </span><span class="nb">sp</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">24</span><span class="w">        </span><span class="c1"># adjust stack to make room for 3 items</span>
+<span class="nf">sd</span><span class="w">   </span><span class="nv">x5</span><span class="p">,</span><span class="w"> </span><span class="mi">16</span><span class="p">(</span><span class="nb">sp</span><span class="p">)</span><span class="w">         </span><span class="c1"># These three instructions save three</span>
+<span class="nf">sd</span><span class="w">   </span><span class="nv">x6</span><span class="p">,</span><span class="w">  </span><span class="mi">8</span><span class="p">(</span><span class="nb">sp</span><span class="p">)</span><span class="w">         </span><span class="c1"># register x5,x6,x20</span>
+<span class="nf">sd</span><span class="w">   </span><span class="nv">x20</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">(</span><span class="nb">sp</span><span class="p">)</span><span class="w">         </span><span class="c1"># Let&#39;s consider why it need to be done.</span>
+<span class="nf">add</span><span class="w">  </span><span class="nv">x5</span><span class="p">,</span><span class="w">  </span><span class="nv">x10</span><span class="p">,</span><span class="w"> </span><span class="nv">x11</span><span class="w">      </span><span class="c1"># register x5 contains g + h </span>
+<span class="nf">add</span><span class="w">  </span><span class="nv">x6</span><span class="p">,</span><span class="w">  </span><span class="nv">x12</span><span class="p">,</span><span class="w"> </span><span class="nv">x1</span><span class="w">       </span><span class="c1"># register x6 contains i + j </span>
+<span class="nf">sub</span><span class="w">  </span><span class="nv">x20</span><span class="p">,</span><span class="w"> </span><span class="nv">x5</span><span class="p">,</span><span class="w"> </span><span class="nv">x6</span><span class="w">        </span><span class="c1"># f = x5 - x6, which is (g + h) - (i + j) </span>
+<span class="nf">addi</span><span class="w"> </span><span class="nv">x10</span><span class="p">,</span><span class="w"> </span><span class="nv">x20</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="w">        </span><span class="c1"># copy f to return register (x10 = x20 + 0)</span>
+<span class="nf">ld</span><span class="w">   </span><span class="nv">x20</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">(</span><span class="nb">sp</span><span class="p">)</span><span class="w">         </span><span class="c1"># restore register x20 for caller </span>
+<span class="nf">ld</span><span class="w">   </span><span class="nv">x6</span><span class="p">,</span><span class="w">  </span><span class="mi">8</span><span class="p">(</span><span class="nb">sp</span><span class="p">)</span><span class="w">         </span><span class="c1"># restore register x6 for caller </span>
+<span class="nf">ld</span><span class="w">   </span><span class="nv">x5</span><span class="p">,</span><span class="w"> </span><span class="mi">16</span><span class="p">(</span><span class="nb">sp</span><span class="p">)</span><span class="w">         </span><span class="c1"># restore register x5 for caller </span>
+<span class="nf">addi</span><span class="w"> </span><span class="nb">sp</span><span class="p">,</span><span class="w">  </span><span class="nb">sp</span><span class="o">+</span><span class="mi">24</span><span class="w">         </span><span class="c1"># adjust stack to delete 3 items </span>
+<span class="nf">jalr</span><span class="w"> </span><span class="nv">x0</span><span class="p">,</span><span class="w">  </span><span class="mi">0</span><span class="p">(</span><span class="nv">x1</span><span class="p">)</span><span class="w">         </span><span class="c1"># jump back to calling routine</span>
+</code></pre></div>
+但这种方式并不高效，可采用多种寄存器提高效率 </p>
+<ul>
+<li>t0 ~ t6: 7 temporary registers, by the callee not preserved  </li>
+<li>s0 ~ s11: 12 saved registers, must be preserved If used  </li>
+</ul>
+</div>
+<p><strong>Calling convention（调用约定）</strong> </p>
+<ul>
+<li>Caller 负责保存临时寄存器（temporary registers）  <ul>
+<li>如 t0~t6 &amp; a0 ~ a7 —— 参数/返回值寄存器  </li>
+<li>caller 在调用函数前如果要把重要数据放在 t0 或 a0 等寄存器里，必须<strong>自己先保存它们到栈上</strong>，因为被调用函数（callee）可以自由使用这些寄存器而不必恢复它们  </li>
+</ul>
+</li>
+<li>Callee（被调用者）负责保存“被调用者保存”的寄存器  <ul>
+<li>s0~s11 —— saved registers  </li>
+<li>ra（x1）—— 返回地址寄存器  </li>
+<li>函数（callee）如果要使用 s0~s11 中的任意寄存器，或者函数会再次调用别的函数（从而改变 ra），必须：  <ol>
+<li>在函数开始时将这些寄存器的原始值<strong>压入栈</strong>  </li>
+<li>使用完毕后，在返回前从栈中<strong>恢复它们</strong>  </li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-nested-procedures">3. Nested Procedures<a class="headerlink" href="#3-nested-procedures" title="Permanent link">&para;</a></h3>
+<p>假设某个程序调用过程 A，过程 A 又调用过程 B。由于只有一个寄存器 <code>x1</code> 用于保存返回地址，而 A 和 B 都需要用到 <code>x1</code>，此时通过利用栈解决冲突：  </p>
+<ul>
+<li>在调用过程 B 之前先将<code>x1</code>的值压入栈内，这样就保存了 A 的返回地址。现在<code>x1</code>就可以用来存储过程 B 的返回地址  </li>
+<li>过程 A 返回前，从栈中取回 <code>x1</code> 原来的值（A 的返回地址）  </li>
+</ul>
+<p>C Code<br />
+<div class="highlight"><pre><span></span><code><span class="kt">int</span><span class="w"> </span><span class="nf">fact</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+<span class="w">        </span><span class="k">else</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">fact</span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">));</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<p>RISC-V assembly code  </p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<div class="highlight"><pre><span></span><code><span class="nl">fact:</span><span class="w"> </span>
+<span class="w">      </span><span class="nf">addi</span><span class="w"> </span><span class="nb">sp</span><span class="p">,</span><span class="w"> </span><span class="nb">sp</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">16</span><span class="w">  </span><span class="c1"># adjust stack for 2 items </span>
+<span class="w">      </span><span class="nf">sd</span><span class="w">   </span><span class="nv">ra</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="p">(</span><span class="nb">sp</span><span class="p">)</span><span class="w">    </span><span class="c1"># save the return address: x1 </span>
+<span class="w">      </span><span class="nf">sd</span><span class="w">   </span><span class="nv">a0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">(</span><span class="nb">sp</span><span class="p">)</span><span class="w">    </span><span class="c1"># save the argument n: x10 </span>
+<span class="w">      </span><span class="nf">addi</span><span class="w"> </span><span class="nv">t0</span><span class="p">,</span><span class="w"> </span><span class="nv">a0</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w">   </span><span class="c1"># x5 = n - 1 </span>
+<span class="w">      </span><span class="nf">bge</span><span class="w">  </span><span class="nv">t0</span><span class="p">,</span><span class="w"> </span><span class="nv">x0</span><span class="p">,</span><span class="w"> </span><span class="nv">L1</span><span class="w">   </span><span class="c1"># if n &gt;= 1, go to L1 (else) </span>
+<span class="w">      </span><span class="nf">addi</span><span class="w"> </span><span class="nv">a0</span><span class="p">,</span><span class="w"> </span><span class="nv">x0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="w">    </span><span class="c1"># return 1 if n &lt; 1 </span>
+<span class="w">      </span><span class="nf">addi</span><span class="w"> </span><span class="nb">sp</span><span class="p">,</span><span class="w"> </span><span class="nb">sp</span><span class="p">,</span><span class="w"> </span><span class="mi">16</span><span class="w">   </span><span class="c1"># recover sp (Why not recover x1 and x10?) </span>
+<span class="w">      </span><span class="nf">jalr</span><span class="w"> </span><span class="nv">x0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">(</span><span class="nv">ra</span><span class="p">)</span><span class="w">    </span><span class="c1"># return to caller </span>
+
+<span class="nl">L1:</span><span class="w">   </span>
+<span class="w">      </span><span class="nf">addi</span><span class="w"> </span><span class="nv">a0</span><span class="p">,</span><span class="w"> </span><span class="nv">a0</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w">   </span><span class="c1"># n &gt;= 1: argument gets (n - 1) </span>
+<span class="w">      </span><span class="nf">jal</span><span class="w">  </span><span class="nv">ra</span><span class="p">,</span><span class="w"> </span><span class="nv">fact</span><span class="w">     </span><span class="c1"># call fact with (n - 1) </span>
+<span class="w">      </span><span class="nf">add</span><span class="w">  </span><span class="nv">t1</span><span class="p">,</span><span class="w"> </span><span class="nv">a0</span><span class="p">,</span><span class="w"> </span><span class="nv">x0</span><span class="w">   </span><span class="c1"># move result of fact(n-1) to x6(t1) </span>
+<span class="w">      </span><span class="nf">ld</span><span class="w">   </span><span class="nv">a0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">(</span><span class="nb">sp</span><span class="p">)</span><span class="w">    </span><span class="c1"># return from jal: restore argument n </span>
+<span class="w">      </span><span class="nf">ld</span><span class="w">   </span><span class="nv">ra</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="p">(</span><span class="nb">sp</span><span class="p">)</span><span class="w">    </span><span class="c1"># restore the return address </span>
+<span class="w">      </span><span class="nf">addi</span><span class="w"> </span><span class="nb">sp</span><span class="p">,</span><span class="w"> </span><span class="nb">sp</span><span class="p">,</span><span class="w"> </span><span class="mi">16</span><span class="w">   </span><span class="c1"># adjust stack pointer to pop 2 items </span>
+<span class="w">      </span><span class="nf">mul</span><span class="w">  </span><span class="nv">a0</span><span class="p">,</span><span class="w"> </span><span class="nv">a0</span><span class="p">,</span><span class="w"> </span><span class="nv">t1</span><span class="w">   </span><span class="c1"># return n * fact(n - 1) </span>
+<span class="w">      </span><span class="nf">jalr</span><span class="w"> </span><span class="nv">x0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">(</span><span class="nv">ra</span><span class="p">)</span><span class="w">    </span><span class="c1"># return to the caller</span>
+</code></pre></div>
+</div>
+<h3 id="4-memory-layout">4. Memory Layout<a class="headerlink" href="#4-memory-layout" title="Permanent link">&para;</a></h3>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><div style="text-align: center"><img src="images/image-193.png" width="30%"></div> </p>
+</div>
+<p><strong>Text</strong><br />
+• 存储机器指令，即编译后的可执行代码 <br />
+• 通常只读，防止程序意外修改自身指令 <br />
+• PC（程序计数器）指向当前执行的指令地址  </p>
+<p><strong>Static data</strong><br />
+• 包含全局变量、常量数组和字符串等<br />
+- C语言中对应static变量和const声明的内容 <br />
+• x3寄存器（全局指针）初始化为该段起始地址，允许通过±偏移访问其中数据  </p>
+<p><strong>Dynamic data</strong>（动态数据 - 堆）<br />
+• 运行时动态分配的内存<br />
+• 图中显示位于栈下方，与栈形成上下增长的结构  </p>
+<p><strong>Stack</strong>（栈 - 自动存储）<br />
+• 存储局部变量、函数参数和返回地址等自动变量 <br />
+• 栈向低地址方向生长（向下增长），SP（栈指针）指示当前栈顶位置 <br />
+• 函数调用时自动压入栈帧，返回时弹出，实现自动内存管理  </p>
+<h2 id="29-communicating-with-people">2.9 Communicating with People<a class="headerlink" href="#29-communicating-with-people" title="Permanent link">&para;</a></h2>
+<h3 id="1-character-data">1. Character Data<a class="headerlink" href="#1-character-data" title="Permanent link">&para;</a></h3>
+<p>Byte-encoded character sets </p>
+<ul>
+<li>ASCII ( American Standard Code for Information Interchange )  <ul>
+<li>128 characters：95 graphic, 33 control  </li>
+</ul>
+</li>
+<li>Latin-1: 256 characters  <ul>
+<li>ASCII, +96 more graphic characters  </li>
+</ul>
+</li>
+</ul>
+<p>Unicode: 32-bit character set  </p>
+<ul>
+<li>Used in Java, C++ wide characters, …  </li>
+<li>Most of the world’s alphabets, plus symbols  </li>
+<li>UTF-8, UTF-16: variable-length encodings  </li>
+</ul>
+<h3 id="2-bytehalfwordword-operations">2. Byte/Halfword/Word Operations<a class="headerlink" href="#2-bytehalfwordword-operations" title="Permanent link">&para;</a></h3>
+<p><strong>Load byte/halfword/word</strong>: Sign extend to 64 bits in rd  </p>
+<ul>
+<li><code>lb rd, offset(rs1)</code>, <code>lh rd, offset(rs1)</code>, <code>lw rd, offset(rs1)</code>  </li>
+<li>如果最高位为1（负数），则高位补1；如果为0，则高位补0  </li>
+</ul>
+<p><strong>Load byte/halfword/word unsigned</strong>: 0 extend to 64 bits in rd  </p>
+<ul>
+<li><code>lbu rd, offset(rs1)</code>, <code>lhu rd, offset(rs1)</code>, <code>lwu rd, offset(rs1)</code>  </li>
+<li>补 0 拓展  </li>
+</ul>
+<p><strong>Store byte/halfword/word</strong>: Store rightmost 8/16/32 bits  </p>
+<ul>
+<li><code>sb rs2, offset(rs1)</code>, 存低 8 位  </li>
+<li><code>sh rs2, offset(rs1)</code>, 存低 16 位  </li>
+<li><code>sw rs2, offset(rs1)</code>, 存低 32 位  </li>
+</ul>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<p>C code
+<div class="highlight"><pre><span></span><code><span class="kt">void</span><span class="w"> </span><span class="nf">strcpy</span><span class="p">(</span><span class="kt">char</span><span class="w"> </span><span class="n">x</span><span class="p">[],</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="n">y</span><span class="p">[])</span><span class="w"> </span><span class="p">{</span><span class="w"> </span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="sc">&#39;\0&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span>
+<span class="w">        </span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">];</span><span class="w"> </span>
+<span class="w">        </span><span class="n">i</span><span class="o">++</span><span class="p">;</span><span class="w"> </span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span>
+<span class="w">    </span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="sc">&#39;\0&#39;</span><span class="p">;</span><span class="w"> </span>
+<span class="p">}</span>
+</code></pre></div>
+RISC-V
+<div class="highlight"><pre><span></span><code><span class="nl">strcpy:</span>
+<span class="w">    </span><span class="nf">addi</span><span class="w"> </span><span class="nb">sp</span><span class="p">,</span><span class="w">  </span><span class="nb">sp</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">8</span><span class="w">   </span><span class="c1"># adjust stack for 1 doubleword</span>
+<span class="w">    </span><span class="nf">sd</span><span class="w">   </span><span class="nv">x19</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">(</span><span class="nb">sp</span><span class="p">)</span><span class="w">    </span><span class="c1"># save x19 (s3)</span>
+<span class="w">    </span><span class="nf">add</span><span class="w">  </span><span class="nv">x19</span><span class="p">,</span><span class="w"> </span><span class="nv">x0</span><span class="p">,</span><span class="w"> </span><span class="nv">x0</span><span class="w">   </span><span class="c1"># i = 0</span>
+<span class="nl">L1:</span>
+<span class="w">    </span><span class="nf">add</span><span class="w">  </span><span class="nv">x5</span><span class="p">,</span><span class="w">  </span><span class="nv">x19</span><span class="p">,</span><span class="w"> </span><span class="nv">x11</span><span class="w"> </span><span class="c1"># x5 = address of y[i]</span>
+<span class="w">    </span><span class="nf">lbu</span><span class="w">  </span><span class="nv">x6</span><span class="p">,</span><span class="w">  </span><span class="mi">0</span><span class="p">(</span><span class="nv">x5</span><span class="p">)</span><span class="w">    </span><span class="c1"># x6 = y[i] (unsigned byte load)</span>
+<span class="w">    </span><span class="nf">add</span><span class="w">  </span><span class="nv">x7</span><span class="p">,</span><span class="w">  </span><span class="nv">x19</span><span class="p">,</span><span class="w"> </span><span class="nv">x10</span><span class="w"> </span><span class="c1"># x7 = address of x[i]</span>
+<span class="w">    </span><span class="nf">sb</span><span class="w">   </span><span class="nv">x6</span><span class="p">,</span><span class="w">  </span><span class="mi">0</span><span class="p">(</span><span class="nv">x7</span><span class="p">)</span><span class="w">    </span><span class="c1"># x[i] = y[i]</span>
+<span class="w">    </span><span class="nf">beq</span><span class="w">  </span><span class="nv">x6</span><span class="p">,</span><span class="w">  </span><span class="nv">x0</span><span class="p">,</span><span class="w">  </span><span class="nv">L2</span><span class="w">  </span><span class="c1"># if y[i] == 0 then exit</span>
+<span class="w">    </span><span class="nf">addi</span><span class="w"> </span><span class="nv">x19</span><span class="p">,</span><span class="w"> </span><span class="nv">x19</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="w">   </span><span class="c1"># i = i + 1</span>
+<span class="w">    </span><span class="nf">jal</span><span class="w">  </span><span class="nv">x0</span><span class="p">,</span><span class="w">  </span><span class="nv">L1</span><span class="w">       </span><span class="c1"># next iteration of loop</span>
+<span class="nl">L2:</span>
+<span class="w">    </span><span class="nf">ld</span><span class="w">   </span><span class="nv">x19</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">(</span><span class="nb">sp</span><span class="p">)</span><span class="w">    </span><span class="c1"># restore saved old s3</span>
+<span class="w">    </span><span class="nf">addi</span><span class="w"> </span><span class="nb">sp</span><span class="p">,</span><span class="w">  </span><span class="nb">sp</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="w">    </span><span class="c1"># pop 1 double word from stack</span>
+<span class="w">    </span><span class="nf">jalr</span><span class="w"> </span><span class="nv">zero</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">(</span><span class="nv">x1</span><span class="p">)</span><span class="w">   </span><span class="c1"># return to caller</span>
+</code></pre></div></p>
+</div>
+<h2 id="210-addressing-for-32-bit-immediate-and-addresses">2.10 Addressing for 32-Bit Immediate and Addresses<a class="headerlink" href="#210-addressing-for-32-bit-immediate-and-addresses" title="Permanent link">&para;</a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><div style="text-align: center"><img src="images/image-46.png" width="90%"></div> </p>
+<ul>
+<li><code>lui</code> （Load Upper Immediate）：<br />
+  将 20 位的立即数加载到寄存器的高 20 位，并将寄存器的低 12 位清零  </li>
+</ul>
+</div>
+<h3 id="1-32-bit-constants">1. 32-bit Constants<a class="headerlink" href="#1-32-bit-constants" title="Permanent link">&para;</a></h3>
+<ul>
+<li>32-bit 的常数无法直接直接用 12 位立即数表示，需要通过多步操作表示  </li>
+</ul>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<p><div style="text-align: center"><img src="images/image-47.png" width="80%"></div> </p>
+<ul>
+<li>2304 的二进制数为 1001 0000 0000，由于最高位为 1，会被识别为负数，因此 <span class="arithmatex">\(s3+2304 \Rightarrow s3-1792\)</span>，可通过再加上 <span class="arithmatex">\(4096(2^{12})\)</span> 来修正  </li>
+</ul>
+</div>
+<h3 id="2-branch-addressing">2. Branch Addressing<a class="headerlink" href="#2-branch-addressing" title="Permanent link">&para;</a></h3>
+<p>分支指令包含：  </p>
+<ul>
+<li>操作码（Opcode）  </li>
+<li>两个寄存器（rs1, rs2）  </li>
+<li>目标地址（通过偏移量计算）  </li>
+</ul>
+<p>分支目标的特点  </p>
+<ul>
+<li>大多数分支目标位于当前指令附近  </li>
+<li>可以是向前跳转（forward）或向后跳转（backward）  </li>
+<li>使用 PC 相对寻址方式，提高效率  </li>
+</ul>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<p><div style="text-align: center"><img src="images/image-48.png" width="80%"></div> </p>
+<ul>
+<li>立即数由多个字段拼接而成：这些字段在指令中不是连续的，需要<strong>重新组合</strong>  </li>
+<li>偏移量 = 立即数 × 2  <ul>
+<li>因为 RISC-V 指令是 32 位对齐，每条指令占 4 字节  </li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>RISC-V 使用“半字（halfword）”为单位来表示偏移量  </p>
+<ul>
+<li><code>bne x10, x11, 2000</code> 中的 2000 并不是指 2000 个字节，而是 2000 个“半字”，即 1/2 个 double word  </li>
+</ul>
+</div>
+<h3 id="3-jump-addressing">3. Jump Addressing<a class="headerlink" href="#3-jump-addressing" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Jump and link（jal）  <ul>
+<li>采用 20 bit 的立即数来扩大跳转范围  </li>
+</ul>
+</li>
+<li>UJ format：  </li>
+</ul>
+<div style="text-align: center"><img src="images/image-50.png" width="90%"></div>
+
+<ul>
+<li>对于更远的转跳  <ul>
+<li>使用 <code>lui</code> 加载高 20 位地址到临时寄存器  </li>
+<li>使用 <code>jalr</code> 将低 12 位地址与临时寄存器相加并跳转  </li>
+</ul>
+</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="n">lui</span>  <span class="n">x1</span><span class="p">,</span> <span class="mh">0x12345</span> <span class="c1"># 加载高 20 位地址 </span>
+<span class="n">jalr</span> <span class="n">x0</span><span class="p">,</span> <span class="mi">0</span><span class="p">(</span><span class="n">x1</span><span class="p">)</span> <span class="c1"># 跳转到 x1 + 0</span>
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Show branch offset in machine language</p>
+<p>C code
+<div class="highlight"><pre><span></span><code><span class="k">while</span><span class="p">(</span><span class="n">save</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">k</span><span class="p">){</span>
+<span class="w">    </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+<span class="p">}</span>
+</code></pre></div>
+RISC-V code
+<div class="highlight"><pre><span></span><code><span class="nl">Loop:</span><span class="w"> </span><span class="nf">slli</span><span class="w"> </span><span class="nv">x10</span><span class="p">,</span><span class="w"> </span><span class="nv">x22</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span>
+<span class="w">       </span><span class="nf">add</span><span class="w">  </span><span class="nv">x10</span><span class="p">,</span><span class="w"> </span><span class="nv">x10</span><span class="p">,</span><span class="w"> </span><span class="nv">x25</span>
+<span class="w">       </span><span class="nf">ld</span><span class="w">   </span><span class="nv">x9</span><span class="p">,</span><span class="w">  </span><span class="mi">0</span><span class="p">(</span><span class="nv">x10</span><span class="p">)</span>
+<span class="w">       </span><span class="nf">bne</span><span class="w">  </span><span class="nv">x9</span><span class="p">,</span><span class="w">  </span><span class="nv">x24</span><span class="p">,</span><span class="w"> </span><span class="nv">Exit</span>
+<span class="w">       </span><span class="nf">addi</span><span class="w"> </span><span class="nv">x22</span><span class="p">,</span><span class="w"> </span><span class="nv">x22</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">       </span><span class="nf">beq</span><span class="w">  </span><span class="nv">x0</span><span class="p">,</span><span class="w">  </span><span class="nv">x0</span><span class="p">,</span><span class="w">  </span><span class="nv">Loop</span>
+<span class="nl">Exit:</span>
+</code></pre></div>
+<div style="text-align: center"><img src="images/image-51.png" width="80%"></div> </p>
+<ul>
+<li>All RISC-V instructions are 4 bytes long  </li>
+<li>PC-relative addressing refers to the number of halfwords  </li>
+</ul>
+</div>
+<h3 id="4-while-branch-target-is-far-away">4. While branch target is far away<a class="headerlink" href="#4-while-branch-target-is-far-away" title="Permanent link">&para;</a></h3>
+<blockquote>
+<p>插入无条件跳转  </p>
+</blockquote>
+<h4 id="step1反转条件判断">Step1：反转条件判断<a class="headerlink" href="#step1反转条件判断" title="Permanent link">&para;</a></h4>
+<ul>
+<li>原始分支：<code>beq x10, x0, L1</code><br />
+    → 若 <code>x10 == 0</code>，则跳转到 L1  </li>
+<li>改写为：<code>bne x10, x0, L2</code><br />
+    → 若 <code>x10 != 0</code>，则跳转到 L2（即“跳过”原目标）  </li>
+</ul>
+<h4 id="step2-添加无条件跳转">Step2 ：添加无条件跳转<a class="headerlink" href="#step2-添加无条件跳转" title="Permanent link">&para;</a></h4>
+<ul>
+<li>在 L2 处插入：<code>jal x0, L1</code><br />
+    → 无论条件如何，都跳转到 L1  </li>
+</ul>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<p><div class="highlight"><pre><span></span><code><span class="nf">beq</span><span class="w">  </span><span class="nv">x10</span><span class="p">,</span><span class="w"> </span><span class="nv">x0</span><span class="p">,</span><span class="w"> </span><span class="nv">L1</span><span class="w">     </span><span class="c1"># 原始分支（假设太远）</span>
+</code></pre></div>
+- jal 使用 20 位立即数，可扩大跳转范围<br />
+<div class="highlight"><pre><span></span><code><span class="nf">bne</span><span class="w">  </span><span class="nv">x10</span><span class="p">,</span><span class="w"> </span><span class="nv">x0</span><span class="p">,</span><span class="w"> </span><span class="nv">L2</span><span class="w">     </span><span class="c1"># 如果 x10 ≠ 0，则跳过 jal（不跳转到 L1）</span>
+<span class="nf">jal</span><span class="w">  </span><span class="nv">x0</span><span class="p">,</span><span class="w">  </span><span class="nv">L1</span><span class="w">         </span><span class="c1"># 否则，无条件跳转到 L1</span>
+<span class="nl">L2:</span>
+</code></pre></div></p>
+</div>
+<h3 id="5-summary">5. Summary<a class="headerlink" href="#5-summary" title="Permanent link">&para;</a></h3>
+<ul>
+<li>总结了各种指令的形式  </li>
+</ul>
+<div class="admonition summary">
+<p class="admonition-title">Summary</p>
+<p>RISC-V Instruction Format and Their Operands<br />
+<div style="text-align: center"><img src="images/image-53.png" width="90%"></div></p>
+<p>RISC-V Addressing Summary<br />
+- 多种不同的寻址形式一般统称为 <strong>寻址模式</strong>（addressing mode）<br />
+ <div style="text-align: center"><img src="images/image-54.png" width="90%"></div></p>
+</div>
+<hr />
+<h2 id="211-synchronization-in-risc-v">2.11 Synchronization in RISC-V<a class="headerlink" href="#211-synchronization-in-risc-v" title="Permanent link">&para;</a></h2>
+<h3 id="load-reserved">Load Reserved<a class="headerlink" href="#load-reserved" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="nf">lr.d</span><span class="w"> </span><span class="nv">rd</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="nv">rs1</span><span class="p">)</span>
+</code></pre></div>
+<ul>
+<li><strong>功能</strong>：  <ul>
+<li>从 <code>rs1</code> 指向的内存地址加载数据到寄存器 <code>rd</code>。  </li>
+<li>同时在该内存地址上“<strong>保留一个独占访问权</strong>”（reservation），即标记该地址为当前处理器正在尝试修改的状态  </li>
+</ul>
+</li>
+<li><strong>关键点</strong>：    <ul>
+<li>保留是硬件层面的，其他处理器<strong>不能</strong>对该地址进行写操作  </li>
+<li>不是原子读写，而是“<strong>预准备阶段</strong>”，为后续的条件写入做准备  </li>
+</ul>
+</li>
+</ul>
+<h3 id="store-conditional">Store Conditional<a class="headerlink" href="#store-conditional" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="nf">sc.d</span><span class="w"> </span><span class="nv">rd</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="nv">rs1</span><span class="p">),</span><span class="w"> </span><span class="nv">rs2</span>
+</code></pre></div>
+<ul>
+<li><strong>功能</strong>：  <ul>
+<li>尝试将寄存器 <code>rs2</code> 中的数据写入 <code>rs1</code> 指向的内存地址。  </li>
+<li>写入是否成功取决于：<strong>自上次 <code>lr.d</code> 操作以来，该内存地址是否被其他处理器修改过</strong>  <ul>
+<li><strong>成功（未被修改）</strong>：<code>rd</code> 寄存器返回 <code>0</code>（表示成功）。  </li>
+<li><strong>失败（已被修改）</strong>：<code>rd</code> 返回一个<strong>非零值</strong>（通常为1或特定错误码），表示冲突发生  </li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<h4 id="atomic-swap原子交换">atomic swap（原子交换）<a class="headerlink" href="#atomic-swap原子交换" title="Permanent link">&para;</a></h4>
+<p><div class="highlight"><pre><span></span><code><span class="nl">again:</span><span class="w">  </span><span class="nf">lr.d</span><span class="w">  </span><span class="nv">x10</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="nv">x20</span><span class="p">)</span><span class="w">        </span><span class="o">//</span><span class="w"> </span><span class="err">从内存地址</span><span class="w"> </span><span class="nv">x20</span><span class="w"> </span><span class="err">加载数据到</span><span class="w"> </span><span class="nv">x10</span><span class="err">，并保留该地址</span>
+<span class="w">        </span><span class="nf">sc.d</span><span class="w">  </span><span class="nv">x11</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="nv">x20</span><span class="p">),</span><span class="w"> </span><span class="nv">x23</span><span class="w">   </span><span class="o">//</span><span class="w"> </span><span class="err">尝试将</span><span class="w"> </span><span class="nv">x23</span><span class="w"> </span><span class="err">写入</span><span class="w"> </span><span class="nv">x20</span><span class="err">，结果存入</span><span class="w"> </span><span class="nv">x11</span>
+<span class="w">        </span><span class="nf">bne</span><span class="w">   </span><span class="nv">x11</span><span class="p">,</span><span class="w"> </span><span class="nv">x0</span><span class="p">,</span><span class="w"> </span><span class="nv">again</span><span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="err">如果写失败（</span><span class="nv">x11</span><span class="w"> </span><span class="err">≠</span><span class="w"> </span><span class="mi">0</span><span class="err">），跳转回</span><span class="w"> </span><span class="nv">again</span><span class="w"> </span><span class="err">重试</span>
+<span class="w">        </span><span class="nf">addi</span><span class="w">  </span><span class="nv">x23</span><span class="p">,</span><span class="w"> </span><span class="nv">x10</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="w">       </span><span class="o">//</span><span class="w"> </span><span class="nv">x23</span><span class="w"> </span><span class="err">=</span><span class="w"> </span><span class="nv">x10</span><span class="err">（即加载的旧值）</span>
+</code></pre></div>
+这个操作的作用是：<strong>返回旧值</strong>，实现了“原子交换”——即“读取旧值 + 写入新值”  </p>
+<h4 id="lock-获取锁">lock （获取锁）<a class="headerlink" href="#lock-获取锁" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="w">        </span><span class="nf">addi</span><span class="w">  </span><span class="nv">x12</span><span class="p">,</span><span class="w"> </span><span class="nv">x0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="w">          </span><span class="o">//</span><span class="w"> </span><span class="nv">x12</span><span class="w"> </span><span class="err">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="err">（准备上锁）</span>
+<span class="nl">again:</span><span class="w">  </span><span class="nf">lr.d</span><span class="w">  </span><span class="nv">x10</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="nv">x20</span><span class="p">)</span><span class="w">         </span><span class="o">//</span><span class="w"> </span><span class="err">读取锁变量（并保留）</span>
+<span class="w">        </span><span class="nf">bne</span><span class="w">   </span><span class="nv">x10</span><span class="p">,</span><span class="w"> </span><span class="nv">x0</span><span class="p">,</span><span class="w"> </span><span class="nv">again</span><span class="w">     </span><span class="o">//</span><span class="w"> </span><span class="err">如果锁已被占用（</span><span class="nv">x10</span><span class="w"> </span><span class="err">≠</span><span class="w"> </span><span class="mi">0</span><span class="err">），循环等待</span>
+<span class="w">        </span><span class="nf">sc.d</span><span class="w">  </span><span class="nv">x11</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="nv">x20</span><span class="p">),</span><span class="w"> </span><span class="nv">x12</span><span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="err">尝试将</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="err">写入锁变量</span>
+<span class="w">        </span><span class="nf">bne</span><span class="w">   </span><span class="nv">x11</span><span class="p">,</span><span class="w"> </span><span class="nv">x0</span><span class="p">,</span><span class="w"> </span><span class="nv">again</span><span class="w">     </span><span class="o">//</span><span class="w"> </span><span class="err">如果失败，重试</span>
+</code></pre></div>
+<ul>
+<li><code>addi x12, x0, 1</code><br />
+    → 设置要写入的值为 <code>1</code>（表示“已上锁”）    </li>
+<li><code>lr.d x10, (x20)</code><br />
+    → 读取锁变量的当前值，同时建立保留  </li>
+<li><code>bne x10, x0, again</code><br />
+    → 如果锁变量不为 0（已被占用），就跳转回去重试，直到它为 0  </li>
+<li><code>sc.d x11, (x20), x12</code><br />
+    → 尝试将 <code>1</code> 写入锁变量。如果自 <code>lr.d</code> 以来没有被改写，则成功；否则失败  </li>
+<li><code>bne x11, x0, again</code><br />
+    → 如果失败（如其他线程抢到了锁），就重试整个过程  </li>
+</ul>
+<p>只有当锁为空（0）且没有其他处理器干扰时，才能成功将锁设为 1，从而获得锁  </p>
+<h4 id="unlock释放锁">Unlock（释放锁）<a class="headerlink" href="#unlock释放锁" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="nf">sd</span><span class="w">    </span><span class="nv">x0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">(</span><span class="nv">x20</span><span class="p">)</span><span class="w">         </span><span class="o">//</span><span class="w"> </span><span class="err">写入</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="err">到锁变量，释放锁</span>
+</code></pre></div>
+<ul>
+<li><code>sd x0, 0(x20)</code><br />
+    → 将寄存器 <code>x0</code>（值为 0）写入地址 <code>x20</code>，表示解锁  </li>
+</ul>
+</div>
+<h2 id="212-translating-and-starting-a-program">2.12 Translating and starting a program<a class="headerlink" href="#212-translating-and-starting-a-program" title="Permanent link">&para;</a></h2>
+<div style="text-align: center"><img src="images/image-55.png" width="60%"></div>
+
+<h3 id="producing-an-object-module">Producing an Object Module<a class="headerlink" href="#producing-an-object-module" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Assembler (or compiler) translates program into <strong>machine instructions</strong>  <ul>
+<li>输出结果是一个<strong>目标文件（Object File）</strong>，也叫<strong>目标模块（Object Module）</strong>  </li>
+<li>这个文件不是可以直接运行的程序，而是中间产物，需要后续链接才能变成可执行程序  </li>
+</ul>
+</li>
+<li>Provides information for building a complete program from the pieces  <ul>
+<li>目标模块不仅包含机器码，还提供了<strong>辅助信息</strong>，帮助链接器（Linker）把多个模块拼接成完整程序  </li>
+</ul>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>组件</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Header</td>
+<td>描述目标模块的整体内容，比如：模块大小、段（segment）数量、入口点等</td>
+</tr>
+<tr>
+<td>Text segment</td>
+<td><strong>已翻译的机器指令</strong>（即程序代码）</td>
+</tr>
+<tr>
+<td>Static data segment</td>
+<td>存放<strong>程序运行期间不会改变的数据</strong>，如全局变量</td>
+</tr>
+<tr>
+<td>Relocation info</td>
+<td>提供关于哪些地址需要在链接时进行调整的信息</td>
+</tr>
+<tr>
+<td>Symbol table</td>
+<td>记录程序中定义的<strong>全局变量、函数名</strong>（符号）及其地址；对外部符号的引用</td>
+</tr>
+<tr>
+<td>Debug info</td>
+<td>包含源代码与机器码之间的映射关系（如行号、变量名），供调试器（如GDB）使用，以便在调试时显示原始代码</td>
+</tr>
+</tbody>
+</table>
+<h3 id="linker">Linker<a class="headerlink" href="#linker" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Object modules(including library routine) → executable program  </li>
+</ul>
+<p>过程：<br />
+1. Place code and data modules symbolically in  </p>
+<pre><code>- 分配虚拟地址空间，规划布局
+</code></pre>
+<ol>
+<li>
+<p>Determine the addresses of data and instruction labels  </p>
+<ul>
+<li>确定最终地址   </li>
+<li>
+<p>Patch both the internal and external references (Address of invoke)  </p>
+</li>
+<li>
+<p>把原来占位符或相对地址替换为真实的绝对地址  </p>
+</li>
+</ul>
+</li>
+</ol>
+<div style="text-align: center"><img src="images/image-56.png" width="50%"></div>
+
+<ul>
+<li>经链接器加工后，最终生成一个可执行文件 (executable file)，它与目标文件的区别在于后者存在不确定 (unresolved) 的引用  </li>
+</ul>
+<h3 id="loader">Loader<a class="headerlink" href="#loader" title="Permanent link">&para;</a></h3>
+<p>将可执行文件放入内存或磁盘中，工作流程为：<br />
+1. 读取可执行文件头，得到文本段和数据段的大小<br />
+2. 创建一个指向足够容纳文本和数据的空间的地址<br />
+3. 将可执行文件的指令和数据拷贝到内存中<br />
+4. 将主程序的参数（如果有的话）放入栈中<br />
+5. 对寄存器进行初始化操作，并将栈指针指向第一个空闲的位置上<br />
+6. 跳转到启动例程，将参数拷贝到参数寄存器中，并调用程序的主例程。让主例程返回时，启动例程中止整个程序，附带 <code>exit</code> 系统调用  </p>
+<h3 id="dynamic-linking">Dynamic Linking<a class="headerlink" href="#dynamic-linking" title="Permanent link">&para;</a></h3>
+<p>前面介绍的链接方法属于<strong>静态链接</strong>，虽然它能快速调用库函数，但它具有以下缺陷：不能及时更新库函数，且会一次性加载所有库函数。因此通常会更多地使用<strong>动态链接库</strong>(dynamically linked libraries, DLL)，它可以在程序<strong>运行时</strong>被链接到程序里。  </p>
+<h4 id="懒过程链接lazy-procedure-linkage">懒过程链接(lazy procedure linkage)<a class="headerlink" href="#懒过程链接lazy-procedure-linkage" title="Permanent link">&para;</a></h4>
+<ul>
+<li>它能保证只有当程序调用库函数时，对应的库才会被链接到程序里  </li>
+</ul>
+<div style="text-align: center"><img src="images/image-57.png" width="50%"></div>
+
+<hr />
+<h2 id="213-a-c-sort-example-to-put-it-all-together">2.13 A C Sort Example To Put it All Together<a class="headerlink" href="#213-a-c-sort-example-to-put-it-all-together" title="Permanent link">&para;</a></h2>
+<p>Three general steps for translating C procedures </p>
+<ul>
+<li>Allocate registers to program variables  </li>
+<li>Produce code for the body of the procedures  </li>
+<li>Preserve registers across the procedures invocation  </li>
+</ul>
+<div class="admonition example">
+<p class="admonition-title">Swap</p>
+<div class="highlight"><pre><span></span><code><span class="nl">swap:</span><span class="w"> </span><span class="nf">slli</span><span class="w"> </span><span class="nv">x6</span><span class="p">,</span><span class="w"> </span><span class="nv">x11</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="w">  </span><span class="o">//</span><span class="w"> </span><span class="nv">x6</span><span class="w"> </span><span class="err">=</span><span class="w"> </span><span class="nv">k</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">8</span>
+<span class="w">      </span><span class="nf">add</span><span class="w">  </span><span class="nv">x6</span><span class="p">,</span><span class="w"> </span><span class="nv">x10</span><span class="p">,</span><span class="w"> </span><span class="nv">x6</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="nv">x6</span><span class="w"> </span><span class="err">=</span><span class="w"> </span><span class="nv">v</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="nv">k</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">8</span><span class="w"> </span><span class="p">)</span>
+<span class="w">      </span><span class="nf">ld</span><span class="w">   </span><span class="nv">x5</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">(</span><span class="nv">x6</span><span class="p">)</span><span class="w">   </span><span class="o">//</span><span class="w"> </span><span class="nv">x5</span><span class="w"> </span><span class="err">←</span><span class="w"> </span><span class="nv">v</span><span class="p">[</span><span class="w"> </span><span class="nv">k</span><span class="w"> </span><span class="p">]</span>
+<span class="w">      </span><span class="nf">ld</span><span class="w">   </span><span class="nv">x7</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="p">(</span><span class="nv">x6</span><span class="p">)</span><span class="w">   </span><span class="o">//</span><span class="w"> </span><span class="nv">x7</span><span class="w"> </span><span class="err">←</span><span class="w"> </span><span class="nv">v</span><span class="p">[</span><span class="w"> </span><span class="nv">k</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">]</span>
+<span class="w">      </span><span class="nf">sd</span><span class="w">   </span><span class="nv">x7</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">(</span><span class="nv">x6</span><span class="p">)</span><span class="w">   </span><span class="o">//</span><span class="w"> </span><span class="nv">v</span><span class="p">[</span><span class="nv">k</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="err">→</span><span class="w"> </span><span class="nv">v</span><span class="p">[</span><span class="w"> </span><span class="nv">k</span><span class="w"> </span><span class="p">]</span>
+<span class="w">      </span><span class="nf">sd</span><span class="w">   </span><span class="nv">x5</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="p">(</span><span class="nv">x6</span><span class="p">)</span><span class="w">   </span><span class="o">//</span><span class="w"> </span><span class="nv">v</span><span class="p">[</span><span class="nv">k</span><span class="p">]</span><span class="w"> </span><span class="err">→</span><span class="w"> </span><span class="nv">v</span><span class="p">[</span><span class="w"> </span><span class="nv">k</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">]</span>
+
+<span class="w">      </span><span class="nf">jalr</span><span class="w"> </span><span class="nv">x0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">(</span><span class="nv">x1</span><span class="p">)</span><span class="w">   </span><span class="o">//</span><span class="w"> </span><span class="nv">return</span><span class="w"> </span><span class="nv">to</span><span class="w"> </span><span class="nv">calling</span><span class="w"> </span><span class="nv">routine</span>
+</code></pre></div>
+</div>
+<hr />
+<h2 id="214-arrays-versus-pointers">2.14 Arrays versus Pointers<a class="headerlink" href="#214-arrays-versus-pointers" title="Permanent link">&para;</a></h2>
+<p>Array indexing involves </p>
+<ul>
+<li>Multiplying index by element size  </li>
+<li>Adding to array base address  </li>
+</ul>
+<p>Pointers correspond directly to memory  </p>
+<ul>
+<li>addresses  </li>
+<li>Can avoid indexing complexity  </li>
+</ul>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<p>指针是可以改变的，但是数组首地址不能改变，因此翻译成汇编的结果也有所不同<br />
+<div style="text-align: center"><img src="images/image-58.png" width="90%"></div></p>
+</div>
+<div class="admonition info">
+<p class="admonition-title">RISC-V 指令大全</p>
+<p><div style="text-align: center"><img src="images/image-82.png" width="90%"></div></p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="页脚" >
+        
+          
+          <a href="Chapter1.html" class="md-footer__link md-footer__link--prev" aria-label="上一页: Chap1.Computer Abstractions and Technology">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256l137.3-137.4c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              <div class="md-ellipsis">
+                Chap1.Computer Abstractions and Technology
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="Chapter3.html" class="md-footer__link md-footer__link--next" aria-label="下一页: Chap3.Arithmetic for Computer">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              <div class="md-ellipsis">
+                Chap3.Arithmetic for Computer
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M247.1 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L179.2 256 41.9 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["header.autohide", "content.math", "content.action.edit", "content.action.view", "content.code.copy", "content.code.annotate", "content.tooltips", "navigation.footer", "navigation.indexes", "navigation.path", "navigation.prune", "navigation.tabs", "navigation.tabs.sticky", "navigation.top", "navigation.tracking", "search.share", "search.suggest", "search.highlight", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+        <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+      
+    
+  </body>
+</html>

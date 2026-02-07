@@ -1,0 +1,4606 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="可达鸭的笔记本，记录了 ZJU-CS 的一些课程笔记。">
+      
+      
+        <meta name="author" content="Fffffx">
+      
+      
+      
+        <link rel="prev" href="Chapter3.html">
+      
+      
+        <link rel="next" href="Chapter5.html">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>Chap4.The Processor - Fffffx's Note</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+  
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+  
+  <style>:root{--md-admonition-icon--note:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M1%207.775V2.75C1%201.784%201.784%201%202.75%201h5.025c.464%200%20.91.184%201.238.513l6.25%206.25a1.75%201.75%200%200%201%200%202.474l-5.026%205.026a1.75%201.75%200%200%201-2.474%200l-6.25-6.25A1.75%201.75%200%200%201%201%207.775m1.5%200c0%20.066.026.13.073.177l6.25%206.25a.25.25%200%200%200%20.354%200l5.025-5.025a.25.25%200%200%200%200-.354l-6.25-6.25a.25.25%200%200%200-.177-.073H2.75a.25.25%200%200%200-.25.25ZM6%205a1%201%200%201%201%200%202%201%201%200%200%201%200-2%22/%3E%3C/svg%3E');--md-admonition-icon--abstract:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M2.5%201.75v11.5c0%20.138.112.25.25.25h3.17a.75.75%200%200%201%200%201.5H2.75A1.75%201.75%200%200%201%201%2013.25V1.75C1%20.784%201.784%200%202.75%200h8.5C12.216%200%2013%20.784%2013%201.75v7.736a.75.75%200%200%201-1.5%200V1.75a.25.25%200%200%200-.25-.25h-8.5a.25.25%200%200%200-.25.25m13.274%209.537zl-4.557%204.45a.75.75%200%200%201-1.055-.008l-1.943-1.95a.75.75%200%200%201%201.062-1.058l1.419%201.425%204.026-3.932a.75.75%200%201%201%201.048%201.074M4.75%204h4.5a.75.75%200%200%201%200%201.5h-4.5a.75.75%200%200%201%200-1.5M4%207.75A.75.75%200%200%201%204.75%207h2a.75.75%200%200%201%200%201.5h-2A.75.75%200%200%201%204%207.75%22/%3E%3C/svg%3E');--md-admonition-icon--info:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M0%208a8%208%200%201%201%2016%200A8%208%200%200%201%200%208m8-6.5a6.5%206.5%200%201%200%200%2013%206.5%206.5%200%200%200%200-13M6.5%207.75A.75.75%200%200%201%207.25%207h1a.75.75%200%200%201%20.75.75v2.75h.25a.75.75%200%200%201%200%201.5h-2a.75.75%200%200%201%200-1.5h.25v-2h-.25a.75.75%200%200%201-.75-.75M8%206a1%201%200%201%201%200-2%201%201%200%200%201%200%202%22/%3E%3C/svg%3E');--md-admonition-icon--tip:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M3.499.75a.75.75%200%200%201%201.5%200v.996C5.9%202.903%206.793%203.65%207.662%204.376l.24.202c-.036-.694.055-1.422.426-2.163C9.1.873%2010.794-.045%2012.622.26%2014.408.558%2016%201.94%2016%204.25c0%201.278-.954%202.575-2.44%202.734l.146.508.065.22c.203.701.412%201.455.476%202.226.142%201.707-.4%203.03-1.487%203.898C11.714%2014.671%2010.27%2015%208.75%2015h-6a.75.75%200%200%201%200-1.5h1.376a4.5%204.5%200%200%201-.563-1.191%203.84%203.84%200%200%201-.05-2.063%204.65%204.65%200%200%201-2.025-.293.75.75%200%200%201%20.525-1.406c1.357.507%202.376-.006%202.698-.318l.009-.01a.747.747%200%200%201%201.06%200%20.75.75%200%200%201-.012%201.074c-.912.92-.992%201.835-.768%202.586.221.74.745%201.337%201.196%201.621H8.75c1.343%200%202.398-.296%203.074-.836.635-.507%201.036-1.31.928-2.602-.05-.603-.216-1.224-.422-1.93l-.064-.221c-.12-.407-.246-.84-.353-1.29a2.4%202.4%200%200%201-.507-.441%203.1%203.1%200%200%201-.633-1.248.75.75%200%200%201%201.455-.364c.046.185.144.436.31.627.146.168.353.305.712.305.738%200%201.25-.615%201.25-1.25%200-1.47-.95-2.315-2.123-2.51-1.172-.196-2.227.387-2.706%201.345-.46.92-.27%201.774.019%203.062l.042.19.01.05c.348.443.666.949.94%201.553a.75.75%200%201%201-1.365.62c-.553-1.217-1.32-1.94-2.3-2.768L6.7%205.527c-.814-.68-1.75-1.462-2.692-2.619a3.7%203.7%200%200%200-1.023.88c-.406.495-.663%201.036-.722%201.508.116.122.306.21.591.239.388.038.797-.06%201.032-.19a.75.75%200%200%201%20.728%201.31c-.515.287-1.23.439-1.906.373-.682-.067-1.473-.38-1.879-1.193L.75%205.677V5.5c0-.984.48-1.94%201.077-2.664.46-.559%201.05-1.055%201.673-1.353z%22/%3E%3C/svg%3E');--md-admonition-icon--success:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M13.78%204.22a.75.75%200%200%201%200%201.06l-7.25%207.25a.75.75%200%200%201-1.06%200L2.22%209.28a.75.75%200%200%201%20.018-1.042.75.75%200%200%201%201.042-.018L6%2010.94l6.72-6.72a.75.75%200%200%201%201.06%200%22/%3E%3C/svg%3E');--md-admonition-icon--question:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M0%208a8%208%200%201%201%2016%200A8%208%200%200%201%200%208m8-6.5a6.5%206.5%200%201%200%200%2013%206.5%206.5%200%200%200%200-13M6.92%206.085h.001a.749.749%200%201%201-1.342-.67c.169-.339.436-.701.849-.977C6.845%204.16%207.369%204%208%204a2.76%202.76%200%200%201%201.637.525c.503.377.863.965.863%201.725%200%20.448-.115.83-.329%201.15-.205.307-.47.513-.692.662-.109.072-.22.138-.313.195l-.006.004a6%206%200%200%200-.26.16%201%201%200%200%200-.276.245.75.75%200%200%201-1.248-.832c.184-.264.42-.489.692-.661q.154-.1.313-.195l.007-.004c.1-.061.182-.11.258-.161a1%201%200%200%200%20.277-.245C8.96%206.514%209%206.427%209%206.25a.61.61%200%200%200-.262-.525A1.27%201.27%200%200%200%208%205.5c-.369%200-.595.09-.74.187a1%201%200%200%200-.34.398M9%2011a1%201%200%201%201-2%200%201%201%200%200%201%202%200%22/%3E%3C/svg%3E');--md-admonition-icon--warning:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M6.457%201.047c.659-1.234%202.427-1.234%203.086%200l6.082%2011.378A1.75%201.75%200%200%201%2014.082%2015H1.918a1.75%201.75%200%200%201-1.543-2.575Zm1.763.707a.25.25%200%200%200-.44%200L1.698%2013.132a.25.25%200%200%200%20.22.368h12.164a.25.25%200%200%200%20.22-.368Zm.53%203.996v2.5a.75.75%200%200%201-1.5%200v-2.5a.75.75%200%200%201%201.5%200M9%2011a1%201%200%201%201-2%200%201%201%200%200%201%202%200%22/%3E%3C/svg%3E');--md-admonition-icon--failure:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M2.344%202.343za8%208%200%200%201%2011.314%2011.314A8.002%208.002%200%200%201%20.234%2010.089a8%208%200%200%201%202.11-7.746m1.06%2010.253a6.5%206.5%200%201%200%209.108-9.275%206.5%206.5%200%200%200-9.108%209.275M6.03%204.97%208%206.94l1.97-1.97a.749.749%200%200%201%201.275.326.75.75%200%200%201-.215.734L9.06%208l1.97%201.97a.749.749%200%200%201-.326%201.275.75.75%200%200%201-.734-.215L8%209.06l-1.97%201.97a.749.749%200%200%201-1.275-.326.75.75%200%200%201%20.215-.734L6.94%208%204.97%206.03a.75.75%200%200%201%20.018-1.042.75.75%200%200%201%201.042-.018%22/%3E%3C/svg%3E');--md-admonition-icon--danger:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M9.504.43a1.516%201.516%200%200%201%202.437%201.713L10.415%205.5h2.123c1.57%200%202.346%201.909%201.22%203.004l-7.34%207.142a1.25%201.25%200%200%201-.871.354h-.302a1.25%201.25%200%200%201-1.157-1.723L5.633%2010.5H3.462c-1.57%200-2.346-1.909-1.22-3.004zm1.047%201.074L3.286%208.571A.25.25%200%200%200%203.462%209H6.75a.75.75%200%200%201%20.694%201.034l-1.713%204.188%206.982-6.793A.25.25%200%200%200%2012.538%207H9.25a.75.75%200%200%201-.683-1.06l2.008-4.418.003-.006-.004-.009-.006-.006-.008-.001q-.005%200-.009.004%22/%3E%3C/svg%3E');--md-admonition-icon--bug:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M4.72.22a.75.75%200%200%201%201.06%200l1%20.999a3.5%203.5%200%200%201%202.441%200l.999-1a.748.748%200%200%201%201.265.332.75.75%200%200%201-.205.729l-.775.776c.616.63.995%201.493.995%202.444v.327q0%20.15-.025.292c.408.14.764.392%201.029.722l1.968-.787a.75.75%200%200%201%20.556%201.392L13%207.258V9h2.25a.75.75%200%200%201%200%201.5H13v.5q-.002.615-.141%201.186l2.17.868a.75.75%200%200%201-.557%201.392l-2.184-.873A5%205%200%200%201%208%2016a5%205%200%200%201-4.288-2.427l-2.183.873a.75.75%200%200%201-.558-1.392l2.17-.868A5%205%200%200%201%203%2011v-.5H.75a.75.75%200%200%201%200-1.5H3V7.258L.971%206.446a.75.75%200%200%201%20.558-1.392l1.967.787c.265-.33.62-.583%201.03-.722a1.7%201.7%200%200%201-.026-.292V4.5c0-.951.38-1.814.995-2.444L4.72%201.28a.75.75%200%200%201%200-1.06m.53%206.28a.75.75%200%200%200-.75.75V11a3.5%203.5%200%201%200%207%200V7.25a.75.75%200%200%200-.75-.75ZM6.173%205h3.654A.17.17%200%200%200%2010%204.827V4.5a2%202%200%201%200-4%200v.327c0%20.096.077.173.173.173%22/%3E%3C/svg%3E');--md-admonition-icon--example:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M5%205.782V2.5h-.25a.75.75%200%200%201%200-1.5h6.5a.75.75%200%200%201%200%201.5H11v3.282l3.666%205.76C15.619%2013.04%2014.543%2015%2012.767%2015H3.233c-1.776%200-2.852-1.96-1.899-3.458Zm-2.4%206.565a.75.75%200%200%200%20.633%201.153h9.534a.75.75%200%200%200%20.633-1.153L12.225%2010.5h-8.45ZM9.5%202.5h-3V6c0%20.143-.04.283-.117.403L4.73%209h6.54L9.617%206.403A.75.75%200%200%201%209.5%206Z%22/%3E%3C/svg%3E');--md-admonition-icon--quote:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M1.75%202.5h10.5a.75.75%200%200%201%200%201.5H1.75a.75.75%200%200%201%200-1.5m4%205h8.5a.75.75%200%200%201%200%201.5h-8.5a.75.75%200%200%201%200-1.5m0%205h8.5a.75.75%200%200%201%200%201.5h-8.5a.75.75%200%200%201%200-1.5M2.5%207.75v6a.75.75%200%200%201-1.5%200v-6a.75.75%200%200%201%201.5%200%22/%3E%3C/svg%3E');}</style>
+
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=LXGW+WenKai+Screen,+Microsoft+YaHei,+sans-serif:300,300i,400,400i,700,700i%7CJetBrains+Mono,+Sarasa+Mono+SC,+Consolas,+monospace:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"LXGW WenKai Screen, Microsoft YaHei, sans-serif";--md-code-font:"JetBrains Mono, Sarasa Mono SC, Consolas, monospace"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="https://fonts.loli.net/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap">
+    
+      <link rel="stylesheet" href="https://gcore.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.1.0/style.css">
+    
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap">
+    
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sarasa-gothic@0.43.0/css/sarasa-mono-sc.css">
+    
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/one-dark.min.css">
+    
+      <link rel="stylesheet" href="../../stylesheets/blueTopaz.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue-grey" data-md-color-accent="blue-grey">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#chap4the-processor" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="Fffffx&#39;s Note" class="md-header__button md-logo" aria-label="Fffffx's Note" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m19.07 14.88 2.05 2.05L15.06 23H13v-2.06zm1.97-1.75c.14 0 .27.06.38.17l1.28 1.28c.22.21.22.56 0 .77l-1 1-2.05-2.05 1-1c.11-.11.25-.17.39-.17M17 4v6l-2-2-2 2V4H9v16h2v2H7c-1.05 0-2-.95-2-2v-1H3v-2h2v-4H3v-2h2V7H3V5h2V4a2 2 0 0 1 2-2h12c1.05 0 2 .95 2 2v6l-2 2V4zM5 5v2h2V5zm0 6v2h2v-2zm0 6v2h2v-2z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Fffffx's Note
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Chap4.The Processor
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="blue-grey" data-md-color-accent="blue-grey"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4M7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="blue-grey" data-md-color-accent="teal"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256l137.3-137.4c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="分享" aria-label="分享" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Fffffx0618/PsyBlog" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Fffffx
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  首页
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../blog/index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  我的Blog
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Language/index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  编程语言
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Algorithm/index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  程序算法
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  体系结构
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Math/index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  数学基础
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../Develop/index.md" class="md-tabs__link">
+        
+  
+  
+    
+  
+  前后端开发
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Fffffx&#39;s Note" class="md-nav__button md-logo" aria-label="Fffffx's Note" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m19.07 14.88 2.05 2.05L15.06 23H13v-2.06zm1.97-1.75c.14 0 .27.06.38.17l1.28 1.28c.22.21.22.56 0 .77l-1 1-2.05-2.05 1-1c.11-.11.25-.17.39-.17M17 4v6l-2-2-2 2V4H9v16h2v2H7c-1.05 0-2-.95-2-2v-1H3v-2h2v-4H3v-2h2V7H3V5h2V4a2 2 0 0 1 2-2h12c1.05 0 2 .95 2 2v6l-2 2V4zM5 5v2h2V5zm0 6v2h2v-2zm0 6v2h2v-2z"/></svg>
+
+    </a>
+    Fffffx's Note
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Fffffx0618/PsyBlog" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Fffffx
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../index.html" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    首页
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../blog/index.html" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    我的Blog
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../Language/index.html" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    编程语言
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../Algorithm/index.html" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    程序算法
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../index.html" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    体系结构
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    体系结构
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_2" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="index.html" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    计算机组成
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5_2" id="__nav_5_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    计算机组成
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Chapter1.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chap1.Computer Abstractions and Technology
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Chapter2.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chap2.Language of the Machine
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Chapter3.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chap3.Arithmetic for Computer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chap4.The Processor
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="Chapter4.html" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chap4.The Processor
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#41-introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Introduction
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#42-logic-design" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Logic Design
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#43-building-a-datapath" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 Building a Datapath
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.3 Building a Datapath">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-instruction-execution-in-risc-v" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Instruction execution in RISC-V
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-instruction-fetching" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Instruction fetching
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-path-built-using-multiplexer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Path Built using Multiplexer
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#44-a-simple-implementation-scheme" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4 A simple Implementation Scheme
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.4 A simple Implementation Scheme">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-alu-symbol--control" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. ALU symbol &amp; Control
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. ALU symbol &amp; Control">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#first-level" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        First level
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#second-level" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Second level
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-datapath-with-control" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Datapath with Control
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#45-an-overview-of-pipelining" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.5 An overview of pipelining
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.5 An overview of pipelining">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-performance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Performance
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Pipeline
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Pipeline">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pipeline-performance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pipeline performance
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-hazards" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Hazards
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Hazards">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#structure-hazards" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Structure Hazards
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-hazards" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Hazards
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#load-use-data-hazard" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Load-Use Data Hazard
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#control-hazards" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Control Hazards
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Control Hazards">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#stall-on-branch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stall on Branch
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#branch-prediction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Branch Prediction
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#46-risc-v-pipelined-datapath" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.6 RISC-V Pipelined Datapath
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.6 RISC-V Pipelined Datapath">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-pipeline-registers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Pipeline registers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-pipeline-operation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Pipeline Operation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Pipeline Operation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#multi-cycle-pipeline-diagram" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Multi-Cycle Pipeline Diagram
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#single-cycle-pipeline-diagram" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Single-Cycle Pipeline Diagram
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#47-data-hazards" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.7 Data Hazards
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.7 Data Hazards">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-forwarding" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Forwarding
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-detecting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Detecting
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Detecting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#detecting-the-need-to-forward" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Detecting the need to forward
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#forwarding-path" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Forwarding Path
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#revised-forwarding-condition" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Revised Forwarding Condition
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-load-use-hazard-detection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Load-Use Hazard Detection
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Load-Use Hazard Detection">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#stall" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stall
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#48-branch-hazards" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.8 Branch Hazards
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.8 Branch Hazards">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-dynamic-branch-prediction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Dynamic Branch Prediction
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Dynamic Branch Prediction">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-bit-predictor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1-Bit Predictor
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-bit-predictor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2-Bit Predictor
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-calculating-the-branch-target" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Calculating the Branch Target
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#49-exceptions-and-interrupts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.9 Exceptions and Interrupts
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.9 Exceptions and Interrupts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-handling-exceptions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Handling Exceptions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Handling Exceptions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#an-alternate-mechanism" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        An Alternate Mechanism
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-handling-actions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Handling Actions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-exceptions-in-a-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Exceptions in a Pipeline
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-multiple-exceptions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Multiple Exceptions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-imprecise-exceptions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Imprecise Exceptions
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#410-instruction-level-parallelism-ilp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.10 Instruction-Level Parallelism (ILP)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.10 Instruction-Level Parallelism (ILP)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-multiple-issue" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Multiple Issue
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Multiple Issue">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#static-multiple-issue" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Static Multiple Issue
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Static Multiple Issue">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#risc-v-with-static-dual-issue" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RISC-V with Static Dual Issue
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#loop-unrolling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Loop Unrolling
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dynamic-multiple-issue" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dynamic Multiple Issue
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Dynamic Multiple Issue">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dynamic-pipeline-scheduling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dynamic Pipeline Scheduling
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#register-renaming" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Register Renaming
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#speculation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Speculation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-do-dynamic-scheduling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why Do Dynamic Scheduling?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-speculation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Speculation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Speculation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#compilerhardware-speculation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Compiler/Hardware Speculation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#speculation-and-exceptions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Speculation and Exceptions
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#414-fallacies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.14 Fallacies
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Chapter5.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chap5.Memory Hierarchy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Chapter6.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chap6.APPENDIX：Storage, Networks and Other Peripherals
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../Math/index.html" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    数学基础
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Develop/index.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    前后端开发
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#41-introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Introduction
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#42-logic-design" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Logic Design
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#43-building-a-datapath" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 Building a Datapath
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.3 Building a Datapath">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-instruction-execution-in-risc-v" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Instruction execution in RISC-V
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-instruction-fetching" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Instruction fetching
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-path-built-using-multiplexer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Path Built using Multiplexer
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#44-a-simple-implementation-scheme" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4 A simple Implementation Scheme
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.4 A simple Implementation Scheme">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-alu-symbol--control" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. ALU symbol &amp; Control
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. ALU symbol &amp; Control">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#first-level" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        First level
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#second-level" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Second level
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-datapath-with-control" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Datapath with Control
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#45-an-overview-of-pipelining" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.5 An overview of pipelining
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.5 An overview of pipelining">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-performance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Performance
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Pipeline
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Pipeline">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pipeline-performance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pipeline performance
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-hazards" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Hazards
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Hazards">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#structure-hazards" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Structure Hazards
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-hazards" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Hazards
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#load-use-data-hazard" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Load-Use Data Hazard
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#control-hazards" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Control Hazards
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Control Hazards">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#stall-on-branch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stall on Branch
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#branch-prediction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Branch Prediction
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#46-risc-v-pipelined-datapath" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.6 RISC-V Pipelined Datapath
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.6 RISC-V Pipelined Datapath">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-pipeline-registers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Pipeline registers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-pipeline-operation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Pipeline Operation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Pipeline Operation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#multi-cycle-pipeline-diagram" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Multi-Cycle Pipeline Diagram
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#single-cycle-pipeline-diagram" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Single-Cycle Pipeline Diagram
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#47-data-hazards" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.7 Data Hazards
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.7 Data Hazards">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-forwarding" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Forwarding
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-detecting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Detecting
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Detecting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#detecting-the-need-to-forward" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Detecting the need to forward
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#forwarding-path" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Forwarding Path
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#revised-forwarding-condition" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Revised Forwarding Condition
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-load-use-hazard-detection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Load-Use Hazard Detection
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Load-Use Hazard Detection">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#stall" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stall
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#48-branch-hazards" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.8 Branch Hazards
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.8 Branch Hazards">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-dynamic-branch-prediction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Dynamic Branch Prediction
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Dynamic Branch Prediction">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-bit-predictor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1-Bit Predictor
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-bit-predictor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2-Bit Predictor
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-calculating-the-branch-target" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Calculating the Branch Target
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#49-exceptions-and-interrupts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.9 Exceptions and Interrupts
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.9 Exceptions and Interrupts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-handling-exceptions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Handling Exceptions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Handling Exceptions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#an-alternate-mechanism" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        An Alternate Mechanism
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-handling-actions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Handling Actions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-exceptions-in-a-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Exceptions in a Pipeline
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-multiple-exceptions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Multiple Exceptions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-imprecise-exceptions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Imprecise Exceptions
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#410-instruction-level-parallelism-ilp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.10 Instruction-Level Parallelism (ILP)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.10 Instruction-Level Parallelism (ILP)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-multiple-issue" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Multiple Issue
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Multiple Issue">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#static-multiple-issue" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Static Multiple Issue
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Static Multiple Issue">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#risc-v-with-static-dual-issue" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RISC-V with Static Dual Issue
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#loop-unrolling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Loop Unrolling
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dynamic-multiple-issue" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dynamic Multiple Issue
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Dynamic Multiple Issue">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dynamic-pipeline-scheduling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dynamic Pipeline Scheduling
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#register-renaming" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Register Renaming
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#speculation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Speculation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-do-dynamic-scheduling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why Do Dynamic Scheduling?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-speculation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Speculation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Speculation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#compilerhardware-speculation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Compiler/Hardware Speculation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#speculation-and-exceptions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Speculation and Exceptions
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#414-fallacies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.14 Fallacies
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+
+  <nav class="md-path" aria-label="导航栏" >
+    <ol class="md-path__list">
+      
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../index.html" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    体系结构
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="index.html" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    计算机组成
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/Fffffx0618/PsyBlog/edit/master/docs/System/CO/Chapter4.md" title="编辑此页" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+    
+      
+    
+    <a href="https://github.com/Fffffx0618/PsyBlog/raw/master/docs/System/CO/Chapter4.md" title="查看本页的源代码" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.2 8.2 0 0 1-1.23-2"/></svg>
+    </a>
+  
+
+
+<h1 id="chap4the-processor">Chap4.The Processor<a class="headerlink" href="#chap4the-processor" title="Permanent link">&para;</a></h1>
+<h2 id="41-introduction">4.1 Introduction<a class="headerlink" href="#41-introduction" title="Permanent link">&para;</a></h2>
+<div class="admonition info an overview of implementation">
+<p class="admonition-title">Info</p>
+<ul>
+<li>Send PC to the code memory.</li>
+<li>Read one or two register.
+<div style="text-align: center"><img src="images/image-61.png" width="90%"></div> </li>
+</ul>
+<p>图中出现的 multiplexor：</p>
+<ul>
+<li>左上角：PC 的来源有两个：PC + 4（靠左的 Add）或者是由指令指定的地址（靠右的 Add）</li>
+<li>中间：写回寄存器的数据也有两个来源：ALU 的运算结果，或来自内存的值</li>
+<li>下面的 ALU：第二个输入也有两个来源：寄存器或立即数</li>
+</ul>
+</div>
+<h2 id="42-logic-design">4.2 Logic Design<a class="headerlink" href="#42-logic-design" title="Permanent link">&para;</a></h2>
+<ul>
+<li>
+<p>Information encoded in binary</p>
+<ul>
+<li>Low voltage = 0, High voltage = 1</li>
+<li>
+<p>One wire per bit</p>
+</li>
+<li>
+<p>Multi-bit data encoded on multi-wire <em>buses</em></p>
+</li>
+</ul>
+</li>
+<li>
+<p>Combinational element</p>
+<ul>
+<li>
+<p>Operate on data</p>
+</li>
+<li>
+<p>Output is a function of input</p>
+</li>
+</ul>
+</li>
+<li>
+<p>State (sequential) elements  </p>
+<ul>
+<li>Store information</li>
+</ul>
+</li>
+</ul>
+<h2 id="43-building-a-datapath">4.3 Building a Datapath<a class="headerlink" href="#43-building-a-datapath" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p><mark>Datapath</mark>：Elements that process data and addresses</p>
+</blockquote>
+<div style="text-align: center"><img src="images/image-62.png" width="95%"></div>
+<p>同类指令的 opcode 是一样的（I 型指令的里逻辑运算、load 指令、jal 不同），具体功能由 Func 决定（因此不把所有操作编到 opcode 内）</p>
+<h3 id="1-instruction-execution-in-risc-v">1. Instruction execution in RISC-V<a class="headerlink" href="#1-instruction-execution-in-risc-v" title="Permanent link">&para;</a></h3>
+<ul>
+<li>
+<p>Fetch</p>
+<ul>
+<li>
+<p>从指令存储器（instruction memory）中取出当前要执行的指令</p>
+</li>
+<li>
+<p>将程序计数器（PC）更新为下一条指令的地址，通常是当前PC + 4</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Instruction decoding &amp; Read Operand</p>
+<ul>
+<li>
+<p>指令被译码成控制信号，用于指导后续各个功能单元的操作</p>
+</li>
+<li>
+<p>读取指令所需的寄存器操作数，判断是否需要使用 these 寄存器的内容</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Executive Control</p>
+<ul>
+<li>控制算术逻辑单元（ALU）执行相应的运算 </li>
+</ul>
+</li>
+<li>
+<p>Memory access（内存访问）</p>
+<ul>
+<li>
+<p>对于需要访问内存的指令（如加载/存储），在此阶段进行内存读写。</p>
+</li>
+<li>
+<p>只有加载（load）和存储（store）指令才会进入这个阶段。其他指令（如R型、I型）不需要访问内存。</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Write results to register（结果写回寄存器）</p>
+<ul>
+<li>
+<p>如果是R型指令（如 add, sub），将ALU计算的结果写入目标寄存器 <code>rd</code></p>
+</li>
+<li>
+<p>如果是I型指令且为加载指令（如 lw），则从内存读取的数据写入 <code>rd</code> 寄存器</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Modify PC for branch instructions</p>
+<ul>
+<li>针对分支指令（如 beq, bne），根据条件判断是否跳转，然后更新PC指向新的目标地址</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-instruction-fetching">2. Instruction fetching<a class="headerlink" href="#2-instruction-fetching" title="Permanent link">&para;</a></h3>
+<div style="text-align: center"><img src="images/image-63.png" width="70%"></div>
+
+<ul>
+<li>
+<p>R-format Instructions</p>
+<ul>
+<li>
+<p>Read 2 register operands</p>
+</li>
+<li>
+<p>Perform arithmetic/logical operation</p>
+</li>
+<li>
+<p>Write register result</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Load/Store Instructions</p>
+<ul>
+<li>
+<p>Read register operands</p>
+</li>
+<li>
+<p>Calculate address using 12-bit offset  </p>
+<ul>
+<li>Use ALU, but sign-extend offset</li>
+</ul>
+</li>
+<li>
+<p>Load: Read memory and update register</p>
+</li>
+<li>
+<p>Store: Write register value to memory</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Branch Instructions</p>
+<ul>
+<li>
+<p>Read 2 register operands</p>
+</li>
+<li>
+<p>Compare operands  </p>
+<ul>
+<li>use ALU, substract and check Zero output</li>
+</ul>
+</li>
+<li>
+<p>Calculate target address</p>
+<ul>
+<li>
+<p>Sign-extend displacement</p>
+</li>
+<li>
+<p>Shift left 1 place (halfword displacement)</p>
+</li>
+<li>
+<p>Add to PC value</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><strong>Composing the Elements 组合元件</strong></p>
+<p>First-cut data path does an instruction in one clock cycle</p>
+<ul>
+<li>
+<p>Each datapath element can only do one function at a time</p>
+</li>
+<li>
+<p>Hence, we need separate instruction and data memories</p>
+</li>
+</ul>
+<p>Use multiplexers where alternate data sources are used for different instructions</p>
+<h3 id="3-path-built-using-multiplexer">3. Path Built using Multiplexer<a class="headerlink" href="#3-path-built-using-multiplexer" title="Permanent link">&para;</a></h3>
+<ul>
+<li>R-type instruction Datapath</li>
+</ul>
+<div style="text-align: center"><img src="images/image-64.png" width="65%"></div>
+
+<ul>
+<li>
+<p>I-type instruction Datapath</p>
+<ul>
+<li>
+<p>For ALU</p>
+</li>
+<li>
+<p>For load</p>
+</li>
+</ul>
+</li>
+</ul>
+<div style="text-align: center"><img src="images/image-65.png" width="65%"></div>
+
+<ul>
+<li>S type Instruction &amp; Data stream</li>
+</ul>
+<div style="text-align: center"><img src="images/image-66.png" width="65%"></div>
+
+<ul>
+<li>SB type Instruction &amp; Data stream</li>
+</ul>
+<div style="text-align: center"><img src="images/image-67.png" width="65%"></div>
+
+<ul>
+<li>Jal/J type Instruction &amp; Data stream</li>
+</ul>
+<div style="text-align: center"><img src="images/image-71.png" width="65%"></div>
+
+<ul>
+<li>R-Type/Load/Store Datapath</li>
+</ul>
+<div style="text-align: center"><img src="images/image-69.png" width="75%"></div>
+
+<ul>
+<li>Full Datapath</li>
+</ul>
+<div style="text-align: center"><img src="images/image-70.png" width="70%"></div>
+
+<h2 id="44-a-simple-implementation-scheme">4.4 A simple Implementation Scheme<a class="headerlink" href="#44-a-simple-implementation-scheme" title="Permanent link">&para;</a></h2>
+<p>Analyze for cause and effect</p>
+<ul>
+<li>
+<p>Information comes from the 32 bits of the instruction</p>
+</li>
+<li>
+<p>Selecting the operations to perform (ALU, read/write, etc.)</p>
+</li>
+<li>
+<p>Controlling the flow of data (multiplexor inputs)</p>
+</li>
+<li>
+<p>ALU's operation based on instruction type and function code</p>
+</li>
+</ul>
+<div style="text-align: center"><img src="images/image-194.png" width="90%"></div>
+
+<p><strong>Building Controller</strong></p>
+<div style="text-align: center"><img src="images/image-73.png" width="75%"></div>
+
+<ul>
+<li>7 个控制信号和一个 4 位的 <code>ALU_operation</code></li>
+</ul>
+<h3 id="1-alu-symbol--control">1. ALU symbol &amp; Control<a class="headerlink" href="#1-alu-symbol--control" title="Permanent link">&para;</a></h3>
+<p>ALU used for</p>
+<ul>
+<li>
+<p>Load/Store: F = add</p>
+</li>
+<li>
+<p>Branch: F = subtract</p>
+</li>
+<li>
+<p>R-type: F depends on opcode</p>
+</li>
+</ul>
+<p><strong>Scheme of Controller 控制器的方案</strong></p>
+<ul>
+<li>因此进行两级解码 2-level decode.</li>
+</ul>
+<div style="text-align: center"><img src="images/image-74.png" width="75%"></div>
+
+<h4 id="first-level">First level<a class="headerlink" href="#first-level" title="Permanent link">&para;</a></h4>
+<ul>
+<li>
+<p>一级解码后，可以决定除了 <code>ALU_opration</code> 以外的控制信号</p>
+</li>
+<li>
+<p>同时我们会解码出 2 位的 <code>ALU_op</code>.</p>
+</li>
+</ul>
+<div style="text-align: center"><img src="images/image-75.png" width="75%"></div>
+
+<h4 id="second-level">Second level<a class="headerlink" href="#second-level" title="Permanent link">&para;</a></h4>
+<ul>
+<li>ALU operation is decided by <strong>2-bit ALU-Op</strong> derived from opcode, and funct7 &amp; funct3 fields of the instruction</li>
+</ul>
+<div style="text-align: center"><img src="images/image-76.png" width="95%"></div>
+
+<h3 id="2-datapath-with-control">2. Datapath with Control<a class="headerlink" href="#2-datapath-with-control" title="Permanent link">&para;</a></h3>
+<div style="text-align: center"><img src="images/image-196.png" width="90%"></div>
+
+<h2 id="45-an-overview-of-pipelining">4.5 An overview of pipelining<a class="headerlink" href="#45-an-overview-of-pipelining" title="Permanent link">&para;</a></h2>
+<h3 id="1-performance">1. Performance<a class="headerlink" href="#1-performance" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Instruction</th>
+<th>Instr fetch</th>
+<th>Register read</th>
+<th>ALU op</th>
+<th>Memory access</th>
+<th>Register write</th>
+<th>Total time</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ld</td>
+<td>200ps</td>
+<td>100 ps</td>
+<td>200ps</td>
+<td>200ps</td>
+<td>100 ps</td>
+<td>800ps</td>
+</tr>
+<tr>
+<td>sd</td>
+<td>200ps</td>
+<td>100 ps</td>
+<td>200ps</td>
+<td>200ps</td>
+<td></td>
+<td>700ps</td>
+</tr>
+<tr>
+<td>R-format</td>
+<td>200ps</td>
+<td>100 ps</td>
+<td>200ps</td>
+<td></td>
+<td>100 ps</td>
+<td>600ps</td>
+</tr>
+<tr>
+<td>beq</td>
+<td>200ps</td>
+<td>100 ps</td>
+<td>200ps</td>
+<td></td>
+<td></td>
+<td>500ps</td>
+</tr>
+</tbody>
+</table>
+<p>Longest delay determines clock period（针对单周期 CPU）</p>
+<ul>
+<li>
+<p>Critical path: <em>load instruction</em> </p>
+</li>
+<li>
+<p><mark>Instruction memory -&gt; register file -&gt; ALU -&gt; data memory -&gt; register file</mark></p>
+</li>
+</ul>
+<h3 id="2-pipeline">2. Pipeline<a class="headerlink" href="#2-pipeline" title="Permanent link">&para;</a></h3>
+<p>每条指令被划分为以下几步：</p>
+<ol>
+<li>IF: Instruction fetch from memory</li>
+<li>ID: Instruction decode &amp; register read </li>
+<li>EX: Execute operation or calculate address </li>
+<li>MEM: Access memory operand </li>
+<li>WB: Write result back to register</li>
+</ol>
+<p>利用流水线，可以有效地提高执行的效率</p>
+<div style="text-align: center"><img src="images/image-88.png" width="80%"></div>
+
+<ul>
+<li>
+<p>CPI is decreased to 1, since one instruction will be issued (or finished) each cycle. </p>
+</li>
+<li>
+<p>During any cycle, one instruction is present in each stage.</p>
+</li>
+<li>
+<p>Ideally, performance is increased <em>five fold</em></p>
+</li>
+</ul>
+<h4 id="pipeline-performance">Pipeline performance<a class="headerlink" href="#pipeline-performance" title="Permanent link">&para;</a></h4>
+<div style="text-align: center"><img src="images/image-89.png" width="70%"></div>
+
+<ul>
+<li>
+<p>流水线 CPU 的时钟周期为最长的操作时间</p>
+</li>
+<li>
+<p>流水线可以提高吞吐率（throughput）但没有改变每条指令的执行时间 (Latency)</p>
+</li>
+<li>
+<p>如果各阶段均匀分布，那么可以得到：</p>
+</li>
+</ul>
+<div class="arithmatex">\[
+\text{Time between instructions}_{\text{pipelined}}=\frac{ \text{Time between instructions}_{\text{nonpipelined }}} {\text{Number of stages}}
+\]</div>
+<h3 id="3-hazards">3. Hazards<a class="headerlink" href="#3-hazards" title="Permanent link">&para;</a></h3>
+<blockquote>
+<p>此处讨论那些阻碍在下一个时针周期开始下一条指令的情况</p>
+</blockquote>
+<h4 id="structure-hazards">Structure Hazards<a class="headerlink" href="#structure-hazards" title="Permanent link">&para;</a></h4>
+<ul>
+<li>
+<p>硬件资源不足或共享导致多个指令在同一周期内竞争使用同一资源，从而引发的冲突</p>
+</li>
+<li>
+<p>为解决 IF 和 MEM 阶段的冲突，使用<strong>独立</strong>的指令存储与数据存储</p>
+</li>
+</ul>
+<h4 id="data-hazards">Data Hazards<a class="headerlink" href="#data-hazards" title="Permanent link">&para;</a></h4>
+<ul>
+<li>An instruction depends on completion of data access by a <strong>previous</strong> instruction</li>
+</ul>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<p><div style="text-align: center"><img src="images/image-90.png" width="80%"></div></p>
+<ul>
+<li>EX 在前半周期写入寄存器</li>
+<li>ID 在后半周期从寄存器中取值</li>
+</ul>
+</div>
+<p><strong>Forwarding (aka Bypassing)</strong></p>
+<p>Use result when it is computed </p>
+<ul>
+<li>
+<p>Don't wait for it to be stored in a register </p>
+</li>
+<li>
+<p>Requires extra connections in the datapath</p>
+</li>
+</ul>
+<div style="text-align: center"><img src="images/image-91.png" width="80%"></div>
+
+<h4 id="load-use-data-hazard">Load-Use Data Hazard<a class="headerlink" href="#load-use-data-hazard" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Can't always avoid stalls by forwarding</li>
+</ul>
+<div style="text-align: center"><img src="images/image-92.png" width="80%"></div>
+
+<ul>
+<li>此处 sub 指令的 EX 必须等待 ld 指令的 MEM 输出对应的数据，才能继续执行</li>
+</ul>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<ul>
+<li>可以通过乱序执行来加快执行
+ <div style="text-align: center"><img src="images/image-93.png" width="80%"></div></li>
+</ul>
+</div>
+<h4 id="control-hazards">Control Hazards<a class="headerlink" href="#control-hazards" title="Permanent link">&para;</a></h4>
+<ul>
+<li>
+<p>Branch determines flow of control </p>
+<ul>
+<li>
+<p>Fetching next instruction depends on branch outcome </p>
+</li>
+<li>
+<p>Pipeline can't always fetch correct instruction </p>
+<ul>
+<li>Still working on ID stage of branch</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h5 id="stall-on-branch">Stall on Branch<a class="headerlink" href="#stall-on-branch" title="Permanent link">&para;</a></h5>
+<ul>
+<li>在 fetch 下一条指令前等待，直到 branch 的结果已经确定</li>
+</ul>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<p><div style="text-align: center"><img src="images/image-94.png" width="80%"></div></p>
+<ul>
+<li>将比较放在 ID 级</li>
+</ul>
+</div>
+<h5 id="branch-prediction">Branch Prediction<a class="headerlink" href="#branch-prediction" title="Permanent link">&para;</a></h5>
+<ul>
+<li>Longer pipelines can't readily determine branch outcome early</li>
+</ul>
+<p><em>Static</em> branch prediction </p>
+<ul>
+<li>Based on typical branch（假设总是命中/不命中）</li>
+</ul>
+<p><em>Dynamic</em> branch prediction </p>
+<ul>
+<li>
+<p>Hardware measures actual branch behavior</p>
+</li>
+<li>
+<p>Assume future behavior will continue the trend（按之前的结果预测）</p>
+</li>
+</ul>
+<h2 id="46-risc-v-pipelined-datapath">4.6 RISC-V Pipelined Datapath<a class="headerlink" href="#46-risc-v-pipelined-datapath" title="Permanent link">&para;</a></h2>
+<p>竞争只会发生在<strong>从右往左</strong>的阶段</p>
+<div style="text-align: center"><img src="images/image-83.png" width="90%"></div>
+
+<h3 id="1-pipeline-registers">1. Pipeline registers<a class="headerlink" href="#1-pipeline-registers" title="Permanent link">&para;</a></h3>
+<p>Need <em>registers</em> between stages </p>
+<ul>
+<li>
+<p>To hold information produced in previous cycle</p>
+</li>
+<li>
+<p>不同运算单元里在执行不同的指令，防止前后两条指令之间发生冲突</p>
+</li>
+</ul>
+<div style="text-align: center"><img src="images/image-84.png" width="90%"></div>
+
+<h3 id="2-pipeline-operation">2. Pipeline Operation<a class="headerlink" href="#2-pipeline-operation" title="Permanent link">&para;</a></h3>
+<p>Cycle-by-cycle flow of instructions through the pipelined datapath </p>
+<ul>
+<li>
+<p>“Single-clock-cycle” pipeline diagram </p>
+<ul>
+<li>
+<p>Shows pipeline usage in a single cycle </p>
+</li>
+<li>
+<p>Highlight resources used</p>
+</li>
+</ul>
+</li>
+<li>
+<p>“multi-clock-cycle” diagram </p>
+<ul>
+<li>Graph of operation over time</li>
+</ul>
+</li>
+</ul>
+<h4 id="multi-cycle-pipeline-diagram">Multi-Cycle Pipeline Diagram<a class="headerlink" href="#multi-cycle-pipeline-diagram" title="Permanent link">&para;</a></h4>
+<ul>
+<li>展示资源占用的格式</li>
+</ul>
+<div style="text-align: center"><img src="images/image-85.png" width="70%"></div>
+
+<ul>
+<li>传统格式</li>
+</ul>
+<div style="text-align: center"><img src="images/image-95.png" width="75%"></div>
+
+<h4 id="single-cycle-pipeline-diagram">Single-Cycle Pipeline Diagram<a class="headerlink" href="#single-cycle-pipeline-diagram" title="Permanent link">&para;</a></h4>
+<ul>
+<li>只显示一个周期内发生的事件</li>
+</ul>
+<div style="text-align: center"><img src="images/image-86.png" width="80%"></div>
+<p>Pipelined Control</p>
+<div style="text-align: center"><img src="images/image-87.png" width="85%"></div>
+
+<h2 id="47-data-hazards">4.7 Data Hazards<a class="headerlink" href="#47-data-hazards" title="Permanent link">&para;</a></h2>
+<p>考虑以下代码：
+ <div class="highlight"><pre><span></span><code><span class="n">sub</span><span class="w"> </span><span class="n">x2</span><span class="p">,</span><span class="w"> </span><span class="n">x1</span><span class="p">,</span><span class="w"> </span><span class="n">x3</span>
+<span class="n">and</span><span class="w"> </span><span class="n">x12</span><span class="p">,</span><span class="w"> </span><span class="n">x2</span><span class="p">,</span><span class="w"> </span><span class="n">x5</span>
+<span class="n">or</span><span class="w">  </span><span class="n">x13</span><span class="p">,</span><span class="w"> </span><span class="n">x6</span><span class="p">,</span><span class="w"> </span><span class="n">x2</span>
+<span class="n">add</span><span class="w"> </span><span class="n">x14</span><span class="p">,</span><span class="w"> </span><span class="n">x2</span><span class="p">,</span><span class="w"> </span><span class="n">x2</span>
+<span class="n">sd</span><span class="w">  </span><span class="n">x15</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">(</span><span class="n">x2</span><span class="p">)</span>
+</code></pre></div></p>
+<p>We can resolve hazards with forwarding</p>
+<ul>
+<li><em>How do we detect when to forward?</em></li>
+</ul>
+<h3 id="1-forwarding">1. Forwarding<a class="headerlink" href="#1-forwarding" title="Permanent link">&para;</a></h3>
+<div style="text-align: center"><img src="images/image-96.png" width="80%"></div>
+
+<ul>
+<li>
+<p>左边两根蓝线的方向是错误的，<code>and</code> 和 <code>or</code> 得到的是之前的 <code>x2</code>（其值为 10）</p>
+</li>
+<li>
+<p>右边的 <code>add</code> 和 <code>sd</code> 指令得到的 <code>x2</code> 是更新过的（其值为 -20）</p>
+</li>
+</ul>
+<h3 id="2-detecting">2. Detecting<a class="headerlink" href="#2-detecting" title="Permanent link">&para;</a></h3>
+<ul>
+<li>
+<p><strong>给流水线寄存器编号</strong><br />
+    ▪ Eg. <code>ID/EX.RegisterRs1</code> 表示位于 ID/EX 流水线寄存器中的 Rs1 所对应的寄存器</p>
+</li>
+<li>
+<p><strong>在 EX 阶段，ALU 操作数的寄存器编号由以下给出</strong><br />
+    ▪ <code>ID/EX.RegisterRs1</code>、<code>ID/EX.RegisterRs2</code></p>
+</li>
+</ul>
+<h4 id="detecting-the-need-to-forward">Detecting the need to forward<a class="headerlink" href="#detecting-the-need-to-forward" title="Permanent link">&para;</a></h4>
+<div class="admonition info data">
+<p class="admonition-title">Info</p>
+<p><strong>当出现以下情况时，存在数据冒险（Data Hazards）</strong></p>
+<ul>
+<li>1a. <code>EX/MEM.RegisterRd = ID/EX.RegisterRs1</code>  </li>
+<li>
+<p>1b. <code>EX/MEM.RegisterRd = ID/EX.RegisterRs2</code>  </p>
+<ul>
+<li>前一条指令（在 EX/MEM 阶段）<strong>即将写入的寄存器</strong>（RegisterRd），正好是当前指令（在 EX 阶段）<strong>第一/二个源操作数</strong>（Rs1/Rs2）所要读的寄存器。</li>
+<li>Eg: <code>add x5, x1, x2</code>，<code>sub x6, x5, x3</code>
+→ 可从前一个指令的 <strong>EX/MEM 流水线寄存器</strong> 进行前推（Forward）</li>
+</ul>
+</li>
+<li>
+<p>2a. <code>MEM/WB.RegisterRd = ID/EX.RegisterRs1</code>  </p>
+</li>
+<li>
+<p>2b. <code>MEM/WB.RegisterRd = ID/EX.RegisterRs2</code></p>
+<ul>
+<li>
+<p>前一条指令（在 MEM/WB 阶段）即将写入的寄存器，等于当前指令的 <strong>Rs1/Rs2</strong></p>
+</li>
+<li>
+<p>Eg: <code>lw x9, 0(x10)</code>，<code>add x11, x9, x12</code>
+→ 可从前一个指令的 <strong>MEM/WB 流水线寄存器</strong> 进行前推（Forward）</p>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="admonition info control">
+<p class="admonition-title">Info</p>
+<p>当前面的指令会<strong>写入寄存器</strong>时才需要前向传递</p>
+<ul>
+<li>
+<p><code>EX/MEM.RegWrite</code>：表示在 EX 到 MEM 期间，该指令是否会写寄存器</p>
+</li>
+<li>
+<p><code>MEM/WB.RegWrite</code>：表示在 MEM 到 WB 期间，该指令是否会写寄存器</p>
+</li>
+<li>
+<p>两个信号中至少一个为真时，才有可能存在可前向传递的数据</p>
+</li>
+</ul>
+<p>当该指令的目标寄存器不是 <code>x0</code> 时才需要前向传递</p>
+<ul>
+<li>
+<p><code>EX/MEM.RegisterRd ≠ 0</code>：表示 EX/MEM 阶段的指令目标寄存器不是 <code>x0</code></p>
+</li>
+<li>
+<p><code>MEM/WB.RegisterRd ≠ 0</code>：表示 MEM/WB 阶段的指令目标寄存器也不是 <code>x0</code></p>
+</li>
+<li>
+<p>这两个条件确保我们只考虑 those 真正写入非零寄存器的操作</p>
+</li>
+</ul>
+</div>
+<h4 id="forwarding-path">Forwarding Path<a class="headerlink" href="#forwarding-path" title="Permanent link">&para;</a></h4>
+<div style="text-align: center"><img src="images/image-97.png" width="60%"></div>
+
+<table>
+<thead>
+<tr>
+<th>Mux control</th>
+<th>Source</th>
+<th>Explanation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ForwardA = 00</td>
+<td>ID/EX</td>
+<td>The first ALU operand comes from the register file.</td>
+</tr>
+<tr>
+<td>ForwardA = 10</td>
+<td>EX/MEM</td>
+<td>The first ALU operand is forwarded from the prior ALU result.</td>
+</tr>
+<tr>
+<td>ForwardA = 01</td>
+<td>MEM/WB</td>
+<td>The first ALU operand is forwarded from data memory or an earlier ALU result.</td>
+</tr>
+<tr>
+<td>ForwardB = 00</td>
+<td>ID/EX</td>
+<td>The second ALU operand comes from the register file.</td>
+</tr>
+<tr>
+<td>ForwardB = 10</td>
+<td>EX/MEM</td>
+<td>The second ALU operand is forwarded from the prior ALU result.</td>
+</tr>
+<tr>
+<td>ForwardB = 01</td>
+<td>MEM/WB</td>
+<td>The second ALU operand is forwarded from data memory or an earlier ALU result.</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition bug double data hazard">
+<p class="admonition-title">Bug</p>
+<p><div style="text-align: center"><img src="images/image-98.png" width="50%"></div></p>
+<ul>
+<li>
+<p>Only fwd if EX hazard condition isn't true</p>
+</li>
+<li>
+<p>只有当 EX 阶段没有发生冒险时，才考虑从 MEM 阶段前向传递</p>
+</li>
+</ul>
+</div>
+<h4 id="revised-forwarding-condition">Revised Forwarding Condition<a class="headerlink" href="#revised-forwarding-condition" title="Permanent link">&para;</a></h4>
+<ul>
+<li>精确判断是否需要从 MEM/WB 阶段进行数据前向传递，避免在存在 <strong>EX 阶段冒险</strong> 时错误地使用 MEM 阶段的数据，从而防止数据冲突或错误。</li>
+</ul>
+<p><strong>MEM hazard</strong>
+<div class="highlight"><pre><span></span><code><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">MEM</span><span class="o">/</span><span class="n">WB</span><span class="p">.</span><span class="n">RegWrite</span><span class="w"> </span>
+<span class="w">    </span><span class="n">and</span><span class="w"> </span><span class="p">(</span><span class="n">MEM</span><span class="o">/</span><span class="n">WB</span><span class="p">.</span><span class="n">RegisterRd</span><span class="w"> </span><span class="err">≠</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<span class="w">    </span><span class="n">and</span><span class="w"> </span><span class="n">not</span><span class="w"> </span><span class="p">(</span><span class="n">EX</span><span class="o">/</span><span class="n">MEM</span><span class="p">.</span><span class="n">RegWrite</span><span class="w"> </span><span class="n">and</span><span class="w"> </span><span class="p">(</span><span class="n">EX</span><span class="o">/</span><span class="n">MEM</span><span class="p">.</span><span class="n">RegisterRd</span><span class="w"> </span><span class="err">≠</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<span class="w">        </span><span class="n">and</span><span class="w"> </span><span class="p">(</span><span class="n">EX</span><span class="o">/</span><span class="n">MEM</span><span class="p">.</span><span class="n">RegisterRd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ID</span><span class="o">/</span><span class="n">EX</span><span class="p">.</span><span class="n">RegisterRs1</span><span class="p">))</span>
+<span class="w">    </span><span class="n">and</span><span class="w"> </span><span class="p">(</span><span class="n">MEM</span><span class="o">/</span><span class="n">WB</span><span class="p">.</span><span class="n">RegisterRd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ID</span><span class="o">/</span><span class="n">EX</span><span class="p">.</span><span class="n">RegisterRs1</span><span class="p">))</span><span class="w"> </span>
+<span class="n">then</span><span class="w"> </span><span class="n">ForwardA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mo">01</span>
+
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">MEM</span><span class="o">/</span><span class="n">WB</span><span class="p">.</span><span class="n">RegWrite</span>
+<span class="w">    </span><span class="n">and</span><span class="w"> </span><span class="p">(</span><span class="n">MEM</span><span class="o">/</span><span class="n">WB</span><span class="p">.</span><span class="n">RegisterRd</span><span class="w"> </span><span class="err">≠</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<span class="w">    </span><span class="n">and</span><span class="w"> </span><span class="n">not</span><span class="p">(</span><span class="n">EX</span><span class="o">/</span><span class="n">MEM</span><span class="p">.</span><span class="n">RegWrite</span><span class="w"> </span><span class="n">and</span><span class="w"> </span><span class="p">(</span><span class="n">EX</span><span class="o">/</span><span class="n">MEM</span><span class="p">.</span><span class="n">RegisterRd</span><span class="w"> </span><span class="err">≠</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<span class="w">        </span><span class="n">and</span><span class="w"> </span><span class="p">(</span><span class="n">EX</span><span class="o">/</span><span class="n">MEM</span><span class="p">.</span><span class="n">RegisterRd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ID</span><span class="o">/</span><span class="n">EX</span><span class="p">.</span><span class="n">RegisterRs2</span><span class="p">))</span>
+<span class="w">    </span><span class="n">and</span><span class="w"> </span><span class="p">(</span><span class="n">MEM</span><span class="o">/</span><span class="n">WB</span><span class="p">.</span><span class="n">RegisterRd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ID</span><span class="o">/</span><span class="n">EX</span><span class="p">.</span><span class="n">RegisterRs2</span><span class="p">))</span><span class="w"> </span>
+<span class="n">then</span><span class="w"> </span><span class="n">ForwardB</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mo">01</span>
+</code></pre></div></p>
+<p><strong>Datapath with Forwarding</strong></p>
+<div style="text-align: center"><img src="images/image-99.png" width="80%"></div>
+
+<h3 id="3-load-use-hazard-detection">3. Load-Use Hazard Detection<a class="headerlink" href="#3-load-use-hazard-detection" title="Permanent link">&para;</a></h3>
+<p>如果在 ld 指令 EX/MEM 时暂停，此时 ld 后面有两条指令需要暂停，其实可以更早地发现这个问题</p>
+<ul>
+<li>在 ID 阶段， ALU 的操作数来自于 <code>IF/ID.RegisterRs1</code>，<code>IF/ID.RegisterRs2</code>
+<strong>Load-use hazard</strong> when:
+<div class="highlight"><pre><span></span><code>ID/EX.MemRead and 
+    ((ID/EX.RegisterRd = IF/ID.RegisterRs1) or 
+     (ID/EX.RegisterRd = IF/ID.RegisterRs2))
+</code></pre></div>
+If detected, <u>stall and insert bubble</u></li>
+</ul>
+<h4 id="stall">Stall<a class="headerlink" href="#stall" title="Permanent link">&para;</a></h4>
+<ul>
+<li>
+<p>使得 ID/EX register 的控制信号为 0</p>
+<ul>
+<li>EX, MEM 和 WB 不进行操作（保持原来的状态）</li>
+</ul>
+</li>
+<li>
+<p>同时阻止 PC, IF/ID 寄存器的更新</p>
+<ul>
+<li>
+<p>这相当于重复进行了一次 decode（下一条将被执行的指令被 fetch 了两次 ）</p>
+</li>
+<li>
+<p>1-cycle 的 stall 让 MEM 有时间去为 ld 指令读取数据</p>
+</li>
+</ul>
+</li>
+</ul>
+<div class="admonition info image">
+<p class="admonition-title">Info</p>
+<ul>
+<li>
+<p>如图，一次 stall 后，Reg 中的数据可以拿来给 <code>or x8, x2, x6</code> 中的 x2 使用</p>
+</li>
+<li>
+<p>在 Reg 处插入一个 bubble
+ <div style="text-align: center"><img src="images/image-100.png" width="80%"></div></p>
+</li>
+<li>
+<p>Datapath with Hazard Detection
+  <div style="text-align: center"><img src="images/image-101.png" width="80%"></div></p>
+</li>
+</ul>
+</div>
+<h2 id="48-branch-hazards">4.8 Branch Hazards<a class="headerlink" href="#48-branch-hazards" title="Permanent link">&para;</a></h2>
+<p><strong>是否跳转</strong>在 ALU 完成计算之后的 <u>MEM 阶段</u> 决定</p>
+<ul>
+<li>如下图，如果发生转跳，需要清除之前的三条指令（此时恰好没有更新 DM 和 Reg，直接清除即可）</li>
+</ul>
+<div style="text-align: center"><img src="images/image-102.png" width="80%"></div>
+
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>把原本在 EX 完成的分支判断提前到 ID 完成</p>
+<ul>
+<li>
+<p>在 ID 阶段已经读出两个寄存器的地址和一个立即数</p>
+</li>
+<li>
+<p>可通过<strong>Target address adder（目标地址加法器）</strong> 或 <strong>Register comparator（寄存器比较器）</strong> 得出结果</p>
+</li>
+</ul>
+<div class="admonition example branch taken">
+<p class="admonition-title">Example</p>
+<p>在 ID 处完成结果的计算
+ <div style="text-align: center"><img src="images/image-103.png" width="90%"></div>
+ 下一个时钟周期在原来 beq 的位置插入一个 bubble（这样只可能多余一条指令）
+ <div style="text-align: center"><img src="images/image-104.png" width="90%"></div></p>
+</div>
+</div>
+<h3 id="1-dynamic-branch-prediction">1. Dynamic Branch Prediction<a class="headerlink" href="#1-dynamic-branch-prediction" title="Permanent link">&para;</a></h3>
+<p>Branch prediction buffer (aka branch history table)</p>
+<ul>
+<li>
+<p>硬件存储结构，通常是一个小的 SRAM 表，用于记录每个分支指令在过去的行为</p>
+<ul>
+<li>
+<p>每个表项对应一个分支指令地址。</p>
+</li>
+<li>
+<p>存储的是该分支最近几次是否被 taken 或 not taken</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>Indexed by recent branch instruction addresses (lower part)</p>
+<ul>
+<li>
+<p>为了节省空间，通常只用分支指令地址的 <strong>低几位</strong> 来作为表的索引
+Stores outcome (taken/not taken)</p>
+</li>
+<li>
+<p>每个表项保存一个状态，比如：</p>
+<ul>
+<li>
+<p>1-bit：表示上一次是 taken 还是 not taken</p>
+</li>
+<li>
+<p>2-bit：更复杂的状态机（如 “strongly taken”, “weakly taken” 等）</p>
+</li>
+</ul>
+</li>
+</ul>
+<div class="admonition info to execute a branch">
+<p class="admonition-title">Info</p>
+<ol>
+<li>
+<p>Check table, expect the same outcome</p>
+</li>
+<li>
+<p>Start fetching from fall-through or target</p>
+</li>
+<li>
+<p>If wrong, flush pipeline and flip prediction</p>
+</li>
+</ol>
+</div>
+<h4 id="1-bit-predictor">1-Bit Predictor<a class="headerlink" href="#1-bit-predictor" title="Permanent link">&para;</a></h4>
+<p>【缺点】对于双层循环，当内层循环要结束时会错两次（每次错误都会修改原有预测）</p>
+<ul>
+<li>
+<p>Mispredict as taken on last iteration of inner loop</p>
+</li>
+<li>
+<p>Then mispredict as not taken on first iteration of inner loop next time around</p>
+</li>
+</ul>
+<div style="text-align: center"><img src="images/image-105.png" width="50%"></div>
+
+<h4 id="2-bit-predictor">2-Bit Predictor<a class="headerlink" href="#2-bit-predictor" title="Permanent link">&para;</a></h4>
+<ul>
+<li>针对 1-bit 做出了改进：只有连续错误两次才会我们的预测</li>
+</ul>
+<div style="text-align: center"><img src="images/image-106.png" width="60%"></div>
+
+<h3 id="2-calculating-the-branch-target">2. Calculating the Branch Target<a class="headerlink" href="#2-calculating-the-branch-target" title="Permanent link">&para;</a></h3>
+<p>Even with predictor, still need to calculate the target address</p>
+<ul>
+<li>
+<p>分支预测器只能预测“是否跳转”，但不能直接提供目标地址</p>
+</li>
+<li>
+<p>1-cycle penalty for a <strong>taken branch</strong></p>
+</li>
+</ul>
+<p><strong>Branch target buffer</strong></p>
+<ul>
+<li>
+<p>Cache of target addresses</p>
+</li>
+<li>
+<p>Indexed by PC when instruction fetched</p>
+<ul>
+<li>
+<p>If hit and instruction is branch predicted taken, can fetch target immediately</p>
+</li>
+<li>
+<p>减少分支延迟，提升流水线效率，对频繁执行的循环或条件跳转非常有效</p>
+</li>
+</ul>
+</li>
+</ul>
+<hr />
+<h2 id="49-exceptions-and-interrupts">4.9 Exceptions and Interrupts<a class="headerlink" href="#49-exceptions-and-interrupts" title="Permanent link">&para;</a></h2>
+<p>“Unexpected” events requiring change in flow of control</p>
+<ul>
+<li>
+<p><mark>Exception 异常</mark></p>
+<ul>
+<li>
+<p>Arises within the CPU</p>
+</li>
+<li>
+<p>e.g., undefined opcode, syscall, hardware malfunction …</p>
+</li>
+</ul>
+</li>
+<li>
+<p><mark>Interrupt 中断</mark></p>
+<ul>
+<li>From an external <strong>I/O controller</strong></li>
+</ul>
+</li>
+</ul>
+<hr />
+<h3 id="1-handling-exceptions">1. Handling Exceptions<a class="headerlink" href="#1-handling-exceptions" title="Permanent link">&para;</a></h3>
+<ul>
+<li>
+<p>Save PC of offending (or interrupted) instruction 存储异常指令的 PC 值</p>
+<ul>
+<li>In RISC-V: Supervisor Exception Program Counter (SEPC)</li>
+</ul>
+</li>
+<li>
+<p>Save indication of the problem</p>
+<ul>
+<li>
+<p>In RISC-V: Supervisor Exception Cause Register (SCAUSE)</p>
+</li>
+<li>
+<p>64 bits, but most bits unused</p>
+</li>
+<li>
+<p><strong>Exception code field</strong>（标识具体的异常类型）: 2 for undefined opcode, 12 for hardware malfunction, …</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Jump to handler</p>
+<ul>
+<li>
+<p>完成上述两步处理后，CPU 会跳转到一个预定义的内存地址，开始执行异常处理代码</p>
+</li>
+<li>
+<p>Assume at <code>0000 0000 1C09 0000hex</code></p>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="an-alternate-mechanism">An Alternate Mechanism<a class="headerlink" href="#an-alternate-mechanism" title="Permanent link">&para;</a></h4>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>传统方式中，所有异常都跳转到同一个固定地址，然后由软件判断类型并分发处理。而这里介绍的是<strong>基于原因直接跳转到对应处理程序</strong>的方式。</p>
+<ul>
+<li>Instructions either <u>Deal with the interrupt</u>, or <u>Jump to real handler</u></li>
+</ul>
+</div>
+<p>Vectored Interrupts</p>
+<ul>
+<li>
+<p>Handler address determined by the cause</p>
+</li>
+<li>
+<p>根据异常或中断的原因（cause），直接确定处理程序的地址</p>
+</li>
+</ul>
+<p>Exception vector address to be added to a vector table base register:</p>
+<ul>
+<li>
+<p>系统有一个<strong>向量表（vector table）</strong>，存放各种异常类型的处理程序入口地址</p>
+</li>
+<li>
+<p>每个异常类型对应一个偏移量（offset），处理器会把该偏移量 <strong>加上一个基地址寄存器（vector table base register）</strong>，得到最终的处理程序地址</p>
+<ul>
+<li>
+<p>Undefined opcode：00 0100 0000two</p>
+</li>
+<li>
+<p>Hardware malfunction：01 1000 0000two</p>
+</li>
+<li>
+<p>…</p>
+</li>
+</ul>
+<h3 id="2-handling-actions">2. Handling Actions<a class="headerlink" href="#2-handling-actions" title="Permanent link">&para;</a></h3>
+</li>
+<li>
+<p>Read cause, and transfer to relevant handler</p>
+</li>
+<li>
+<p>Determine action required</p>
+</li>
+<li>
+<p>If restartable</p>
+<ul>
+<li>
+<p>Take corrective action</p>
+</li>
+<li>
+<p>use SEPC to return to program</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Otherwise</p>
+<ul>
+<li>
+<p>Terminate program</p>
+</li>
+<li>
+<p>Report error using SEPC, SCAUSE, …</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-exceptions-in-a-pipeline">3. Exceptions in a Pipeline<a class="headerlink" href="#3-exceptions-in-a-pipeline" title="Permanent link">&para;</a></h3>
+<blockquote>
+<p>Another form of control hazard</p>
+</blockquote>
+<p>Consider malfunction（硬件故障）on add in EX stage <code>add x1, x2, x1</code>
+处理步骤如下：
+1. Prevent x1 from being clobbered
+2. Complete previous instructions
+3. Flush add and subsequent instructions
+4. Set SEPC and SCAUSE register values</p>
+<pre><code>- 由于异常发生，后续已经取指或译码的指令都是无效的
+</code></pre>
+<ol>
+<li>
+<p>Transfer control to handler</p>
+<ul>
+<li>处理器跳转到预设的异常处理程序入口地址开始执行处理逻辑</li>
+</ul>
+</li>
+</ol>
+<div class="admonition tip pipeline with exceptions">
+<p class="admonition-title">Tip</p>
+<p>Similar to mispredicted branch</p>
+<ul>
+<li>Use much of the same hardware
+ <div style="text-align: center"><img src="images/image-107.png" width="90%"></div></li>
+</ul>
+</div>
+<div class="admonition info properties">
+<p class="admonition-title">Info</p>
+<p>Restartable exceptions</p>
+<ul>
+<li>
+<p>Pipeline can flush the instruction</p>
+</li>
+<li>
+<p>Handler executes, then returns to the instruction</p>
+<ul>
+<li>Refetched and executed from scratch</li>
+</ul>
+</li>
+</ul>
+<p>PC saved in SEPC register</p>
+<ul>
+<li>Identifies causing instruction</li>
+</ul>
+</div>
+<h3 id="4-multiple-exceptions">4. Multiple Exceptions<a class="headerlink" href="#4-multiple-exceptions" title="Permanent link">&para;</a></h3>
+<p>Pipelining overlaps multiple instructions</p>
+<ul>
+<li>流水线重叠了多条指令可能同时触发异常</li>
+</ul>
+<p><strong>Simple approach</strong>: deal with exception from earliest instruction</p>
+<ul>
+<li>
+<p>只处理<strong>最早进入流水线的那条异常指令</strong>（即最早触发异常的指令）</p>
+</li>
+<li>
+<p>忽略后续指令产生的异常，并清空后续所有指令</p>
+</li>
+</ul>
+<p>这样操作可以实现“<strong>精确异常</strong>（precise exceptions）”</p>
+<ul>
+<li>
+<p>所有在异常指令之前的指令都已完成；</p>
+</li>
+<li>
+<p>所有在异常指令之后的指令都被清除；</p>
+</li>
+<li>
+<p>程序状态与异常发生前一致，保证了语义正确性。</p>
+</li>
+</ul>
+<h3 id="5-imprecise-exceptions">5. Imprecise Exceptions<a class="headerlink" href="#5-imprecise-exceptions" title="Permanent link">&para;</a></h3>
+<blockquote>
+<p>当异常发生时，系统不能准确地确定是哪条指令引发了异常，也不能保证所有之前的指令都已正确完成</p>
+</blockquote>
+<ol>
+<li>
+<p>Just stop pipeline and save state</p>
+<ul>
+<li>当检测到异常时，处理器立即<strong>暂停流水线运行</strong>，同时保存当前状态</li>
+</ul>
+</li>
+<li>
+<p>Let the handler work out</p>
+<ul>
+<li>让异常处理程序自行判断</li>
+</ul>
+</li>
+<li>
+<p>Simplifies hardware, but more complex handler software</p>
+</li>
+<li>
+<p>Not feasible for complex multiple-issue out-of-order pipelines</p>
+<ul>
+<li>对于复杂的多发射乱序流水线来说不可行</li>
+</ul>
+</li>
+</ol>
+<hr />
+<h2 id="410-instruction-level-parallelism-ilp">4.10 Instruction-Level Parallelism (ILP)<a class="headerlink" href="#410-instruction-level-parallelism-ilp" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p>Pipelining: executing multiple instructions in parallel</p>
+</blockquote>
+<p>To increase ILP
+- Deeper pipeline</p>
+<pre><code>- 每个阶段的工作量减少 → 单个阶段延迟降低 → 使 clock cycle 减小
+</code></pre>
+<ul>
+<li>
+<p>Multiple issue</p>
+<ul>
+<li>
+<p>Replicate pipeline stages <span class="arithmatex">\(\Rightarrow\)</span> multiple pipelines</p>
+</li>
+<li>
+<p>Start multiple instructions per clock cycle</p>
+</li>
+<li>
+<p>CPI &lt; 1, so use <u>Instructions Per Cycle (IPC)</u></p>
+</li>
+<li>
+<p>E.g., 4GHz 4-way multiple-issue</p>
+</li>
+<li>
+<p>16 BIPS, peak CPI = 0.25, peak IPC = 4</p>
+</li>
+<li>
+<p>But dependencies reduce this in practice</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="1-multiple-issue">1. Multiple Issue<a class="headerlink" href="#1-multiple-issue" title="Permanent link">&para;</a></h3>
+<p><strong>Static multiple issue 静态多发射</strong>
+编译器在程序运行前就决定哪些指令可以并行执行</p>
+<ul>
+<li>
+<p>Compiler groups instructions into "issue packets"
+    编译器分析代码，找出没有数据和控制依赖的指令，并将它们<strong>打包成一组</strong></p>
+<ul>
+<li>
+<p>Group of instructions that can be issued on a single cycle</p>
+</li>
+<li>
+<p>Determined by pipeline resources required</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Compiler detects and avoids hazards</p>
+</li>
+</ul>
+<p><strong>Dynamic multiple issue 动态多发射</strong>
+CPU 在运行时决定哪些指令可以并发执行</p>
+<ul>
+<li>
+<p>CPU examines instruction stream and chooses instructions to issue each cycle</p>
+</li>
+<li>
+<p>Compiler can help by <u>reordering instructions</u></p>
+</li>
+<li>
+<p>CPU resolves hazards using advanced techniques at runtime</p>
+</li>
+</ul>
+<h4 id="static-multiple-issue">Static Multiple Issue<a class="headerlink" href="#static-multiple-issue" title="Permanent link">&para;</a></h4>
+<p>Compiler groups instructions into <mark>“issue packets”</mark></p>
+<ul>
+<li>
+<p>Group of instructions that can be issued on a single cycle</p>
+</li>
+<li>
+<p>Determined by pipeline resources required</p>
+</li>
+</ul>
+<p>Think of an issue packet as a very long instruction</p>
+<ul>
+<li>
+<p>Specifies multiple concurrent operations</p>
+</li>
+<li>
+<p><span class="arithmatex">\(\Rightarrow\)</span> Very Long Instruction Word (VLIW)</p>
+</li>
+</ul>
+<p>Compiler must remove some/all hazards</p>
+<ul>
+<li>
+<p>Reorder instructions into issue packets</p>
+</li>
+<li>
+<p>No dependencies with a packet</p>
+</li>
+<li>
+<p>Possibly some dependencies between packets</p>
+<ul>
+<li>Varies between ISAs; compiler must know!</li>
+</ul>
+</li>
+<li>
+<p>Pad with nop if necessary</p>
+</li>
+</ul>
+<h5 id="risc-v-with-static-dual-issue">RISC-V with Static Dual Issue<a class="headerlink" href="#risc-v-with-static-dual-issue" title="Permanent link">&para;</a></h5>
+<div class="admonition example risc-v with static dual issue">
+<p class="admonition-title">Example</p>
+<p><strong>Two-issue packets</strong> include：</p>
+<ul>
+<li>
+<p>One <u>ALU/branch instruction</u> and <u>One load/store instruction</u></p>
+</li>
+<li>
+<p>64-bit aligned</p>
+<ul>
+<li>
+<p>ALU/branch, then load/store</p>
+</li>
+<li>
+<p>Pad an unused instruction with nop 
+(如果某处没有 load/store 指令，则用 nop（空操作）填充，保持结构完整)
+    <div style="text-align: center"><img src="images/image-108.png" width="90%"></div></p>
+</li>
+</ul>
+</li>
+</ul>
+<p><strong>Pipeline</strong>
+ <div style="text-align: center"><img src="images/image-109.png" width="75%"></div></p>
+<p><strong>Hazards in the Dual-Issue RISC-V</strong></p>
+<ol>
+<li>
+<ul>
+<li>Forwarding avoided stalls with single-issue</li>
+</ul>
+<p>EX data hazard</p>
+<ul>
+<li>
+<p>Now can't use ALU result in load/store in same packet</p>
+<ul>
+<li>
+<p><code>add x10, x0, x1   ld x2, 0(x10)</code></p>
+</li>
+<li>
+<p>Split into two packets, effectively a stall</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Load-use hazard</p>
+<ul>
+<li>Still one cycle use latency, but now two instructions</li>
+</ul>
+</li>
+<li>
+<p>More aggressive scheduling required</p>
+<p>!!! example
+    Schedule this for dual-issue RISC-V
+    <div style="text-align: center"><img src="images/image-110.png" width="80%"></div></p>
+</li>
+</ol>
+</div>
+<h5 id="loop-unrolling">Loop Unrolling<a class="headerlink" href="#loop-unrolling" title="Permanent link">&para;</a></h5>
+<blockquote>
+<p><strong>循环展开</strong> 是指将循环体中的代码复制多次，从而减少循环控制的开销，并暴露出更多的并行性，使处理器能够更高效地执行</p>
+</blockquote>
+<ul>
+<li>
+<p>Replicate loop body to expose more parallelism</p>
+<ul>
+<li>Reduces loop-control overhead</li>
+</ul>
+</li>
+<li>
+<p>Use different registers per replication</p>
+<ul>
+<li>
+<p>Called “register renaming” </p>
+</li>
+<li>
+<p>Avoid loop-carried “anti-dependencies” </p>
+<ul>
+<li>
+<p><strong>反依赖</strong> 是一种<strong>写后读（Write-after-Read, WAR）</strong> 的依赖关系</p>
+</li>
+<li>
+<p>Store followed by a load of the same register </p>
+</li>
+<li>
+<p>Aka “name dependence” </p>
+<ul>
+<li>Reuse of a register name</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<div style="text-align: center"><img src="images/image-111.png" width="80%"></div>
+
+<h4 id="dynamic-multiple-issue">Dynamic Multiple Issue<a class="headerlink" href="#dynamic-multiple-issue" title="Permanent link">&para;</a></h4>
+<p>“Superscalar” processors（一个时钟周期内执行多条指令的处理器）</p>
+<ul>
+<li>
+<p>CPU decides whether to issue 0, 1, 2, … each cycle </p>
+<ul>
+<li>Avoiding structural and data hazards </li>
+</ul>
+</li>
+<li>
+<p>Avoids the need for compiler scheduling </p>
+<ul>
+<li>Though it may still help, but <strong>Code semantics（代码语义</strong>）is ensured by the CPU</li>
+</ul>
+</li>
+</ul>
+<h5 id="dynamic-pipeline-scheduling">Dynamic Pipeline Scheduling<a class="headerlink" href="#dynamic-pipeline-scheduling" title="Permanent link">&para;</a></h5>
+<ul>
+<li>
+<p>Allow the CPU to execute instructions out of order to avoid stalls</p>
+<ul>
+<li>
+<p><strong>执行阶段可乱序</strong>：只要没有数据依赖，CPU 可以提前执行后面的指令</p>
+</li>
+<li>
+<p><strong>提交阶段必须按序</strong>：最终结果写回寄存器时，必须按照原始程序顺序进行（in-order commit），确保程序语义不变</p>
+</li>
+</ul>
+</li>
+</ul>
+<div style="text-align: center"><img src="images/image-113.png" width="80%"></div>
+
+<h5 id="register-renaming">Register Renaming<a class="headerlink" href="#register-renaming" title="Permanent link">&para;</a></h5>
+<ul>
+<li>
+<p>Reservation stations and reorder buffer effectively provide register renaming </p>
+</li>
+<li>
+<p>On instruction issue to reservation station </p>
+<ul>
+<li>
+<p>If operand is available in register file or reorder buffer </p>
+</li>
+<li>
+<p>Copied to reservation station </p>
+</li>
+<li>
+<p>No longer required in the register; can be overwritten </p>
+</li>
+</ul>
+</li>
+<li>
+<p>If operand is not yet available </p>
+<ul>
+<li>
+<p>It will be provided to the reservation station by a function unit </p>
+</li>
+<li>
+<p>Register update may not be required</p>
+</li>
+</ul>
+</li>
+</ul>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<div class="highlight"><pre><span></span><code><span class="nf">add</span><span class="w"> </span><span class="nv">x1</span><span class="p">,</span><span class="w"> </span><span class="nv">x2</span><span class="p">,</span><span class="w"> </span><span class="nv">x3</span>
+</code></pre></div>
+<ul>
+<li>
+<p>若 <code>x2</code> 和 <code>x3</code> 已经在寄存器中，就直接将值拷贝到保留站</p>
+</li>
+<li>
+<p>此时原寄存器 <code>x2</code>, <code>x3</code> 不再需要保留这些值，可以用于后续指令
+ <div class="highlight"><pre><span></span><code><span class="nf">ld</span><span class="w"> </span><span class="nv">x1</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">(</span><span class="nv">x2</span><span class="p">)</span><span class="w"> </span><span class="c1"># 加载数据到 x1 </span>
+<span class="nf">add</span><span class="w"> </span><span class="nv">x3</span><span class="p">,</span><span class="w"> </span><span class="nv">x1</span><span class="p">,</span><span class="w"> </span><span class="nv">x4</span><span class="w"> </span><span class="c1"># 等待 x1 的值</span>
+</code></pre></div></p>
+</li>
+<li>
+<p><code>add</code> 发射时，<code>x1</code> 尚未就绪；保留站标记 <code>x1</code> 为“待定”；</p>
+</li>
+<li>
+<p>当 <code>ld</code> 完成后，结果会直接传给 <code>add</code> 的保留站；</p>
+</li>
+<li>
+<p>不需要先写回寄存器 <code>x1</code>，然后让 <code>add</code> 再读取 —— 这就是<strong>数据前推（forwarding）</strong> 和<strong>寄存器重命名</strong>结合的效果。</p>
+</li>
+</ul>
+</div>
+<h5 id="speculation">Speculation<a class="headerlink" href="#speculation" title="Permanent link">&para;</a></h5>
+<ul>
+<li>
+<p>Predict branch and continue issuing </p>
+<ul>
+<li>Don't commit until branch outcome <strong>determined</strong> </li>
+</ul>
+</li>
+<li>
+<p>Load speculation </p>
+<ul>
+<li>
+<p>Avoid load and cache miss delay 
+    内存访问可能需要几十甚至上百个时钟周期，CPU 在等待期间会空闲。因此，可以尝试“提前加载”数据。</p>
+</li>
+<li>
+<p>Predict the effective address </p>
+</li>
+<li>
+<p>Predict loaded value </p>
+</li>
+<li>
+<p>Load before completing outstanding stores </p>
+</li>
+<li>
+<p>Bypass stored values to load unit </p>
+</li>
+<li>
+<p>Don't commit load until speculation <strong>cleared</strong></p>
+</li>
+</ul>
+</li>
+</ul>
+<h5 id="why-do-dynamic-scheduling">Why Do Dynamic Scheduling?<a class="headerlink" href="#why-do-dynamic-scheduling" title="Permanent link">&para;</a></h5>
+<p>选择动态调度而不是让编辑器调度的原因：</p>
+<ul>
+<li>
+<p>Not all stalls are predicable n </p>
+<ul>
+<li>e.g., cache misses </li>
+</ul>
+</li>
+<li>
+<p>Can't always schedule around branches </p>
+<ul>
+<li>Branch outcome is dynamically determined </li>
+</ul>
+</li>
+<li>
+<p>Different implementations of an ISA have different latencies and hazards</p>
+</li>
+</ul>
+<h3 id="2-speculation">2. Speculation<a class="headerlink" href="#2-speculation" title="Permanent link">&para;</a></h3>
+<p>“Guess” what to do with an instruction</p>
+<ul>
+<li>
+<p>Start operation as soon as possible</p>
+</li>
+<li>
+<p>Check whether guess was right</p>
+<ul>
+<li>
+<p>If so, complete the operation</p>
+</li>
+<li>
+<p>If not, roll-back and do the right thing
+Common to static and dynamic multiple issue</p>
+</li>
+</ul>
+</li>
+</ul>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<ul>
+<li>
+<p>Speculate on <strong>branch outcome</strong></p>
+<ul>
+<li>Roll back if path taken is different</li>
+</ul>
+</li>
+<li>
+<p>Speculate on <strong>load</strong></p>
+<ul>
+<li>Roll back if location is updated</li>
+</ul>
+</li>
+</ul>
+</div>
+<h4 id="compilerhardware-speculation">Compiler/Hardware Speculation<a class="headerlink" href="#compilerhardware-speculation" title="Permanent link">&para;</a></h4>
+<p>Compiler can reorder instructions
+<strong>静态推测</strong>的一种形式，由编译器在程序运行前进行优化</p>
+<ul>
+<li>
+<p>e.g., move load before branch</p>
+</li>
+<li>
+<p>Can include “fix-up” instructions to recover from incorrect guess</p>
+</li>
+</ul>
+<p>Hardware can look ahead for instructions to execute
+<strong>动态推测</strong>的一种形式，CPU 在运行时自主决策</p>
+<ul>
+<li>
+<p>Buffer results until it determines they are actually needed</p>
+<ul>
+<li>当处理器推测执行某条指令时，将结果<strong>暂存到缓冲区</strong>中</li>
+</ul>
+</li>
+<li>
+<p>Flush buffers on incorrect speculation</p>
+</li>
+</ul>
+<h4 id="speculation-and-exceptions">Speculation and Exceptions<a class="headerlink" href="#speculation-and-exceptions" title="Permanent link">&para;</a></h4>
+<p>当一条被推测执行的指令触发了异常时，系统该如何处理？</p>
+<ul>
+<li>
+<p>e.g., speculative load before null-pointer check
+<div class="highlight"><pre><span></span><code><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ptr</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">*</span><span class="n">ptr</span><span class="p">;</span><span class="w"> </span><span class="c1">// 此处可能被推测执行 </span>
+<span class="p">}</span>
+</code></pre></div></p>
+</li>
+<li>
+<p>处理器可能<strong>在 <code>ptr != NULL</code> 判断完成前</strong>，就提前执行 <code>*ptr</code> 操作</p>
+</li>
+<li>
+<p>如果 <code>ptr</code> 为 <code>NULL</code>，那么这个加载就会导致 <strong>段错误</strong> 或 <strong>非法内存访问异常</strong></p>
+</li>
+</ul>
+<p>Static speculation</p>
+<ul>
+<li>
+<p>Can add ISA support for deferring exceptions</p>
+</li>
+<li>
+<p>允许某些指令在推测执行时产生异常，但不立即中断程序，而是将异常“挂起”（deferred），等到确定该指令确实需要执行时再决定是否抛出</p>
+</li>
+</ul>
+<p>Dynamic speculation</p>
+<ul>
+<li>Can <u>buffer exceptions</u> until instruction completion (which may not occur)</li>
+</ul>
+<hr />
+<h2 id="414-fallacies">4.14 Fallacies<a class="headerlink" href="#414-fallacies" title="Permanent link">&para;</a></h2>
+<div class="admonition bug fallacies">
+<p class="admonition-title">Bug</p>
+<ul>
+<li>
+<p><del>流水线很简单</del></p>
+<ul>
+<li>大致思路很简单（洗衣服的那个类比），但细节上的理解就困难了（比如处理各类冒险问题等）</li>
+</ul>
+</li>
+<li>
+<p>流水线思想的实现与工艺无关</p>
+<ul>
+<li>
+<p>实际上，更多的晶体管将会带来更高级的工艺</p>
+</li>
+<li>
+<p>流水线相关的 ISA 设计需要考虑工艺的发展趋势</p>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="admonition bug pitfalls">
+<p class="admonition-title">Bug</p>
+<ul>
+<li>
+<p>不良的 ISA 设计将会对流水线运行产生不利影响</p>
+</li>
+<li>
+<p>复杂的指令集、复杂的寻址模式、延迟分支都会影响流水线的运行效率</p>
+</li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="页脚" >
+        
+          
+          <a href="Chapter3.html" class="md-footer__link md-footer__link--prev" aria-label="上一页: Chap3.Arithmetic for Computer">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256l137.3-137.4c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              <div class="md-ellipsis">
+                Chap3.Arithmetic for Computer
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="Chapter5.html" class="md-footer__link md-footer__link--next" aria-label="下一页: Chap5.Memory Hierarchy">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              <div class="md-ellipsis">
+                Chap5.Memory Hierarchy
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M247.1 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L179.2 256 41.9 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["header.autohide", "content.math", "content.action.edit", "content.action.view", "content.code.copy", "content.code.annotate", "content.tooltips", "navigation.footer", "navigation.indexes", "navigation.path", "navigation.prune", "navigation.tabs", "navigation.tabs.sticky", "navigation.top", "navigation.tracking", "search.share", "search.suggest", "search.highlight", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+        <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+      
+    
+  </body>
+</html>

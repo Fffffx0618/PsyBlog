@@ -1,0 +1,1873 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="可达鸭的笔记本，记录了 ZJU-CS 的一些课程笔记。">
+      
+      
+        <meta name="author" content="Fffffx">
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>登录与鉴权 - Fffffx's Note</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+  
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+  
+  <style>:root{--md-admonition-icon--note:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M1%207.775V2.75C1%201.784%201.784%201%202.75%201h5.025c.464%200%20.91.184%201.238.513l6.25%206.25a1.75%201.75%200%200%201%200%202.474l-5.026%205.026a1.75%201.75%200%200%201-2.474%200l-6.25-6.25A1.75%201.75%200%200%201%201%207.775m1.5%200c0%20.066.026.13.073.177l6.25%206.25a.25.25%200%200%200%20.354%200l5.025-5.025a.25.25%200%200%200%200-.354l-6.25-6.25a.25.25%200%200%200-.177-.073H2.75a.25.25%200%200%200-.25.25ZM6%205a1%201%200%201%201%200%202%201%201%200%200%201%200-2%22/%3E%3C/svg%3E');--md-admonition-icon--abstract:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M2.5%201.75v11.5c0%20.138.112.25.25.25h3.17a.75.75%200%200%201%200%201.5H2.75A1.75%201.75%200%200%201%201%2013.25V1.75C1%20.784%201.784%200%202.75%200h8.5C12.216%200%2013%20.784%2013%201.75v7.736a.75.75%200%200%201-1.5%200V1.75a.25.25%200%200%200-.25-.25h-8.5a.25.25%200%200%200-.25.25m13.274%209.537zl-4.557%204.45a.75.75%200%200%201-1.055-.008l-1.943-1.95a.75.75%200%200%201%201.062-1.058l1.419%201.425%204.026-3.932a.75.75%200%201%201%201.048%201.074M4.75%204h4.5a.75.75%200%200%201%200%201.5h-4.5a.75.75%200%200%201%200-1.5M4%207.75A.75.75%200%200%201%204.75%207h2a.75.75%200%200%201%200%201.5h-2A.75.75%200%200%201%204%207.75%22/%3E%3C/svg%3E');--md-admonition-icon--info:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M0%208a8%208%200%201%201%2016%200A8%208%200%200%201%200%208m8-6.5a6.5%206.5%200%201%200%200%2013%206.5%206.5%200%200%200%200-13M6.5%207.75A.75.75%200%200%201%207.25%207h1a.75.75%200%200%201%20.75.75v2.75h.25a.75.75%200%200%201%200%201.5h-2a.75.75%200%200%201%200-1.5h.25v-2h-.25a.75.75%200%200%201-.75-.75M8%206a1%201%200%201%201%200-2%201%201%200%200%201%200%202%22/%3E%3C/svg%3E');--md-admonition-icon--tip:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M3.499.75a.75.75%200%200%201%201.5%200v.996C5.9%202.903%206.793%203.65%207.662%204.376l.24.202c-.036-.694.055-1.422.426-2.163C9.1.873%2010.794-.045%2012.622.26%2014.408.558%2016%201.94%2016%204.25c0%201.278-.954%202.575-2.44%202.734l.146.508.065.22c.203.701.412%201.455.476%202.226.142%201.707-.4%203.03-1.487%203.898C11.714%2014.671%2010.27%2015%208.75%2015h-6a.75.75%200%200%201%200-1.5h1.376a4.5%204.5%200%200%201-.563-1.191%203.84%203.84%200%200%201-.05-2.063%204.65%204.65%200%200%201-2.025-.293.75.75%200%200%201%20.525-1.406c1.357.507%202.376-.006%202.698-.318l.009-.01a.747.747%200%200%201%201.06%200%20.75.75%200%200%201-.012%201.074c-.912.92-.992%201.835-.768%202.586.221.74.745%201.337%201.196%201.621H8.75c1.343%200%202.398-.296%203.074-.836.635-.507%201.036-1.31.928-2.602-.05-.603-.216-1.224-.422-1.93l-.064-.221c-.12-.407-.246-.84-.353-1.29a2.4%202.4%200%200%201-.507-.441%203.1%203.1%200%200%201-.633-1.248.75.75%200%200%201%201.455-.364c.046.185.144.436.31.627.146.168.353.305.712.305.738%200%201.25-.615%201.25-1.25%200-1.47-.95-2.315-2.123-2.51-1.172-.196-2.227.387-2.706%201.345-.46.92-.27%201.774.019%203.062l.042.19.01.05c.348.443.666.949.94%201.553a.75.75%200%201%201-1.365.62c-.553-1.217-1.32-1.94-2.3-2.768L6.7%205.527c-.814-.68-1.75-1.462-2.692-2.619a3.7%203.7%200%200%200-1.023.88c-.406.495-.663%201.036-.722%201.508.116.122.306.21.591.239.388.038.797-.06%201.032-.19a.75.75%200%200%201%20.728%201.31c-.515.287-1.23.439-1.906.373-.682-.067-1.473-.38-1.879-1.193L.75%205.677V5.5c0-.984.48-1.94%201.077-2.664.46-.559%201.05-1.055%201.673-1.353z%22/%3E%3C/svg%3E');--md-admonition-icon--success:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M13.78%204.22a.75.75%200%200%201%200%201.06l-7.25%207.25a.75.75%200%200%201-1.06%200L2.22%209.28a.75.75%200%200%201%20.018-1.042.75.75%200%200%201%201.042-.018L6%2010.94l6.72-6.72a.75.75%200%200%201%201.06%200%22/%3E%3C/svg%3E');--md-admonition-icon--question:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M0%208a8%208%200%201%201%2016%200A8%208%200%200%201%200%208m8-6.5a6.5%206.5%200%201%200%200%2013%206.5%206.5%200%200%200%200-13M6.92%206.085h.001a.749.749%200%201%201-1.342-.67c.169-.339.436-.701.849-.977C6.845%204.16%207.369%204%208%204a2.76%202.76%200%200%201%201.637.525c.503.377.863.965.863%201.725%200%20.448-.115.83-.329%201.15-.205.307-.47.513-.692.662-.109.072-.22.138-.313.195l-.006.004a6%206%200%200%200-.26.16%201%201%200%200%200-.276.245.75.75%200%200%201-1.248-.832c.184-.264.42-.489.692-.661q.154-.1.313-.195l.007-.004c.1-.061.182-.11.258-.161a1%201%200%200%200%20.277-.245C8.96%206.514%209%206.427%209%206.25a.61.61%200%200%200-.262-.525A1.27%201.27%200%200%200%208%205.5c-.369%200-.595.09-.74.187a1%201%200%200%200-.34.398M9%2011a1%201%200%201%201-2%200%201%201%200%200%201%202%200%22/%3E%3C/svg%3E');--md-admonition-icon--warning:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M6.457%201.047c.659-1.234%202.427-1.234%203.086%200l6.082%2011.378A1.75%201.75%200%200%201%2014.082%2015H1.918a1.75%201.75%200%200%201-1.543-2.575Zm1.763.707a.25.25%200%200%200-.44%200L1.698%2013.132a.25.25%200%200%200%20.22.368h12.164a.25.25%200%200%200%20.22-.368Zm.53%203.996v2.5a.75.75%200%200%201-1.5%200v-2.5a.75.75%200%200%201%201.5%200M9%2011a1%201%200%201%201-2%200%201%201%200%200%201%202%200%22/%3E%3C/svg%3E');--md-admonition-icon--failure:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M2.344%202.343za8%208%200%200%201%2011.314%2011.314A8.002%208.002%200%200%201%20.234%2010.089a8%208%200%200%201%202.11-7.746m1.06%2010.253a6.5%206.5%200%201%200%209.108-9.275%206.5%206.5%200%200%200-9.108%209.275M6.03%204.97%208%206.94l1.97-1.97a.749.749%200%200%201%201.275.326.75.75%200%200%201-.215.734L9.06%208l1.97%201.97a.749.749%200%200%201-.326%201.275.75.75%200%200%201-.734-.215L8%209.06l-1.97%201.97a.749.749%200%200%201-1.275-.326.75.75%200%200%201%20.215-.734L6.94%208%204.97%206.03a.75.75%200%200%201%20.018-1.042.75.75%200%200%201%201.042-.018%22/%3E%3C/svg%3E');--md-admonition-icon--danger:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M9.504.43a1.516%201.516%200%200%201%202.437%201.713L10.415%205.5h2.123c1.57%200%202.346%201.909%201.22%203.004l-7.34%207.142a1.25%201.25%200%200%201-.871.354h-.302a1.25%201.25%200%200%201-1.157-1.723L5.633%2010.5H3.462c-1.57%200-2.346-1.909-1.22-3.004zm1.047%201.074L3.286%208.571A.25.25%200%200%200%203.462%209H6.75a.75.75%200%200%201%20.694%201.034l-1.713%204.188%206.982-6.793A.25.25%200%200%200%2012.538%207H9.25a.75.75%200%200%201-.683-1.06l2.008-4.418.003-.006-.004-.009-.006-.006-.008-.001q-.005%200-.009.004%22/%3E%3C/svg%3E');--md-admonition-icon--bug:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M4.72.22a.75.75%200%200%201%201.06%200l1%20.999a3.5%203.5%200%200%201%202.441%200l.999-1a.748.748%200%200%201%201.265.332.75.75%200%200%201-.205.729l-.775.776c.616.63.995%201.493.995%202.444v.327q0%20.15-.025.292c.408.14.764.392%201.029.722l1.968-.787a.75.75%200%200%201%20.556%201.392L13%207.258V9h2.25a.75.75%200%200%201%200%201.5H13v.5q-.002.615-.141%201.186l2.17.868a.75.75%200%200%201-.557%201.392l-2.184-.873A5%205%200%200%201%208%2016a5%205%200%200%201-4.288-2.427l-2.183.873a.75.75%200%200%201-.558-1.392l2.17-.868A5%205%200%200%201%203%2011v-.5H.75a.75.75%200%200%201%200-1.5H3V7.258L.971%206.446a.75.75%200%200%201%20.558-1.392l1.967.787c.265-.33.62-.583%201.03-.722a1.7%201.7%200%200%201-.026-.292V4.5c0-.951.38-1.814.995-2.444L4.72%201.28a.75.75%200%200%201%200-1.06m.53%206.28a.75.75%200%200%200-.75.75V11a3.5%203.5%200%201%200%207%200V7.25a.75.75%200%200%200-.75-.75ZM6.173%205h3.654A.17.17%200%200%200%2010%204.827V4.5a2%202%200%201%200-4%200v.327c0%20.096.077.173.173.173%22/%3E%3C/svg%3E');--md-admonition-icon--example:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M5%205.782V2.5h-.25a.75.75%200%200%201%200-1.5h6.5a.75.75%200%200%201%200%201.5H11v3.282l3.666%205.76C15.619%2013.04%2014.543%2015%2012.767%2015H3.233c-1.776%200-2.852-1.96-1.899-3.458Zm-2.4%206.565a.75.75%200%200%200%20.633%201.153h9.534a.75.75%200%200%200%20.633-1.153L12.225%2010.5h-8.45ZM9.5%202.5h-3V6c0%20.143-.04.283-.117.403L4.73%209h6.54L9.617%206.403A.75.75%200%200%201%209.5%206Z%22/%3E%3C/svg%3E');--md-admonition-icon--quote:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M1.75%202.5h10.5a.75.75%200%200%201%200%201.5H1.75a.75.75%200%200%201%200-1.5m4%205h8.5a.75.75%200%200%201%200%201.5h-8.5a.75.75%200%200%201%200-1.5m0%205h8.5a.75.75%200%200%201%200%201.5h-8.5a.75.75%200%200%201%200-1.5M2.5%207.75v6a.75.75%200%200%201-1.5%200v-6a.75.75%200%200%201%201.5%200%22/%3E%3C/svg%3E');}</style>
+
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=LXGW+WenKai+Screen,+Microsoft+YaHei,+sans-serif:300,300i,400,400i,700,700i%7CJetBrains+Mono,+Sarasa+Mono+SC,+Consolas,+monospace:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"LXGW WenKai Screen, Microsoft YaHei, sans-serif";--md-code-font:"JetBrains Mono, Sarasa Mono SC, Consolas, monospace"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="https://fonts.loli.net/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap">
+    
+      <link rel="stylesheet" href="https://gcore.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.1.0/style.css">
+    
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap">
+    
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sarasa-gothic@0.43.0/css/sarasa-mono-sc.css">
+    
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/one-dark.min.css">
+    
+      <link rel="stylesheet" href="../stylesheets/blueTopaz.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue-grey" data-md-color-accent="blue-grey">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#登录与鉴权" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href=".." title="Fffffx&#39;s Note" class="md-header__button md-logo" aria-label="Fffffx's Note" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m19.07 14.88 2.05 2.05L15.06 23H13v-2.06zm1.97-1.75c.14 0 .27.06.38.17l1.28 1.28c.22.21.22.56 0 .77l-1 1-2.05-2.05 1-1c.11-.11.25-.17.39-.17M17 4v6l-2-2-2 2V4H9v16h2v2H7c-1.05 0-2-.95-2-2v-1H3v-2h2v-4H3v-2h2V7H3V5h2V4a2 2 0 0 1 2-2h12c1.05 0 2 .95 2 2v6l-2 2V4zM5 5v2h2V5zm0 6v2h2v-2zm0 6v2h2v-2z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Fffffx's Note
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              登录与鉴权
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="blue-grey" data-md-color-accent="blue-grey"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4M7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="blue-grey" data-md-color-accent="teal"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256l137.3-137.4c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="分享" aria-label="分享" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Fffffx0618/PsyBlog" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Fffffx
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  首页
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../blog/index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  我的Blog
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../Language/index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  编程语言
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../Algorithm/index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  程序算法
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../System/index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  体系结构
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../Math/index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  数学基础
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="index.md" class="md-tabs__link">
+        
+  
+  
+    
+  
+  前后端开发
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Fffffx&#39;s Note" class="md-nav__button md-logo" aria-label="Fffffx's Note" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m19.07 14.88 2.05 2.05L15.06 23H13v-2.06zm1.97-1.75c.14 0 .27.06.38.17l1.28 1.28c.22.21.22.56 0 .77l-1 1-2.05-2.05 1-1c.11-.11.25-.17.39-.17M17 4v6l-2-2-2 2V4H9v16h2v2H7c-1.05 0-2-.95-2-2v-1H3v-2h2v-4H3v-2h2V7H3V5h2V4a2 2 0 0 1 2-2h12c1.05 0 2 .95 2 2v6l-2 2V4zM5 5v2h2V5zm0 6v2h2v-2zm0 6v2h2v-2z"/></svg>
+
+    </a>
+    Fffffx's Note
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Fffffx0618/PsyBlog" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Fffffx
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../index.html" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    首页
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../blog/index.html" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    我的Blog
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../Language/index.html" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    编程语言
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../Algorithm/index.html" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    程序算法
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../System/index.html" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    体系结构
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../Math/index.html" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    数学基础
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="index.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    前后端开发
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-原始登录流程-strawman-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 原始登录流程 (Strawman Example)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. 原始登录流程 (Strawman Example)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#流程" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        流程
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#问题" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        问题
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-cookie" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Cookie
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Cookie">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#原理" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        原理
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#属性" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        属性
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-session" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Session
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-cookie的问题" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Cookie的问题
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-token" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Token
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Token">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-为什么需要token" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 为什么需要Token？
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-jwt-json-web-token-结构" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. JWT (JSON Web Token) 结构：
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. JWT (JSON Web Token) 结构：">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#header-头部" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Header (头部)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#payload-载荷" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Payload (载荷)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#signature-签名" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Signature (签名)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#jwt-工作流程" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JWT 工作流程：
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-客户端存储和传递token" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 客户端存储和传递Token：
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. 客户端存储和传递Token：">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#存储" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        存储
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#传递" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        传递
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-jwt的问题与解决方案" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. JWT的问题与解决方案
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. JWT的问题与解决方案">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-用户登出-token失效" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 用户登出 (Token失效)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-token续签-renewal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Token续签 (Renewal)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-oauth" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. OAuth
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. OAuth">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-概念" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 概念
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-常用授权流程-authorization-code-grant-type---授权码模式" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 常用授权流程 (Authorization Code Grant Type - 授权码模式)：
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#八总结" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        八、总结
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/Fffffx0618/PsyBlog/edit/master/docs/Develop/Sign.md" title="编辑此页" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+    
+      
+    
+    <a href="https://github.com/Fffffx0618/PsyBlog/raw/master/docs/Develop/Sign.md" title="查看本页的源代码" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.2 8.2 0 0 1-1.23-2"/></svg>
+    </a>
+  
+
+
+<h1 id="登录与鉴权">登录与鉴权<a class="headerlink" href="#登录与鉴权" title="Permanent link">&para;</a></h1>
+<h2 id="1-原始登录流程-strawman-example">1. 原始登录流程 (Strawman Example)<a class="headerlink" href="#1-原始登录流程-strawman-example" title="Permanent link">&para;</a></h2>
+<h3 id="流程">流程<a class="headerlink" href="#流程" title="Permanent link">&para;</a></h3>
+<ol>
+<li>用户在客户端（注册/登录界面）输入用户名和密码。</li>
+<li>客户端将用户名和密码发送给服务端。</li>
+<li>服务端查询数据库：</li>
+<li>注册：检查用户名是否存在，不存在则存入数据库。</li>
+<li>登录：验证用户名和密码是否匹配。</li>
+</ol>
+<h3 id="问题"><strong>问题</strong><a class="headerlink" href="#问题" title="Permanent link">&para;</a></h3>
+<ul>
+<li>
+<p>安全问题1 (传输安全)：</p>
+</li>
+<li>
+<p><strong>问题：</strong> 明文密码传输易被抓包泄露。</p>
+</li>
+<li><strong>朴素解决：</strong> 非对称加密密码。但这无法防止中间人攻击（攻击者直接重放请求）。</li>
+<li>
+<p><strong>根本解决：</strong> 使用HTTPS协议。HTTPS能确认发送者身份，防止中间人攻击，保障传输过程安全。</p>
+</li>
+<li>
+<p>安全问题2 (凭证传递与体验)：</p>
+</li>
+<li>
+<p><strong>问题：</strong> 每次权限操作都需传递密码，用户体验差；客户端缓存密码不安全；频繁传输密码增加泄露风险。</p>
+</li>
+<li>
+<p><strong>解决思路：</strong> 将权限验证分为登录（Login）和认证（Authentication）。登录后，后续请求通过其他机制（如Cookie）证明用户已登录。</p>
+</li>
+<li>
+<p>安全问题3 (服务端存储安全)：</p>
+</li>
+<li>
+<p><strong>问题：</strong> 数据库直接存储用户密码，一旦泄露，密码即暴露。</p>
+</li>
+<li>
+<p>解决： 存储加盐哈希（Salted Hash）后的密码。</p>
+<ul>
+<li>
+<p>验证时，将用户输入密码用相同盐和哈希算法处理，再与数据库中存储的哈希值对比。</p>
+</li>
+<li>
+<p>好处：即使数据库泄露，也难以直接获取用户原始密码；服务端也不知道用户真实密码。</p>
+</li>
+<li>
+<p>Go示例 (bcrypt)：</p>
+</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="s">&quot;golang.org/x/crypto/bcrypt&quot;</span>
+
+<span class="c1">// 哈希加密</span>
+<span class="kd">func</span><span class="w"> </span><span class="nx">HashPassword</span><span class="p">(</span><span class="nx">password</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="kt">string</span><span class="p">,</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">hashedPassword</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">bcrypt</span><span class="p">.</span><span class="nx">GenerateFromPassword</span><span class="p">([]</span><span class="nb">byte</span><span class="p">(</span><span class="nx">password</span><span class="p">),</span><span class="w"> </span><span class="nx">bcrypt</span><span class="p">.</span><span class="nx">DefaultCost</span><span class="p">)</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nb">string</span><span class="p">(</span><span class="nx">hashedPassword</span><span class="p">),</span><span class="w"> </span><span class="nx">err</span>
+<span class="p">}</span>
+
+<span class="c1">// 验证密码</span>
+<span class="kd">func</span><span class="w"> </span><span class="nx">CheckPassword</span><span class="p">(</span><span class="nx">hashedPassword</span><span class="p">,</span><span class="w"> </span><span class="nx">password</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">bcrypt</span><span class="p">.</span><span class="nx">CompareHashAndPassword</span><span class="p">([]</span><span class="nb">byte</span><span class="p">(</span><span class="nx">hashedPassword</span><span class="p">),</span><span class="w"> </span><span class="p">[]</span><span class="nb">byte</span><span class="p">(</span><span class="nx">password</span><span class="p">))</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">nil</span>
+<span class="p">}</span>
+</code></pre></div>
+<ul>
+<li><strong>工业级：</strong> 通常使用基于SHA256的加盐PBKDF2，每个用户salt不同，迭代次数高（如1000+）。</li>
+</ul>
+</li>
+</ul>
+<h2 id="2-cookie"><strong>2. Cookie</strong><a class="headerlink" href="#2-cookie" title="Permanent link">&para;</a></h2>
+<h3 id="原理"><strong>原理</strong><a class="headerlink" href="#原理" title="Permanent link">&para;</a></h3>
+<ul>
+<li>用户首次登录成功后，服务器创建一些信息（Cookie）并通过HTTP响应头（<code>Set-Cookie</code>）发送给浏览器。</li>
+<li>浏览器按域名保存这些Cookie。</li>
+<li>后续用户访问该域名下的资源时，浏览器会自动在HTTP请求头（<code>Cookie</code>）中携带这些Cookie。</li>
+<li>服务器通过读取Cookie来识别用户状态（如是否已登录）。</li>
+<li>大小有限（KB级别），键值对形式。</li>
+</ul>
+<h3 id="属性"><strong>属性</strong><a class="headerlink" href="#属性" title="Permanent link">&para;</a></h3>
+<ul>
+<li>生命周期 (Lifecycle)：</li>
+<li><code>Permanent cookie</code>：通过 <code>Expires</code> (绝对时间) 或 <code>MaxAge</code> (相对时长，秒为单位) 设置。<code>MaxAge</code> 优先。若 <code>MaxAge</code> 为非正数，浏览器立即删除该Cookie。</li>
+<li><code>Session cookie</code>：若不设置 <code>Expires</code> 或 <code>MaxAge</code>，则为会话Cookie，浏览器关闭后通常会删除（具体行为取决于浏览器对 "session" 的定义）。</li>
+<li>访问限制 (Access Restrictions)：</li>
+<li><code>HttpOnly</code>：若设置，则Cookie不能通过JavaScript的 <code>document.cookie</code> API访问，只能在HTTP请求中传输。有助于缓解XSS攻击窃取Cookie。 (注意：仍有其他方式可能获取，非绝对安全)</li>
+<li><code>Secure</code>：若设置，则Cookie只在HTTPS请求中传输，防止在HTTP连接中被窃听。</li>
+<li>作用范围 (Scope)：</li>
+<li><code>Domain</code>：指定Cookie所属的域名。默认情况下，会匹配所有子域名 (如 <code>domain=example.com</code> 匹配 <code>sub.example.com</code>)。若不设置，则默认为当前请求的域名，且不匹配子域名（更严格）。</li>
+<li><code>Path</code>：指定Cookie在哪个路径下生效。默认为 <code>/</code> (根路径)，匹配所有子路径 (如 <code>/</code> 匹配 <code>/docs</code>)。</li>
+<li>Cookie的唯一性由 <code>name + domain + path</code> 确定。</li>
+</ul>
+<p><strong>Go (Gin) 中操作Cookie示例：</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nx">r</span><span class="p">.</span><span class="nx">GET</span><span class="p">(</span><span class="s">&quot;/cookie&quot;</span><span class="p">,</span><span class="w"> </span><span class="kd">func</span><span class="p">(</span><span class="nx">c</span><span class="w"> </span><span class="o">*</span><span class="nx">gin</span><span class="p">.</span><span class="nx">Context</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">cookie</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">c</span><span class="p">.</span><span class="nx">Cookie</span><span class="p">(</span><span class="s">&quot;key_cookie&quot;</span><span class="p">)</span><span class="w"> </span><span class="c1">// 获取Cookie</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">cookie</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;NotSet&quot;</span>
+<span class="w">        </span><span class="c1">// 设置Cookie: 名称, 值, MaxAge(秒), 路径, 域名, Secure, HttpOnly</span>
+<span class="w">        </span><span class="nx">c</span><span class="p">.</span><span class="nx">SetCookie</span><span class="p">(</span><span class="s">&quot;key_cookie&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;value_cookie&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">60</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;/&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;localhost&quot;</span><span class="p">,</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w"> </span><span class="kc">true</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;cookie的值是： %s\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">cookie</span><span class="p">)</span>
+<span class="p">})</span>
+</code></pre></div>
+<h2 id="3-session">3. Session<a class="headerlink" href="#3-session" title="Permanent link">&para;</a></h2>
+<ol>
+<li>
+<p><strong>为什么需要Session？</strong></p>
+</li>
+<li>
+<p>Cookie大小有限，不适合存储大量信息（如购物车、复杂表单数据）。这些信息应由服务端存储。</p>
+</li>
+<li>
+<p>仅靠浏览器存储信息，服务端无法完全确认请求者身份的真实性和状态。Session允许服务端维护用户状态。</p>
+</li>
+<li>
+<p><strong>原理：</strong></p>
+</li>
+<li>
+<p>用户访问网站时，服务器创建一个Session对象（存储在服务器内存、数据库或缓存中）。</p>
+</li>
+<li>服务器为该Session生成一个唯一的Session ID。</li>
+<li>Session ID通过Cookie（通常名为 <code>session_id</code> 或类似）发送给浏览器。</li>
+<li>浏览器后续请求会自动带上这个包含Session ID的Cookie。</li>
+<li>服务器通过接收到的Session ID找到对应的Session数据，从而识别用户并恢复其状态。</li>
+<li>
+<p><mark><strong>核心：Session是基于Cookie（用于传递Session ID）实现的。</strong></mark></p>
+</li>
+<li>
+<p><strong>Go (Gin + gorilla/sessions) 示例：</strong></p>
+</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="s">&quot;net/http&quot;</span>
+<span class="w">    </span><span class="s">&quot;github.com/gin-gonic/gin&quot;</span>
+<span class="w">    </span><span class="s">&quot;github.com/gorilla/sessions&quot;</span>
+<span class="p">)</span>
+
+<span class="kd">var</span><span class="w"> </span><span class="nx">store</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">sessions</span><span class="p">.</span><span class="nx">NewCookieStore</span><span class="p">([]</span><span class="nb">byte</span><span class="p">(</span><span class="s">&quot;Your-Secret-Key&quot;</span><span class="p">))</span><span class="w"> </span><span class="c1">// 密钥用于签名和加密session cookie</span>
+
+<span class="kd">func</span><span class="w"> </span><span class="nx">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">r</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">gin</span><span class="p">.</span><span class="nx">Default</span><span class="p">()</span>
+<span class="w">    </span><span class="nx">store</span><span class="p">.</span><span class="nx">Options</span><span class="p">.</span><span class="nx">MaxAge</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">30</span><span class="w"> </span><span class="c1">// Session过期时间 (秒)</span>
+
+<span class="w">    </span><span class="nx">r</span><span class="p">.</span><span class="nx">GET</span><span class="p">(</span><span class="s">&quot;/login&quot;</span><span class="p">,</span><span class="w"> </span><span class="kd">func</span><span class="p">(</span><span class="nx">c</span><span class="w"> </span><span class="o">*</span><span class="nx">gin</span><span class="p">.</span><span class="nx">Context</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">session</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">store</span><span class="p">.</span><span class="nx">Get</span><span class="p">(</span><span class="nx">c</span><span class="p">.</span><span class="nx">Request</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Your-Session-Name&quot;</span><span class="p">)</span><span class="w"> </span><span class="c1">// 获取或创建Session</span>
+<span class="w">        </span><span class="nx">session</span><span class="p">.</span><span class="nx">Values</span><span class="p">[</span><span class="s">&quot;authenticated&quot;</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">        </span><span class="nx">session</span><span class="p">.</span><span class="nx">Values</span><span class="p">[</span><span class="s">&quot;username&quot;</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;Username from your frontend&quot;</span>
+<span class="w">        </span><span class="nx">session</span><span class="p">.</span><span class="nx">Save</span><span class="p">(</span><span class="nx">c</span><span class="p">.</span><span class="nx">Request</span><span class="p">,</span><span class="w"> </span><span class="nx">c</span><span class="p">.</span><span class="nx">Writer</span><span class="p">)</span><span class="w"> </span><span class="c1">// 保存Session，会设置相应的Cookie</span>
+<span class="w">        </span><span class="nx">c</span><span class="p">.</span><span class="nx">String</span><span class="p">(</span><span class="nx">http</span><span class="p">.</span><span class="nx">StatusOK</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Login success&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">})</span>
+
+<span class="w">    </span><span class="nx">r</span><span class="p">.</span><span class="nx">GET</span><span class="p">(</span><span class="s">&quot;/home&quot;</span><span class="p">,</span><span class="w"> </span><span class="kd">func</span><span class="p">(</span><span class="nx">c</span><span class="w"> </span><span class="o">*</span><span class="nx">gin</span><span class="p">.</span><span class="nx">Context</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">session</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">store</span><span class="p">.</span><span class="nx">Get</span><span class="p">(</span><span class="nx">c</span><span class="p">.</span><span class="nx">Request</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Your-Session-Name&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nx">auth</span><span class="p">,</span><span class="w"> </span><span class="nx">ok</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">session</span><span class="p">.</span><span class="nx">Values</span><span class="p">[</span><span class="s">&quot;authenticated&quot;</span><span class="p">].(</span><span class="kt">bool</span><span class="p">);</span><span class="w"> </span><span class="nx">ok</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">auth</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">username</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">session</span><span class="p">.</span><span class="nx">Values</span><span class="p">[</span><span class="s">&quot;username&quot;</span><span class="p">].(</span><span class="kt">string</span><span class="p">)</span>
+<span class="w">            </span><span class="nx">c</span><span class="p">.</span><span class="nx">String</span><span class="p">(</span><span class="nx">http</span><span class="p">.</span><span class="nx">StatusOK</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Welcome &quot;</span><span class="o">+</span><span class="nx">username</span><span class="p">)</span>
+<span class="w">            </span><span class="c1">// 可选：活动用户刷新过期时间</span>
+<span class="w">            </span><span class="nx">session</span><span class="p">.</span><span class="nx">Options</span><span class="p">.</span><span class="nx">MaxAge</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">30</span>
+<span class="w">            </span><span class="nx">session</span><span class="p">.</span><span class="nx">Save</span><span class="p">(</span><span class="nx">c</span><span class="p">.</span><span class="nx">Request</span><span class="p">,</span><span class="w"> </span><span class="nx">c</span><span class="p">.</span><span class="nx">Writer</span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">c</span><span class="p">.</span><span class="nx">String</span><span class="p">(</span><span class="nx">http</span><span class="p">.</span><span class="nx">StatusUnauthorized</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Please login first&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">})</span>
+
+<span class="w">    </span><span class="nx">r</span><span class="p">.</span><span class="nx">GET</span><span class="p">(</span><span class="s">&quot;/logout&quot;</span><span class="p">,</span><span class="w"> </span><span class="kd">func</span><span class="p">(</span><span class="nx">c</span><span class="w"> </span><span class="o">*</span><span class="nx">gin</span><span class="p">.</span><span class="nx">Context</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">session</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">store</span><span class="p">.</span><span class="nx">Get</span><span class="p">(</span><span class="nx">c</span><span class="p">.</span><span class="nx">Request</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Your-Session-Name&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="nx">session</span><span class="p">.</span><span class="nx">Options</span><span class="p">.</span><span class="nx">MaxAge</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w"> </span><span class="c1">// 设置MaxAge为负数，立即销毁Session (删除Cookie)</span>
+<span class="w">        </span><span class="nx">session</span><span class="p">.</span><span class="nx">Save</span><span class="p">(</span><span class="nx">c</span><span class="p">.</span><span class="nx">Request</span><span class="p">,</span><span class="w"> </span><span class="nx">c</span><span class="p">.</span><span class="nx">Writer</span><span class="p">)</span>
+<span class="w">        </span><span class="nx">c</span><span class="p">.</span><span class="nx">String</span><span class="p">(</span><span class="nx">http</span><span class="p">.</span><span class="nx">StatusOK</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Logout success&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">})</span>
+<span class="w">    </span><span class="nx">r</span><span class="p">.</span><span class="nx">Run</span><span class="p">(</span><span class="s">&quot;:8000&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+<h2 id="4-cookie的问题">4. Cookie的问题<a class="headerlink" href="#4-cookie的问题" title="Permanent link">&para;</a></h2>
+<ol>
+<li>
+<p><strong>CSRF原理：</strong></p>
+</li>
+<li>
+<p>攻击者诱导已登录某网站（如A网站）的用户访问一个恶意页面或点击恶意链接。</p>
+</li>
+<li>
+<p>该恶意页面包含向A网站发起特定操作（如转账、修改密码）的请求。</p>
+</li>
+<li>
+<p>由于浏览器会自动携带A网站的Cookie（包含用户的登录凭证，如Session ID）到A网站，A网站服务器会认为这是用户的合法操作并执行。</p>
+</li>
+<li>
+<p><strong>防御CSRF：</strong></p>
+</li>
+<li>
+<p><strong>验证码：</strong> 对高危操作要求用户输入验证码，但影响用户体验。</p>
+</li>
+<li>限制Cookie的携带 (<code>SameSite</code>属性)：<ul>
+<li><code>Site</code> (站点)：通常由顶级域名+二级域名（eTLD+1）定义，如 <code>example.com</code>。</li>
+<li><code>Origin</code> (源)：由 <code>schema</code> (协议) + <code>host</code> (主机名) + <code>port</code> (端口号) 组成。</li>
+<li><code>SameSite</code>属性值：</li>
+<li><code>Strict</code>：最严格，禁止所有跨站请求携带Cookie。即使从 <code>a.com</code> 点击链接到 <code>b.com</code>，也不会携带 <code>b.com</code> 的Cookie。</li>
+<li><code>Lax</code>：允许部分“安全”的顶层导航跨站请求携带Cookie（如通过 <code>&lt;a&gt;</code> 标签GET请求跳转）。是许多浏览器逐步采用的默认值。</li>
+<li><code>None</code>：允许所有跨站请求携带Cookie。<strong>必须同时设置 <code>Secure</code> 属性</strong> (即Cookie只能通过HTTPS传输)。</li>
+</ul>
+</li>
+<li><strong>校验请求来源 (Referer Check)：</strong> 检查HTTP请求头中的 <code>Referer</code> 字段，判断请求是否来自合法的源。但 <code>Referer</code> 可被伪造或为空。</li>
+<li>Token (Anti-CSRF Token)：<ul>
+<li>用户访问表单页面时，服务器生成一个随机Token，嵌入表单中（如隐藏字段）。</li>
+<li>用户提交表单时，该Token随表单一并发送。</li>
+<li>服务器验证该Token是否与之前生成并存储在用户Session中的Token一致。攻击者无法获取此Token。</li>
+</ul>
+</li>
+<li>CORS (Cross-Origin Resource Sharing)：<ul>
+<li>本身不是直接防御CSRF的机制，而是用于控制<strong>跨域资源访问</strong>的策略。</li>
+<li>CORS通过HTTP头部协商，允许一个源（Origin）的Web应用访问另一个源的资源。</li>
+<li>流程简介 (Non-simple request)：</li>
+<li><strong>Preflight Request (预检请求):</strong> 浏览器自动发送 <code>OPTIONS</code> 请求到目标服务器，携带 <code>Origin</code>, <code>Access-Control-Request-Method</code>, <code>Access-Control-Request-Headers</code>。</li>
+<li><strong>Server Response:</strong> 服务器响应，包含 <code>Access-Control-Allow-Origin</code>, <code>Access-Control-Allow-Methods</code>, <code>Access-Control-Allow-Headers</code>, <code>Access-Control-Allow-Credentials</code>, <code>Access-Control-Max-Age</code>。</li>
+<li><strong>Actual Request:</strong> 若预检通过，浏览器发送实际请求（如POST），携带 <code>Origin</code>。</li>
+<li><strong>Server Response:</strong> 服务器正常响应，也可能包含 <code>Access-Control-Allow-Origin</code>, <code>Access-Control-Allow-Credentials</code>, <code>Access-Control-Expose-Headers</code>。</li>
+<li><code>Access-Control-Allow-Origin: *</code> 与 <code>Access-Control-Allow-Credentials: true</code> 不可同时使用（若为<code>*</code>，<code>Credentials</code> 会被视为<code>false</code>）。</li>
+<li>客户端发起带凭证的跨域请求 (如 <code>Workspace</code>) 需设置 <code>credentials: 'include'</code>。</li>
+</ul>
+</li>
+</ol>
+<h2 id="5-token"><strong>5. Token</strong><a class="headerlink" href="#5-token" title="Permanent link">&para;</a></h2>
+<h3 id="1-为什么需要token">1. 为什么需要Token？<a class="headerlink" href="#1-为什么需要token" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>分布式系统：</strong> Session存储在单台服务器时，多服务器负载均衡场景下，用户请求可能被分配到不同服务器，导致Session信息不一致。将Session存入共享数据库或缓存会增加其压力。Token是无状态的（或服务器端轻状态）。</li>
+<li><strong>无状态认证：</strong> 服务器不需要存储用户状态信息（如Session），每次请求都携带Token，服务器验证Token即可。</li>
+<li><strong>灵活性：</strong> Token可以承载更多信息，没有Cookie的大小和跨域限制（但仍需考虑安全传输和存储）。</li>
+</ul>
+<h3 id="2-jwt-json-web-token-结构">2. JWT (JSON Web Token) 结构：<a class="headerlink" href="#2-jwt-json-web-token-结构" title="Permanent link">&para;</a></h3>
+<p>由三部分组成，用点 <code>.</code>分隔：<code>Header.Payload.Signature</code></p>
+<h4 id="header-头部">Header (头部)<a class="headerlink" href="#header-头部" title="Permanent link">&para;</a></h4>
+<p>Base64Url编码的JSON对象，包含：</p>
+<ul>
+<li><code>typ</code>: "JWT" (类型)</li>
+<li><code>alg</code>: 签名算法 (如 "HS256", "RS256")</li>
+</ul>
+<h4 id="payload-载荷">Payload (载荷)<a class="headerlink" href="#payload-载荷" title="Permanent link">&para;</a></h4>
+<p>Base64Url编码的JSON对象，包含Claims (声明)：</p>
+<ul>
+<li><strong>Registered Claims (注册声明，可选，建议使用)：</strong> <code>iss</code> (签发者), <code>sub</code> (主题), <code>aud</code> (受众), <code>exp</code> (过期时间戳), <code>nbf</code> (生效时间戳), <code>iat</code> (签发时间戳), <code>jti</code> (JWT ID)。</li>
+<li><strong>Public Claims (公共声明)：</strong> 自定义，但应避免与注册声明冲突。</li>
+<li><strong>Private Claims (私有声明)：</strong> 通信双方自定义，用于传递非标准信息 (如 <code>user_id</code>, <code>username</code>)。</li>
+</ul>
+<h4 id="signature-签名">Signature (签名)<a class="headerlink" href="#signature-签名" title="Permanent link">&para;</a></h4>
+<ul>
+<li>使用Header中指定的算法，对 <code>base64UrlEncode(Header) + "." + base64UrlEncode(Payload)</code> 进行签名，再加上一个服务器端持有的<code>secret</code>（对于HS256）或私钥（对于RS256）。</li>
+<li><strong>作用：</strong> 验证Token的完整性和来源，确保Header和Payload未被篡改。</li>
+<li><strong>注意：</strong> JWT的Payload是Base64Url编码的，不是加密的。敏感信息不应直接放在Payload中，除非整个JWT被加密传输（JWE）。</li>
+</ul>
+<h4 id="jwt-工作流程"><strong>JWT 工作流程：</strong><a class="headerlink" href="#jwt-工作流程" title="Permanent link">&para;</a></h4>
+<ol>
+<li>用户使用用户名密码登录。</li>
+<li>服务器验证通过，生成JWT（包含用户信息、过期时间等）。</li>
+<li>服务器将JWT返回给客户端。</li>
+<li>客户端存储JWT（如 <code>localStorage</code>, <code>sessionStorage</code>，或安全的HttpOnly Cookie）。</li>
+<li>客户端每次请求受保护资源时，在HTTP请求头 <code>Authorization</code> 中携带JWT：<code>Authorization: Bearer &lt;token&gt;</code>。</li>
+<li>服务器接收请求，提取JWT。</li>
+<li>服务器使用自己的<code>secret</code>验证JWT的签名。若验证通过且未过期，则处理请求。</li>
+</ol>
+<p><strong>Go (golang-jwt/jwt) 生成和解析JWT示例：</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nx">myjwt</span><span class="w"> </span><span class="c1">// Renamed package to avoid conflict with std lib</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="s">&quot;errors&quot;</span>
+<span class="w">    </span><span class="s">&quot;time&quot;</span>
+<span class="w">    </span><span class="s">&quot;github.com/golang-jwt/jwt/v5&quot;</span>
+<span class="p">)</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">TokenExpireDuration</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">time</span><span class="p">.</span><span class="nx">Hour</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="c1">// 例如2小时过期</span>
+<span class="kd">var</span><span class="w"> </span><span class="nx">CustomSecret</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[]</span><span class="nb">byte</span><span class="p">(</span><span class="s">&quot;your-very-strong-secret-key&quot;</span><span class="p">)</span><span class="w"> </span><span class="c1">// 必须保密</span>
+
+<span class="kd">type</span><span class="w"> </span><span class="nx">CustomClaims</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">UserID</span><span class="w">   </span><span class="kt">int64</span><span class="w">  </span><span class="s">`json:&quot;user_id&quot;`</span>
+<span class="w">    </span><span class="nx">Username</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="s">`json:&quot;username&quot;`</span>
+<span class="w">    </span><span class="nx">jwt</span><span class="p">.</span><span class="nx">RegisteredClaims</span><span class="w"> </span><span class="c1">// 内嵌标准声明</span>
+<span class="p">}</span>
+
+<span class="kd">func</span><span class="w"> </span><span class="nx">GenToken</span><span class="p">(</span><span class="nx">UserID</span><span class="w"> </span><span class="kt">int64</span><span class="p">,</span><span class="w"> </span><span class="nx">Username</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="kt">string</span><span class="p">,</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">claims</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">CustomClaims</span><span class="p">{</span>
+<span class="w">        </span><span class="nx">UserID</span><span class="p">,</span>
+<span class="w">        </span><span class="nx">Username</span><span class="p">,</span>
+<span class="w">        </span><span class="nx">jwt</span><span class="p">.</span><span class="nx">RegisteredClaims</span><span class="p">{</span>
+<span class="w">            </span><span class="nx">ExpiresAt</span><span class="p">:</span><span class="w"> </span><span class="nx">jwt</span><span class="p">.</span><span class="nx">NewNumericDate</span><span class="p">(</span><span class="nx">time</span><span class="p">.</span><span class="nx">Now</span><span class="p">().</span><span class="nx">Add</span><span class="p">(</span><span class="nx">TokenExpireDuration</span><span class="p">)),</span>
+<span class="w">            </span><span class="nx">Issuer</span><span class="p">:</span><span class="w">    </span><span class="s">&quot;my-app-issuer&quot;</span><span class="p">,</span><span class="w"> </span><span class="c1">// 签发者</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="nx">token</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">jwt</span><span class="p">.</span><span class="nx">NewWithClaims</span><span class="p">(</span><span class="nx">jwt</span><span class="p">.</span><span class="nx">SigningMethodHS256</span><span class="p">,</span><span class="w"> </span><span class="nx">claims</span><span class="p">)</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">token</span><span class="p">.</span><span class="nx">SignedString</span><span class="p">(</span><span class="nx">CustomSecret</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="kd">func</span><span class="w"> </span><span class="nx">ParseToken</span><span class="p">(</span><span class="nx">tokenString</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="nx">CustomClaims</span><span class="p">,</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">claims</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nb">new</span><span class="p">(</span><span class="nx">CustomClaims</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">token</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">jwt</span><span class="p">.</span><span class="nx">ParseWithClaims</span><span class="p">(</span><span class="nx">tokenString</span><span class="p">,</span><span class="w"> </span><span class="nx">claims</span><span class="p">,</span><span class="w"> </span><span class="kd">func</span><span class="p">(</span><span class="nx">token</span><span class="w"> </span><span class="o">*</span><span class="nx">jwt</span><span class="p">.</span><span class="nx">Token</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="kd">interface</span><span class="p">{},</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// 校验签名算法是否符合预期</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">ok</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">token</span><span class="p">.</span><span class="nx">Method</span><span class="p">.(</span><span class="o">*</span><span class="nx">jwt</span><span class="p">.</span><span class="nx">SigningMethodHMAC</span><span class="p">);</span><span class="w"> </span><span class="p">!</span><span class="nx">ok</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="kc">nil</span><span class="p">,</span><span class="w"> </span><span class="nx">errors</span><span class="p">.</span><span class="nx">New</span><span class="p">(</span><span class="s">&quot;unexpected signing method&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nx">CustomSecret</span><span class="p">,</span><span class="w"> </span><span class="kc">nil</span>
+<span class="w">    </span><span class="p">})</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="kc">nil</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">token</span><span class="p">.</span><span class="nx">Valid</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">// token.Valid 会检查 claims 中的 RegisteredClaims (如 ExpiresAt)</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nx">claims</span><span class="p">,</span><span class="w"> </span><span class="kc">nil</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="kc">nil</span><span class="p">,</span><span class="w"> </span><span class="nx">errors</span><span class="p">.</span><span class="nx">New</span><span class="p">(</span><span class="s">&quot;invalid token&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="3-客户端存储和传递token">3. <strong>客户端存储和传递Token：</strong><a class="headerlink" href="#3-客户端存储和传递token" title="Permanent link">&para;</a></h3>
+<h4 id="存储">存储<a class="headerlink" href="#存储" title="Permanent link">&para;</a></h4>
+<ul>
+<li><code>localStorage</code>: 持久存储，浏览器关闭后仍在。XSS可访问。</li>
+<li><code>sessionStorage</code>: 会话级存储，标签页关闭后清除。XSS可访问。</li>
+<li><code>HttpOnly Cookie</code>: 更安全，防XSS，但有CSRF风险（需配合<code>SameSite</code>）。</li>
+</ul>
+<h4 id="传递">传递<a class="headerlink" href="#传递" title="Permanent link">&para;</a></h4>
+<ul>
+<li>HTTP Header: <code>Authorization: Bearer &lt;token&gt;</code> (推荐)。</li>
+<li>URL参数: <code>?token=&lt;token&gt;</code> (不推荐，URL易暴露)。</li>
+<li>
+<p>Request Body: (POST请求中)。</p>
+</li>
+<li>
+<p>JS示例 (localStorage + Fetch API)：</p>
+</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="c1">// 存储</span>
+<span class="nx">localStorage</span><span class="p">.</span><span class="nx">setItem</span><span class="p">(</span><span class="s1">&#39;jwtToken&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;your_received_token&#39;</span><span class="p">);</span>
+
+<span class="c1">// 读取和使用</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">token</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">localStorage</span><span class="p">.</span><span class="nx">getItem</span><span class="p">(</span><span class="s1">&#39;jwtToken&#39;</span><span class="p">);</span>
+<span class="nx">fetch</span><span class="p">(</span><span class="s2">&quot;http://localhost:8080/api/data&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">method</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;GET&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">headers</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="s1">&#39;Content-Type&#39;</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;application/json&#39;</span><span class="p">,</span>
+<span class="w">        </span><span class="s1">&#39;Authorization&#39;</span><span class="o">:</span><span class="w"> </span><span class="sb">`Bearer </span><span class="si">${</span><span class="nx">token</span><span class="si">}</span><span class="sb">`</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">})</span>
+<span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">response</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">response</span><span class="p">.</span><span class="nx">json</span><span class="p">())</span>
+<span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">data</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">data</span><span class="p">));</span>
+</code></pre></div>
+<h2 id="6-jwt的问题与解决方案">6. JWT的问题与解决方案<a class="headerlink" href="#6-jwt的问题与解决方案" title="Permanent link">&para;</a></h2>
+<h3 id="1-用户登出-token失效">1. <strong>用户登出 (Token失效)</strong><a class="headerlink" href="#1-用户登出-token失效" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>问题：</strong> JWT一旦签发，在过期前都是有效的。服务器无法主动使其失效。</li>
+<li><strong>客户端方案：</strong> 删除本地存储的JWT (<code>localStorage.removeItem("TokenName")</code>)。但如果JWT已被泄露，攻击者仍可使用。</li>
+<li>服务端方案：</li>
+<li><strong>黑名单机制：</strong> 维护一个已失效Token的列表（如存入Redis）。每次校验Token时先查黑名单。这给无状态服务器增加了一点“状态”。</li>
+<li><strong>修改用户密钥：</strong> 每个用户有专属的Token签名密钥。用户登出时，修改其密钥。旧Token因密钥不匹配而失效。<ul>
+<li>缺点：分布式系统密钥同步问题；多设备登录时，一个设备登出可能导致其他设备也登出。</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-token续签-renewal">2. <strong>Token续签 (Renewal)</strong><a class="headerlink" href="#2-token续签-renewal" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>问题：</strong> Session续签简单（更新服务端Session过期时间）。JWT的过期时间是Payload的一部分，修改会使签名失效。</li>
+<li>解决方案：Access Token + Refresh Token</li>
+<li><code>Access Token</code>: 短生命周期（如15分钟-2小时），用于访问受保护资源。Payload中可包含权限信息。</li>
+<li><code>Refresh Token</code>: 长生命周期（如几天或几周），用于获取新的Access Token。Refresh Token本身通常只包含用户标识，不含权限，且存储更安全。</li>
+<li>流程：<ol>
+<li>用户登录，服务器返回Access Token和Refresh Token。</li>
+<li>客户端使用Access Token访问API。</li>
+<li>若Access Token过期，服务器返回特定错误（如401）。</li>
+<li>客户端检测到此错误，使用Refresh Token向服务器特定端点请求新的Access Token。</li>
+<li>服务器验证Refresh Token的有效性（是否过期、是否在黑名单/白名单中）。</li>
+<li>若Refresh Token有效，服务器签发新的Access Token（有时也会签发新的Refresh Token，实现Refresh Token滚动刷新）。</li>
+<li>若Refresh Token也失效，则要求用户重新登录。</li>
+</ol>
+</li>
+</ul>
+<h2 id="7-oauth">7. OAuth<a class="headerlink" href="#7-oauth" title="Permanent link">&para;</a></h2>
+<h3 id="1-概念">1. 概念<a class="headerlink" href="#1-概念" title="Permanent link">&para;</a></h3>
+<ul>
+<li>一个授权框架，允许第三方应用（Client，如Deepseek）在用户授权的前提下，访问用户在某个服务提供商（Resource Server/Authorization Server，如微信）上的受保护资源，而无需将用户的凭证（用户名密码）直接给第三方应用。</li>
+<li>角色：</li>
+<li><code>Resource Owner</code>: 用户。</li>
+<li><code>Client</code>: 第三方应用 (如Deepseek)。</li>
+<li><code>Authorization Server</code>: 鉴权方，负责验证用户身份并颁发访问令牌 (Access Token)。</li>
+<li><code>Resource Server</code>: 资源方，存储用户受保护资源，信任Authorization Server颁发的Access Token。</li>
+</ul>
+<h3 id="2-常用授权流程-authorization-code-grant-type---授权码模式">2. <strong>常用授权流程 (Authorization Code Grant Type - 授权码模式)：</strong><a class="headerlink" href="#2-常用授权流程-authorization-code-grant-type---授权码模式" title="Permanent link">&para;</a></h3>
+<ol>
+<li>
+<p><strong>用户发起：</strong> 用户在Client应用中点击“使用XX登录”。</p>
+</li>
+<li>
+<p>重定向到授权服务器：</p>
+<p>Client将用户重定向到Authorization Server的授权页面（<code>AuthURL</code>），并携带参数：</p>
+</li>
+<li>
+<p><code>client_id</code>: Client的标识符。</p>
+</li>
+<li><code>redirect_uri</code>: 授权成功后，Authorization Server将用户重定向回Client的地址。</li>
+<li><code>response_type=code</code>: 表明要求返回授权码。</li>
+<li><code>scope</code>: Client申请的权限范围。</li>
+<li>
+<p><code>state</code>: Client生成的一个随机字符串，用于防止CSRF攻击，并关联用户在Client的状态。</p>
+</li>
+<li>
+<p><strong>用户授权：</strong> 用户在Authorization Server上登录并同意授权Client请求的权限。</p>
+</li>
+<li>
+<p><strong>返回授权码：</strong> Authorization Server将用户重定向回Client提供的 <code>redirect_uri</code>，并附带一个短期的 <code>code</code> (授权码) 和之前Client发送的 <code>state</code> 参数。</p>
+</li>
+<li>
+<p><strong>交换授权码获取Token：</strong> Client收到 <code>code</code> 后，在后端用 <code>code</code>、<code>client_id</code>、<code>client_secret</code> (Client的密钥)、<code>redirect_uri</code> 向Authorization Server的 <code>TokenURL</code> 发起请求，交换Access Token (以及可选的Refresh Token)。</p>
+</li>
+<li>
+<p><strong>访问资源：</strong> Client使用获取到的Access Token向Resource Server请求用户资源。</p>
+</li>
+</ol>
+<p><strong>Go (golang.org/x/oauth2) 示例片段：</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="s">&quot;context&quot;</span>
+<span class="w">    </span><span class="s">&quot;fmt&quot;</span>
+<span class="w">    </span><span class="s">&quot;net/http&quot;</span>
+<span class="w">    </span><span class="s">&quot;golang.org/x/oauth2&quot;</span>
+<span class="p">)</span>
+
+<span class="kd">var</span><span class="w"> </span><span class="nx">oauthConfig</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">oauth2</span><span class="p">.</span><span class="nx">Config</span><span class="p">{</span>
+<span class="w">    </span><span class="nx">ClientID</span><span class="p">:</span><span class="w">     </span><span class="s">&quot;YOUR_CLIENT_ID&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">ClientSecret</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;YOUR_CLIENT_SECRET&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">RedirectURL</span><span class="p">:</span><span class="w">  </span><span class="s">&quot;http://localhost:8080/callback&quot;</span><span class="p">,</span><span class="w"> </span><span class="c1">// 必须与在服务商处注册的一致</span>
+<span class="w">    </span><span class="nx">Scopes</span><span class="p">:</span><span class="w">       </span><span class="p">[]</span><span class="kt">string</span><span class="p">{</span><span class="s">&quot;scope1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;scope2&quot;</span><span class="p">},</span><span class="w">     </span><span class="c1">// 申请的权限</span>
+<span class="w">    </span><span class="nx">Endpoint</span><span class="p">:</span><span class="w"> </span><span class="nx">oauth2</span><span class="p">.</span><span class="nx">Endpoint</span><span class="p">{</span>
+<span class="w">        </span><span class="nx">AuthURL</span><span class="p">:</span><span class="w">  </span><span class="s">&quot;PROVIDER_AUTH_URL&quot;</span><span class="p">,</span><span class="w">  </span><span class="c1">// 服务商的授权URL</span>
+<span class="w">        </span><span class="nx">TokenURL</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;PROVIDER_TOKEN_URL&quot;</span><span class="p">,</span><span class="w"> </span><span class="c1">// 服务商的Token URL</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="p">}</span>
+<span class="kd">var</span><span class="w"> </span><span class="nx">oauthStateString</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;random-string-for-csrf-protection&quot;</span><span class="w"> </span><span class="c1">// 应该为每个请求动态生成并验证</span>
+
+<span class="kd">func</span><span class="w"> </span><span class="nx">handleLogin</span><span class="p">(</span><span class="nx">w</span><span class="w"> </span><span class="nx">http</span><span class="p">.</span><span class="nx">ResponseWriter</span><span class="p">,</span><span class="w"> </span><span class="nx">r</span><span class="w"> </span><span class="o">*</span><span class="nx">http</span><span class="p">.</span><span class="nx">Request</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// 实际应用中 oauthStateString 应为每个授权请求生成，并可能存储在session中用于后续验证</span>
+<span class="w">    </span><span class="nx">url</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">oauthConfig</span><span class="p">.</span><span class="nx">AuthCodeURL</span><span class="p">(</span><span class="nx">oauthStateString</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">http</span><span class="p">.</span><span class="nx">Redirect</span><span class="p">(</span><span class="nx">w</span><span class="p">,</span><span class="w"> </span><span class="nx">r</span><span class="p">,</span><span class="w"> </span><span class="nx">url</span><span class="p">,</span><span class="w"> </span><span class="nx">http</span><span class="p">.</span><span class="nx">StatusTemporaryRedirect</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="kd">func</span><span class="w"> </span><span class="nx">handleCallback</span><span class="p">(</span><span class="nx">w</span><span class="w"> </span><span class="nx">http</span><span class="p">.</span><span class="nx">ResponseWriter</span><span class="p">,</span><span class="w"> </span><span class="nx">r</span><span class="w"> </span><span class="o">*</span><span class="nx">http</span><span class="p">.</span><span class="nx">Request</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// 1. 验证 state 参数防止CSRF</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">r</span><span class="p">.</span><span class="nx">FormValue</span><span class="p">(</span><span class="s">&quot;state&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="nx">oauthStateString</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;invalid oauth state&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="nx">http</span><span class="p">.</span><span class="nx">Redirect</span><span class="p">(</span><span class="nx">w</span><span class="p">,</span><span class="w"> </span><span class="nx">r</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;/&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">http</span><span class="p">.</span><span class="nx">StatusTemporaryRedirect</span><span class="p">)</span>
+<span class="w">        </span><span class="k">return</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// 2. 获取授权码</span>
+<span class="w">    </span><span class="nx">code</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">r</span><span class="p">.</span><span class="nx">FormValue</span><span class="p">(</span><span class="s">&quot;code&quot;</span><span class="p">)</span>
+
+<span class="w">    </span><span class="c1">// 3. 用授权码交换Token</span>
+<span class="w">    </span><span class="nx">token</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">oauthConfig</span><span class="p">.</span><span class="nx">Exchange</span><span class="p">(</span><span class="nx">context</span><span class="p">.</span><span class="nx">Background</span><span class="p">(),</span><span class="w"> </span><span class="nx">code</span><span class="p">)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;oauthConfig.Exchange() failed with &#39;%s&#39;\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="p">)</span>
+<span class="w">        </span><span class="nx">http</span><span class="p">.</span><span class="nx">Redirect</span><span class="p">(</span><span class="nx">w</span><span class="p">,</span><span class="w"> </span><span class="nx">r</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;/&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">http</span><span class="p">.</span><span class="nx">StatusTemporaryRedirect</span><span class="p">)</span>
+<span class="w">        </span><span class="k">return</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// 4. token.AccessToken 即为访问令牌</span>
+<span class="w">    </span><span class="c1">// 可以用此token去调用服务商的API获取用户信息等</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Fprintf</span><span class="p">(</span><span class="nx">w</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;OAuth2认证成功! Access Token: %s\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">token</span><span class="p">.</span><span class="nx">AccessToken</span><span class="p">)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">token</span><span class="p">.</span><span class="nx">RefreshToken</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Fprintf</span><span class="p">(</span><span class="nx">w</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Refresh Token: %s\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">token</span><span class="p">.</span><span class="nx">RefreshToken</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="c1">// 实际应用中，通常会将 token 存储起来 (如session或数据库) 关联到用户</span>
+<span class="p">}</span>
+</code></pre></div>
+<ul>
+<li><code>state</code> 参数：在 <code>handleLogin</code> 时生成并随 <code>AuthCodeURL</code> 发出，在 <code>handleCallback</code> 时从请求中获取并与之前存储的值（如Session中）比较，一致才继续，否则可能是CSRF。</li>
+</ul>
+<h2 id="八总结">八、总结<a class="headerlink" href="#八总结" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th><strong>特性</strong></th>
+<th><strong>Cookie</strong></th>
+<th><strong>Session</strong></th>
+<th><strong>Token (JWT)</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>存储位置</strong></td>
+<td>客户端（浏览器）</td>
+<td>Session ID在客户端(Cookie)，数据在服务端</td>
+<td>客户端 (localStorage, sessionStorage, Cookie)</td>
+</tr>
+<tr>
+<td><strong>状态</strong></td>
+<td>无状态（但用于维护服务器的有状态会话）</td>
+<td>有状态（服务器需存储Session数据）</td>
+<td>无状态（服务器不需存Token本身，但可能存黑名单/密钥）</td>
+</tr>
+<tr>
+<td><strong>大小</strong></td>
+<td>小 (约4KB)</td>
+<td>Session ID小，服务端数据可大</td>
+<td>可以比Cookie大，但仍需考虑传输效率</td>
+</tr>
+<tr>
+<td><strong>安全性</strong></td>
+<td>XSS可窃取 (除非HttpOnly), CSRF风险</td>
+<td>Session ID的Cookie有同样风险。数据在服务端相对安全</td>
+<td>存储在localStorage/sessionStorage易被XSS窃取。签名防篡改，内容可见（非加密）</td>
+</tr>
+<tr>
+<td><strong>跨域</strong></td>
+<td>受同源策略限制，可通过<code>Domain</code>属性部分放宽</td>
+<td>Session ID通过Cookie传递，同样受限</td>
+<td>本身无跨域限制，常用于API认证，但客户端获取和发送仍需CORS配合</td>
+</tr>
+<tr>
+<td><strong>分布式</strong></td>
+<td>-</td>
+<td>需Session共享机制（如Redis, DB），增加复杂度</td>
+<td>易于分布式部署，服务器无需共享状态</td>
+</tr>
+<tr>
+<td><strong>主要用途</strong></td>
+<td>存储少量数据，跟踪用户，传递Session ID</td>
+<td>维护用户会话状态，存储购物车等复杂信息</td>
+<td>API认证，无状态认证，单点登录，移动应用认证</td>
+</tr>
+<tr>
+<td><strong>依赖</strong></td>
+<td>无</td>
+<td>通常依赖Cookie传递Session ID</td>
+<td>不直接依赖Cookie (但可存入Cookie)</td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li>
+<ul>
+<li>考虑Refresh Token的吊销/黑名单机制。</li>
+</ul>
+</li>
+</ol>
+<hr />
+<p>这份笔记应该能帮助您更好地理解这几个概念及其应用。祝您项目顺利！</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["header.autohide", "content.math", "content.action.edit", "content.action.view", "content.code.copy", "content.code.annotate", "content.tooltips", "navigation.footer", "navigation.indexes", "navigation.path", "navigation.prune", "navigation.tabs", "navigation.tabs.sticky", "navigation.top", "navigation.tracking", "search.share", "search.suggest", "search.highlight", "toc.follow"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../javascripts/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+        <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+      
+    
+  </body>
+</html>

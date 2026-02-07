@@ -1,0 +1,2991 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="可达鸭的笔记本，记录了 ZJU-CS 的一些课程笔记。">
+      
+      
+        <meta name="author" content="Fffffx">
+      
+      
+      
+        <link rel="prev" href="index.html">
+      
+      
+        <link rel="next" href="../Python/Python.html">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>C程理论笔记 - Fffffx's Note</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+  
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+  
+  <style>:root{--md-admonition-icon--note:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M1%207.775V2.75C1%201.784%201.784%201%202.75%201h5.025c.464%200%20.91.184%201.238.513l6.25%206.25a1.75%201.75%200%200%201%200%202.474l-5.026%205.026a1.75%201.75%200%200%201-2.474%200l-6.25-6.25A1.75%201.75%200%200%201%201%207.775m1.5%200c0%20.066.026.13.073.177l6.25%206.25a.25.25%200%200%200%20.354%200l5.025-5.025a.25.25%200%200%200%200-.354l-6.25-6.25a.25.25%200%200%200-.177-.073H2.75a.25.25%200%200%200-.25.25ZM6%205a1%201%200%201%201%200%202%201%201%200%200%201%200-2%22/%3E%3C/svg%3E');--md-admonition-icon--abstract:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M2.5%201.75v11.5c0%20.138.112.25.25.25h3.17a.75.75%200%200%201%200%201.5H2.75A1.75%201.75%200%200%201%201%2013.25V1.75C1%20.784%201.784%200%202.75%200h8.5C12.216%200%2013%20.784%2013%201.75v7.736a.75.75%200%200%201-1.5%200V1.75a.25.25%200%200%200-.25-.25h-8.5a.25.25%200%200%200-.25.25m13.274%209.537zl-4.557%204.45a.75.75%200%200%201-1.055-.008l-1.943-1.95a.75.75%200%200%201%201.062-1.058l1.419%201.425%204.026-3.932a.75.75%200%201%201%201.048%201.074M4.75%204h4.5a.75.75%200%200%201%200%201.5h-4.5a.75.75%200%200%201%200-1.5M4%207.75A.75.75%200%200%201%204.75%207h2a.75.75%200%200%201%200%201.5h-2A.75.75%200%200%201%204%207.75%22/%3E%3C/svg%3E');--md-admonition-icon--info:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M0%208a8%208%200%201%201%2016%200A8%208%200%200%201%200%208m8-6.5a6.5%206.5%200%201%200%200%2013%206.5%206.5%200%200%200%200-13M6.5%207.75A.75.75%200%200%201%207.25%207h1a.75.75%200%200%201%20.75.75v2.75h.25a.75.75%200%200%201%200%201.5h-2a.75.75%200%200%201%200-1.5h.25v-2h-.25a.75.75%200%200%201-.75-.75M8%206a1%201%200%201%201%200-2%201%201%200%200%201%200%202%22/%3E%3C/svg%3E');--md-admonition-icon--tip:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M3.499.75a.75.75%200%200%201%201.5%200v.996C5.9%202.903%206.793%203.65%207.662%204.376l.24.202c-.036-.694.055-1.422.426-2.163C9.1.873%2010.794-.045%2012.622.26%2014.408.558%2016%201.94%2016%204.25c0%201.278-.954%202.575-2.44%202.734l.146.508.065.22c.203.701.412%201.455.476%202.226.142%201.707-.4%203.03-1.487%203.898C11.714%2014.671%2010.27%2015%208.75%2015h-6a.75.75%200%200%201%200-1.5h1.376a4.5%204.5%200%200%201-.563-1.191%203.84%203.84%200%200%201-.05-2.063%204.65%204.65%200%200%201-2.025-.293.75.75%200%200%201%20.525-1.406c1.357.507%202.376-.006%202.698-.318l.009-.01a.747.747%200%200%201%201.06%200%20.75.75%200%200%201-.012%201.074c-.912.92-.992%201.835-.768%202.586.221.74.745%201.337%201.196%201.621H8.75c1.343%200%202.398-.296%203.074-.836.635-.507%201.036-1.31.928-2.602-.05-.603-.216-1.224-.422-1.93l-.064-.221c-.12-.407-.246-.84-.353-1.29a2.4%202.4%200%200%201-.507-.441%203.1%203.1%200%200%201-.633-1.248.75.75%200%200%201%201.455-.364c.046.185.144.436.31.627.146.168.353.305.712.305.738%200%201.25-.615%201.25-1.25%200-1.47-.95-2.315-2.123-2.51-1.172-.196-2.227.387-2.706%201.345-.46.92-.27%201.774.019%203.062l.042.19.01.05c.348.443.666.949.94%201.553a.75.75%200%201%201-1.365.62c-.553-1.217-1.32-1.94-2.3-2.768L6.7%205.527c-.814-.68-1.75-1.462-2.692-2.619a3.7%203.7%200%200%200-1.023.88c-.406.495-.663%201.036-.722%201.508.116.122.306.21.591.239.388.038.797-.06%201.032-.19a.75.75%200%200%201%20.728%201.31c-.515.287-1.23.439-1.906.373-.682-.067-1.473-.38-1.879-1.193L.75%205.677V5.5c0-.984.48-1.94%201.077-2.664.46-.559%201.05-1.055%201.673-1.353z%22/%3E%3C/svg%3E');--md-admonition-icon--success:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M13.78%204.22a.75.75%200%200%201%200%201.06l-7.25%207.25a.75.75%200%200%201-1.06%200L2.22%209.28a.75.75%200%200%201%20.018-1.042.75.75%200%200%201%201.042-.018L6%2010.94l6.72-6.72a.75.75%200%200%201%201.06%200%22/%3E%3C/svg%3E');--md-admonition-icon--question:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M0%208a8%208%200%201%201%2016%200A8%208%200%200%201%200%208m8-6.5a6.5%206.5%200%201%200%200%2013%206.5%206.5%200%200%200%200-13M6.92%206.085h.001a.749.749%200%201%201-1.342-.67c.169-.339.436-.701.849-.977C6.845%204.16%207.369%204%208%204a2.76%202.76%200%200%201%201.637.525c.503.377.863.965.863%201.725%200%20.448-.115.83-.329%201.15-.205.307-.47.513-.692.662-.109.072-.22.138-.313.195l-.006.004a6%206%200%200%200-.26.16%201%201%200%200%200-.276.245.75.75%200%200%201-1.248-.832c.184-.264.42-.489.692-.661q.154-.1.313-.195l.007-.004c.1-.061.182-.11.258-.161a1%201%200%200%200%20.277-.245C8.96%206.514%209%206.427%209%206.25a.61.61%200%200%200-.262-.525A1.27%201.27%200%200%200%208%205.5c-.369%200-.595.09-.74.187a1%201%200%200%200-.34.398M9%2011a1%201%200%201%201-2%200%201%201%200%200%201%202%200%22/%3E%3C/svg%3E');--md-admonition-icon--warning:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M6.457%201.047c.659-1.234%202.427-1.234%203.086%200l6.082%2011.378A1.75%201.75%200%200%201%2014.082%2015H1.918a1.75%201.75%200%200%201-1.543-2.575Zm1.763.707a.25.25%200%200%200-.44%200L1.698%2013.132a.25.25%200%200%200%20.22.368h12.164a.25.25%200%200%200%20.22-.368Zm.53%203.996v2.5a.75.75%200%200%201-1.5%200v-2.5a.75.75%200%200%201%201.5%200M9%2011a1%201%200%201%201-2%200%201%201%200%200%201%202%200%22/%3E%3C/svg%3E');--md-admonition-icon--failure:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M2.344%202.343za8%208%200%200%201%2011.314%2011.314A8.002%208.002%200%200%201%20.234%2010.089a8%208%200%200%201%202.11-7.746m1.06%2010.253a6.5%206.5%200%201%200%209.108-9.275%206.5%206.5%200%200%200-9.108%209.275M6.03%204.97%208%206.94l1.97-1.97a.749.749%200%200%201%201.275.326.75.75%200%200%201-.215.734L9.06%208l1.97%201.97a.749.749%200%200%201-.326%201.275.75.75%200%200%201-.734-.215L8%209.06l-1.97%201.97a.749.749%200%200%201-1.275-.326.75.75%200%200%201%20.215-.734L6.94%208%204.97%206.03a.75.75%200%200%201%20.018-1.042.75.75%200%200%201%201.042-.018%22/%3E%3C/svg%3E');--md-admonition-icon--danger:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M9.504.43a1.516%201.516%200%200%201%202.437%201.713L10.415%205.5h2.123c1.57%200%202.346%201.909%201.22%203.004l-7.34%207.142a1.25%201.25%200%200%201-.871.354h-.302a1.25%201.25%200%200%201-1.157-1.723L5.633%2010.5H3.462c-1.57%200-2.346-1.909-1.22-3.004zm1.047%201.074L3.286%208.571A.25.25%200%200%200%203.462%209H6.75a.75.75%200%200%201%20.694%201.034l-1.713%204.188%206.982-6.793A.25.25%200%200%200%2012.538%207H9.25a.75.75%200%200%201-.683-1.06l2.008-4.418.003-.006-.004-.009-.006-.006-.008-.001q-.005%200-.009.004%22/%3E%3C/svg%3E');--md-admonition-icon--bug:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M4.72.22a.75.75%200%200%201%201.06%200l1%20.999a3.5%203.5%200%200%201%202.441%200l.999-1a.748.748%200%200%201%201.265.332.75.75%200%200%201-.205.729l-.775.776c.616.63.995%201.493.995%202.444v.327q0%20.15-.025.292c.408.14.764.392%201.029.722l1.968-.787a.75.75%200%200%201%20.556%201.392L13%207.258V9h2.25a.75.75%200%200%201%200%201.5H13v.5q-.002.615-.141%201.186l2.17.868a.75.75%200%200%201-.557%201.392l-2.184-.873A5%205%200%200%201%208%2016a5%205%200%200%201-4.288-2.427l-2.183.873a.75.75%200%200%201-.558-1.392l2.17-.868A5%205%200%200%201%203%2011v-.5H.75a.75.75%200%200%201%200-1.5H3V7.258L.971%206.446a.75.75%200%200%201%20.558-1.392l1.967.787c.265-.33.62-.583%201.03-.722a1.7%201.7%200%200%201-.026-.292V4.5c0-.951.38-1.814.995-2.444L4.72%201.28a.75.75%200%200%201%200-1.06m.53%206.28a.75.75%200%200%200-.75.75V11a3.5%203.5%200%201%200%207%200V7.25a.75.75%200%200%200-.75-.75ZM6.173%205h3.654A.17.17%200%200%200%2010%204.827V4.5a2%202%200%201%200-4%200v.327c0%20.096.077.173.173.173%22/%3E%3C/svg%3E');--md-admonition-icon--example:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M5%205.782V2.5h-.25a.75.75%200%200%201%200-1.5h6.5a.75.75%200%200%201%200%201.5H11v3.282l3.666%205.76C15.619%2013.04%2014.543%2015%2012.767%2015H3.233c-1.776%200-2.852-1.96-1.899-3.458Zm-2.4%206.565a.75.75%200%200%200%20.633%201.153h9.534a.75.75%200%200%200%20.633-1.153L12.225%2010.5h-8.45ZM9.5%202.5h-3V6c0%20.143-.04.283-.117.403L4.73%209h6.54L9.617%206.403A.75.75%200%200%201%209.5%206Z%22/%3E%3C/svg%3E');--md-admonition-icon--quote:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M1.75%202.5h10.5a.75.75%200%200%201%200%201.5H1.75a.75.75%200%200%201%200-1.5m4%205h8.5a.75.75%200%200%201%200%201.5h-8.5a.75.75%200%200%201%200-1.5m0%205h8.5a.75.75%200%200%201%200%201.5h-8.5a.75.75%200%200%201%200-1.5M2.5%207.75v6a.75.75%200%200%201-1.5%200v-6a.75.75%200%200%201%201.5%200%22/%3E%3C/svg%3E');}</style>
+
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=LXGW+WenKai+Screen,+Microsoft+YaHei,+sans-serif:300,300i,400,400i,700,700i%7CJetBrains+Mono,+Sarasa+Mono+SC,+Consolas,+monospace:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"LXGW WenKai Screen, Microsoft YaHei, sans-serif";--md-code-font:"JetBrains Mono, Sarasa Mono SC, Consolas, monospace"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="https://fonts.loli.net/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap">
+    
+      <link rel="stylesheet" href="https://gcore.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.1.0/style.css">
+    
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap">
+    
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sarasa-gothic@0.43.0/css/sarasa-mono-sc.css">
+    
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/one-dark.min.css">
+    
+      <link rel="stylesheet" href="../../stylesheets/blueTopaz.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue-grey" data-md-color-accent="blue-grey">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#c程理论笔记" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="Fffffx&#39;s Note" class="md-header__button md-logo" aria-label="Fffffx's Note" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m19.07 14.88 2.05 2.05L15.06 23H13v-2.06zm1.97-1.75c.14 0 .27.06.38.17l1.28 1.28c.22.21.22.56 0 .77l-1 1-2.05-2.05 1-1c.11-.11.25-.17.39-.17M17 4v6l-2-2-2 2V4H9v16h2v2H7c-1.05 0-2-.95-2-2v-1H3v-2h2v-4H3v-2h2V7H3V5h2V4a2 2 0 0 1 2-2h12c1.05 0 2 .95 2 2v6l-2 2V4zM5 5v2h2V5zm0 6v2h2v-2zm0 6v2h2v-2z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Fffffx's Note
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              C程理论笔记
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="blue-grey" data-md-color-accent="blue-grey"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4M7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="blue-grey" data-md-color-accent="teal"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256l137.3-137.4c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="分享" aria-label="分享" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Fffffx0618/PsyBlog" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Fffffx
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  首页
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../blog/index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  我的Blog
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  编程语言
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Algorithm/index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  程序算法
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../System/index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  体系结构
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Math/index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  数学基础
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../Develop/index.md" class="md-tabs__link">
+        
+  
+  
+    
+  
+  前后端开发
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Fffffx&#39;s Note" class="md-nav__button md-logo" aria-label="Fffffx's Note" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m19.07 14.88 2.05 2.05L15.06 23H13v-2.06zm1.97-1.75c.14 0 .27.06.38.17l1.28 1.28c.22.21.22.56 0 .77l-1 1-2.05-2.05 1-1c.11-.11.25-.17.39-.17M17 4v6l-2-2-2 2V4H9v16h2v2H7c-1.05 0-2-.95-2-2v-1H3v-2h2v-4H3v-2h2V7H3V5h2V4a2 2 0 0 1 2-2h12c1.05 0 2 .95 2 2v6l-2 2V4zM5 5v2h2V5zm0 6v2h2v-2zm0 6v2h2v-2z"/></svg>
+
+    </a>
+    Fffffx's Note
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Fffffx0618/PsyBlog" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Fffffx
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../index.html" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    首页
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../blog/index.html" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    我的Blog
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../index.html" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    编程语言
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    编程语言
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="index.html" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    C
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C程理论笔记
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="C.html" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C程理论笔记
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-一些定义" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 一些定义
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-转义字符" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 转义字符
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-运算符的优先级" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 运算符的优先级
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. 运算符的优先级">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-表格" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 表格
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-单目运算符" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 单目运算符
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33----和----的使用" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3.' -&gt; ' 和 ' . ' 的使用
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-sizeof---的用法" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. sizeof ( ) 的用法
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-函数调用中实参的个数" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. 函数调用中实参的个数
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-数组与指针" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. 数组与指针
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. 数组与指针">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#例题" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        例题
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-字符串" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. 字符串
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. 字符串">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#例题_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        例题
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-野指针" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. 野指针
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-特殊表达式语句" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. 特殊表达式/语句
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-书本内容" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. 书本内容
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10. 书本内容">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#chapter-1-引言" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Chapter 1. 引言
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chapter-2-用-c-语言编写程序" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Chapter 2. 用 C 语言编写程序
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chapter-3-分支结构" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Chapter 3. 分支结构
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chapter-4-循环结构" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Chapter 4. 循环结构
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chapter-5-函数" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Chapter 5. 函数
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chapter-6-回顾数据类型和表达式" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Chapter 6. 回顾数据类型和表达式
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Chapter 6. 回顾数据类型和表达式">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-整型" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 整型
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-实型" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 实型
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63-字符型" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3 字符型
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#64-输入输出" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.4 输入输出
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#65-类型转换" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.5 类型转换
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#66-位运算" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.6 位运算
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chapter-7-数组" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Chapter 7. 数组
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chapter-8-指针" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Chapter 8. 指针
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chapter-9-结构" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Chapter 9. 结构
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chapter-10-函数与程序结构" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Chapter 10. 函数与程序结构
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chapter-11-指针进阶" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Chapter 11. 指针进阶
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chapter-12-文件" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Chapter 12. 文件
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Chapter 12. 文件">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#关于文件的各类语法" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        关于文件的各类语法
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../Python/Python.html" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Python
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../Algorithm/index.html" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    程序算法
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../System/index.html" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    体系结构
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../Math/index.html" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    数学基础
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Develop/index.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    前后端开发
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-一些定义" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 一些定义
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-转义字符" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 转义字符
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-运算符的优先级" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 运算符的优先级
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. 运算符的优先级">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-表格" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 表格
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-单目运算符" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 单目运算符
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33----和----的使用" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3.' -&gt; ' 和 ' . ' 的使用
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-sizeof---的用法" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. sizeof ( ) 的用法
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-函数调用中实参的个数" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. 函数调用中实参的个数
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-数组与指针" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. 数组与指针
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. 数组与指针">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#例题" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        例题
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-字符串" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. 字符串
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. 字符串">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#例题_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        例题
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-野指针" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. 野指针
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-特殊表达式语句" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. 特殊表达式/语句
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-书本内容" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. 书本内容
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10. 书本内容">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#chapter-1-引言" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Chapter 1. 引言
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chapter-2-用-c-语言编写程序" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Chapter 2. 用 C 语言编写程序
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chapter-3-分支结构" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Chapter 3. 分支结构
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chapter-4-循环结构" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Chapter 4. 循环结构
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chapter-5-函数" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Chapter 5. 函数
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chapter-6-回顾数据类型和表达式" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Chapter 6. 回顾数据类型和表达式
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Chapter 6. 回顾数据类型和表达式">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-整型" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 整型
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-实型" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 实型
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63-字符型" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3 字符型
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#64-输入输出" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.4 输入输出
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#65-类型转换" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.5 类型转换
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#66-位运算" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.6 位运算
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chapter-7-数组" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Chapter 7. 数组
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chapter-8-指针" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Chapter 8. 指针
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chapter-9-结构" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Chapter 9. 结构
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chapter-10-函数与程序结构" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Chapter 10. 函数与程序结构
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chapter-11-指针进阶" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Chapter 11. 指针进阶
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chapter-12-文件" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Chapter 12. 文件
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Chapter 12. 文件">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#关于文件的各类语法" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        关于文件的各类语法
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+
+  <nav class="md-path" aria-label="导航栏" >
+    <ol class="md-path__list">
+      
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../index.html" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    编程语言
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="index.html" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    C
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/Fffffx0618/PsyBlog/edit/master/docs/Language/C/C.md" title="编辑此页" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+    
+      
+    
+    <a href="https://github.com/Fffffx0618/PsyBlog/raw/master/docs/Language/C/C.md" title="查看本页的源代码" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.2 8.2 0 0 1-1.23-2"/></svg>
+    </a>
+  
+
+
+<h1 id="c程理论笔记">C程理论笔记<a class="headerlink" href="#c程理论笔记" title="Permanent link">&para;</a></h1>
+<div class="admonition info intro">
+<p class="admonition-title">Info</p>
+<p>2024.12: </p>
+<ul>
+<li>C 程的理论考试知识点非常多。这还是我第一次用 markdown 整理笔记，可能有些小问题 QwQ</li>
+</ul>
+<p>2025.12:</p>
+<ul>
+<li>今年报名了学长组，好多同学来私信问我如何复习 C 程，翻资料时找到了这份笔记，决定修改一下发出来，如有错误请指正！</li>
+</ul>
+</div>
+<h2 id="1-一些定义">1. 一些定义<a class="headerlink" href="#1-一些定义" title="Permanent link">&para;</a></h2>
+<ol>
+<li>变量初始化的含义，就是在定义变量时<strong>对变量赋值</strong>。  </li>
+<li>缓冲文件系统的文件缓冲区位于<strong>内存数据区</strong>中。</li>
+<li>在对数组全部元素赋初值时，<strong>不可以</strong>省略<strong>列数</strong>，但<strong>能</strong>省略<strong>行数</strong>。</li>
+<li>数组初始化时，如果初始化列表中的初始值个数小于数组的元素个数，那么剩余的数组元素会自动被初始化为 <code>0</code></li>
+<li>C 语言的“<strong>字符串常量</strong>”格式为 <code>"1 c*z&amp;^/64"</code> (<strong>双引号</strong>)</li>
+<li><code>int a[10]</code>, 定义后数组 a 的地址<strong>不能更改</strong>，<code>a++</code>，<code>a--</code> 是非法的</li>
+<li>二维数组<strong>无法</strong>退化为二级指针</li>
+<li>数组名<strong>不能</strong>被重新赋值（指向地址）</li>
+<li>自定义函数时，数组名作为形参 <code>fun (int a[ ]);</code>，编译时自动转化为指针 <code>fun (int *a);</code></li>
+<li>函数的定义<strong>不能嵌套</strong>, 即函数的定义不可完整地包含另一个函数的定义</li>
+</ol>
+<h2 id="2-转义字符">2. 转义字符<a class="headerlink" href="#2-转义字符" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="kt">char</span><span class="w"> </span><span class="n">s</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\101\102</span><span class="s">&quot;</span><span class="p">;</span><span class="w"> </span><span class="c1">//使用八进制表示法</span>
+<span class="kt">char</span><span class="w"> </span><span class="n">s</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\x41\x42</span><span class="s">&quot;</span><span class="p">;</span><span class="w"> </span><span class="c1">//使用十六进制表示法</span>
+<span class="kt">char</span><span class="w"> </span><span class="n">s</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;AB&quot;</span><span class="w"> </span><span class="c1">//正常的表示法</span>
+</code></pre></div>
+<p>以上代码等价，此外在计算 <code>sizeof ()</code> 时都算作<u>两个字符</u></p>
+<table>
+<thead>
+<tr>
+<th>转义字符</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>\'</td>
+<td>单引号</td>
+</tr>
+<tr>
+<td>\"</td>
+<td>双引号</td>
+</tr>
+<tr>
+<td>\</td>
+<td>反斜杠</td>
+</tr>
+<tr>
+<td>\n</td>
+<td>换行符</td>
+</tr>
+<tr>
+<td>\t</td>
+<td>水平制表符</td>
+</tr>
+<tr>
+<td>\r</td>
+<td>回车符</td>
+</tr>
+<tr>
+<td>\b</td>
+<td>退格符</td>
+</tr>
+<tr>
+<td>\f</td>
+<td>换页符</td>
+</tr>
+<tr>
+<td>\a</td>
+<td>警告（响铃）</td>
+</tr>
+<tr>
+<td>\v</td>
+<td>垂直制表符</td>
+</tr>
+<tr>
+<td>\?</td>
+<td>问号</td>
+</tr>
+<tr>
+<td>\0</td>
+<td>空字符</td>
+</tr>
+<tr>
+<td>\xhh</td>
+<td>十六进制表示的字符</td>
+</tr>
+<tr>
+<td>\ooo</td>
+<td>八进制表示的字符</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul>
+<li><code>\</code> 后最多接三个数字，使用<strong>八进制</strong>表示一个字节，且遇到 0-7 范围之外的数字会结束当前字节，比如 <code>\101</code> 也表示 <code>A</code>，而 <code>\08</code> 因为 8 超过了八进制范围，所以这是两个字符放到了一个单引号里，不是正确的用法，如果写成字符串，则 <code>\08</code> 表示两个字符；</li>
+<li><code>\x</code> 后面接 0-9、A-F 字符通过十六进制来表示一个字符。不过并<strong>不会有长度限制</strong>，比如 <code>\x 00000041</code> 也是一个字符，同样遇到范围外的字符就结束。</li>
+<li>用八进制和十六进制表示的数大小<strong>不超过 255</strong></li>
+</ul>
+</div>
+<h2 id="3-运算符的优先级">3. 运算符的优先级<a class="headerlink" href="#3-运算符的优先级" title="Permanent link">&para;</a></h2>
+<h3 id="31-表格">3.1 表格<a class="headerlink" href="#31-表格" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">优先级</th>
+<th style="text-align: center;">运算符</th>
+<th style="text-align: center;">结合律</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">后缀运算符：<code>[ ] ( ) · -&gt;</code></td>
+<td style="text-align: center;">从左到右</td>
+</tr>
+<tr>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">单目运算符：<code>++ -- ! ~ +(正) -(负) * &amp; sizeof</code></td>
+<td style="text-align: center;">从右到左</td>
+</tr>
+<tr>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">乘除法运算符：<code>* / %</code></td>
+<td style="text-align: center;">从左到右</td>
+</tr>
+<tr>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">加减法运算符：<code>+ -</code></td>
+<td style="text-align: center;">从左到右</td>
+</tr>
+<tr>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">移位运算符：<code>&lt;&lt; &gt;&gt;</code></td>
+<td style="text-align: center;">从左到右</td>
+</tr>
+<tr>
+<td style="text-align: center;">6</td>
+<td style="text-align: center;">关系运算符：<code>&lt; &lt;= &gt; &gt;=</code></td>
+<td style="text-align: center;">从左到右</td>
+</tr>
+<tr>
+<td style="text-align: center;">7</td>
+<td style="text-align: center;">相等运算符：<code>== !=</code></td>
+<td style="text-align: center;">从左到右</td>
+</tr>
+<tr>
+<td style="text-align: center;">8</td>
+<td style="text-align: center;">位运算符 AND：<code>&amp;</code></td>
+<td style="text-align: center;">从左到右</td>
+</tr>
+<tr>
+<td style="text-align: center;">9</td>
+<td style="text-align: center;">位运算符 XOR：<code>^</code></td>
+<td style="text-align: center;">从左到右</td>
+</tr>
+<tr>
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">位运算符 OR：<code>\|</code></td>
+<td style="text-align: center;">从左到右</td>
+</tr>
+<tr>
+<td style="text-align: center;">11</td>
+<td style="text-align: center;">逻辑运算符 AND：<code>&amp;&amp;</code></td>
+<td style="text-align: center;">从左到右</td>
+</tr>
+<tr>
+<td style="text-align: center;">12</td>
+<td style="text-align: center;">逻辑运算符 OR：<code>\|\|</code></td>
+<td style="text-align: center;">从左到右</td>
+</tr>
+<tr>
+<td style="text-align: center;">13</td>
+<td style="text-align: center;">条件 (三目) 运算符：<code>? :</code></td>
+<td style="text-align: center;">从右到左</td>
+</tr>
+<tr>
+<td style="text-align: center;">14</td>
+<td style="text-align: center;">赋值运算符：<code>= += -= *= /= %= &amp;= ^= = &lt;&lt;= &gt;&gt;=</code></td>
+<td style="text-align: center;">从右到左</td>
+</tr>
+<tr>
+<td style="text-align: center;">15</td>
+<td style="text-align: center;">逗号运算符：<code>,</code></td>
+<td style="text-align: center;">从左到右</td>
+</tr>
+</tbody>
+</table>
+<h3 id="32-单目运算符">3.2 单目运算符<a class="headerlink" href="#32-单目运算符" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">n</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="p">)</span><span class="o">++</span><span class="p">;</span><span class="c1">//It&#39;s illegal!</span>
+<span class="n">n</span><span class="o">=-</span><span class="n">x</span><span class="o">++</span><span class="p">;</span><span class="c1">//等同于 n=-x; x++;</span>
+</code></pre></div>
+<ul>
+<li>
+<p>对两个对象相同的单目运算符，采用<strong>右结合</strong></p>
+</li>
+<li>
+<p>自增运算符 ++ 和自减运算符 -- 的运算对象<strong>只能是变量</strong>, 不能是常量或者表达式</p>
+</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="o">*</span><span class="n">p</span><span class="p">.</span><span class="n">num</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="c1">//此写法有误，. 运算符优先级高于 *</span>
+<span class="p">(</span><span class="o">*</span><span class="n">p</span><span class="p">).</span><span class="n">num</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="c1">//正确写法1</span>
+<span class="n">p</span><span class="o">-&gt;</span><span class="n">num</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="c1">//正确写法2</span>
+
+<span class="o">*++</span><span class="n">p</span><span class="p">;</span><span class="w"> </span><span class="c1">//先让 p 自增，再取新地址，获得的值是 *(p+1);  </span>
+<span class="o">*</span><span class="n">p</span><span class="o">++</span><span class="p">;</span><span class="w"> </span><span class="c1">//取 *p，再 p=p+1;</span>
+
+<span class="p">(</span><span class="o">*</span><span class="n">p</span><span class="o">++</span><span class="p">)</span><span class="o">--</span><span class="p">;</span><span class="w"> </span><span class="c1">//先取 *p，再 p=p+1，最后 *p= *p-1 (括号内得到的值是 *p);</span>
+</code></pre></div>
+<h3 id="33----和----的使用">3.3.' -&gt; ' 和 ' . ' 的使用<a class="headerlink" href="#33----和----的使用" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="k">struct</span><span class="w"> </span><span class="nc">sk</span><span class="p">{</span>
+<span class="w">   </span><span class="kt">int</span><span class="w"> </span><span class="n">a</span><span class="p">;</span><span class="w"> </span>
+<span class="w">   </span><span class="kt">double</span><span class="w"> </span><span class="n">b</span><span class="p">;</span>
+<span class="p">}</span><span class="w"> </span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">data</span>
+
+<span class="c1">//p-&gt;a和(*p).a等价</span>
+<span class="c1">//&#39;*&#39;优先级低于&#39;.&#39;</span>
+</code></pre></div>
+<h2 id="4-sizeof---的用法">4. <code>sizeof ( )</code> 的用法<a class="headerlink" href="#4-sizeof---的用法" title="Permanent link">&para;</a></h2>
+<ul>
+<li><code>sizeof (x)</code><strong>不是</strong>函数</li>
+<li>在<strong>编译</strong>时确定其值, 计算出 x 在内存中所占字节数. </li>
+</ul>
+<p>所以, <strong>括号内的赋值和函数, 不会被执行</strong>, 编译与执行<strong>无关</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1">// char和&#39;a&#39;在被=动作前, 是两个独立类型, 没关联</span>
+<span class="kt">char</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="sc">&#39;a&#39;</span><span class="p">;</span><span class="w">  </span>
+<span class="n">printf</span><span class="p">(</span><span class="s">&quot;%ld&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="n">c</span><span class="p">));</span><span class="w">      </span><span class="c1">// 结果:1, char类型是1字节</span>
+<span class="n">printf</span><span class="p">(</span><span class="s">&quot;%ld&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="sc">&#39;a&#39;</span><span class="p">)</span><span class="err">；</span><span class="w">    </span><span class="c1">// 结果:4，’a&#39;为整型常量</span>
+<span class="c1">// 小心, 指针是地址, 指向某数据空间, 地址常是4字节.</span>
+<span class="kt">char</span><span class="w"> </span><span class="n">a</span><span class="p">[</span><span class="mi">9</span><span class="p">]</span><span class="o">=</span><span class="s">&quot;GULUGULU&quot;</span><span class="p">;</span>
+<span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">p</span><span class="o">=</span><span class="n">a</span><span class="p">;</span>
+<span class="n">printf</span><span class="p">(</span><span class="s">&quot;%ld&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="n">p</span><span class="p">)</span><span class="w"> </span><span class="p">);</span><span class="w">      </span><span class="c1">// 结果:4, 返回指针大小，指针本身就是一个无符号整型数.</span>
+<span class="n">printf</span><span class="p">(</span><span class="s">&quot;%ld&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="w"> </span><span class="p">);</span><span class="w">      </span><span class="c1">// 9个*4字节=36字节</span>
+</code></pre></div>
+<h2 id="5-函数调用中实参的个数">5. 函数调用中实参的个数<a class="headerlink" href="#5-函数调用中实参的个数" title="Permanent link">&para;</a></h2>
+<p>在函数调用 <code>Func(exp1 , exp2+exp3 , exp4*exp5)</code> 中，实参的数量是 3 。</p>
+<p>在函数调用 <code>Func( (exp1, exp2+exp3, exp4*exp5) )</code> 中，实参的数量是 1 。</p>
+<h2 id="6-数组与指针">6. 数组与指针<a class="headerlink" href="#6-数组与指针" title="Permanent link">&para;</a></h2>
+<ul>
+<li><code>a[b]</code> 和 <code>*(a+b)</code> 在使用时完全等价；</li>
+<li>二维数组无法退化为二级指针；(数组 != 指针)</li>
+<li>数组名不能被重新赋值。</li>
+</ul>
+<h3 id="例题">例题<a class="headerlink" href="#例题" title="Permanent link">&para;</a></h3>
+<ol>
+<li>
+<p>(C13A) Given the declaration: <code>int a[3][3]={1,2,3,4,5,6,7,8,9};</code>, the value of <code>a[-1][5]</code> is ?</p>
+<p>首先来看 <code>a[-1]</code>，即 <code>*(a-1)</code>，<code>a-1</code> 会以三个 int 为单位向左移动，即 <code>*(a-1)</code> 是一个指向如下位置的指针：
+<div class="highlight"><pre><span></span><code><span class="w">   </span><span class="mi">0</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="mi">7</span><span class="w"> </span><span class="mi">8</span><span class="w"> </span><span class="mi">9</span>
+<span class="w">   </span><span class="o">^</span>
+<span class="w">   </span><span class="o">|</span>
+<span class="o">*</span><span class="p">(</span><span class="n">a</span><span class="mi">-1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p</span>
+</code></pre></div>
+现在我们将 <code>a[-1]</code> 也就是 <code>*(a-1)</code> 视为 <code>p</code>，那我们要找的结果就是 <code>p[5]</code>，此时 <code>p</code> 是一个指向 int 类型的指针，<code>*(p+5)</code> 就相当于找到它指向的位置右侧第 5 个 int 的值，也就是 3。</p>
+</li>
+<li>
+<p>(C17A) The following code fragment will output _.
+    <div class="highlight"><pre><span></span><code><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">week</span><span class="p">[]</span><span class="o">=</span><span class="p">{</span><span class="s">&quot;Mon&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Tue&quot;</span><span class="p">,</span><span class="s">&quot;Wed&quot;</span><span class="p">,</span><span class="s">&quot;Thu&quot;</span><span class="p">,</span><span class="s">&quot;Fri&quot;</span><span class="p">,</span><span class="s">&quot;Sat&quot;</span><span class="p">,</span><span class="s">&quot;Sun&quot;</span><span class="p">},</span><span class="w"> </span><span class="o">**</span><span class="n">pw</span><span class="o">=</span><span class="n">week</span><span class="p">;</span>
+<span class="kt">char</span><span class="w"> </span><span class="n">c1</span><span class="p">,</span><span class="w"> </span><span class="n">c2</span><span class="p">;</span>
+<span class="n">c1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="o">*++</span><span class="n">pw</span><span class="p">)[</span><span class="mi">1</span><span class="p">];</span>
+<span class="n">c2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">*++</span><span class="n">pw</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+<span class="n">printf</span><span class="p">(</span><span class="s">&quot;%c#%c#&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">c1</span><span class="p">,</span><span class="w"> </span><span class="n">c2</span><span class="p">);</span>
+</code></pre></div></p>
+<p>首先 <code>c1 = (* ++pw)[1]</code>，<code>++pw</code> 使 <code>pw</code> 指向了 <code>week[1]</code>，然后 <code>(* ++pw)</code> 就是 <code>week[1]</code>，再加上 <code>[1]</code> 就是 <code>week[1][1]</code> 也就是 <code>'u'</code> 然后 <code>c2 = * ++pw[1]</code>，这里的理解方式一定是<strong>对 <code>pw[1]</code> 进行 <code>++</code></strong>，<code>pw[1]</code> 此时是 <code>week[2]</code>，然后将其自增得到指向 <code>week[2][1]</code> 的指针，再解引用得到 <code>'e'</code></p>
+</li>
+<li>
+<p>以下代码的输出为 ?
+    <div class="highlight"><pre><span></span><code><span class="kt">int</span><span class="w"> </span><span class="n">a</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">};</span>
+<span class="kt">int</span><span class="w"> </span><span class="o">*</span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="n">q</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">a</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+<span class="n">printf</span><span class="p">(</span><span class="s">&quot;%lu&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">q</span><span class="o">-</span><span class="n">p</span><span class="p">);</span>
+</code></pre></div></p>
+<p>首先这道题的输出是 2 而不是 <code>2*sizeof (int)=8</code>，因为 q、p 指针相减的意义实际上是计算两个指针差了几个“单位”的距离，这里一个单位就是一个 int 的长度，它们差了两个 int，所以是 2</p>
+<p><strong>指针相减并不是将其值（也就是地址）相减</strong>，如果这是预期行为，那么应该使用以下两种写法：</p>
+<div class="highlight"><pre><span></span><code><span class="n">printf</span><span class="p">(</span><span class="s">&quot;%d&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">q</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">p</span><span class="p">);</span><span class="w"> </span><span class="c1">// 即 14 题中写法</span>
+<span class="n">printf</span><span class="p">(</span><span class="s">&quot;%d&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="kt">char</span><span class="o">*</span><span class="p">)</span><span class="n">q</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="kt">char</span><span class="o">*</span><span class="p">)</span><span class="n">p</span><span class="p">);</span><span class="w"> </span><span class="c1">// 转为 char* 类型指针，单位就是一个字节，和地址相减效</span>
+</code></pre></div>
+</li>
+<li>
+<p>对于函数声明 <code>void f(char **p)</code>，以下哪个 <code>var</code> 的定义会使 <code>f(var)</code> 语法错误
+    <div class="highlight"><pre><span></span><code><span class="n">A</span><span class="p">.</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="n">var</span><span class="p">[</span><span class="mi">10</span><span class="p">][</span><span class="mi">10</span><span class="p">];</span>
+<span class="n">B</span><span class="p">.</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">var</span><span class="p">[</span><span class="mi">10</span><span class="p">];</span>
+<span class="n">C</span><span class="p">.</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">var</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+<span class="n">D</span><span class="p">.</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">v</span><span class="o">=</span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="o">**</span><span class="n">var</span><span class="o">=&amp;</span><span class="n">v</span><span class="p">;</span>
+</code></pre></div></p>
+<p>BD 一般没什么问题，大部分同学不理解 A 和 C</p>
+<ul>
+<li>
+<p>A. <strong>二维数组不能退化为二级指针</strong>，所以肯定是错的 </p>
+</li>
+<li>
+<p>C. 在 C 语言中，<code>void *</code> 表示「<strong>指向任意类型的指针</strong>」，而这个「任意类型」也可以是 <code>char*</code>（即指向 char 的指针），所以它可以代表「指向指向 char 的指针的指针」（<code>char**</code>），所以是对的</p>
+</li>
+</ul>
+</li>
+<li>
+<p>对于定义 <code>char s[2][3] = {"ab", "cd"}, \*p=(char\*)s</code>，以下哪个表达式是正确的且值等于 <code>s[1][1]</code></p>
+<p>A. <code>*(s+3)</code>             <br />
+B. <code>*s+2</code>             <br />
+C. <code>p[1][1]</code>             <br />
+D. <code>*++p+2</code></p>
+<div class="highlight"><pre><span></span><code><span class="n">s</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span><span class="sc">&#39;a&#39;</span><span class="p">,</span><span class="w"> </span><span class="sc">&#39;b&#39;</span><span class="p">,</span><span class="w"> </span><span class="sc">&#39;\0&#39;</span><span class="p">}</span>
+<span class="w">    </span><span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span><span class="sc">&#39;c&#39;</span><span class="p">,</span><span class="w"> </span><span class="sc">&#39;d&#39;</span><span class="p">,</span><span class="w"> </span><span class="sc">&#39;\0&#39;</span><span class="p">}</span>
+</code></pre></div>
+<p>A. <code>*(s+3)</code> 等价于 <code>s[3]</code>，首先类型上它就不对
+B. 同样 <code>*s+2</code> 也是指针，类型上就肯定不对 
+C. <code>p</code> 此时是 <code>char *</code> 类型，不能进行两次解引用，语法错误
+D. <code>++p</code> 将 <code>p</code> 指到了 'b' 头上，解引用得到 'b' 再加二得到 'd' 等于 <code>s[1][1]</code>，选 D</p>
+</li>
+</ol>
+<h2 id="7-字符串">7. 字符串<a class="headerlink" href="#7-字符串" title="Permanent link">&para;</a></h2>
+<p>个人的理解方式是：C 语言中不存在字符串，只有字符数组，而字符串是一种对于字符数组的人为理解方式，即从开头直到第一个 '\0' 标志了一个字符串。所以 "abc" 和 {'a', 'b', 'c', '\0'} 是等价的。</p>
+<p>另一个需要牢记的知识点是，当程序中出现字符串常量的时候，要将其视为<strong>指向该字符串的首字符的指针</strong>来处理。而且在初始化字符数组时除外（<code>char s[] = "abc"</code>; 并不是把 "abc" 首字符地址赋值给了 s）。</p>
+<ul>
+<li><code>char *s = "abc"</code> 和 <code>char s[] = "abc"</code> 不同</li>
+<li>字符串常量实质上是一个指向字符串首字符的<strong>指针常量</strong></li>
+<li>字符串长度<strong>不包括 <code>\0</code></strong> ,字符数组长度<strong>包括 <code>\0</code></strong></li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="kt">char</span><span class="w"> </span><span class="n">a</span><span class="p">[</span><span class="w"> </span><span class="p">]</span><span class="o">=</span><span class="s">&quot;</span><span class="se">\\</span><span class="s">25ab, 0</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span>
+<span class="k">sizeof</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="o">=</span><span class="mi">9</span><span class="p">;</span>
+<span class="n">strlen</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="o">=</span><span class="mi">8</span><span class="p">;</span>
+</code></pre></div>
+<h3 id="例题_1">例题<a class="headerlink" href="#例题_1" title="Permanent link">&para;</a></h3>
+<ol>
+<li>
+<p>(C14A) The output of the code below is _.
+    <div class="highlight"><pre><span></span><code><span class="kt">char</span><span class="w"> </span><span class="n">x</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;hello,world</span><span class="se">\012</span><span class="s">345&quot;</span><span class="p">;</span>
+<span class="n">printf</span><span class="p">(</span><span class="s">&quot;%d#%d#&quot;</span><span class="err">，</span><span class="k">sizeof</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="err">，</span><span class="n">strlen</span><span class="p">(</span><span class="n">x</span><span class="p">));</span>
+</code></pre></div></p>
+<ul>
+<li>复习一下前面说过的字符字面量的表示</li>
+</ul>
+<p>这里 x 就相当于 <code>'h' 'e' 'l' 'l' 'o' ',' 'w' 'o' 'r' 'l' 'd', '\012' '3' '4' '5' '\0'</code>，所以 <code>sizeof (x)</code> 计算占了多少空间，一共 16 个字节，结果为 16。而 <code>strlen (x)</code> 计算第一个 '\0' 前有几个字符，这里有 15 个（'\012' 中的 \0 并不算 '\0'），结果为 15。</p>
+</li>
+<li>
+<p>以下代码段的输出为</p>
+<p><code>`c
+char a[] = "abc";
+char b[] = {'a', 'b', 'c'};
+rintf("%d#%d#", sizeof(a), sizeof(b));</code></p>
+<p>"abc" 可以当作 {'a', 'b', 'c', '\0'}，所以 <code>sizeof(a) = 4，sizeof(b) = 3</code></p>
+</li>
+<li>
+<p>以下代码是否存在错误，如果有请指出哪里有问题 </p>
+<div class="highlight"><pre><span></span><code><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;hello&quot;</span><span class="p">;</span>
+<span class="kt">char</span><span class="w"> </span><span class="n">b</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;hello&quot;</span><span class="p">;</span>
+<span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="sc">&#39;H&#39;</span><span class="p">;</span>
+<span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="sc">&#39;H&#39;</span><span class="p">;</span>
+</code></pre></div>
+<ul>
+<li>
+<p>这里我们要区分的是 a 和 b</p>
+</li>
+<li>
+<p>A 就是一个字符指针，它指向了 "hello" 的开头，而这个 "hello" 存在于静态存储区中，是<strong>只读</strong>的，<strong>不能进行修改</strong>，所以 <code>a[0] = 'H'</code> 会在运行时产生错误（可以通过编译，但是运行会报错） 而 b 是一个字符数组，它自带了栈上空间，在初始化赋值的时候 "hello" 会被复制到 b 的空间中，所以 <code>b[0] = 'H'</code> 是<strong>合法</strong>的。</p>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="8-野指针">8. 野指针<a class="headerlink" href="#8-野指针" title="Permanent link">&para;</a></h2>
+<p>声明一个指针只会分配一个给指针变量的空间（这部分空间用来存储它指向的位置的<strong>地址值</strong>），而不会分配指向的空间。使一个指针可用可以将其它变量取地址赋值给它，这样它指向的位置就是有效的。或者通过 malloc 来新分配一块堆上的内存，malloc 的返回值就是这块内存的首地址，也是你可用的。</p>
+<h2 id="9-特殊表达式语句">9. 特殊表达式/语句<a class="headerlink" href="#9-特殊表达式语句" title="Permanent link">&para;</a></h2>
+<ol>
+<li>
+<p>(C13A) After executing the code below, the value of y is </p>
+<div class="highlight"><pre><span></span><code><span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">z</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="n">z</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">x</span><span class="o">==</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="mi">2</span><span class="p">);</span>
+</code></pre></div>
+<ul>
+<li><strong><code>||</code> 和 <code>&amp;&amp;</code> 的“短路”性质</strong>：当 &amp;&amp; 左边为假时，整体以定位假，则右边不再计算；当 || 左边为真时，整体一定为真，则右边不再计算。</li>
+</ul>
+<p>这里 <code>x==1</code> 已经为假，所以右侧的 <code>y=2</code> 不再执行，y 仍然为 0。</p>
+</li>
+<li>
+<p>(C17A) After executing the following code fragment, the output is </p>
+<div class="highlight"><pre><span></span><code><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="k">switch</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="mi">0</span><span class="p">:</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
+<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="mi">3</span><span class="p">:</span><span class="w"> </span><span class="k">switch</span><span class="w"> </span><span class="p">(</span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="mi">3</span><span class="p">:</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">;</span>
+<span class="w">        </span><span class="k">default</span><span class="o">:</span><span class="w"> </span><span class="k">break</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="n">i</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="n">printf</span><span class="p">(</span><span class="s">&quot;%d#%d#&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">);</span>
+</code></pre></div>
+<ul>
+<li>
+<p>Case 只规定了起点，而<strong>何时退出 switch 块则由 break 决定</strong>，只要没有遇到 break，则一直向下执行（即使碰到了下一个 case）</p>
+</li>
+<li>
+<p>这题里 i 为 1，进入了 case 1 中，b 变为了 3，紧接着因为没有 break 还会进入到 case 3 中，此时 b 为 3 进入了 case 3 执行了 <code>i++</code>，然后进入 default 执行了 break，退出后又执行了 <code>i+=1</code>，所以最终 i 和 b 都为 3。</p>
+</li>
+</ul>
+</li>
+<li>
+<p>以下代码的输出为</p>
+<p><div class="highlight"><pre><span></span><code><span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">-1</span><span class="p">;</span>
+<span class="n">printf</span><span class="p">(</span><span class="s">&quot;%d&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="p">)</span><span class="n">x</span><span class="p">);</span>
+</code></pre></div>
+<code>unsigned int</code> 的转换并<strong>不会改变</strong> x 的二进制值（而是以无符号的方式来理解这段数据），而对于 printf 来说，它要输出的是一个 <code>%d</code>，即有符号数（无符号用 <code>%u</code>），所以输出时还是会<strong>当作有符号整型来理解</strong>，即输出 <code>-1</code>。</p>
+</li>
+<li>
+<p>以下代码的输出为 </p>
+<div class="highlight"><pre><span></span><code><span class="kt">char</span><span class="w"> </span><span class="n">str</span><span class="p">[</span><span class="mi">100</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;ZhejiangU 1 3 5&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">s</span><span class="p">[</span><span class="mi">10</span><span class="p">];</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="p">;</span>
+<span class="n">sscanf</span><span class="p">(</span><span class="n">str</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;%s %*d %d %*d&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">s</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">n</span><span class="p">);</span>
+<span class="n">printf</span><span class="p">(</span><span class="s">&quot;%s&quot;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">s</span><span class="p">[</span><span class="n">n</span><span class="p">]);</span>
+</code></pre></div>
+<p><code>%*d</code> 表示读取一个整型，但是直接忽略，不存到变量中。所以 <code>sscanf</code> 读取到的 n 是第二个数字也就是 3，然后输出 <code>s[3]</code> 开始的字符串</p>
+</li>
+<li>
+<p>Printf 参数传递</p>
+<p><div class="highlight"><pre><span></span><code><span class="cp">#include</span><span class="cpf">&lt;stdio.h&gt;</span>
+<span class="cp">#define ADD(x,y) x+y</span>
+<span class="cp">#define MUL(x,y) (x*y)</span>
+<span class="cp">#define POW(x) ((x)*(x))</span>
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(){</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">a</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">b</span><span class="o">=</span><span class="mi">2</span><span class="p">;</span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;%d %d %d&quot;</span><span class="p">,</span>\
+<span class="w">    </span><span class="n">b</span><span class="o">*</span><span class="n">ADD</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">ADD</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="o">*</span><span class="n">b</span><span class="p">)</span><span class="o">*</span><span class="mi">2</span><span class="p">),</span>\
+<span class="w">    </span><span class="n">MUL</span><span class="p">(</span><span class="n">ADD</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">),</span><span class="n">ADD</span><span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="n">a</span><span class="p">)),</span>\
+<span class="w">    </span><span class="n">POW</span><span class="p">(</span><span class="n">ADD</span><span class="p">(</span><span class="o">++</span><span class="n">a</span><span class="p">,</span><span class="mi">3</span><span class="p">)));</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+- 输出 17 10 30</p>
+<p><code>printf ( )</code> 中参数传递顺序是<strong>从后向前</strong>，故在计算第三个表达式 POW 调用了两次 <code>++a</code>，使 a 的值变为 3</p>
+</li>
+</ol>
+<h2 id="10-书本内容">10. 书本内容<a class="headerlink" href="#10-书本内容" title="Permanent link">&para;</a></h2>
+<h3 id="chapter-1-引言">Chapter 1. 引言<a class="headerlink" href="#chapter-1-引言" title="Permanent link">&para;</a></h3>
+<ol>
+<li>C 语言从 main 函数开始执行，多个 main 函数只执行第一个</li>
+<li>标识符由数字、字母、下划线组成，开头只能为字母或下划线</li>
+<li>保留字：主要和数据类型和语句有关， define 不是保留字，if、else 等是保留字</li>
+<li>编译生成的二进制文件后缀为' .obj '，可执行文件后缀是' .exe '</li>
+</ol>
+<h3 id="chapter-2-用-c-语言编写程序">Chapter 2. 用 C 语言编写程序<a class="headerlink" href="#chapter-2-用-c-语言编写程序" title="Permanent link">&para;</a></h3>
+<ol>
+<li>
+<p>输出格式控制：</p>
+<ul>
+<li>
+<p><code>%md</code> 指定输出宽度为 m (包含符号位)、向<strong>右</strong>对齐；</p>
+</li>
+<li>
+<p><code>%-md</code> 是向<strong>左</strong>对齐；</p>
+</li>
+<li>
+<p><code>%m.nf</code> 指定输出宽度为m (包含符号位和小数点)，保留<strong>n 位小数</strong></p>
+</li>
+</ul>
+</li>
+<li>
+<p>for 语句</p>
+<div class="highlight"><pre><span></span><code><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="mi">5</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+<span class="w">    </span><span class="n">sum</span><span class="o">=</span><span class="n">sum</span><span class="o">+</span><span class="n">i</span><span class="p">;</span><span class="c1">// 1</span>
+<span class="w">    </span><span class="n">Printf</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;%d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">sum</span><span class="p">);</span><span class="c1">// 2</span>
+</code></pre></div>
+<p>For 的循环体语句<strong>只包含语句 1</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">For</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">&lt;=</span><span class="mi">5</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="err">；</span>
+<span class="w">    </span><span class="n">Sum</span><span class="o">=</span><span class="n">sum</span><span class="o">+</span><span class="n">i</span><span class="p">;</span><span class="c1">// 1</span>
+<span class="w">    </span><span class="n">Printf</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;%d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">sum</span><span class="p">);</span><span class="c1">// 2</span>
+</code></pre></div>
+<p>分号表示语句结束，循环体语句是<strong>空语句</strong></p>
+</li>
+</ol>
+<h3 id="chapter-3-分支结构">Chapter 3. 分支结构<a class="headerlink" href="#chapter-3-分支结构" title="Permanent link">&para;</a></h3>
+<ol>
+<li>操作数和运算符之间必须连续输入，不能有空格</li>
+<li>switch 语句如果 case 后没有<strong>break</strong>，就会继续往下执行，包括 default 后的语句</li>
+<li>else 和<strong>离它最近</strong>的、<strong>未和其他 else 匹配过</strong>的 if 相匹配</li>
+</ol>
+<h3 id="chapter-4-循环结构">Chapter 4. 循环结构<a class="headerlink" href="#chapter-4-循环结构" title="Permanent link">&para;</a></h3>
+<ol>
+<li>continue 只能用于循环，用于跳过后面的语句继续循环</li>
+<li>内外层循环的循环变量不能相同</li>
+<li><code>while (i&gt;0) {i++;}</code><strong>不会</strong>死循环 (溢出后 i 又变为 0)</li>
+</ol>
+<h3 id="chapter-5-函数">Chapter 5. 函数<a class="headerlink" href="#chapter-5-函数" title="Permanent link">&para;</a></h3>
+<ol>
+<li>函数首部：函数类型、函数名和形式参数表</li>
+<li>形参和实参一一对应，数量应相同，顺序应一致，类型建议保持一致</li>
+<li>函数定义中 void 不可省略，否则定义为 int</li>
+<li>局部变量和全局变量允许同名，函数的局部变量和复合语句的局部变量同名时以复合语句为准</li>
+<li>
+<p>内存分布：</p>
+<table>
+<thead>
+<tr>
+<th><strong>静态存储区</strong>（编译时确定）</th>
+<th>全局变量、静态局部变量</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>动态存储区</td>
+<td><code>main ()</code> 变量区、其他函数变量区域</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>C 语言的全局变量, 静态局部变量的存储是在<strong>编译时</strong>确定的, 其存储空间的实际分配是在<strong>程序开始执行前</strong>完成</p>
+</li>
+<li>
+<p>C 语言的局部自动变量是在<strong>进入变量定义所在的复合语句</strong>时为它们分配存储单元, 这种大小静态确定</p>
+</li>
+<li>
+<p>自动变量没有赋初值，为<strong>随机值</strong>；静态变量没有<strong>赋初值为 0</strong>，且静态变量赋初值仅在函数<strong>第一次调用时</strong>起作用</p>
+</li>
+</ol>
+<h3 id="chapter-6-回顾数据类型和表达式">Chapter 6. 回顾数据类型和表达式<a class="headerlink" href="#chapter-6-回顾数据类型和表达式" title="Permanent link">&para;</a></h3>
+<h4 id="61-整型">6.1 整型<a class="headerlink" href="#61-整型" title="Permanent link">&para;</a></h4>
+<ul>
+<li>（最高位时符号位，1 表示负，0 表示正）, 此处用 -1 举例</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>原码</th>
+<th><code>1000000000000001</code></th>
+<th><strong>最高位是符号位，其余是数值的绝对值的二进制</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>反码</strong></td>
+<td><code>11111111111111110</code></td>
+<td><strong>原码的符号位不变，余下取反</strong></td>
+</tr>
+<tr>
+<td><strong>补码</strong></td>
+<td><code>11111111111111111</code></td>
+<td><strong>反码的值加上 1</strong></td>
+</tr>
+</tbody>
+</table>
+<p>C 语言规定，short 不长于 int，long 不短于 int，unsigned 表示存储无符号（最高位不作为符号位）</p>
+<ul>
+<li>
+<p>十进制：由正负号和 0~9 组成，首位数字不为 0</p>
+</li>
+<li>
+<p>八进制：由正负号和 0~7 组成，首位数字一定为 0</p>
+</li>
+<li>
+<p>十六进制：由正负号、数字 0~9 和英文 a ~ f (A ~ F) 组成，首位数字前必须有 0 x/0 X</p>
+</li>
+<li>
+<p>后缀表示类型：l/L 表示 long，u/U 表示 unsigned，LU 表示 unsigned long</p>
+</li>
+</ul>
+<h4 id="62-实型">6.2 实型<a class="headerlink" href="#62-实型" title="Permanent link">&para;</a></h4>
+<p>符号位+阶码+尾数
+实型只能近似表示，运算也会产生误差</p>
+<table>
+<thead>
+<tr>
+<th><strong>浮点表示法</strong></th>
+<th><strong>由正负号，小数点和 0~9 组成，小数点前后至少有一边要有数字</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>科学计数法</strong></td>
+<td><strong>由正负号，e/E 和 0~9 组成，e 之前要有数据，e 之后指数只能是整数</strong></td>
+</tr>
+</tbody>
+</table>
+<h4 id="63-字符型">6.3 字符型<a class="headerlink" href="#63-字符型" title="Permanent link">&para;</a></h4>
+<p>一个字节，用于储存 ASCII 码（0~127）
+整型变量和字符型变量的定义和值可以相互转换 ch='A' ch=65
+字符型常量：一堆单引号和括起来的字符表示</p>
+<h4 id="64-输入输出">6.4 输入输出<a class="headerlink" href="#64-输入输出" title="Permanent link">&para;</a></h4>
+<ul>
+<li>
+<p><code>%d</code>: 十进制整数   </p>
+</li>
+<li>
+<p><code>%u</code>：十进制无符号整数       </p>
+</li>
+<li>
+<p><code>%o</code>：八进制整数       </p>
+</li>
+<li>
+<p><code>%x</code>：十六进制整数 （ long 型加前缀 l ）</p>
+</li>
+<li>
+<p><code>%f</code>: 小数类型（保留<strong>六位</strong>小数）     </p>
+</li>
+<li>
+<p><code>%e</code>: 指数形式（小数点前有且仅有一位非零的数字）</p>
+</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="n">Int</span><span class="w"> </span><span class="n">k</span><span class="o">=</span><span class="mi">11</span><span class="p">;</span>
+<span class="n">Printf</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;%d %o %x&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">)</span><span class="c1">//输出 11 13 b</span>
+<span class="n">printf</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;%x %X % #x % #X &quot;</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">);</span><span class="c1">//输出 b B 0 xb 0XB</span>
+<span class="n">printf</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;%o % #o &quot;</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">);</span><span class="c1">//输出 13 013</span>
+</code></pre></div>
+<h4 id="65-类型转换">6.5 类型转换<a class="headerlink" href="#65-类型转换" title="Permanent link">&para;</a></h4>
+<p>强制转换<strong>不改变</strong>数据定义，仅满足本次运算需要，强制类型转换是<strong>右结合</strong>的运算符</p>
+<p>自动类型转换：</p>
+<ol>
+<li>
+<p>非赋值运算：<strong>先水平后垂直</strong>，防止精度降低（精度从低到高）</p>
+</li>
+<li>
+<p>赋值运算：赋值号右侧表达式类型<strong>自动转换</strong>为赋值号左侧变量的类型</p>
+</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="n">z</span><span class="o">=</span><span class="p">(</span><span class="n">n</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">)</span><span class="o">?</span><span class="w"> </span><span class="mf">2.9</span><span class="o">:</span><span class="mi">1</span><span class="p">;</span><span class="c1">//输出 2.9 或 1.0</span>
+</code></pre></div>
+<h4 id="66-位运算">6.6 位运算<a class="headerlink" href="#66-位运算" title="Permanent link">&para;</a></h4>
+<ul>
+<li>
+<p>左位移：右端的空位补 0，移到左端之外的舍弃</p>
+</li>
+<li>
+<p>右位移：不带符号位的数据左端空位补 0，有符号位的数据左端空位按<strong>符号位</strong>复制，移到右端之外的舍弃</p>
+</li>
+</ul>
+<h3 id="chapter-7-数组">Chapter 7. 数组<a class="headerlink" href="#chapter-7-数组" title="Permanent link">&para;</a></h3>
+<ol>
+<li>数组长度定义时必须确定，初始化时若全部赋值则可以省略长度</li>
+<li>数组名是地址常量，<strong>不允许修改</strong></li>
+<li>静态数组没有初始化则自动赋 0</li>
+<li>二维数组初始化时<strong>可以省略行长度，不可省略列长度</strong></li>
+</ol>
+<h3 id="chapter-8-指针">Chapter 8. 指针<a class="headerlink" href="#chapter-8-指针" title="Permanent link">&para;</a></h3>
+<ol>
+<li>区分内存单元的内容和内存单元的地址</li>
+<li>指针变量自身所占内存大小和所指向的变量类型<strong>无关</strong>，但不同类型的指针变量所占空间大小<strong>相同</strong></li>
+<li>指针类型和所指变量类型<strong>必须相同</strong>，指针的值<strong>只能</strong>赋给<strong>类型相同</strong>的指针</li>
+<li>
+<div class="highlight"><pre><span></span><code><span class="n">Int</span><span class="w"> </span><span class="o">*</span><span class="n">p</span><span class="p">,</span><span class="o">*</span><span class="n">q</span><span class="p">;</span>
+<span class="n">Int</span><span class="w"> </span><span class="n">a</span><span class="p">[</span><span class="mi">10</span><span class="p">];</span>
+<span class="n">P</span><span class="o">=</span><span class="n">a</span><span class="p">;</span>
+<span class="n">Q</span><span class="o">=&amp;</span><span class="n">a</span><span class="p">[</span><span class="mi">5</span><span class="p">];</span>
+<span class="n">Printf</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;%d&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">q</span><span class="o">-</span><span class="n">p</span><span class="p">);</span><span class="c1">//输出 5</span>
+<span class="n">Printf</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;%d&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="w"> </span><span class="n">q</span><span class="o">-</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="w"> </span><span class="n">p</span><span class="p">);</span><span class="c1">//输出 20</span>
+</code></pre></div>
+</li>
+<li>
+<p>字符串
+<code>scanf</code>：遇到回车或空格就结束，将输入的数据和'\0'送入数组中（<strong>不含回车和空格</strong>）
+<code>gets</code>：遇到回车结束，将输入的数据和'\0'送入数组中（<strong>不含回车，可以包含空格</strong>）
+<code>puts</code>：遇到'\0'结束，将'\0'转换为'\n'输出
+<code>strcpy(s1, s2)，strcat(s1, s2)</code>：s1 为<strong>字符型数组基地址</strong>，s2 为<strong>字符数组名或字符串常量</strong>
+<code>strcmp(s1, s2)</code>：s1，s2 为<strong>字符数组名或字符串常量</strong></p>
+</li>
+<li>
+<p>动态分配内存
+<code>Malloc (size)</code>   <br />
+<code>calloc (n, size)</code>   <br />
+<code>realloc (void *ptr, size)</code></p>
+</li>
+<li>
+<p>相同类型的指针 p , q ,可进行赋值 ( <code>p=q</code> ), 比较 ( <code>p!=q</code> ) 和算数运算 ( <code>p-q</code> , <code>p+1</code> ), 但<strong>不能 <code>p+q</code></strong></p>
+</li>
+</ol>
+<h3 id="chapter-9-结构">Chapter 9. 结构<a class="headerlink" href="#chapter-9-结构" title="Permanent link">&para;</a></h3>
+<ol>
+<li>嵌套结构，先定义成员的结构类型，再定义主结构类型</li>
+<li>结构类型变量的内存空间是各个成员所占内存空间之和</li>
+</ol>
+<h3 id="chapter-10-函数与程序结构">Chapter 10. 函数与程序结构<a class="headerlink" href="#chapter-10-函数与程序结构" title="Permanent link">&para;</a></h3>
+<ol>
+<li>递归</li>
+<li>宏定义
+    <code>#define</code> 宏名宏定义字符串
+    宏只是进行替换，所以要注意<strong>括号</strong>的使用
+    编译预处理时无法计算表达式，故 <code>#if</code> 后<strong>只能使用宏名</strong></li>
+<li>文件包含
+    先从当前工位文件夹找文件，再到系统 include 文件夹中查找</li>
+<li>变量
+    ​  4.1 外部变量使用 extern 类型名变量名表; 来使用全局变量
+​        4.2 静态全局变量用于限制全局变量作用域的拓展
+​        4.3 函数使用 <code>extern 函数类型函数名 (参数表说明);</code> 来调用其他函数；<code>static 函数类型函数名 (参数表说明);</code> 来定义静态的函数</li>
+</ol>
+<h3 id="chapter-11-指针进阶">Chapter 11. 指针进阶<a class="headerlink" href="#chapter-11-指针进阶" title="Permanent link">&para;</a></h3>
+<ol>
+<li>指针数组，二阶指针</li>
+<li>命令行参数<br />
+<div class="highlight"><pre><span></span><code><span class="n">Int</span><span class="w"> </span><span class="nf">main</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">argv</span><span class="p">[])</span>
+<span class="p">{</span>
+<span class="w">     </span><span class="p">...</span><span class="w">    </span>
+<span class="p">}</span><span class="w">                                 </span><span class="c1">//argc 表示命令行参数（包括命令）个数，argv 存储命令行参数</span>
+</code></pre></div></li>
+<li>函数指针变量：`返回类型 (*变量名)(参数类型表);
+<div class="highlight"><pre><span></span><code><span class="kt">int</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">fp</span><span class="p">)(</span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="p">);</span><span class="w"> </span><span class="c1">// fp 是一个指向“接受两个 int、返回 int”的函数的指针</span>
+</code></pre></div></li>
+<li>链表插入原则：先连后断删除原则：先接后删</li>
+</ol>
+<h3 id="chapter-12-文件">Chapter 12. 文件<a class="headerlink" href="#chapter-12-文件" title="Permanent link">&para;</a></h3>
+<ol>
+<li>C 语言源程序是<strong>文本文件</strong>，目标文件和可执行文件是<strong>二进制文件</strong></li>
+<li>文件系统分为<strong>缓冲文件系统</strong>和<strong>非缓冲文件系统</strong>，前者系统自动为每一个文件分配一块文件内存缓冲区（内存单元），后者在程序中用 C 语言实现分配</li>
+<li>磁盘数据的组织方式按<strong>扇区</strong>进行，每个扇区大小为 512 B，写满后操作系统自动把数据写入磁盘，把文件缓冲区清空</li>
+</ol>
+<h4 id="关于文件的各类语法">关于文件的各类语法<a class="headerlink" href="#关于文件的各类语法" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th><code>FILE *fp</code></th>
+<th>定义一个 FILE 结构指针，用于指向文件（<strong>不可进行  <code>fp++</code> 或 <code>*fp</code></strong>）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>typedef</code></td>
+<td>重新命名已有类型，如 <code>typedef int NUM[10];</code> 语句执行后，<code>NUM a;</code> 等价于 <code>int a[10] ;</code><strong>（别忘了分号）</strong></td>
+</tr>
+<tr>
+<td><code>fopen ("文件名","文件打开方式")</code></td>
+<td>成功返回地址，失败返回 NULL，<strong>文件不能再关闭前被再次打开</strong><br></td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">打开方式（文本文件/二进制文件 ）</th>
+<th style="text-align: left;">含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>r/rb</strong></td>
+<td style="text-align: left;">打开文件只读</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>w/wb</strong></td>
+<td style="text-align: left;">建立新文件只写</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>a/ab</strong></td>
+<td style="text-align: left;">打开文件追加</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>r+/rb+</strong></td>
+<td style="text-align: left;">打开文件读/写</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>w+/wb+</strong></td>
+<td style="text-align: left;">建立新文件读/写</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>a+/ab+</strong></td>
+<td style="text-align: left;">打开文件读/写/追加</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ffclose (文件指针)</code></td>
+<td><strong>成功的返回值为 0</strong>，并把缓冲区数据写入磁盘，释放文件缓冲区单元和 FILE 结构，使文件指针和具体文件脱钩</td>
+</tr>
+<tr>
+<td><code>exit(0)</code></td>
+<td>关闭所有打开的文件，终止程序运行。<strong>0 表示正常结束</strong>，非 0 表示不正常结束。</td>
+</tr>
+<tr>
+<td><code>ch=fgetc(fp);</code></td>
+<td>从 fp 所指的磁盘文件读入一个字符到 ch，读到有效字符后会向后移动指针，若读到末尾会读到无效字符并<strong>返回 EOF</strong></td>
+</tr>
+<tr>
+<td><code>fputc(ch, fp);</code></td>
+<td>把 ch 写到 fp 所指的磁盘文件上</td>
+</tr>
+<tr>
+<td><code>fputs (s, fp);</code></td>
+<td>把字符串 s 写到 fp 所指的磁盘文件上，'\0'不写入文件；<strong>成功则返回所写的最后一个字符，失败则返回 EOF</strong></td>
+</tr>
+<tr>
+<td><code>fgets(s, n, fp);</code></td>
+<td>最多读入 n-1 个字符到 s，并自动添加'\0'，会保留换行符但不保留 EOF；<strong>成功返回读取的字符串，失败返回空指针</strong></td>
+</tr>
+<tr>
+<td><code>fscanf (文件指针，格式字符串，输入表);</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>fprintf(文件指针，格式字符串，输出表);</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>fread(buffer, size, count, fp);</code></td>
+<td>Buffer 为存放输入数据的首地址</td>
+</tr>
+<tr>
+<td><code>fwrite(buffer, size, count, fp);</code></td>
+<td>Buffer 为存放输入数据的首地址</td>
+</tr>
+<tr>
+<td><code>rewind(fp);</code></td>
+<td>使指针回到文件首地址</td>
+</tr>
+<tr>
+<td><code>fseek(fp, offset, from);</code></td>
+<td>使指针向指定方向偏移指定单位长度; offset: 偏移量，long 型数据，加后缀 L；<br> <code>from</code>: 首部 0 SEEK_SET、当前 1 SEEK_CUR、尾部 2 SEEK_END</td>
+</tr>
+<tr>
+<td><code>ftell(fp);</code></td>
+<td>相对于文件开头的位移量（字节数）</td>
+</tr>
+<tr>
+<td><code>foef(fp);</code></td>
+<td>指针是否到文件末尾，<strong>是则返回 1，否则返回 0</strong></td>
+</tr>
+<tr>
+<td><code>ferror(fp);</code></td>
+<td>文件使用输入输出函数时是否出错，<strong>未出错返回 0</strong>，否侧有错</td>
+</tr>
+<tr>
+<td><code>clearerr(fp);</code></td>
+<td>清除出错标志和文件结束标志，使它们为 0 值</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="页脚" >
+        
+          
+          <a href="index.html" class="md-footer__link md-footer__link--prev" aria-label="上一页: C程">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256l137.3-137.4c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              <div class="md-ellipsis">
+                C程
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../Python/Python.html" class="md-footer__link md-footer__link--next" aria-label="下一页: Python">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              <div class="md-ellipsis">
+                Python
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M247.1 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L179.2 256 41.9 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["header.autohide", "content.math", "content.action.edit", "content.action.view", "content.code.copy", "content.code.annotate", "content.tooltips", "navigation.footer", "navigation.indexes", "navigation.path", "navigation.prune", "navigation.tabs", "navigation.tabs.sticky", "navigation.top", "navigation.tracking", "search.share", "search.suggest", "search.highlight", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+        <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+      
+    
+  </body>
+</html>

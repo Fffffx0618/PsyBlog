@@ -1,0 +1,16 @@
+/* 强制正文字体 */
+.md-typeset,
+.md-header,
+.md-footer,
+.md-tabs,
+body {
+  font-family: "LXGW WenKai Screen R", "Microsoft YaHei", sans-serif !important;
+}
+
+/* 强制代码字体 */
+.md-typeset code,
+.md-typeset pre,
+.highlight code,
+code {
+  font-family: "Sarasa Mono SC", "JetBrains Mono", Consolas, monospace !important;
+}

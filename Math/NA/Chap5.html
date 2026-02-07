@@ -1,0 +1,2480 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="可达鸭的笔记本，记录了 ZJU-CS 的一些课程笔记。">
+      
+      
+        <meta name="author" content="Fffffx">
+      
+      
+      
+        <link rel="prev" href="Chap4.html">
+      
+      
+        <link rel="next" href="Chap6.html">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>Chapter 5: Initial-Value Problems for Ordinary Differential Equations - Fffffx's Note</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+  
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+  
+  <style>:root{--md-admonition-icon--note:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M1%207.775V2.75C1%201.784%201.784%201%202.75%201h5.025c.464%200%20.91.184%201.238.513l6.25%206.25a1.75%201.75%200%200%201%200%202.474l-5.026%205.026a1.75%201.75%200%200%201-2.474%200l-6.25-6.25A1.75%201.75%200%200%201%201%207.775m1.5%200c0%20.066.026.13.073.177l6.25%206.25a.25.25%200%200%200%20.354%200l5.025-5.025a.25.25%200%200%200%200-.354l-6.25-6.25a.25.25%200%200%200-.177-.073H2.75a.25.25%200%200%200-.25.25ZM6%205a1%201%200%201%201%200%202%201%201%200%200%201%200-2%22/%3E%3C/svg%3E');--md-admonition-icon--abstract:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M2.5%201.75v11.5c0%20.138.112.25.25.25h3.17a.75.75%200%200%201%200%201.5H2.75A1.75%201.75%200%200%201%201%2013.25V1.75C1%20.784%201.784%200%202.75%200h8.5C12.216%200%2013%20.784%2013%201.75v7.736a.75.75%200%200%201-1.5%200V1.75a.25.25%200%200%200-.25-.25h-8.5a.25.25%200%200%200-.25.25m13.274%209.537zl-4.557%204.45a.75.75%200%200%201-1.055-.008l-1.943-1.95a.75.75%200%200%201%201.062-1.058l1.419%201.425%204.026-3.932a.75.75%200%201%201%201.048%201.074M4.75%204h4.5a.75.75%200%200%201%200%201.5h-4.5a.75.75%200%200%201%200-1.5M4%207.75A.75.75%200%200%201%204.75%207h2a.75.75%200%200%201%200%201.5h-2A.75.75%200%200%201%204%207.75%22/%3E%3C/svg%3E');--md-admonition-icon--info:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M0%208a8%208%200%201%201%2016%200A8%208%200%200%201%200%208m8-6.5a6.5%206.5%200%201%200%200%2013%206.5%206.5%200%200%200%200-13M6.5%207.75A.75.75%200%200%201%207.25%207h1a.75.75%200%200%201%20.75.75v2.75h.25a.75.75%200%200%201%200%201.5h-2a.75.75%200%200%201%200-1.5h.25v-2h-.25a.75.75%200%200%201-.75-.75M8%206a1%201%200%201%201%200-2%201%201%200%200%201%200%202%22/%3E%3C/svg%3E');--md-admonition-icon--tip:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M3.499.75a.75.75%200%200%201%201.5%200v.996C5.9%202.903%206.793%203.65%207.662%204.376l.24.202c-.036-.694.055-1.422.426-2.163C9.1.873%2010.794-.045%2012.622.26%2014.408.558%2016%201.94%2016%204.25c0%201.278-.954%202.575-2.44%202.734l.146.508.065.22c.203.701.412%201.455.476%202.226.142%201.707-.4%203.03-1.487%203.898C11.714%2014.671%2010.27%2015%208.75%2015h-6a.75.75%200%200%201%200-1.5h1.376a4.5%204.5%200%200%201-.563-1.191%203.84%203.84%200%200%201-.05-2.063%204.65%204.65%200%200%201-2.025-.293.75.75%200%200%201%20.525-1.406c1.357.507%202.376-.006%202.698-.318l.009-.01a.747.747%200%200%201%201.06%200%20.75.75%200%200%201-.012%201.074c-.912.92-.992%201.835-.768%202.586.221.74.745%201.337%201.196%201.621H8.75c1.343%200%202.398-.296%203.074-.836.635-.507%201.036-1.31.928-2.602-.05-.603-.216-1.224-.422-1.93l-.064-.221c-.12-.407-.246-.84-.353-1.29a2.4%202.4%200%200%201-.507-.441%203.1%203.1%200%200%201-.633-1.248.75.75%200%200%201%201.455-.364c.046.185.144.436.31.627.146.168.353.305.712.305.738%200%201.25-.615%201.25-1.25%200-1.47-.95-2.315-2.123-2.51-1.172-.196-2.227.387-2.706%201.345-.46.92-.27%201.774.019%203.062l.042.19.01.05c.348.443.666.949.94%201.553a.75.75%200%201%201-1.365.62c-.553-1.217-1.32-1.94-2.3-2.768L6.7%205.527c-.814-.68-1.75-1.462-2.692-2.619a3.7%203.7%200%200%200-1.023.88c-.406.495-.663%201.036-.722%201.508.116.122.306.21.591.239.388.038.797-.06%201.032-.19a.75.75%200%200%201%20.728%201.31c-.515.287-1.23.439-1.906.373-.682-.067-1.473-.38-1.879-1.193L.75%205.677V5.5c0-.984.48-1.94%201.077-2.664.46-.559%201.05-1.055%201.673-1.353z%22/%3E%3C/svg%3E');--md-admonition-icon--success:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M13.78%204.22a.75.75%200%200%201%200%201.06l-7.25%207.25a.75.75%200%200%201-1.06%200L2.22%209.28a.75.75%200%200%201%20.018-1.042.75.75%200%200%201%201.042-.018L6%2010.94l6.72-6.72a.75.75%200%200%201%201.06%200%22/%3E%3C/svg%3E');--md-admonition-icon--question:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M0%208a8%208%200%201%201%2016%200A8%208%200%200%201%200%208m8-6.5a6.5%206.5%200%201%200%200%2013%206.5%206.5%200%200%200%200-13M6.92%206.085h.001a.749.749%200%201%201-1.342-.67c.169-.339.436-.701.849-.977C6.845%204.16%207.369%204%208%204a2.76%202.76%200%200%201%201.637.525c.503.377.863.965.863%201.725%200%20.448-.115.83-.329%201.15-.205.307-.47.513-.692.662-.109.072-.22.138-.313.195l-.006.004a6%206%200%200%200-.26.16%201%201%200%200%200-.276.245.75.75%200%200%201-1.248-.832c.184-.264.42-.489.692-.661q.154-.1.313-.195l.007-.004c.1-.061.182-.11.258-.161a1%201%200%200%200%20.277-.245C8.96%206.514%209%206.427%209%206.25a.61.61%200%200%200-.262-.525A1.27%201.27%200%200%200%208%205.5c-.369%200-.595.09-.74.187a1%201%200%200%200-.34.398M9%2011a1%201%200%201%201-2%200%201%201%200%200%201%202%200%22/%3E%3C/svg%3E');--md-admonition-icon--warning:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M6.457%201.047c.659-1.234%202.427-1.234%203.086%200l6.082%2011.378A1.75%201.75%200%200%201%2014.082%2015H1.918a1.75%201.75%200%200%201-1.543-2.575Zm1.763.707a.25.25%200%200%200-.44%200L1.698%2013.132a.25.25%200%200%200%20.22.368h12.164a.25.25%200%200%200%20.22-.368Zm.53%203.996v2.5a.75.75%200%200%201-1.5%200v-2.5a.75.75%200%200%201%201.5%200M9%2011a1%201%200%201%201-2%200%201%201%200%200%201%202%200%22/%3E%3C/svg%3E');--md-admonition-icon--failure:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M2.344%202.343za8%208%200%200%201%2011.314%2011.314A8.002%208.002%200%200%201%20.234%2010.089a8%208%200%200%201%202.11-7.746m1.06%2010.253a6.5%206.5%200%201%200%209.108-9.275%206.5%206.5%200%200%200-9.108%209.275M6.03%204.97%208%206.94l1.97-1.97a.749.749%200%200%201%201.275.326.75.75%200%200%201-.215.734L9.06%208l1.97%201.97a.749.749%200%200%201-.326%201.275.75.75%200%200%201-.734-.215L8%209.06l-1.97%201.97a.749.749%200%200%201-1.275-.326.75.75%200%200%201%20.215-.734L6.94%208%204.97%206.03a.75.75%200%200%201%20.018-1.042.75.75%200%200%201%201.042-.018%22/%3E%3C/svg%3E');--md-admonition-icon--danger:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M9.504.43a1.516%201.516%200%200%201%202.437%201.713L10.415%205.5h2.123c1.57%200%202.346%201.909%201.22%203.004l-7.34%207.142a1.25%201.25%200%200%201-.871.354h-.302a1.25%201.25%200%200%201-1.157-1.723L5.633%2010.5H3.462c-1.57%200-2.346-1.909-1.22-3.004zm1.047%201.074L3.286%208.571A.25.25%200%200%200%203.462%209H6.75a.75.75%200%200%201%20.694%201.034l-1.713%204.188%206.982-6.793A.25.25%200%200%200%2012.538%207H9.25a.75.75%200%200%201-.683-1.06l2.008-4.418.003-.006-.004-.009-.006-.006-.008-.001q-.005%200-.009.004%22/%3E%3C/svg%3E');--md-admonition-icon--bug:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M4.72.22a.75.75%200%200%201%201.06%200l1%20.999a3.5%203.5%200%200%201%202.441%200l.999-1a.748.748%200%200%201%201.265.332.75.75%200%200%201-.205.729l-.775.776c.616.63.995%201.493.995%202.444v.327q0%20.15-.025.292c.408.14.764.392%201.029.722l1.968-.787a.75.75%200%200%201%20.556%201.392L13%207.258V9h2.25a.75.75%200%200%201%200%201.5H13v.5q-.002.615-.141%201.186l2.17.868a.75.75%200%200%201-.557%201.392l-2.184-.873A5%205%200%200%201%208%2016a5%205%200%200%201-4.288-2.427l-2.183.873a.75.75%200%200%201-.558-1.392l2.17-.868A5%205%200%200%201%203%2011v-.5H.75a.75.75%200%200%201%200-1.5H3V7.258L.971%206.446a.75.75%200%200%201%20.558-1.392l1.967.787c.265-.33.62-.583%201.03-.722a1.7%201.7%200%200%201-.026-.292V4.5c0-.951.38-1.814.995-2.444L4.72%201.28a.75.75%200%200%201%200-1.06m.53%206.28a.75.75%200%200%200-.75.75V11a3.5%203.5%200%201%200%207%200V7.25a.75.75%200%200%200-.75-.75ZM6.173%205h3.654A.17.17%200%200%200%2010%204.827V4.5a2%202%200%201%200-4%200v.327c0%20.096.077.173.173.173%22/%3E%3C/svg%3E');--md-admonition-icon--example:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M5%205.782V2.5h-.25a.75.75%200%200%201%200-1.5h6.5a.75.75%200%200%201%200%201.5H11v3.282l3.666%205.76C15.619%2013.04%2014.543%2015%2012.767%2015H3.233c-1.776%200-2.852-1.96-1.899-3.458Zm-2.4%206.565a.75.75%200%200%200%20.633%201.153h9.534a.75.75%200%200%200%20.633-1.153L12.225%2010.5h-8.45ZM9.5%202.5h-3V6c0%20.143-.04.283-.117.403L4.73%209h6.54L9.617%206.403A.75.75%200%200%201%209.5%206Z%22/%3E%3C/svg%3E');--md-admonition-icon--quote:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M1.75%202.5h10.5a.75.75%200%200%201%200%201.5H1.75a.75.75%200%200%201%200-1.5m4%205h8.5a.75.75%200%200%201%200%201.5h-8.5a.75.75%200%200%201%200-1.5m0%205h8.5a.75.75%200%200%201%200%201.5h-8.5a.75.75%200%200%201%200-1.5M2.5%207.75v6a.75.75%200%200%201-1.5%200v-6a.75.75%200%200%201%201.5%200%22/%3E%3C/svg%3E');}</style>
+
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=LXGW+WenKai+Screen,+Microsoft+YaHei,+sans-serif:300,300i,400,400i,700,700i%7CJetBrains+Mono,+Sarasa+Mono+SC,+Consolas,+monospace:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"LXGW WenKai Screen, Microsoft YaHei, sans-serif";--md-code-font:"JetBrains Mono, Sarasa Mono SC, Consolas, monospace"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="https://fonts.loli.net/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap">
+    
+      <link rel="stylesheet" href="https://gcore.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.1.0/style.css">
+    
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap">
+    
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sarasa-gothic@0.43.0/css/sarasa-mono-sc.css">
+    
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/one-dark.min.css">
+    
+      <link rel="stylesheet" href="../../stylesheets/blueTopaz.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue-grey" data-md-color-accent="blue-grey">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#chapter-5-initial-value-problems-for-ordinary-differential-equations" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="Fffffx&#39;s Note" class="md-header__button md-logo" aria-label="Fffffx's Note" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m19.07 14.88 2.05 2.05L15.06 23H13v-2.06zm1.97-1.75c.14 0 .27.06.38.17l1.28 1.28c.22.21.22.56 0 .77l-1 1-2.05-2.05 1-1c.11-.11.25-.17.39-.17M17 4v6l-2-2-2 2V4H9v16h2v2H7c-1.05 0-2-.95-2-2v-1H3v-2h2v-4H3v-2h2V7H3V5h2V4a2 2 0 0 1 2-2h12c1.05 0 2 .95 2 2v6l-2 2V4zM5 5v2h2V5zm0 6v2h2v-2zm0 6v2h2v-2z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Fffffx's Note
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Chapter 5: Initial-Value Problems for Ordinary Differential Equations
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="blue-grey" data-md-color-accent="blue-grey"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4M7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="blue-grey" data-md-color-accent="teal"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256l137.3-137.4c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="分享" aria-label="分享" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Fffffx0618/PsyBlog" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Fffffx
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  首页
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../blog/index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  我的Blog
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Language/index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  编程语言
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Algorithm/index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  程序算法
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../System/index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  体系结构
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  数学基础
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../Develop/index.md" class="md-tabs__link">
+        
+  
+  
+    
+  
+  前后端开发
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Fffffx&#39;s Note" class="md-nav__button md-logo" aria-label="Fffffx's Note" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m19.07 14.88 2.05 2.05L15.06 23H13v-2.06zm1.97-1.75c.14 0 .27.06.38.17l1.28 1.28c.22.21.22.56 0 .77l-1 1-2.05-2.05 1-1c.11-.11.25-.17.39-.17M17 4v6l-2-2-2 2V4H9v16h2v2H7c-1.05 0-2-.95-2-2v-1H3v-2h2v-4H3v-2h2V7H3V5h2V4a2 2 0 0 1 2-2h12c1.05 0 2 .95 2 2v6l-2 2V4zM5 5v2h2V5zm0 6v2h2v-2zm0 6v2h2v-2z"/></svg>
+
+    </a>
+    Fffffx's Note
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Fffffx0618/PsyBlog" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Fffffx
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../index.html" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    首页
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../blog/index.html" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    我的Blog
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../Language/index.html" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    编程语言
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../Algorithm/index.html" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    程序算法
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../System/index.html" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    体系结构
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../index.html" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    数学基础
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6" id="__nav_6_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    数学基础
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../DM/index.html" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    离散数学及其应用
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_6_3" id="__nav_6_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    数值分析
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    数值分析
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="index.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    None
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Chap1.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 1. Mathematical Preliminaries
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Chap2.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 2. Solutions of Equations in One Variable
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Chap3.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 3: Interpolation and Polynomial Approximation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Chap4.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 4: Numerical Differentiation and Integration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 5: Initial-Value Problems for Ordinary Differential Equations
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="Chap5.html" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 5: Initial-Value Problems for Ordinary Differential Equations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#51-the-elementary-theory-of-initial-value-problems" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 The Elementary Theory of Initial-Value Problems
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#52-eulers-method" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Euler's Method
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5.2 Euler&#39;s Method">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#error-bound" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Error Bound
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#other-eulers-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Other Euler's Methods
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#53-high-order-taylor-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 High Order Taylor Methods
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#54-runge-kutta-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4 Runge-Kutta Methods
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5.4 Runge-Kutta Methods">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#高阶-runge-kutta-法" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        高阶 Runge-Kutta 法
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#56-multistep-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.6 Multistep Methods
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5.6 Multistep Methods">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-adams-bashforth-explicit-m-step-technique" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Adams-Bashforth explicit \(m\)-step Technique
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-adams-moulton-implicit-m--step-technique" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Adams-Moulton Implicit \(m\) -step Technique
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-adams-predictor-corrector-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Adams Predictor-Corrector System
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-derive-from-taylor-expansion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Derive from Taylor Expansion
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#59-higher-order-equations-and-systems-of-differential-equations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.9 Higher-Order Equations and Systems of Differential Equations
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5.9 Higher-Order Equations and Systems of Differential Equations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-m-th-order-system-of-1st-order-ivp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. m-th Order System of 1st-Order IVP
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-higher-order-differential-equation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Higher-Order Differential Equation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#510-stability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.10 Stability
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Chap6.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 6. Direct Methods for Solving Linear Systems
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Chap7.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chap 7: Iterative Techniques in Matrix Algebra
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Chap8.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chap 8: Approximation Theory
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Chap9.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chap 9: Approximating Eigenvalues
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Develop/index.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    前后端开发
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#51-the-elementary-theory-of-initial-value-problems" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 The Elementary Theory of Initial-Value Problems
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#52-eulers-method" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Euler's Method
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5.2 Euler&#39;s Method">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#error-bound" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Error Bound
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#other-eulers-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Other Euler's Methods
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#53-high-order-taylor-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 High Order Taylor Methods
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#54-runge-kutta-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4 Runge-Kutta Methods
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5.4 Runge-Kutta Methods">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#高阶-runge-kutta-法" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        高阶 Runge-Kutta 法
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#56-multistep-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.6 Multistep Methods
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5.6 Multistep Methods">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-adams-bashforth-explicit-m-step-technique" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Adams-Bashforth explicit \(m\)-step Technique
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-adams-moulton-implicit-m--step-technique" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Adams-Moulton Implicit \(m\) -step Technique
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-adams-predictor-corrector-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Adams Predictor-Corrector System
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-derive-from-taylor-expansion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Derive from Taylor Expansion
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#59-higher-order-equations-and-systems-of-differential-equations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.9 Higher-Order Equations and Systems of Differential Equations
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5.9 Higher-Order Equations and Systems of Differential Equations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-m-th-order-system-of-1st-order-ivp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. m-th Order System of 1st-Order IVP
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-higher-order-differential-equation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Higher-Order Differential Equation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#510-stability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.10 Stability
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+
+  <nav class="md-path" aria-label="导航栏" >
+    <ol class="md-path__list">
+      
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../index.html" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    数学基础
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="index.md" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    数值分析
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/Fffffx0618/PsyBlog/edit/master/docs/Math/NA/Chap5.md" title="编辑此页" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+    
+      
+    
+    <a href="https://github.com/Fffffx0618/PsyBlog/raw/master/docs/Math/NA/Chap5.md" title="查看本页的源代码" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.2 8.2 0 0 1-1.23-2"/></svg>
+    </a>
+  
+
+
+<h1 id="chapter-5-initial-value-problems-for-ordinary-differential-equations">Chapter 5: Initial-Value Problems for Ordinary Differential Equations<a class="headerlink" href="#chapter-5-initial-value-problems-for-ordinary-differential-equations" title="Permanent link">&para;</a></h1>
+<h2 id="51-the-elementary-theory-of-initial-value-problems">5.1 The Elementary Theory of Initial-Value Problems<a class="headerlink" href="#51-the-elementary-theory-of-initial-value-problems" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p>[!info]
+Initial-Value Problems for the <span class="arithmatex">\(1^{\text{st}}\)</span> order Ordinary Differential Equations
+$$ \begin{cases} \dfrac{dy}{dt} = f(t, y), &amp; t \in [a, b] \ y(a) = \alpha \end{cases} $$
+在一组网格点 (mesh points) <span class="arithmatex">\(a=t_0&lt;t_1&lt;⋯&lt;t_n=b\)</span> 上（通常是等间距的）计算 <span class="arithmatex">\(y(t)\)</span> 的近似值。也就是说，计算 <span class="arithmatex">\(w_i \approx y(t_i)=y_i(i=1,\dots,n)\)</span></p>
+</blockquote>
+<p><strong>Definition</strong>
+对于函数 <span class="arithmatex">\(f(t,y)\)</span>，若存在常数 <span class="arithmatex">\(L&gt;0\)</span>，满足：
+$<span class="arithmatex">\(∣f(t,y_1)−f(t,y_2)∣\leq L∣y_1−y_2∣\)</span>$
+ 我们称该函数满足在变量 <span class="arithmatex">\(y\in D⊂R^2\)</span> 上的 <strong>Lipschitz 条件</strong></p>
+<p><strong>Theorem</strong>
+假设 <span class="arithmatex">\(D = \{(t, y)\ |\ a \le t \le b, -\infty &lt; y &lt; \infty\}\)</span>，且 <span class="arithmatex">\(f(t, y)\)</span> 在 <span class="arithmatex">\(D\)</span> 上连续。若 <span class="arithmatex">\(f\)</span> 满足在变量 <span class="arithmatex">\(y \in D\)</span> 上的 Lipschitz 条件，那么初值问题
+$$
+    y'(t) = f(t, y), a \le t \le b,  y(a) = \alpha
+    $$
+有<strong>唯一解</strong> $<span class="arithmatex">\(y(t)，a \le t \le b\)</span>$
+<strong>Definition</strong>
+若初值问题
+$$
+    y'(t) = f(t, y), a \le t \le b, y(a) = \alpha
+    $$
+满足以下条件，我们称之为<strong>适定性问题</strong>(well-posed problem)：
+1. 问题存在<strong>唯一解</strong> <span class="arithmatex">\(y(t)\)</span>
+2. <span class="arithmatex">\(\forall \varepsilon &gt; 0\)</span>，存在正常数 <span class="arithmatex">\(k(\varepsilon)\)</span>，使得当 <span class="arithmatex">\(|\varepsilon_0| &lt; \varepsilon\)</span>，并且 <span class="arithmatex">\(\delta(t)\)</span> 在 <span class="arithmatex">\([a, b]\)</span> 上连续且 <span class="arithmatex">\(|\delta(t)| &lt; \varepsilon\)</span> 时，对于
+$$
+        z'(t) = f(t, z) + \delta(t), a \le t \le b, z(a) = \alpha + \varepsilon_0
+        $$
+上述式子称为<strong>扰动问题</strong> perturbed problem，存在唯一解 <span class="arithmatex">\(z(t)\)</span>，满足 <span class="arithmatex">\(|z(t) - y(t)| &lt; k(\varepsilon) \cdot  \varepsilon\ (a \le t \le b)\)</span></p>
+<p><strong>Theorem</strong>
+假设 <span class="arithmatex">\(D = \{(t, y)\ |\ a \le t \le b, -\infty &lt; y &lt; \infty\}\)</span>，且 <span class="arithmatex">\(f(t, y)\)</span> 在 <span class="arithmatex">\(D\)</span> 上连续。若 <span class="arithmatex">\(f\)</span> 满足在变量 <span class="arithmatex">\(y \in D\)</span> 上的 Lipschitz 条件，那么初值问题
+$$
+    y'(t) = f(t, y), a \le t \le b, y(a) = \alpha
+    $$
+具有<strong>适定性</strong>(well-posed)。</p>
+<hr />
+<h2 id="52-eulers-method">5.2 Euler's Method<a class="headerlink" href="#52-eulers-method" title="Permanent link">&para;</a></h2>
+<p>令 <span class="arithmatex">\(h\)</span> 为步长，
+<span class="arithmatex">\(y'(t_0) \approx \dfrac{y(t_0 + h) - y(t_0)}{h}\ \Rightarrow\ y(t_1) \approx y(t_0) + hy'(t_0) = \alpha + hf(t_0, \alpha)\)</span></p>
+<div style="text-align: center"><img src="images/image-25.png" width=45%/></div>
+<p><strong>欧拉法</strong>(Euler's method)的核心是<u>用切线近似曲线</u>，它通过<strong>差分方程</strong>(difference equations)来计算近似值：<span class="arithmatex">\(\begin{cases}w_0 = \alpha \\ w_{i+1} = w_i + hf(t_i, w_i)\end{cases}\ (i = 0, \dots, n - 1)\)</span></p>
+<h3 id="error-bound">Error Bound<a class="headerlink" href="#error-bound" title="Permanent link">&para;</a></h3>
+<blockquote>
+<p>[!Theorem]
+假设 <span class="arithmatex">\(f\)</span> 在 <span class="arithmatex">\(D = \{(t, y)\ |\ a \le t \le b, -\infty &lt; y &lt; \infty \}\)</span> 上是连续的，且满足 Lipschitz 条件（对应常数 <span class="arithmatex">\(L\)</span>）；且存在常数 <span class="arithmatex">\(M, \forall\ a \le t \le b\)</span>，满足 <span class="arithmatex">\(|y''(t)| \le M\)</span>。</p>
+<p>令 <span class="arithmatex">\(y(t)\)</span> 为初值问题 <span class="arithmatex">\(y'(t) = f(t, y), a \le t \le b, y(a) = \alpha\)</span> 的唯一解，且 <span class="arithmatex">\(w_0, w_1, \dots, w_n\)</span> 为通过欧拉法（对于某些正整数 <span class="arithmatex">\(n\)</span>）得到的近似值，那么：
+$$|y_i - w_i| \le \dfrac{hM}{2L}[e^{L(t_i - a)} - 1] \quad (i = 0, 1, \dots, n) $$</p>
+<p>[!note]
+<span class="arithmatex">\(y''(t)\)</span> 可在不知道 <span class="arithmatex">\(y(t)\)</span> 的情况下被计算出来：
+$<span class="arithmatex">\(y''(t) = \dfrac{d}{dt}y'(t) = \dfrac{d}{dt}f(t, y(t)) = \dfrac{\partial}{\partial t}f(t, y(t)) + \dfrac{\partial}{\partial y}f(t, y(t)) \cdot f(t, y(t))\)</span>$</p>
+</blockquote>
+<p>代入舍入误差后，差分方程为：<span class="arithmatex">\(\begin{cases}w_0 = \alpha \textcolor{red}{+ \delta_0} \\ w_{i+1} = w_i + hf(t_i, w_i) \textcolor{red}{+ \delta_{i+1}}\end{cases}(i = 0, \dots, n - 1)\)</span></p>
+<p><strong>Theorem</strong>
+令 <span class="arithmatex">\(y(t)\)</span> 为初值问题 <span class="arithmatex">\(y'(t) = f(t, y), a \le t \le b, y(a) = \alpha\)</span> 的唯一解，且 <span class="arithmatex">\(w_0, w_1, \dots, w_n\)</span> 为使用上述差分方程得到的近似值。若 <span class="arithmatex">\(|\delta_i| &lt; \delta\ (i = 0, \dots, n)\)</span>，那么对每一个 <span class="arithmatex">\(i\)</span>，有
+$$
+    |y_i - w_i| \le \dfrac{1}{L} \Big(\dfrac{hM}{2} + \dfrac{\delta}{h}\Big)[e^{L(t_i - a)} - 1] + |\delta_0|e^{L(t_i - a)}
+    $$
+其中 <span class="arithmatex">\(h \ge \sqrt{2 \delta / M}\)</span>，所以随着 <span class="arithmatex">\(h\)</span> 的减小，误差会越来越小。</p>
+<h3 id="other-eulers-methods">Other Euler's Methods<a class="headerlink" href="#other-eulers-methods" title="Permanent link">&para;</a></h3>
+<ul>
+<li>
+<p><strong>隐式欧拉法</strong>(implicit Euler's method)
+    隐式公式不能直接求解，一般需要用欧拉显式公式得到初值，然后用欧拉隐式公式进行迭代求解。因此，隐式公式比显式公式计算复杂，但稳定性好。</p>
+<ul>
+<li><span class="arithmatex">\(y'(t_0) \approx \dfrac{y(t_0) - y(t_0 - h)}{h}\)</span> 
+    <span class="arithmatex">\(\Rightarrow\ \textcolor{red}{y(t_1)} \approx y(t_0) + hy'(t_1) = \alpha + hf(t_1, \textcolor{red}{y(t_1)})\)</span></li>
+<li>差分方程为 <span class="arithmatex">\(\begin{cases}w_0 = \alpha \\ \textcolor{red}{w_{i+1}} = w_i + hf(t_{i+1}, \textcolor{red}{w_{i+1}})\end{cases} \quad(i = 0, \dots, n - 1)\)</span><ul>
+<li>由于方程左右两边都有 <span class="arithmatex">\(w_{i+1}\)</span>，需要通过解方程得到 <span class="arithmatex">\(w_{i+1}\)</span>，而无法像一般的欧拉法那样直接计算</li>
+<li>通常以迭代形式求解 <span class="arithmatex">\(w_{i+1}\)</span>，其初始值 <span class="arithmatex">\(w_{0}\)</span> 通过显式法给出</li>
+</ul>
+</li>
+<li>局部截断误差: <span class="arithmatex">\(\tau_{i+1} = \dfrac{y_{i+1} - w_{i+1}}{h} = -\dfrac{h}{2}y''(\xi_i) = O(h)\)</span></li>
+</ul>
+</li>
+<li>
+<p><strong>梯形法</strong>(trapezoidal method)</p>
+<ul>
+<li>差分方程为 <span class="arithmatex">\(\begin{cases}w_0 = \alpha \\ \textcolor{red}{w_{i+1}} = w_i + \dfrac{h}{2}[f(t_i, w_i) + f(t_{i+1}, \textcolor{red}{w_{i+1}})]\end{cases} (i = 0, \dots, n - 1)\)</span></li>
+<li>注：局部截断误差为 <span class="arithmatex">\(O(h^2)\)</span>；但必须以迭代方式求解隐式方程</li>
+</ul>
+</li>
+<li>
+<p><strong>两步法</strong>(double-step method)
+    双步法相较于之前的方法，需要两个初始值，即 <span class="arithmatex">\(w_0\)</span> ​和 <span class="arithmatex">\(w_1\)</span>，然后用这两个初始值来计算 <span class="arithmatex">\(w_2\)</span> ​，再用 <span class="arithmatex">\(w_1\)</span> ​和 <span class="arithmatex">\(w_2\)</span> ​来计算 <span class="arithmatex">\(w_3\)</span>，以此类推。由于两步法用到了更多点的信息，因此能得到<strong>更精确</strong>的近似结果。</p>
+<ul>
+<li><span class="arithmatex">\(y'(t_0) = \dfrac{1}{2h}[y(t_0 + h) - y(t_0 - h)] - \dfrac{h^2}{6}y^{(3)}(\xi_1)\)</span> 
+    <span class="arithmatex">\(\Rightarrow\ y(t_2) \approx y(t_0) + 2hf(t_1, y(t_1))\)</span></li>
+<li>差分方程为 <span class="arithmatex">\(\begin{cases}w_0 = \alpha \\ w_{i+1} = w_{i-1} + 2hf(t_i, w_i)\end{cases} \quad (i = 1, \dots, n - 1)\)</span><ul>
+<li>若假设 <span class="arithmatex">\(w_{i-1} = y_{i-1}, w_i = y_i\)</span>，那么局部截断误差为 <span class="arithmatex">\(O(h^2)\)</span></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<hr />
+<h2 id="53-high-order-taylor-methods">5.3 High Order Taylor Methods<a class="headerlink" href="#53-high-order-taylor-methods" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p>[!definition]
+差分法 <span class="arithmatex">\(w_0 = \alpha ;\quad w_{i+1} = w_i + h\varphi(t_i, w_i), \text{ for each }i = 0, \dots, n - 1\)</span> 
+具有以下<strong>局部截断误差</strong>(local truncation error)：
+$$\tau_{i+1}(h) = \dfrac{y_{i+1} - (y_i + h\varphi(t_i, y_i))}{h} = \dfrac{y_{i+1} - y_i}{h} - \varphi(t_i, y_i) \quad (i = 0, \dots, n - 1) $$</p>
+<blockquote>
+<p>Note: 局部截断误差就是 <span class="arithmatex">\(\dfrac{y_{i+1} - w_{i+1}}{h}\)</span>（基于假设 <span class="arithmatex">\(w_i = y_i\)</span>）</p>
+</blockquote>
+</blockquote>
+<p>欧拉法的局部截断误差：
+$$
+\begin{align}
+\tau_{i+1} &amp; = \dfrac{y_{i+1} - w_{i+1}}{h} = \dfrac{[y_i + hy'(t_i) + \frac{h^2}{2}y''(\xi_i)] - [y_i + hf(t_i, y_i)]}{h} \notag \
+&amp; = \dfrac{h}{2} y''(\xi_i) = O(h) \notag
+\end{align}
+$$
+- 其中 <span class="arithmatex">\(y_{i+1}  = y (t_{i+1}) = y (t_i + h) = y (t_i) + y' (t_i) h + y'' (\xi_i) \dfrac{h^2}{2}\)</span>
+欧拉法本质上是<strong>泰勒展开式的1阶形式</strong>，可通过 <span class="arithmatex">\(n = 1\)</span> 时泰勒展开式得到的欧拉法近似表示 <span class="arithmatex">\(y(t)\)</span></p>
+<p><strong>高阶泰勒法公式</strong>为：
+$$
+y_{i+1} = y_i + hf(t_i, y_i) + \dfrac{h^2}{2} f'(t_i, y_i) + \dots + \dfrac{h<sup _n-1_="(n-1)">n}{n!}f</sup>(t_i, y_i) + \dfrac{h<sup _n_="(n)">{(n+1)}}{(n+1)!}f</sup>(\xi_i, y(\xi_i))
+$$
+对于阶数为 <span class="arithmatex">\(n\)</span> 的泰勒法，其对应的差分方程为：
+$$
+\begin{cases}w_0 = \alpha \ w_{i+1} = w_i + hT^{(n)}(t_i, w_i)\end{cases} \quad(i = 0, \dots, n - 1)
+$$
+其中 <span class="arithmatex">\(T^{(n)}(t_i, w_i) = f(t_i, w_i) + \dfrac{h}{2}f'(t_i, w_i) + \dots + \dfrac{h^{n-1}}{n!} f^{(n-1)}(t_i, w_i)\)</span>
+- 若 <span class="arithmatex">\(y \in C^{n+1}[a, b]\)</span>，那么局部截断误差是 <span class="arithmatex">\(O(h^n)\)</span>。</p>
+<blockquote>
+<p>[!question]
+应用 <span class="arithmatex">\(n = 10\)</span> 的 3 阶泰勒法，解决初值问题 <span class="arithmatex">\(y' = y - t^2 + 1, 0 \le t \le 2, y(0) = 0.5\)</span></p>
+<blockquote>
+<p>这里的 <span class="arithmatex">\(n\)</span> 是区间分段数，不是题目前面讲的阶数。</p>
+</blockquote>
+<p>找到 <span class="arithmatex">\(f\)</span> 的前两个导数：
+- <span class="arithmatex">\(f(t, y(t)) = y(t) - t^2 + 1\)</span>
+- <span class="arithmatex">\(f'(t, y(t)) = y'(t) - 2t = y(t) - t^2 + 1 - 2t\)</span>
+- <span class="arithmatex">\(f''(t, y(t)) = y'(t) - 2t - 2 = y(t) - t^2 - 2t - 1\)</span></p>
+<p>得到：$<span class="arithmatex">\(\begin{align}
+T^{(3)}(t_i, w_i) &amp; = f(t_i, w_i) + \dfrac{h}{2} f'(t_i, w_i) + \dfrac{h^2}{6}f''(t_i, w_i) \notag \\
+&amp; = \Big(1 + \dfrac{h}{2} + \dfrac{h^2}{6} \Big)(w_i - t_i^2 + 1) - \Big(1 + \dfrac{h}{3}\Big)ht_i - \dfrac{h^2}{3} \notag
+\end{align}\)</span>$
+通过3阶泰勒法，得到差分方程：<span class="arithmatex">\(\begin{cases}w_0 = 0.5 \\ w_{i+1} = w_i + h\Big[\Big(1 + \dfrac{h}{2} + \dfrac{h^2}{6}\Big)(w_i - t_i^2 + 1) - \Big(1 + \dfrac{h}{3}ht_i + \dfrac{h^2}{3}\Big)\Big]\end{cases}\)</span></p>
+<p>因为 <span class="arithmatex">\(n = 10\)</span>，那么 <span class="arithmatex">\(h = 0.2, t_i = 0.2i, w_{i+1} = 1.22133w_i - 0.00855i^2 - 0.00853i + 0.21867\)</span></p>
+</blockquote>
+<hr />
+<h2 id="54-runge-kutta-methods">5.4 Runge-Kutta Methods<a class="headerlink" href="#54-runge-kutta-methods" title="Permanent link">&para;</a></h2>
+<p><strong>Runge-Kutta 法</strong>是一种具有 Taylor 方法的高阶局部截断误差，而且无需计算 <span class="arithmatex">\(f\)</span> 的导数</p>
+<blockquote>
+<p>思路：在单步法中，某个线段从 <span class="arithmatex">\((t_i, w_i)\)</span> 出发，以某个斜率延伸至下一个点 <span class="arithmatex">\((t_{i+1}, w_{i+1})\)</span>。我们可以通过<strong>找到更好的斜率</strong>来改善结果</p>
+</blockquote>
+<p>观察以下修改过的欧拉法：
+$$
+\begin{cases}
+w_{i+1} = w_i + h\Big[ \dfrac{1}{2} K_1 + \dfrac{1}{2} K_2 \Big] \
+K_1 = f(t_i, w_i) \
+K_2 = f(t_i + h, w_i + hK_1)
+\end{cases}
+$$
+- 斜率是否必须是 <span class="arithmatex">\(K_1, K_2\)</span> 的平均值？
+- 步幅是否必须为 <span class="arithmatex">\(h\)</span>？</p>
+<p>将其进一步泛化（一般的平均值 -&gt; 加权平均值）：
+$$
+\begin{cases}
+w_{i+1} &amp; = w_i + h[\textcolor{red}{\lambda_1} K_1 + \textcolor{red}{\lambda_2} K_2 ] \
+K_1 &amp; = f(t_i, w_i) \
+K_2 &amp; = f(t_i + \textcolor{red}{p}h, w_i + \textcolor{red}{p}hK_1)
+\end{cases}
+$$</p>
+<p>要找到 <span class="arithmatex">\(\lambda_1, \lambda_2, p\)</span>，使得该方法的局部阶段<u>误差的阶数为2</u></p>
+<ol>
+<li>写出 <span class="arithmatex">\(K_2\)</span> 在 <span class="arithmatex">\((t_i, y_i)\)</span> 上的泰勒展开式：$$
+    \begin{align}
+    K_2 &amp; = f(t_i + ph, y_i + phK_1) \notag \
+    &amp; = f(t_i, y_i) + phf_t(t_i, y_i) + phK_1f_y(t_i, y_i) + O(h^2) \notag \
+    &amp; = y'(t_i) + phy''(t_i) + O(h^2) \notag 
+    \end{align}
+    $<span class="arithmatex">\(其中\)</span>$
+        y''(t)  = \dfrac{d}{dt}f(t, y) 
+         = f_t(t, y) + f_y(t, y) \dfrac{dy}{dt} 
+         = f_t(t, y) + f_y(t, y)f(t, y) 
+        $$</li>
+<li>将 <span class="arithmatex">\(K_2\)</span> 代入到第一个式子中：$$
+    \begin{align}
+    w_{i+1} &amp; = y_i + h{\lambda_1 y'(t_i) + \lambda_2[y'(t_i) + phy''(t_i) + O(h^2)]} \notag \
+    &amp; = y_i + (\lambda_1 + \lambda_2) hy'(t_i) + \lambda_2 ph^2 y''(t_i) + O(h^3) \notag
+    \end{align}
+    $$</li>
+<li>找到 <span class="arithmatex">\(\lambda_1, \lambda_2, p\)</span>，使得 <span class="arithmatex">\(\tau_{i+1} = (y_{i+1} - w_{i+1}) / h = O(h^2)\)</span>
+$$
+\begin{cases}
+w_{i+1} &amp; = y_i + (\lambda_1 + \lambda_2) hy'(t_i) + \lambda_2 ph^2 y''(t_i) + O(h^3) \
+y_{i+1} &amp; = y_i + hy'(t_i) + \dfrac{h^2}{2} y''(t_i) + O(h^3) 
+\end{cases}
+$$
+比对上面两个方程，可以得到：
+$<span class="arithmatex">\(\lambda_1 + \lambda_2 = 1, \lambda_2 p = \dfrac{1}{2}\)</span>$
+有无穷多个解，被称为<strong>2阶龙格-库塔法</strong>(Runge-Kutta method of order 2)</li>
+</ol>
+<blockquote>
+<p>[! note] 2阶 Runge-Kutta 法的多种形式
+- <strong>中点法</strong>(midpoint method)：将从二阶泰勒法中的 <span class="arithmatex">\(T^{(2)}(t, y)\)</span> 用 <span class="arithmatex">\(f(t + h / 2, y + (h / 2)f(t, y))\)</span> 替换得到的差分方程法。
+  $$
+       \begin{cases}
+       w_0 = \alpha \
+       w_{i+1} = w_i + hf(t_i + \dfrac{h}{2}, w_i + \dfrac{h}{2}f(t_i, w_i))
+       \end{cases}
+       \quad (i = 0, \dots, N - 1)
+       $$
+- <strong>改进欧拉法</strong>(modified Euler method)：
+$$
+        \begin{cases}
+        w_0 = \alpha \
+        w_{i+1} = w_i + \dfrac{h}{2}[f(t_i, w_i) + f(t_{i+1}, w_i + hf(t_i, w_i))]
+        \end{cases}
+        \quad (i = 0, \dots, N - 1)
+        $$
+ - <strong>Heun 法</strong>：
+   $$
+        \begin{cases}
+        w_0 = \alpha \
+        w_{i+1} = w_i + \dfrac{h}{4}[f(t_i, w_i) + 3f(t_i + \dfrac{2}{3}h, w_i + \dfrac{2}{3}hf(t_i, w_i))]
+        \end{cases}
+        \quad (i = 0, \dots, N - 1)
+        $$</p>
+</blockquote>
+<hr />
+<h3 id="高阶-runge-kutta-法">高阶 Runge-Kutta 法<a class="headerlink" href="#高阶-runge-kutta-法" title="Permanent link">&para;</a></h3>
+<div class="arithmatex">\[
+\begin{cases}
+w_0=\alpha \\
+w_{i+1} = y_i + h[\textcolor{red}{\lambda_1} K_1 + \textcolor{red}{\lambda_2} K_2 + \dots + \textcolor{red}{\lambda_m} K_m] \\
+K_1 = f(t_i, w_i) \\
+K_2 = f(t_i + \textcolor{red}{\alpha_2} h, w_i + \textcolor{red}{\beta_{21}} hK_1) \\
+K_3 = f(t_i + \textcolor{red}{\alpha_3} h, w_i + \textcolor{red}{\beta_{31}} hK_1 + \textcolor{red}{\beta_{32}} hK_2) \\
+\vdots \\
+K_m = f(t_i + \textcolor{red}{\alpha_m} h, w_i + \textcolor{red}{\beta_{m1}} hK_1 + \textcolor{red}{\beta_{m2}} hK_2 + \dots + \textcolor{red}{\beta_{m, m-1}} hK_{m-1}) \\
+\end{cases}
+$$
+最流行的是经典 **4 阶龙格-库塔法**：
+$$
+\begin{cases}
+w_0=\alpha \\
+w_{i+1} = w_i + \dfrac{h}{6}(K_1 + 2K_2 + 2K_3 + K_4) \\
+K_1 = f(t_i, w_i) \\
+K_2 = f(t_i + \dfrac{h}{2}, w_i + \dfrac{h}{2} K_1) \\
+K_3 = f(t_i + \dfrac{h}{2}, w_i + \dfrac{h}{2} K_2) \\
+K_4 = f(t_i + h, w_i + hK_3)
+\end{cases}
+\]</div>
+<blockquote>
+<p>[!note]
+在使用龙格-库塔法时，主要的计算量在于求解 <span class="arithmatex">\(f\)</span>。Butcher 已经帮我们建立好了每步求值次数与局部截断误差阶数之间的关系：
+<div style="text-align: center"><img src="images/image-26.png" width=95%/></div></p>
+<ul>
+<li>这说明了为什么人们更喜欢使用具有较小步长的小于 5 阶的 Runge-Kutta 方法</li>
+<li>因为 Runge-Kutta 法是基于泰勒展开式的，所以 <span class="arithmatex">\(y\)</span> 必须足够平滑，以获取在高阶方法下的更高的精度。通常低阶方法相比高阶方法会采用更小的步幅。</li>
+</ul>
+</blockquote>
+<hr />
+<h2 id="56-multistep-methods">5.6 Multistep Methods<a class="headerlink" href="#56-multistep-methods" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p>[!target]
+使用 <span class="arithmatex">\(y, y'\)</span> 在多个网格点(mesh points)上的线性组合，来更好地近似 <span class="arithmatex">\(y(t_{i+1})\)</span></p>
+</blockquote>
+<p>求解初值问题
+$$
+y'=f(t,y),\quad a\leq t \leq b, \quad y(a)=\alpha
+$$
+的 m 步<strong>多步法</strong>(multistep method)的一般形式如下：
+$$
+\begin{align}
+w_{i+1} &amp;= \textcolor{red}{a_{m-1}} w_i + \textcolor{red}{a_{m-2}} w_{i-1} + \dots + \textcolor{red}{a_0} w_{i+1-m} \&amp;+ h[\textcolor{red}{b_m} f(t_{i+1},w_{i+1}) + \textcolor{red}{b_{m-1}} f(t_i,w_i) + \dots + \textcolor{red}{b_0} f(t_{i+1-m},w_{i+1-m})]
+\end{align}
+$$
+其中 <span class="arithmatex">\(h=(b−a)/N\)</span>，给定 <span class="arithmatex">\(m\)</span> 个初始值 <span class="arithmatex">\(w_0​,w_1​,\dots ,w_{m−1}\)</span>，<span class="arithmatex">\(a_0​,a_1​,\dots ,a_{m−1}\)</span> ​和 <span class="arithmatex">\(b_0​,b_1​,\dots,b_m\)</span>​是常数。
+- 在隐式(implicit)法中，<span class="arithmatex">\(b_m \ne 0\)</span>；在显式(explicit)法中，<span class="arithmatex">\(b_m = 0\)</span></p>
+<p>具体方法：从积分中获取。在 <span class="arithmatex">\([t_i, t_{i+1}]\)</span> 上对 <span class="arithmatex">\(y'(t) = f(t, y)\)</span> 进行积分，得到：
+$$
+y(t_{i+1}) - y(t_i) = \int_{t_i}^{t_{i+1}} f(t, y(t)) dt
+$$
+关键是<strong>近似计算积分</strong>。不同的近似方法会得到不同的差分方程。</p>
+<h3 id="1-adams-bashforth-explicit-m-step-technique">1. Adams-Bashforth explicit <span class="arithmatex">\(m\)</span>-step Technique<a class="headerlink" href="#1-adams-bashforth-explicit-m-step-technique" title="Permanent link">&para;</a></h3>
+<p>使用<strong>牛顿后向差分</strong>公式，在 <span class="arithmatex">\((t_i, f_i), (t_{i-1}, f_{i-1}), \dots, (t_{i+1-m}, f_{i+1-m})\)</span> 上对 <span class="arithmatex">\(f\)</span> 进行插值，并得到 <span class="arithmatex">\(P_{m-1}(t)\)</span>。或者令 <span class="arithmatex">\(t = t_i + sh, s \in [0, 1]\)</span>，我们有：
+$$
+\int_{t_i}^{t_{i+1}} f(t, y(t)) dt = h \int_0^1 P_{m-1}(t_i + sh) ds + h \int_0^1 \underbrace{R_{m-1}}<em i_1="i+1">{\substack{\text{local} \ \text{truncation} \ \text{error}}}(t_i + sh) ds
+$$
+最后得到显式公式： $<span class="arithmatex">\(w_{i+1} = w_i + h\int_0^1 P_{m-1}(t_i + sh)ds\)</span>$
+<strong>Definition</strong>
+多步法的局部截断误差为：$$
+\begin{align}
+\tau</em>] \
+&amp;=\frac{1}{h} \int_{t_i}^{t_{i+1}}R_{m-1}(t)dt\
+&amp;=h^m f}(h) &amp;= \dfrac{y_{i+1} - (a_{m-1}y_i + \dots + a_0 y_{i+1-m})}{h} - [b_m f_{i+1} + \dots + b_0 f_{i+1-m<sup>{(m)}(\mu_i,y(\mu_i))(-1)</sup>m \int_0^1 \binom{-s}{m} ds
+\end{align}
+    $$其中 <span class="arithmatex">\(i = m-1, m, \dots, n - 1\)</span></p>
+<blockquote>
+<p>[!example]
+Q: 请求出 Adams-Bashforth 2步显式法
+A: 使用牛顿后向差分公式，在 <span class="arithmatex">\((t_i, f_i), (t_{i-1}, f_{i-1})\)</span> 上对 <span class="arithmatex">\(f\)</span> 插值：
+$<span class="arithmatex">\(P_1(t_i + sh) = f_i + s \nabla f_i = f_i + s(f_i - f_{i-1})\)</span>$
+得到 <span class="arithmatex">\(w_{i+1} = w_i + h \int_0^1 [f_i + s(f_i - f_{i-1})] ds = w_i + \dfrac{h}{2} (3f_i - f_{i-1})\)</span></p>
+<p>局部截断误差为：
+$$
+        \begin{align}
+        \tau_{i+1} &amp; = \dfrac{y(t_{i+1}) - w_{i+1}}{h} = \int_0^1 R_1 (t_i + sh) ds \notag \
+        &amp; = \int_0^1 \dfrac{d^2 f(\xi_i, t(\xi_i))}{dt^2} \dfrac{1}{2!} sh(s+1)h ds = \dfrac{5}{12} h^2 y'''(\widetilde{\xi_i}) \notag
+        \end{align}
+        $$</p>
+</blockquote>
+<p>一般来说，对于 <span class="arithmatex">\(\tau = A_mh^my^{(m+1)}(\xi_i)\)</span>，<span class="arithmatex">\(A_m\)</span> 和系数 <span class="arithmatex">\(f_i, f_{i-1}, f_{i+1-m}\)</span> 能从表格中找到。
+<img _=";" alt="image-27.png" height="211" src="images/image-27.png" width="378" /></p>
+<p>Adams-Bashforth 4 步显式法：<span class="arithmatex">\(w_{i+1} = w_i + \dfrac{5}{24} (55f_i - 59 f_{i-1} + 37 f_{i-2} - 9f_{i-3})\)</span></p>
+<h3 id="2-adams-moulton-implicit-m--step-technique">2. Adams-Moulton Implicit <span class="arithmatex">\(m\)</span> -step Technique<a class="headerlink" href="#2-adams-moulton-implicit-m--step-technique" title="Permanent link">&para;</a></h3>
+<p>使用牛顿前向差分公式，在 <span class="arithmatex">\((t_{i+1}, \textcolor{red}{f_{i+1}}), (t_i, f_i), \dots, (t_{i+1-m}, f_{i+1-m})\)</span> 上对 <span class="arithmatex">\(f\)</span> 进行插值，并得到 <span class="arithmatex">\(P_m(t)\)</span>。类似的，我们可以得到一组 <span class="arithmatex">\(\tau_{i+1} = B_m h^{m+1} y^{(m+2)} (\xi_i)\)</span> 的隐式公式。</p>
+<div style="text-align: center">
+    <img src="images/image-28.png" width=70%/>
+</div>
+<p>Adams-Moulton 3 步隐式法：<span class="arithmatex">\(w_{i+1} = w_i + \dfrac{h}{24} (9 f_{i+1} + 19 f_i - 5 f_{i-1} + f_{i-2})\)</span></p>
+<h3 id="3-adams-predictor-corrector-system">3. Adams Predictor-Corrector System<a class="headerlink" href="#3-adams-predictor-corrector-system" title="Permanent link">&para;</a></h3>
+<ol>
+<li>用 <strong>Runge-Kutta 法</strong>计算前 <span class="arithmatex">\(m\)</span> 个初始值（为多步法（<span class="arithmatex">\(m\)</span> 步）的启动做准备）</li>
+<li>用 <strong>Adams-Bashforth 显式法</strong>进行预测（效率高）</li>
+<li>用 <strong>Adams-Moulton 隐式法</strong>进行校正（提高精度，更稳定）</li>
+</ol>
+<blockquote>
+<p>[!note]
+- 对于上述步骤用到的三个公式，它们的局部截断误差必须有<strong>相同的阶数</strong>。
+- 最受欢迎的系统是将 4 阶 Adams-Bashforth 法作为预测器，将 1 次迭代下的 Adams-Moulton 法作为校正器，而起始值通过 4 阶 Runge-Kutta 法获得。</p>
+</blockquote>
+<h3 id="4-derive-from-taylor-expansion">4. Derive from Taylor Expansion<a class="headerlink" href="#4-derive-from-taylor-expansion" title="Permanent link">&para;</a></h3>
+<p>扩展在关于 <span class="arithmatex">\(t_i\)</span> 的泰勒级数里的 <span class="arithmatex">\(y_{i-1}, \dots, y_{i+1-m}\)</span> 和 <span class="arithmatex">\(f_{i+1}, f_{i-1}, \dots, f_{i+1-m}\)</span>，并让 <span class="arithmatex">\(h^k\)</span> 的系数相等，以获得 <span class="arithmatex">\(a_0, \dots, a_{m-1}\)</span> 和 <span class="arithmatex">\(b_0, \dots, b_m\)</span></p>
+<blockquote>
+<p>[!example]
+请求出形如以下形式的 4 阶公式：
+$$
+w_{i+1} = \textcolor{red}{a_2}w_i + \textcolor{red}{a_1}w_{i-1} + \textcolor{red}{a_0}w_{i-2} + h[\textcolor{red}{b_3}f_i + \textcolor{red}{b_2}f_{i-1} + \textcolor{red}{b_1}f_{i-2} + \textcolor{red}{b_0}f_{i-3}]
+$$
+Solution:
+- 在 <span class="arithmatex">\(t_i\)</span> 处扩展 <span class="arithmatex">\(y_{i-1}, y_{i-2}, f_{i-1}, f_{i-2}, f_{i-3}\)</span> 和 <span class="arithmatex">\(y(t_{i+1})\)</span>
+假设 <span class="arithmatex">\(w_i = y_i\)</span> 的情况下，<span class="arithmatex">\(\tau_{i+1} = \dfrac{y_{i+1} - w_{i+1}}{h} = O(h^4)\)</span>
+$$
+\begin{align}
+y_{i-1} = &amp; y_i - hy_i' + \dfrac{1}{2} h^2 y_i'' - \dfrac{1}{6}h^3 y_i''' + \dfrac{1}{24}h^4 y_i^{(4)} + O(h^5) \notag \
+y_{i-2} = &amp; y_i - 2hy_i' + 2 h^2 y_i'' - \dfrac{4}{3}h^3 y_i''' + \dfrac{2}{3}h^4 y_i^{(4)} + O(h^5) \notag \
+f_{i-1} = &amp; y_i' - hy_i'' + \dfrac{1}{2}h^2 y_i''' - \dfrac{1}{6}h<sup _4_="(4)">3y_i</sup> + O(h^4) \notag \
+f_{i-2} = &amp; y_i' - 2hy_i'' + 2h^2 y_i''' - \dfrac{4}{3}h<sup _4_="(4)">3y_i</sup> + O(h^4) \notag \
+f_{i-3} = &amp; y_i' - 3hy_i'' + \dfrac{9}{2}h^2 y_i''' - \dfrac{9}{2}h<sup _4_="(4)">3y_i</sup> + O(h^4) \notag \
+\end{align}
+$$
+$<span class="arithmatex">\(y(t_{i+1}) = y_i + hy_i' + \dfrac{1}{2}h^2y_i'' + \dfrac{1}{6}h^3 y_i''' + \dfrac{1}{24}h^4 y_i^{(4)} + O(h^5)\)</span>$</p>
+<p>有 5 个方程，7 个未知量。
+- 令 <span class="arithmatex">\(a_0 = a_1 = 0\)</span> -&gt; <strong>Adams-Bashforth 显式法</strong>
+- 用 <span class="arithmatex">\(f_{i+1}\)</span> 替换 <span class="arithmatex">\(f_{i-1}\)</span>，并令 <span class="arithmatex">\(a_0 = a_1 = 0\)</span> -&gt; <strong>Adams-Moulton 隐式法</strong>
+- 用 <span class="arithmatex">\(w_{i-3}\)</span> 替换 <span class="arithmatex">\(f_{i-3}\)</span>，我们能得到另一组阶数为 4 的方法，包括了显式 <strong>Milne 法</strong>：
+  $<span class="arithmatex">\(w_{i+1} = w_{i-3} + \dfrac{4h}{3}(2f_i - f_{i-1} + 2f_{i-2})\)</span>$</p>
+<p>其截断误差为 <span class="arithmatex">\(\dfrac{14}{45}h^4y^{(5)}(\xi_i), \xi_i \in (t_{i-3}, t_{i+1})\)</span>
+- 令 <span class="arithmatex">\(a_0 = 0, a_1 = 1\)</span> -&gt; <strong>Simpson 隐式法</strong>
+$<span class="arithmatex">\(w_{i+1} = w_{i-1} + \dfrac{h}{3}(f_{i+1} + 4f_i + f_{i-1})\)</span>$
+其截断误差为 <span class="arithmatex">\(-\dfrac{h^4}{90}y^{(5)}(\xi_i), \xi_i \in (t_{i-1}, t_{i+1})\)</span></p>
+</blockquote>
+<h2 id="59-higher-order-equations-and-systems-of-differential-equations">5.9 Higher-Order Equations and Systems of Differential Equations<a class="headerlink" href="#59-higher-order-equations-and-systems-of-differential-equations" title="Permanent link">&para;</a></h2>
+<h3 id="1-m-th-order-system-of-1st-order-ivp">1. m-th Order System of 1st-Order IVP<a class="headerlink" href="#1-m-th-order-system-of-1st-order-ivp" title="Permanent link">&para;</a></h3>
+<p>$$
+\begin{cases}
+u_1'(t) = f_1(t, u_1(t), \dots, u_m(t)) \
+\dots \
+u_m'(t) = f_m(t, u_1(t), \dots, u_m(t))
+\end{cases}
+$$
+初始条件为：<span class="arithmatex">\(u_1(a) = \alpha_1, u_2(a) = \alpha_2, \dots, u_m(a) = \alpha_m\)</span></p>
+<p>令 <span class="arithmatex">\(y = \begin{bmatrix}u_1 \\ \vdots \\ u_m\end{bmatrix}, f = \begin{bmatrix}f_1 \\ \vdots \\ f_m\end{bmatrix}, \alpha = \begin{bmatrix}\alpha_1 \\ \vdots \\ \alpha_m\end{bmatrix}\)</span>，可以得到：<span class="arithmatex">\(\begin{cases}y'(t) = f(t, y) \\ y(a) = \alpha \end{cases}\)</span></p>
+<h3 id="2-higher-order-differential-equation">2. Higher-Order Differential Equation<a class="headerlink" href="#2-higher-order-differential-equation" title="Permanent link">&para;</a></h3>
+<p>$$
+\begin{cases}
+y^{(m)}(t) = f(t, y, y', \dots, y^{(m-1)}), a \le t \le b \
+y(a) = \alpha_1, y'(a) = \alpha_2, \dots, y^{(m-1)}(a) = \alpha_m
+\end{cases}
+$$
+思路：将高阶的微分方程归约到一个 1 阶的微分方程组。</p>
+<p>令 <span class="arithmatex">\(u_1(t) = y(t), u_2(t) = y'(t), \dots, u_m(t) = y^{(m-1)}(t)\)</span>，得到：</p>
+<div class="arithmatex">\[
+\begin{cases}
+u_1' = y' = u_2 \\
+u_2' = y'' = u_3 \\
+\vdots \\
+u_{m-1}' = y^{(m-1)} = u_m \\
+u_m' = y^{(m)} = f(x, u_1, \dots, u_m)
+\end{cases}
+\]</div>
+<p>初始条件为 <span class="arithmatex">\(u_1(a) = \alpha_1, u_2(a) = \alpha_2, \dots, u_m(a) = \alpha_m\)</span>。</p>
+<blockquote>
+<p>[!example]
+使用欧拉法求解以下 IVP（<span class="arithmatex">\(h = 0.1\)</span>）
+$$
+        \begin{align}
+        &amp; y'' - 2y' + y = te^t - 1.5t + 1 \quad \text{for } 0 \le t \le 0.2 \notag \
+        &amp; y(0) = 0, y'(0) = -0.5 \notag
+        \end{align}
+        $$
+<strong>解答</strong>
+- 令 <span class="arithmatex">\(u_1(t) = y(t), u_2(t) = y'(t)\)</span>，得到：
+  $$
+        \begin{cases}
+        u_1'(t) = u_2(t) \
+        u_2'(t) = te^t - 1.5t + 1 - u_1(t) + 2u_2(t)
+        \end{cases}
+        $$
+初始条件为 <span class="arithmatex">\(u_1(0) = 0, u_2(0) = -0.5\)</span></p>
+<p>根据$$
+        \begin{align}
+        w_{i+1} &amp; = w_1 + h\Big[\dfrac{1}{2}K_1 + \dfrac{1}{2}K_2\Big] \notag \
+        K_1 &amp; = f(t_i, w_i) \notag \
+        K_2 &amp; = f(t_i + h, w_i + hK_1) \notag
+        \end{align}
+        $$
+计算：
+<div style="text-align: center"><img src="images/image-29.png" width=90%/></div></p>
+<p>精确解为：<span class="arithmatex">\(y(t) = \dfrac{t^3 e^t}{6} - te^t + 2e^t - 1.5t - 2\)</span></p>
+</blockquote>
+<h2 id="510-stability">5.10 Stability<a class="headerlink" href="#510-stability" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p>[!definition]
+- 当局部截断误差为 <span class="arithmatex">\(\tau_i(h)\)</span> 的单微分方程法满足下面的条件时，我们认为它和近似得到的微分方程是<strong>一致的</strong>(consistent)：
+  $$
+        \lim\limits_{h \rightarrow 0} \max\limits_{1 \le i \le n} |\tau_i(h)| = 0
+        $$
+对于多步法，还要求对于 <span class="arithmatex">\(i = 1, 2, \dots, m-1\)</span>，有 <span class="arithmatex">\(\lim\limits_{h \rightarrow 0}|w_i - y_i| = 0\)</span>
+- 当满足下面的条件时，我们认为一步微分方程法关于近似得到的微分方程<strong>收敛</strong>(convergent)：
+$<span class="arithmatex">\(\lim\limits_{h \rightarrow 0} \max\limits_{1 \le i \le n} |w_i - y_i| = 0\)</span>$ 
+多步法和上面的一样。
+- 若在初始条件中的小改变或小扰动产生对应较小的近似值变化，那么称该方法是<strong>稳定的</strong>(stable)。</p>
+</blockquote>
+<p><strong>特征方程与稳定性</strong>
+- 已知方程
+$$
+\begin{align}
+w_0&amp;=\alpha,w_1=\alpha_1,\dots,w_{m-1}=\alpha_{m-1}\
+w_{i+1}&amp;=a_{m-1}w_i+a_{m-2}w_{i-1}+\dots+a_0w_{i+1-m}+hF(t_i,h,w_{i+1},w_i,\dots,w_{i+1-m})
+\end{align}
+$$
+- 有<strong>特征多项式（characteristic polynomial）</strong>
+$$
+P(\lambda)=\lambda<sup m-1="m-1">m-a_{m-1}\lambda</sup>-\dots-a_0
+$$
+    - 如果 }-a_{m-2}\lambda^{m-2<span class="arithmatex">\(P(\lambda)\)</span> 的所有根的模都小于等于 1，且取等时为单根，则称该方法满足<strong>根条件</strong>（root condition）
+    - 如果有且仅有一个根的模等于 1，则该方法是<strong>强稳定</strong>（strongly stable）的
+    - 如果有多个根的模等于 1，则该方法是<strong>弱稳定</strong>（weakly stable）的
+    - 如果方法不满足<strong>根条件</strong>，则该方法是不稳定的</p>
+<p><strong>【Definition】</strong>
+- 将某个方法用在一个简单的<strong>测试方程</strong>(test equation)上：$<span class="arithmatex">\(y' = \lambda y, y(0) = \alpha,\text{where }\text{Re}(\lambda) &lt; 0\)</span>$ 假设舍入误差仅在初始点被引入。如果这个初始误差在特定步幅 <span class="arithmatex">\(h\)</span> 上被缩小的话，那么该方法关于 <span class="arithmatex">\(H = \lambda h\)</span> 是<strong>绝对稳定的</strong>(absolutely stable)。所有 <span class="arithmatex">\(H\)</span> 构成的集合称为<strong>绝对稳定性区域</strong>(the region of absolute stability)。 
+- 注：<span class="arithmatex">\(\lambda\)</span> 为复数</p>
+<p>当 <span class="arithmatex">\(A\)</span> 的绝对稳定性区域大于 <span class="arithmatex">\(B\)</span> 时，称法 <span class="arithmatex">\(A\)</span> 比法 <span class="arithmatex">\(B\)</span> <strong>更稳定</strong>。</p>
+<div style="text-align: center">
+            <img src="images/image-30.png" width=85%/>
+        </div>
+
+<blockquote>
+<p>[!example] Example 1
+考虑显式欧拉法 
+$<span class="arithmatex">\(w_{i+1} = w_i + hf(t_i,w_i)\)</span>$
+在测试方程中，令 <span class="arithmatex">\(H = h \lambda\)</span>， 有
+$$
+w_{i+1} = w_i + h\lambda w_i = (1+H)w_i= \alpha(1 + H)^{i+1}
+$$
+给初值加上扰动项 <span class="arithmatex">\(\varepsilon\)</span>，即 <span class="arithmatex">\(\alpha^{*}=\alpha+\varepsilon\)</span>，则
+$$
+        \alpha^<em> = \alpha + \varepsilon \Rightarrow w_{i+1}^</em> = \alpha^<em> (1 + H)^{i+1} \Rightarrow \varepsilon_{i+1} = w_{i+1}^</em> - w_{i+1} = (1 + H)^{i + 1}\varepsilon
+        $$
+因此要想保证误差减小，必须满足 <span class="arithmatex">\(|1 + H| &lt; 1\)</span>，对应的稳定性区域（绿色部分）如右图所示。
+<div style="text-align: center"><img src="images/image-31.png" width=45%/></div></p>
+<p>[!example] Example 2
+考虑隐式欧拉法 
+$<span class="arithmatex">\(w_{i+1} = w_i + hf(t_{i+1},w_{i+1})\)</span>$
+在测试方程中，令 <span class="arithmatex">\(H = h \lambda\)</span>， 有
+$$
+w_{i+1} = w_i + h\lambda w_{i+1}
+$$
+所以有
+$<span class="arithmatex">\(w_{i+1} = \Big(\dfrac{1}{1 - H}\Big)w_i=(\frac{1}{1-H})^{i+1}\alpha\)</span>$
+加入扰动项，即 <span class="arithmatex">\(\alpha^{*}=\alpha+\varepsilon\)</span>，则
+$$
+w_{i+1}<sup i_1="i+1">{*}=(\frac{1}{1-H})</sup>\varepsilon
+$$
+因此要想保证稳定性，必须满足 }(\alpha+\varepsilon)\Rightarrow \varepsilon_{i+1}=(\frac{1}{1-H})^{i+1<span class="arithmatex">\(|1 - H| &gt; 1\)</span>，对应的稳定性区域（绿色部分）如图所示。
+<div style="text-align: center"><img src="images/image-32.png" width=40%/></div></p>
+</blockquote>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="页脚" >
+        
+          
+          <a href="Chap4.html" class="md-footer__link md-footer__link--prev" aria-label="上一页: Chapter 4: Numerical Differentiation and Integration">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256l137.3-137.4c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              <div class="md-ellipsis">
+                Chapter 4: Numerical Differentiation and Integration
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="Chap6.html" class="md-footer__link md-footer__link--next" aria-label="下一页: Chapter 6. Direct Methods for Solving Linear Systems">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              <div class="md-ellipsis">
+                Chapter 6. Direct Methods for Solving Linear Systems
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M247.1 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L179.2 256 41.9 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["header.autohide", "content.math", "content.action.edit", "content.action.view", "content.code.copy", "content.code.annotate", "content.tooltips", "navigation.footer", "navigation.indexes", "navigation.path", "navigation.prune", "navigation.tabs", "navigation.tabs.sticky", "navigation.top", "navigation.tracking", "search.share", "search.suggest", "search.highlight", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+        <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+      
+    
+  </body>
+</html>

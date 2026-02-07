@@ -1,0 +1,2562 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="可达鸭的笔记本，记录了 ZJU-CS 的一些课程笔记。">
+      
+      
+        <meta name="author" content="Fffffx">
+      
+      
+      
+        <link rel="prev" href="Lec10.html">
+      
+      
+        <link rel="next" href="Lec12.html">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>Approximation - Fffffx's Note</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+  
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+  
+  <style>:root{--md-admonition-icon--note:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M1%207.775V2.75C1%201.784%201.784%201%202.75%201h5.025c.464%200%20.91.184%201.238.513l6.25%206.25a1.75%201.75%200%200%201%200%202.474l-5.026%205.026a1.75%201.75%200%200%201-2.474%200l-6.25-6.25A1.75%201.75%200%200%201%201%207.775m1.5%200c0%20.066.026.13.073.177l6.25%206.25a.25.25%200%200%200%20.354%200l5.025-5.025a.25.25%200%200%200%200-.354l-6.25-6.25a.25.25%200%200%200-.177-.073H2.75a.25.25%200%200%200-.25.25ZM6%205a1%201%200%201%201%200%202%201%201%200%200%201%200-2%22/%3E%3C/svg%3E');--md-admonition-icon--abstract:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M2.5%201.75v11.5c0%20.138.112.25.25.25h3.17a.75.75%200%200%201%200%201.5H2.75A1.75%201.75%200%200%201%201%2013.25V1.75C1%20.784%201.784%200%202.75%200h8.5C12.216%200%2013%20.784%2013%201.75v7.736a.75.75%200%200%201-1.5%200V1.75a.25.25%200%200%200-.25-.25h-8.5a.25.25%200%200%200-.25.25m13.274%209.537zl-4.557%204.45a.75.75%200%200%201-1.055-.008l-1.943-1.95a.75.75%200%200%201%201.062-1.058l1.419%201.425%204.026-3.932a.75.75%200%201%201%201.048%201.074M4.75%204h4.5a.75.75%200%200%201%200%201.5h-4.5a.75.75%200%200%201%200-1.5M4%207.75A.75.75%200%200%201%204.75%207h2a.75.75%200%200%201%200%201.5h-2A.75.75%200%200%201%204%207.75%22/%3E%3C/svg%3E');--md-admonition-icon--info:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M0%208a8%208%200%201%201%2016%200A8%208%200%200%201%200%208m8-6.5a6.5%206.5%200%201%200%200%2013%206.5%206.5%200%200%200%200-13M6.5%207.75A.75.75%200%200%201%207.25%207h1a.75.75%200%200%201%20.75.75v2.75h.25a.75.75%200%200%201%200%201.5h-2a.75.75%200%200%201%200-1.5h.25v-2h-.25a.75.75%200%200%201-.75-.75M8%206a1%201%200%201%201%200-2%201%201%200%200%201%200%202%22/%3E%3C/svg%3E');--md-admonition-icon--tip:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M3.499.75a.75.75%200%200%201%201.5%200v.996C5.9%202.903%206.793%203.65%207.662%204.376l.24.202c-.036-.694.055-1.422.426-2.163C9.1.873%2010.794-.045%2012.622.26%2014.408.558%2016%201.94%2016%204.25c0%201.278-.954%202.575-2.44%202.734l.146.508.065.22c.203.701.412%201.455.476%202.226.142%201.707-.4%203.03-1.487%203.898C11.714%2014.671%2010.27%2015%208.75%2015h-6a.75.75%200%200%201%200-1.5h1.376a4.5%204.5%200%200%201-.563-1.191%203.84%203.84%200%200%201-.05-2.063%204.65%204.65%200%200%201-2.025-.293.75.75%200%200%201%20.525-1.406c1.357.507%202.376-.006%202.698-.318l.009-.01a.747.747%200%200%201%201.06%200%20.75.75%200%200%201-.012%201.074c-.912.92-.992%201.835-.768%202.586.221.74.745%201.337%201.196%201.621H8.75c1.343%200%202.398-.296%203.074-.836.635-.507%201.036-1.31.928-2.602-.05-.603-.216-1.224-.422-1.93l-.064-.221c-.12-.407-.246-.84-.353-1.29a2.4%202.4%200%200%201-.507-.441%203.1%203.1%200%200%201-.633-1.248.75.75%200%200%201%201.455-.364c.046.185.144.436.31.627.146.168.353.305.712.305.738%200%201.25-.615%201.25-1.25%200-1.47-.95-2.315-2.123-2.51-1.172-.196-2.227.387-2.706%201.345-.46.92-.27%201.774.019%203.062l.042.19.01.05c.348.443.666.949.94%201.553a.75.75%200%201%201-1.365.62c-.553-1.217-1.32-1.94-2.3-2.768L6.7%205.527c-.814-.68-1.75-1.462-2.692-2.619a3.7%203.7%200%200%200-1.023.88c-.406.495-.663%201.036-.722%201.508.116.122.306.21.591.239.388.038.797-.06%201.032-.19a.75.75%200%200%201%20.728%201.31c-.515.287-1.23.439-1.906.373-.682-.067-1.473-.38-1.879-1.193L.75%205.677V5.5c0-.984.48-1.94%201.077-2.664.46-.559%201.05-1.055%201.673-1.353z%22/%3E%3C/svg%3E');--md-admonition-icon--success:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M13.78%204.22a.75.75%200%200%201%200%201.06l-7.25%207.25a.75.75%200%200%201-1.06%200L2.22%209.28a.75.75%200%200%201%20.018-1.042.75.75%200%200%201%201.042-.018L6%2010.94l6.72-6.72a.75.75%200%200%201%201.06%200%22/%3E%3C/svg%3E');--md-admonition-icon--question:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M0%208a8%208%200%201%201%2016%200A8%208%200%200%201%200%208m8-6.5a6.5%206.5%200%201%200%200%2013%206.5%206.5%200%200%200%200-13M6.92%206.085h.001a.749.749%200%201%201-1.342-.67c.169-.339.436-.701.849-.977C6.845%204.16%207.369%204%208%204a2.76%202.76%200%200%201%201.637.525c.503.377.863.965.863%201.725%200%20.448-.115.83-.329%201.15-.205.307-.47.513-.692.662-.109.072-.22.138-.313.195l-.006.004a6%206%200%200%200-.26.16%201%201%200%200%200-.276.245.75.75%200%200%201-1.248-.832c.184-.264.42-.489.692-.661q.154-.1.313-.195l.007-.004c.1-.061.182-.11.258-.161a1%201%200%200%200%20.277-.245C8.96%206.514%209%206.427%209%206.25a.61.61%200%200%200-.262-.525A1.27%201.27%200%200%200%208%205.5c-.369%200-.595.09-.74.187a1%201%200%200%200-.34.398M9%2011a1%201%200%201%201-2%200%201%201%200%200%201%202%200%22/%3E%3C/svg%3E');--md-admonition-icon--warning:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M6.457%201.047c.659-1.234%202.427-1.234%203.086%200l6.082%2011.378A1.75%201.75%200%200%201%2014.082%2015H1.918a1.75%201.75%200%200%201-1.543-2.575Zm1.763.707a.25.25%200%200%200-.44%200L1.698%2013.132a.25.25%200%200%200%20.22.368h12.164a.25.25%200%200%200%20.22-.368Zm.53%203.996v2.5a.75.75%200%200%201-1.5%200v-2.5a.75.75%200%200%201%201.5%200M9%2011a1%201%200%201%201-2%200%201%201%200%200%201%202%200%22/%3E%3C/svg%3E');--md-admonition-icon--failure:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M2.344%202.343za8%208%200%200%201%2011.314%2011.314A8.002%208.002%200%200%201%20.234%2010.089a8%208%200%200%201%202.11-7.746m1.06%2010.253a6.5%206.5%200%201%200%209.108-9.275%206.5%206.5%200%200%200-9.108%209.275M6.03%204.97%208%206.94l1.97-1.97a.749.749%200%200%201%201.275.326.75.75%200%200%201-.215.734L9.06%208l1.97%201.97a.749.749%200%200%201-.326%201.275.75.75%200%200%201-.734-.215L8%209.06l-1.97%201.97a.749.749%200%200%201-1.275-.326.75.75%200%200%201%20.215-.734L6.94%208%204.97%206.03a.75.75%200%200%201%20.018-1.042.75.75%200%200%201%201.042-.018%22/%3E%3C/svg%3E');--md-admonition-icon--danger:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M9.504.43a1.516%201.516%200%200%201%202.437%201.713L10.415%205.5h2.123c1.57%200%202.346%201.909%201.22%203.004l-7.34%207.142a1.25%201.25%200%200%201-.871.354h-.302a1.25%201.25%200%200%201-1.157-1.723L5.633%2010.5H3.462c-1.57%200-2.346-1.909-1.22-3.004zm1.047%201.074L3.286%208.571A.25.25%200%200%200%203.462%209H6.75a.75.75%200%200%201%20.694%201.034l-1.713%204.188%206.982-6.793A.25.25%200%200%200%2012.538%207H9.25a.75.75%200%200%201-.683-1.06l2.008-4.418.003-.006-.004-.009-.006-.006-.008-.001q-.005%200-.009.004%22/%3E%3C/svg%3E');--md-admonition-icon--bug:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M4.72.22a.75.75%200%200%201%201.06%200l1%20.999a3.5%203.5%200%200%201%202.441%200l.999-1a.748.748%200%200%201%201.265.332.75.75%200%200%201-.205.729l-.775.776c.616.63.995%201.493.995%202.444v.327q0%20.15-.025.292c.408.14.764.392%201.029.722l1.968-.787a.75.75%200%200%201%20.556%201.392L13%207.258V9h2.25a.75.75%200%200%201%200%201.5H13v.5q-.002.615-.141%201.186l2.17.868a.75.75%200%200%201-.557%201.392l-2.184-.873A5%205%200%200%201%208%2016a5%205%200%200%201-4.288-2.427l-2.183.873a.75.75%200%200%201-.558-1.392l2.17-.868A5%205%200%200%201%203%2011v-.5H.75a.75.75%200%200%201%200-1.5H3V7.258L.971%206.446a.75.75%200%200%201%20.558-1.392l1.967.787c.265-.33.62-.583%201.03-.722a1.7%201.7%200%200%201-.026-.292V4.5c0-.951.38-1.814.995-2.444L4.72%201.28a.75.75%200%200%201%200-1.06m.53%206.28a.75.75%200%200%200-.75.75V11a3.5%203.5%200%201%200%207%200V7.25a.75.75%200%200%200-.75-.75ZM6.173%205h3.654A.17.17%200%200%200%2010%204.827V4.5a2%202%200%201%200-4%200v.327c0%20.096.077.173.173.173%22/%3E%3C/svg%3E');--md-admonition-icon--example:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M5%205.782V2.5h-.25a.75.75%200%200%201%200-1.5h6.5a.75.75%200%200%201%200%201.5H11v3.282l3.666%205.76C15.619%2013.04%2014.543%2015%2012.767%2015H3.233c-1.776%200-2.852-1.96-1.899-3.458Zm-2.4%206.565a.75.75%200%200%200%20.633%201.153h9.534a.75.75%200%200%200%20.633-1.153L12.225%2010.5h-8.45ZM9.5%202.5h-3V6c0%20.143-.04.283-.117.403L4.73%209h6.54L9.617%206.403A.75.75%200%200%201%209.5%206Z%22/%3E%3C/svg%3E');--md-admonition-icon--quote:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M1.75%202.5h10.5a.75.75%200%200%201%200%201.5H1.75a.75.75%200%200%201%200-1.5m4%205h8.5a.75.75%200%200%201%200%201.5h-8.5a.75.75%200%200%201%200-1.5m0%205h8.5a.75.75%200%200%201%200%201.5h-8.5a.75.75%200%200%201%200-1.5M2.5%207.75v6a.75.75%200%200%201-1.5%200v-6a.75.75%200%200%201%201.5%200%22/%3E%3C/svg%3E');}</style>
+
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=LXGW+WenKai+Screen,+Microsoft+YaHei,+sans-serif:300,300i,400,400i,700,700i%7CJetBrains+Mono,+Sarasa+Mono+SC,+Consolas,+monospace:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"LXGW WenKai Screen, Microsoft YaHei, sans-serif";--md-code-font:"JetBrains Mono, Sarasa Mono SC, Consolas, monospace"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="https://fonts.loli.net/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap">
+    
+      <link rel="stylesheet" href="https://gcore.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.1.0/style.css">
+    
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap">
+    
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sarasa-gothic@0.43.0/css/sarasa-mono-sc.css">
+    
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/one-dark.min.css">
+    
+      <link rel="stylesheet" href="../../stylesheets/blueTopaz.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue-grey" data-md-color-accent="blue-grey">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#approximation" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="Fffffx&#39;s Note" class="md-header__button md-logo" aria-label="Fffffx's Note" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m19.07 14.88 2.05 2.05L15.06 23H13v-2.06zm1.97-1.75c.14 0 .27.06.38.17l1.28 1.28c.22.21.22.56 0 .77l-1 1-2.05-2.05 1-1c.11-.11.25-.17.39-.17M17 4v6l-2-2-2 2V4H9v16h2v2H7c-1.05 0-2-.95-2-2v-1H3v-2h2v-4H3v-2h2V7H3V5h2V4a2 2 0 0 1 2-2h12c1.05 0 2 .95 2 2v6l-2 2V4zM5 5v2h2V5zm0 6v2h2v-2zm0 6v2h2v-2z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Fffffx's Note
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Approximation
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="blue-grey" data-md-color-accent="blue-grey"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4M7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="blue-grey" data-md-color-accent="teal"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256l137.3-137.4c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="分享" aria-label="分享" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Fffffx0618/PsyBlog" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Fffffx
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  首页
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../blog/index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  我的Blog
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Language/index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  编程语言
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  程序算法
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../System/index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  体系结构
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Math/index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  数学基础
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../Develop/index.md" class="md-tabs__link">
+        
+  
+  
+    
+  
+  前后端开发
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Fffffx&#39;s Note" class="md-nav__button md-logo" aria-label="Fffffx's Note" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m19.07 14.88 2.05 2.05L15.06 23H13v-2.06zm1.97-1.75c.14 0 .27.06.38.17l1.28 1.28c.22.21.22.56 0 .77l-1 1-2.05-2.05 1-1c.11-.11.25-.17.39-.17M17 4v6l-2-2-2 2V4H9v16h2v2H7c-1.05 0-2-.95-2-2v-1H3v-2h2v-4H3v-2h2V7H3V5h2V4a2 2 0 0 1 2-2h12c1.05 0 2 .95 2 2v6l-2 2V4zM5 5v2h2V5zm0 6v2h2v-2zm0 6v2h2v-2z"/></svg>
+
+    </a>
+    Fffffx's Note
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Fffffx0618/PsyBlog" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Fffffx
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../index.html" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    首页
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../blog/index.html" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    我的Blog
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../Language/index.html" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    编程语言
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../index.html" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    程序算法
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    程序算法
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../FDS/index.html" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    数据结构基础
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4_3" id="__nav_4_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    高级数据结构与算法分析
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    高级数据结构与算法分析
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="index.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    None
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Lec1.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AVL Trees, Splay Trees and Amortized Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Lec2.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Red-Black Trees and B+ Trees
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Lec3.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inverted File Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Lec4.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Leftist Heaps and Skew Heaps
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Lec5.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Binomial Queue
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Lec6.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Backtracking
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Lec7.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Divide and Conquer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Lec8.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dynamic Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Lec9.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Greedy Algorithms
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Lec10.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    NP-Completeness
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Approximation
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="Lec11.html" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Approximation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#111-introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11.1 Introduction
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#112-bin-packing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11.2 Bin Packing
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="11.2 Bin Packing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#online-algorithms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Online Algorithms
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Online Algorithms">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-next-fit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Next Fit
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-first-fit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. First Fit
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-best-fit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Best Fit
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#offline-algorithms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Offline Algorithms
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#conclusions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Conclusions
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#113-knapsack-problems" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11.3 Knapsack Problems
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="11.3 Knapsack Problems">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fractional-version" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fractional Version
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#0-1-version" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0-1 Version
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#114-k-center-problems" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11.4 K-center Problems
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="11.4 K-center Problems">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#naive-greedy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Naive Greedy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2r-greedy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2r Greedy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#smarter-greedy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Smarter Greedy
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#115-appendix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11.5 Appendix
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Lec12.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Local Search
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Lec13.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Randomized Algorithms
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Lec14.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Parallel Algorithms
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Lec15.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    External Sorting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../System/index.html" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    体系结构
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../Math/index.html" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    数学基础
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Develop/index.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    前后端开发
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#111-introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11.1 Introduction
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#112-bin-packing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11.2 Bin Packing
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="11.2 Bin Packing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#online-algorithms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Online Algorithms
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Online Algorithms">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-next-fit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Next Fit
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-first-fit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. First Fit
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-best-fit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Best Fit
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#offline-algorithms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Offline Algorithms
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#conclusions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Conclusions
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#113-knapsack-problems" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11.3 Knapsack Problems
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="11.3 Knapsack Problems">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fractional-version" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fractional Version
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#0-1-version" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0-1 Version
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#114-k-center-problems" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11.4 K-center Problems
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="11.4 K-center Problems">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#naive-greedy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Naive Greedy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2r-greedy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2r Greedy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#smarter-greedy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Smarter Greedy
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#115-appendix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11.5 Appendix
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+
+  <nav class="md-path" aria-label="导航栏" >
+    <ol class="md-path__list">
+      
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../index.html" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    程序算法
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="index.md" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    高级数据结构与算法分析
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/Fffffx0618/PsyBlog/edit/master/docs/Algorithm/ADS/Lec11.md" title="编辑此页" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+    
+      
+    
+    <a href="https://github.com/Fffffx0618/PsyBlog/raw/master/docs/Algorithm/ADS/Lec11.md" title="查看本页的源代码" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.2 8.2 0 0 1-1.23-2"/></svg>
+    </a>
+  
+
+
+<h1 id="approximation">Approximation<a class="headerlink" href="#approximation" title="Permanent link">&para;</a></h1>
+<h2 id="111-introduction">11.1 Introduction<a class="headerlink" href="#111-introduction" title="Permanent link">&para;</a></h2>
+<p>Three aspects to be considered
+- Optimality: 算法能找到确切的<strong>最优解</strong>
+- Efficiency: 算法能<strong>高效</strong>（通常是多项式时间）运行
+- All instances: 算法是通用的，能够解决<strong>全部问题</strong></p>
+<p>Researchers are working on
+- O+A：针对全部实例的精确算法
+- O+E：对于特殊情况的精确且快速的算法
+- E+A：<strong>近似算法</strong></p>
+<p>【Definition】一般通过<strong>近似比</strong>(approximation ratio) <span class="arithmatex">\(\rho(n)\)</span> 来衡量近似算法的好坏，称这样的近似算法为 <span class="arithmatex">\(\rho(n)\)</span> -近似算法。它的意义是：对于任意规模为 <span class="arithmatex">\(n\)</span> 的输入，算法得到一个解所花的成本 <span class="arithmatex">\(C\)</span> 不会超过得到最优解所花成本 <span class="arithmatex">\(C^*\)</span> 的 <span class="arithmatex">\(\rho(n)\)</span> 倍，即：
+$$
+\max(\dfrac{C}{C^<em>}, \dfrac{C^</em>}{C}) \le \rho(n)
+$$
+【Definition】<strong>近似方案</strong>(approximation scheme) 是关于优化问题的一种近似算法，满足对于给定的输入实例，<span class="arithmatex">\(\forall \varepsilon &gt; 0\)</span>，它是一个 <span class="arithmatex">\((1 + \varepsilon)\)</span> 近似算法。</p>
+<ul>
+<li><strong>polynomial-time approximation scheme, PTAS</strong><ul>
+<li>对于任意固定的值 <span class="arithmatex">\(\varepsilon &gt; 0\)</span>，当输入实例规模为 <span class="arithmatex">\(n\)</span> 时，该方案能在多项式时间内完成计算</li>
+<li>时间复杂度可记为 <span class="arithmatex">\(O(f(n,\varepsilon))\)</span>, 其中 <span class="arithmatex">\(f(n,\varepsilon)\)</span> 关于 <span class="arithmatex">\(n\)</span> 是多项式</li>
+</ul>
+</li>
+<li><strong>fully polynomial-time approximation scheme, FPTAS</strong><ul>
+<li>在PTAS的基础上，要求该方案的运行时间关于 <span class="arithmatex">\(n\)</span> 和 <span class="arithmatex">\(\varepsilon\)</span> 都是多项式级的</li>
+<li>时间复杂度可记为 <span class="arithmatex">\(O(f(n,\varepsilon))\)</span>, 其中 <span class="arithmatex">\(f(n,\varepsilon)\)</span> 关于 <span class="arithmatex">\(n\)</span> 和 <span class="arithmatex">\(\dfrac{1}{\varepsilon}\)</span> 是多项式</li>
+</ul>
+</li>
+</ul>
+<hr />
+<h2 id="112-bin-packing">11.2 Bin Packing<a class="headerlink" href="#112-bin-packing" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p>[!question]
+给定 <span class="arithmatex">\(N\)</span> 个大小分别为 <span class="arithmatex">\(S_1, S_2, \dots, S_N\)</span> 的物品，满足 <span class="arithmatex">\(\forall\ 1 \le i \le N, 0 &lt; S_i \le 1\)</span>，并假设有若干个容量为 1 的桶。现在请你求出能够装下所有物品的最小桶数。</p>
+</blockquote>
+<p>这个看似简单的问题实际上是一个<strong>NP困难问题</strong></p>
+<blockquote>
+<p>[!tip]- 从 Partition Problem 归约
+- 假设有一个 Partition 实例：<span class="arithmatex">\(a_1​,a_2​,\dots,a_n\)</span> ​，总和为 <span class="arithmatex">\(T\)</span>，判断是否能分成两个和为 <span class="arithmatex">\(T/2\)</span> 的子集</p>
+<p>可以构造一个 Bin Packing 实例如下：
+- 每个物品大小为 <span class="arithmatex">\(s_i​=a_i​/T\)</span>，<span class="arithmatex">\(s_i &lt; 1\)</span>
+- 总共有 n 个物品
+- 问题：<strong>能否用 2 个箱子装下所有物品？</strong>
+- 该问题的变种（决策版本）：给定<span class="arithmatex">\(K\)</span>个桶，我们能否装下<span class="arithmatex">\(N\)</span>个物品——<strong>NPC问题</strong></p>
+</blockquote>
+<p>下面给出几种解决该问题的近似算法。</p>
+<h3 id="online-algorithms">Online Algorithms<a class="headerlink" href="#online-algorithms" title="Permanent link">&para;</a></h3>
+<h4 id="1-next-fit">1. Next Fit<a class="headerlink" href="#1-next-fit" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="n">Void</span><span class="w"> </span><span class="nf">NextFit</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">Read</span><span class="w"> </span><span class="n">item</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">    </span><span class="n">While</span><span class="w"> </span><span class="p">(</span><span class="n">read</span><span class="w"> </span><span class="n">item</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">If</span><span class="w"> </span><span class="p">(</span><span class="n">item</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="n">can</span><span class="w"> </span><span class="n">be</span><span class="w"> </span><span class="n">packed</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">same</span><span class="w"> </span><span class="n">bin</span><span class="w"> </span><span class="n">as</span><span class="w"> </span><span class="n">item</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+<span class="w">            </span><span class="n">Place</span><span class="w"> </span><span class="n">item</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">bin</span><span class="p">;</span>
+<span class="w">        </span><span class="n">Else</span>
+<span class="w">            </span><span class="n">Create</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">bin</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">item</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
+<span class="w">        </span><span class="n">Item</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">item</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="c1">// end-while</span>
+<span class="p">}</span>
+</code></pre></div>
+<ul>
+<li>按输入顺序放物品，如果当前物品能够放在与上个物品相同的桶内，放入；否则放在新的桶内</li>
+</ul>
+<blockquote>
+<p>[!Theorem] 定理
+令 <span class="arithmatex">\(M\)</span> 为装下这些物品的最优解桶数，那么该方法所得桶数不超过 <span class="arithmatex">\(2M - 1\)</span>，并且存在某种输入使得桶数正好为 <span class="arithmatex">\(2M - 1\)</span>。因此该算法是一个 2-近似算法。</p>
+<blockquote>
+<p>[!proof]-
+<strong>等价命题</strong>：如果该算法能得到 <span class="arithmatex">\(2M\)</span> 或 <span class="arithmatex">\(2M + 1\)</span> 个桶，那么最优解至少是 <span class="arithmatex">\(M + 1\)</span> 个桶，证明如下：
+令<span class="arithmatex">\(S(B_i)\)</span>为第<span class="arithmatex">\(i\)</span>个桶所装物品的大小，那么可以得到：
+$$\begin{align}
+            S(B_1) + S(B_2) &amp; &gt; 1 \notag \
+            S(B_3) + S(B_4) &amp; &gt; 1 \notag \
+            \dots \notag \
+            S(B_{2M - 1}) + S(B_{2M}) &amp; &gt; 1 \notag
+            \end{align}
+            $$
+累加得：<span class="arithmatex">\(\sum\limits_{i = 1}^{2M} S(B_i) &gt; M\)</span>
+最优解至少需要 <span class="arithmatex">\(\lceil \sum\limits_{i = 1}^{2M} S(B_i)\rceil\)</span> 个桶
+因此最终得到：<span class="arithmatex">\(\lceil \sum\limits_{i = 1}^{2M} S(B_i) \rceil \ge M + 1\)</span>，即该命题是正确的，得证。</p>
+</blockquote>
+</blockquote>
+<h4 id="2-first-fit">2. First Fit<a class="headerlink" href="#2-first-fit" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="kt">void</span><span class="w"> </span><span class="nf">FirstFit</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">read</span><span class="w"> </span><span class="n">item</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">scan</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">first</span><span class="w"> </span><span class="n">bin</span><span class="w"> </span><span class="n">that</span><span class="w"> </span><span class="n">is</span><span class="w"> </span><span class="n">large</span><span class="w"> </span><span class="n">enough</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">item</span><span class="p">;</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">found</span><span class="p">)</span>
+<span class="w">            </span><span class="n">place</span><span class="w"> </span><span class="n">item</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">that</span><span class="w"> </span><span class="n">bin</span><span class="p">;</span>
+<span class="w">        </span><span class="k">else</span>
+<span class="w">            </span><span class="n">create</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">bin</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">item</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="c1">// end-while</span>
+<span class="p">}</span>
+</code></pre></div>
+<ul>
+<li>对于当前物品，找到第一个现存的能够容得下它的桶，如果不存在这样的桶再添加新的桶</li>
+<li>时间复杂度：<span class="arithmatex">\(O(N\log N)\)</span>（循环内扫描桶的时间复杂度优化至<span class="arithmatex">\(O(\log N)\)</span>）</li>
+</ul>
+<blockquote>
+<p>[!info] Theorem 
+令 <span class="arithmatex">\(M\)</span> 为装下这些物品的最优解桶数，那么 first fit 所得桶数不超过 <span class="arithmatex">\(\dfrac{17 M}{10}\)</span>，并且存在某种输入使得桶数正好为 <span class="arithmatex">\(\dfrac{17(M - 1)}{10}\)</span>。因此该算法是一个1.7-近似算法。</p>
+</blockquote>
+<h4 id="3-best-fit">3. Best Fit<a class="headerlink" href="#3-best-fit" title="Permanent link">&para;</a></h4>
+<ul>
+<li>将当前物品放入现存的、容得下它的、且放入该物品后剩余空间是最小的桶内，如果不存在这样的桶再添加新的桶。</li>
+<li>时间复杂度：<span class="arithmatex">\(O(N \log N)\)</span></li>
+<li>与First Fit类似，它也是一个<strong>1.7-近似算法</strong></li>
+</ul>
+<hr />
+<p>上述的三种近似算法均为<strong>在线算法</strong>(online algorithm)
+- 在处理下一个物品前就要放好当前物品，且<strong>不能改变</strong>当前的决策</p>
+<blockquote>
+<p>[!note] Theorem
+由于在线算法无法得知输入何时结束，因此始终无法得到最优解。具体来说，有以下定理：
+- 对于本题的所有近似算法，得到的近似解桶数<strong>至少</strong>是最优解桶数 <span class="arithmatex">\(\dfrac{5}{3}\)</span> 倍。</p>
+</blockquote>
+<h3 id="offline-algorithms">Offline Algorithms<a class="headerlink" href="#offline-algorithms" title="Permanent link">&para;</a></h3>
+<ul>
+<li>在得到答案前需要检查所有的物品</li>
+<li>先找到trouble maker：尺寸较大的物品</li>
+<li>解决方案——<strong>first/best fit decreasing</strong>：先将物品按大小的<u>非递增顺序排序</u>，然后应用 first fit 或 best fit 求解。该方法用到了<strong>贪心算法</strong>的思想。</li>
+</ul>
+<div style="text-align: center">
+<img src="images/lec11/3.gif" width="60%">
+</div>
+
+<blockquote>
+<p>[!info] Theorem
+令<span class="arithmatex">\(M\)</span>为装下这些物品的最优解桶数，那么该方法（first fit decreasing）所得桶数不超过<span class="arithmatex">\(\dfrac{11 M}{9} + \dfrac{6}{9}\)</span>，并且存在某种输入使得桶数正好为<span class="arithmatex">\(\dfrac{11 M}{9} + \dfrac{6}{9}\)</span>。</p>
+</blockquote>
+<h3 id="conclusions">Conclusions<a class="headerlink" href="#conclusions" title="Permanent link">&para;</a></h3>
+<blockquote>
+<p>[!note] 一些结论
+<span class="arithmatex">\(FFD(L)\)</span> 表示的是对于物品组 <span class="arithmatex">\(L\)</span>，用first fit decreasing算法得到的桶数
+- <span class="arithmatex">\(FFD(L) \le \dfrac{3}{2} OPT(L)\)</span>
+- 如果能够证明 P=NP，就可以确定 <span class="arithmatex">\(\dfrac{3}{2}\)</span> 是最小的因数（近似比）</p>
+<blockquote>
+<p>[!proof] Conclusion 1
+- 已知 <span class="arithmatex">\(\forall\ L, FFD(L) \le \dfrac{11}{9}OPT(L) + 1\)</span>（此处使用更宽松的条件）
+- 可以先计算 <span class="arithmatex">\(\dfrac{11}{9}OPT(L) + 1 \le \dfrac{3}{2} OPT(L)\)</span>，解得 <span class="arithmatex">\(OPT \ge 4\)</span>，所以接下来只需考虑 <span class="arithmatex">\(OPT = 1, 2, 3\)</span> 的情况即可
+ - <span class="arithmatex">\(OPT = 1\)</span>：<span class="arithmatex">\(FFD = 1\)</span>，显然成立
+ - <span class="arithmatex">\(OPT = 2\)</span>：根据定理可得 <span class="arithmatex">\(FFD \le \dfrac{11}{9} \times 2 + 1 = \dfrac{31}{9}\)</span>，解得 <span class="arithmatex">\(FFD \le 3\)</span>，结论成立
+ - <span class="arithmatex">\(OPT = 3\)</span>：根据定理可得 <span class="arithmatex">\(FFD \le \dfrac{11}{9} \times 3 + 1 = \dfrac{42}{9}\)</span>，解得 <span class="arithmatex">\(FFD \le 4\)</span>，结论成立
+- 综上所示，结论1成立</p>
+<p>[!proof] Conclusion 2
+考虑该问题的某个判定版本：若存在一种近似算法 <span class="arithmatex">\(A\)</span>，满足 <span class="arithmatex">\(A &lt; \dfrac{3}{2}OPT\)</span>，使用该算法放置物品时，能否用两个桶装下所有的物品？（这是一个NPC问题）
+- 如果可以，那么<span class="arithmatex">\(A \le 2\)</span>，显然<span class="arithmatex">\(OPT \le 2\)</span>，即最优解也不会超过两个桶，也是OK的
+- 如果不行，那么<span class="arithmatex">\(A \ge 3\)</span>，<span class="arithmatex">\(OPT \ge \dfrac{2}{3}A &gt; 2\)</span>，即最优解也需要两个以上的桶，也是不行的</p>
+<p>不难发现 <span class="arithmatex">\(\dfrac{3}{2}\)</span> 是一个临界点。如果能够在多项式时间内能够判定 <span class="arithmatex">\(A\)</span> 的大小，即解决这个NPC问题，那么此时P=NP</p>
+</blockquote>
+</blockquote>
+<hr />
+<h2 id="113-knapsack-problems">11.3 Knapsack Problems<a class="headerlink" href="#113-knapsack-problems" title="Permanent link">&para;</a></h2>
+<h3 id="fractional-version">Fractional Version<a class="headerlink" href="#fractional-version" title="Permanent link">&para;</a></h3>
+<blockquote>
+<p>[!question] 问题描述</p>
+<blockquote>
+<p>[!info] 注
+这里的“背包问题(knapsack problem)”是==分数版本==的0-1背包问题，不是在DP那一讲中提到的那几种简单类型</p>
+</blockquote>
+<p>令背包容量为<span class="arithmatex">\(M\)</span>，给定<span class="arithmatex">\(N\)</span>类物品，每类物品<span class="arithmatex">\(i\)</span>的重量为<span class="arithmatex">\(w_i\)</span>，价值为<span class="arithmatex">\(p_i\)</span>，被放进背包的比例为<span class="arithmatex">\(x_i \in [0, 1]\)</span>（因此该类物品的总价值为<span class="arithmatex">\(p_i x_i\)</span>）。
+很明显，该问题的最优解即为背包所装物品的最大价值。也就是说，在满足<span class="arithmatex">\(\sum\limits_{i=1}^n w_i x_i \le M\)</span>的限制条件下，令<span class="arithmatex">\(\sum\limits_{i=1}^np_ix_i\)</span>最大。</p>
+</blockquote>
+<ul>
+<li>在每个阶段中，我们需要将一类物品放入背包内</li>
+<li><strong>贪心法</strong>：按<strong>价值密度</strong>(profit density)大小<span class="arithmatex">\(\dfrac{p_i}{w_i}\)</span>的降序挑选物品，直到背包被填满为止<blockquote>
+<p>[!example]
+<strong>题目</strong>:已知 <span class="arithmatex">\(n = 3, M = 20, (p_1, p_2, p_3) = (25, 24, 15), (w_1, w_2, w_3) = (18, 15, 10)\)</span>，计算背包的最大价值
+<strong>答案</strong>: <span class="arithmatex">\((x_1, x_2, x_3) = (0, 1, \dfrac{1}{2})\)</span>，此时最大价值 <span class="arithmatex">\(P = 31.5\)</span></p>
+</blockquote>
+</li>
+</ul>
+<h3 id="0-1-version">0-1 Version<a class="headerlink" href="#0-1-version" title="Permanent link">&para;</a></h3>
+<p>在上面一类背包问题的基础上多了一条限制：<span class="arithmatex">\(x_i = 0 \text{ or } 1\)</span>，事实上，这个看似简单的问题是一个NP困难问题</p>
+<blockquote>
+<p>[!example]
+<strong>题目</strong>
+- 已知 <span class="arithmatex">\(n = 5, M = 11, (p_1, p_2, p_3, p_4, p_5) = (1, 6, 18, 22, 28), (w_1, w_2, w_3, w_4, w_5) = (1, 2, 5, 6, 7)\)</span>，计算背包的最大价值。</p>
+<p><strong>答案</strong>
+- 最优解：<span class="arithmatex">\((0, 0, 1, 1, 0), P = 40\)</span>
+- 贪心解：<span class="arithmatex">\((1, 1, 0, 0, 1), P = 35\)</span></p>
+<p>对于本例，无论是采取选最大价值密度的策略，还是采取选最大价值的策略，结果都是一样的</p>
+</blockquote>
+<p>贪心法在0-1背包问题中是一个<strong>2-近似算法</strong>，证明如下：</p>
+<blockquote>
+<p>[!proof]
+通过已知条件，可以得到下列不等式：
+$$
+    \begin{align}
+    p_{\text{max}} &amp; \le P_{\text{opt}} \le P_{\text{frac}} \notag \
+    p_{\text{max}} &amp; \le P_{\text{greedy}} \notag \
+    P_{\text{opt}} &amp; \le P_{\text{greedy}} + p_{\text{max}} \notag
+    \end{align}
+    $$
+其中，<span class="arithmatex">\(p_{\text{max}} = \max\limits_{1 \le i \le n}\{p_i\}\)</span>，<span class="arithmatex">\(P_{\text{opt}}\)</span> 表示本题的最优解，<span class="arithmatex">\(P_{\text{frac}}\)</span> 表示分数背包问题的解，<span class="arithmatex">\(P_{\text{greedy}}\)</span> 表示本题的贪心解。
+- 第一个不等式：左边不等号显然成立，右边不等号是因为分数背包问题可以取部分物品，那么它一定能够在0-1背包的基础上，通过塞入部分物品将背包塞满
+- 第二个不等式也是显然成立的
+- 第三个不等式：不等号两边同时减去<span class="arithmatex">\(P_{\text{greedy}}\)</span>，即最优解与贪心解之差一定不超过最大价值
+  - 在小数解中，其实<strong>只有一个物品会被拆分放入</strong>（因为价值大的剩余位置够用时肯定装满价值大的），因此贪心解和分数解的差值就是没有被拆分放入背包的物品的价值
+  - 将被拆分的物品价值 <span class="arithmatex">\(p\)</span> 替换为价值最大的物品 <span class="arithmatex">\(p_{max}\)</span>，这时 <span class="arithmatex">\(P_{greedy} + p_{max} \ge P_{frac} = P_{greedy} + p \ge P_{opt}\)</span></p>
+<p>根据这三个不等式，可以推出：
+$$
+    \dfrac{P_{\text{opt}}}{P_{\text{greedy}}} \le 1 + \dfrac{p_{\text{max}}}{P_{\text{greedy}}} \le 2
+    $$
+根据近似比的定义，便可得到近似比为2。</p>
+</blockquote>
+<p><strong>A Dynamic Programming Solution</strong>：
+- 令<span class="arithmatex">\(W_{i, p}\)</span>为物品1到物品<span class="arithmatex">\(i\)</span>之间的最小质量，而这些物品的总价值为<span class="arithmatex">\(p = \sum\limits_{k = 1}^i p_k\)</span>
+- 分类讨论：
+    - 取物品<span class="arithmatex">\(i\)</span>：<span class="arithmatex">\(W_{i, p} = w_i + W_{i - 1, p - p_i}\)</span>
+    - 不取物品<span class="arithmatex">\(i\)</span>：<span class="arithmatex">\(W_{i, p} = W_{i - 1, p}\)</span>
+    - 不可能得到价值<span class="arithmatex">\(p\)</span>：<span class="arithmatex">\(W_{i, p} = \infty\)</span>
+- 状态转移方程为：
+$$
+W_{i, p} = \begin{cases}\infty &amp; i = 0 \ W_{i - 1, p} &amp; p_i &gt; p \ \min{W_{i - 1, p}, w_i + W_{i - 1, p - p_i}} &amp; \text{otherwise}\end{cases}
+$$
+- 其中，<span class="arithmatex">\(i = 1, \dots, n, p = 1, \dots, np_{\text{max}}\)</span>，因此时间复杂度为<span class="arithmatex">\(O(n^2 p_{\text{max}})\)</span></p>
+<blockquote>
+<p>[!question]
+<strong>问题1</strong>：Why NP-hard?
+- 上面给出的时间复杂度中包含 <span class="arithmatex">\(p_{max}\)</span>，它与数据规模 <span class="arithmatex">\(n\)</span> 独立，因此这个数可以很大很大，超出 <span class="arithmatex">\(n\)</span> 的指数级倍。因此，无法保证dp解法能够在多项式时间内产生解。</p>
+<p><strong>问题2</strong>：假定 <span class="arithmatex">\(w_i \le N^2\)</span>，那么0-1背包问题是否还是 NP-hard？
+- 不难得到 <span class="arithmatex">\(M = \sum\limits_{i = 1}^N N \cdot w_i \le N \cdot N^2 \le N^3\)</span>，那么总的时间复杂度就是 <span class="arithmatex">\(O(N^4)\)</span>，因此此时0-1背包问题就不是 NP-hard了。</p>
+</blockquote>
+<hr />
+<h2 id="114-k-center-problems">11.4 K-center Problems<a class="headerlink" href="#114-k-center-problems" title="Permanent link">&para;</a></h2>
+<p><strong>聚类</strong>(clustering)问题：把相似的对象通过静态分类的方法分成不同的组别或者更多的子集，使得同一子集中的成员对象都有一些相似属性的一种操作，常应用于数据挖掘、机器学习等领域。下面介绍一类聚类问题——<strong>K-中心问题</strong>(K-center problem)。</p>
+<blockquote>
+<p>[!question]
+给定 <span class="arithmatex">\(n\)</span> 个地址 <span class="arithmatex">\(s_1, \dots, s_n\)</span>，在地图上选择 <span class="arithmatex">\(K\)</span> 个中心点 <span class="arithmatex">\(c\)</span>，使任意地址到离它距离最近的中心点之间的距离中的最大值最小化。</p>
+</blockquote>
+<div style="text-align: center">
+<img src="images/lec11/6.png" width="60%">
+</div>
+<p><strong>符号化的定义</strong>：
+- <span class="arithmatex">\(dist(s_i, C) = \min\limits_{c \in C} \{dist(s_i, c)\}\)</span>，即<span class="arithmatex">\(s_i\)</span>到最近中心点间的距离
+- <span class="arithmatex">\(r(C) = \max\limits_{i} \{dist(s_i, C)\}\)</span>，即所有中心点中最大的最小覆盖半径，换句话说，就是以中心点为圆心的最小覆盖圆中，最大的那个圆的半径
+<strong>目标</strong>：
+- 找到一组中心点集 <span class="arithmatex">\(C\)</span>，使得 <span class="arithmatex">\(r(C)\)</span> 最小化，且保证 <span class="arithmatex">\(|C| = K\)</span>（<span class="arithmatex">\(K\)</span> 为常数）</p>
+<h3 id="naive-greedy">Naive Greedy<a class="headerlink" href="#naive-greedy" title="Permanent link">&para;</a></h3>
+<ul>
+<li>让第一个中心点作为所有地址的<strong>中点</strong>（就好像只能放一个中心点）</li>
+<li>随后加入的中心点满足能够减少<span class="arithmatex">\(r(C)\)</span>值的条件</li>
+</ul>
+<div style="text-align: center">
+    <img src="images/lec11/7.png" width="60%">
+</div>
+
+<blockquote>
+<p>[!failure]
+如图所示，假设整个点集包括两个相距很远的子集，且<span class="arithmatex">\(K = 2\)</span>。此时第一个中心点就会被放在两个子集的中间，但最优解应该是中心点位于子集的中间位置的时候，所以贪心策略失效了</p>
+<p><div style="text-align: center"><img src="images/lec11/8.png" width="80%"></div>  </p>
+</blockquote>
+<h3 id="2r-greedy">2r Greedy<a class="headerlink" href="#2r-greedy" title="Permanent link">&para;</a></h3>
+<p>贪心法需要进一步的改进，先给出伪代码：
+<div class="highlight"><pre><span></span><code><span class="n">Centers</span><span class="w"> </span><span class="n">Greedy</span><span class="mi">-2</span><span class="n">r</span><span class="p">(</span><span class="n">Sites</span><span class="w"> </span><span class="n">S</span><span class="p">[],</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">K</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">r</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">Sites</span><span class="w"> </span><span class="n">S</span><span class="err">`</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">S</span><span class="p">[];</span><span class="w">  </span><span class="c1">// S` is the set of the remaining sites</span>
+<span class="w">    </span><span class="n">Centers</span><span class="w"> </span><span class="n">C</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">S</span><span class="err">`</span><span class="p">[]</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Select</span><span class="w"> </span><span class="n">any</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="n">form</span><span class="w"> </span><span class="n">S</span><span class="err">`</span><span class="w"> </span><span class="n">and</span><span class="w"> </span><span class="n">add</span><span class="w"> </span><span class="n">it</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">C</span><span class="p">;</span>
+<span class="w">        </span><span class="n">Delete</span><span class="w"> </span><span class="n">all</span><span class="w"> </span><span class="n">s</span><span class="err">`</span><span class="w"> </span><span class="n">from</span><span class="w"> </span><span class="n">S</span><span class="err">`</span><span class="w"> </span><span class="n">that</span><span class="w"> </span><span class="n">are</span><span class="w"> </span><span class="n">at</span><span class="w"> </span><span class="n">dist</span><span class="p">(</span><span class="n">s</span><span class="err">`</span><span class="p">,</span><span class="w"> </span><span class="n">s</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">2</span><span class="n">r</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="c1">// end-while</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">|</span><span class="n">C</span><span class="o">|</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">K</span><span class="p">)</span><span class="w"> </span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">C</span><span class="p">;</span>
+<span class="w">    </span><span class="k">else</span>
+<span class="w">        </span><span class="n">ERROR</span><span class="p">(</span><span class="s">&quot;No set of K centers with covering radius at most r&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<ol>
+<li>预备知识：在改进的贪心算法中，我们直接挑选某个地址作为中心点。<ul>
+<li>这种做法之所以可行，是因为某个中心点覆盖半径为 <span class="arithmatex">\(r\)</span> 的区域，可以近似为以（接近）区域边界上一点 <span class="arithmatex">\(s\)</span> 为新的中心点，<span class="arithmatex">\(2r\)</span> 为半径的区域。这个区域明显比原区域大，同时也能保证覆盖原区域所能覆盖的点。</li>
+<li>这样的话我们就不必通过繁琐的计算算出中心点，而是从原有的地址中选择中心点。下图说明了这一点：</li>
+</ul>
+</li>
+</ol>
+<div style="text-align: center">
+    <img src="images/lec11/10_light.png" width="40%">
+</div>
+<p>2. 关于参数 <span class="arithmatex">\(r\)</span>（<span class="arithmatex">\(C^*\)</span> 为最优中心点集，令 <span class="arithmatex">\(r(C^*) \le r\)</span>）：
+    假如我们知道了最大半径 <span class="arithmatex">\(r_{\text{max}}\)</span>，此时由于 <span class="arithmatex">\(r\)</span> 的范围是已知的（<span class="arithmatex">\(0 &lt; r \le r_{\text{max}}\)</span>）我们可以使用<strong>二分查找</strong>来找到 <span class="arithmatex">\(r\)</span> 的值，具体来说：
+    - 先令<span class="arithmatex">\(r = \dfrac{0 + r_{\max}}{2}\)</span>
+    - 如果能够在这个 <span class="arithmatex">\(r\)</span> 下面找到满足要求的 <span class="arithmatex">\(K\)</span> 个中心点，说明这个界还是比较宽松的，需要减小 <span class="arithmatex">\(r\)</span>；否则的话增加 <span class="arithmatex">\(r\)</span>（都是用二分法改变 <span class="arithmatex">\(r\)</span> 值）
+    - 时间复杂度：<span class="arithmatex">\(O(\log r_{\max})\)</span></p>
+<ol>
+<li>回到贪心算法上：<ul>
+<li>从输入点集中随机选取第一个点作为中心，然后删除<strong>以该点为中心，<span class="arithmatex">\(2r\)</span> 为半径的圆</strong>内部的所有点</li>
+<li>然后在剩余点中随机选择第二个中心，以此类推</li>
+<li>如果该 <span class="arithmatex">\(r\)</span> 值确实是最优解，那么这一算法在 <span class="arithmatex">\(K\)</span> 步之内必然停止，且得到的解是最优解的2倍，即该算法是一个<strong>2-近似算法</strong></li>
+<li>定理：假设该算法选择的中心点数超过 <span class="arithmatex">\(K\)</span>，那么对于任意规模至多为 <span class="arithmatex">\(K\)</span> 的中心点集 <span class="arithmatex">\(C^*\)</span>，覆盖半径为 <span class="arithmatex">\(r(C^*) &gt; r\)</span></li>
+</ul>
+</li>
+</ol>
+<h3 id="smarter-greedy">Smarter Greedy<a class="headerlink" href="#smarter-greedy" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">Centers</span><span class="w"> </span><span class="n">Greedy</span><span class="o">-</span><span class="n">Kcenter</span><span class="p">(</span><span class="n">Sites</span><span class="w"> </span><span class="n">S</span><span class="p">[],</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">K</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">Centers</span><span class="w"> </span><span class="n">C</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+<span class="w">    </span><span class="n">Select</span><span class="w"> </span><span class="n">any</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="n">from</span><span class="w"> </span><span class="n">S</span><span class="w"> </span><span class="n">and</span><span class="w"> </span><span class="n">add</span><span class="w"> </span><span class="n">it</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">C</span><span class="p">;</span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="o">|</span><span class="n">C</span><span class="o">|</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">K</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Select</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="n">from</span><span class="w"> </span><span class="n">S</span><span class="w"> </span><span class="n">with</span><span class="w"> </span><span class="n">maximum</span><span class="w"> </span><span class="n">dist</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="w"> </span><span class="n">C</span><span class="p">);</span>
+<span class="w">        </span><span class="n">Add</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">C</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span><span class="w">  </span><span class="c1">// end-while</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">C</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<ul>
+<li>这里的贪心法策略是：<ul>
+<li>第一个点还是任意取的</li>
+<li>之后<u>选择离中心点集中的点尽可能远的点</u>作为新的中心点</li>
+<li>循环<span class="arithmatex">\(K\)</span>遍结束循环</li>
+</ul>
+</li>
+<li>定理：该算法返回包含规模为<span class="arithmatex">\(K\)</span>的中心点集<span class="arithmatex">\(C\)</span>，使得<span class="arithmatex">\(r(C) \le 2r(C^*)\)</span>，其中<span class="arithmatex">\(C^*\)</span>表示最优中心点集<ul>
+<li>本质上依旧是一个2-近似算法。</li>
+</ul>
+</li>
+</ul>
+<h2 id="115-appendix">11.5 Appendix<a class="headerlink" href="#115-appendix" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p>[!info] 一些常见问题的近似解
+- <strong>绝对近似比</strong>（Absolute Approximation Ratio）：对所有输入实例 <span class="arithmatex">\(I\)</span> ， <span class="arithmatex">\(\text{result}\le \rho \cdot OPT(I)\)</span>
+- <strong>渐近近似比</strong>（Asymptotic Approximation Ratio）：存在常数 <span class="arithmatex">\(c\)</span> ，使得对所有 <span class="arithmatex">\(I\)</span>，<span class="arithmatex">\(\text{result}\le \rho \cdot OPT(I) + c\)</span></p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>问题</th>
+<th>最优近似结果（多项式时间）</th>
+<th>结论（复杂性含义）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0-1 背包</td>
+<td>存在 FPTAS：对任意  <span class="arithmatex">\(\varepsilon ﹥ 0\)</span> ，可在 <span class="arithmatex">\(\text{poly}(n, 1/\varepsilon)\)</span> 时间内得到 <span class="arithmatex">\((1+\varepsilon)\)</span> -近似解</td>
+<td>✅ 可任意精度近似；是少数容易近似的 NP-hard</td>
+</tr>
+<tr>
+<td>K-center</td>
+<td>存在 2-近似算法，且对所有实例满足  <span class="arithmatex">\(R \leq 2 \cdot \text{OPT}\)</span></td>
+<td>❌ 除非 P = NP，否则不存在  <span class="arithmatex">\((2 - \varepsilon)\)</span> -近似算法；2 是紧的绝对近似比</td>
+</tr>
+<tr>
+<td>Bin Packing</td>
+<td>不存在多项式时间算法满足<span class="arithmatex">\(\text{ALG} \leq (3/2 - \varepsilon) \cdot \text{OPT}\)</span></td>
+<td>⚠️ 1.5 是绝对近似比的下界；实际算法在渐近意义下优于 1.5，但无法保证对所有实例 ≤ 1.5 × OPT</td>
+</tr>
+<tr>
+<td>Vertex Cover Problem</td>
+<td>存在 2-近似算法，且对所有实例满足  <span class="arithmatex">\(R \leq 2 \cdot \text{OPT}\)</span></td>
+<td></td>
+</tr>
+<tr>
+<td>Set Cover</td>
+<td>贪心算法达到  <span class="arithmatex">\(H_n \approx \ln n + 1\)</span>  近似<br>对任意  <span class="arithmatex">\(\varepsilon ﹥ 0\)</span> ，不存在  <span class="arithmatex">\((1 - \varepsilon)\ln n\)</span> -近似算法</td>
+<td>❌ 无法做到常数近似； <span class="arithmatex">\(\Theta(\ln n)\)</span>  是紧的近似界</td>
+</tr>
+<tr>
+<td>广义 TSP</td>
+<td>对任意常数 <span class="arithmatex">\(\rho\)</span> ，不存在 <span class="arithmatex">\(\rho\)</span> -近似算法（除非 P = NP）；甚至对某些版本，近似比需为指数级</td>
+<td>🚫 完全不可近似（无常数因子近似算法）</td>
+</tr>
+<tr>
+<td>Maximum Clique</td>
+<td>最好已知近似比约为  <span class="arithmatex">\(O(n / \log^2 n)\)</span> <br>对任意 <span class="arithmatex">\(\varepsilon ﹥ 0\)</span>，不存在  <span class="arithmatex">\(n^{1 - \varepsilon}\)</span> -近似算法（除非 P = NP）</td>
+<td>🧱 几乎无法近似；近似比必须随 <span class="arithmatex">\(n\)</span> 多项式增长</td>
+</tr>
+<tr>
+<td>Multiprocessor Scheduling</td>
+<td>List Scheduling 算法的近似比 <span class="arithmatex">\(\dfrac{C_{LS}}{C_{OPT}}\le 2-\dfrac{1}{m}\)</span></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="页脚" >
+        
+          
+          <a href="Lec10.html" class="md-footer__link md-footer__link--prev" aria-label="上一页: NP-Completeness">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256l137.3-137.4c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              <div class="md-ellipsis">
+                NP-Completeness
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="Lec12.html" class="md-footer__link md-footer__link--next" aria-label="下一页: Local Search">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              <div class="md-ellipsis">
+                Local Search
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M247.1 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L179.2 256 41.9 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["header.autohide", "content.math", "content.action.edit", "content.action.view", "content.code.copy", "content.code.annotate", "content.tooltips", "navigation.footer", "navigation.indexes", "navigation.path", "navigation.prune", "navigation.tabs", "navigation.tabs.sticky", "navigation.top", "navigation.tracking", "search.share", "search.suggest", "search.highlight", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+        <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+      
+    
+  </body>
+</html>
