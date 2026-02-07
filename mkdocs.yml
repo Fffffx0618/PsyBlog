@@ -143,7 +143,17 @@ nav:
       - Language/Python/Python.md
   - 程序算法: 
     - Algorithm/index.md
-    - 数据结构基础
+    - 数据结构基础:
+      - Algorithm/FDS/index.md
+      - Algorithm/FDS/Chap1.md
+      - Algorithm/FDS/Chap2.md
+      - Algorithm/FDS/Chap3.md
+      - Algorithm/FDS/Chap4.md
+      - Algorithm/FDS/Chap5.md
+      - Algorithm/FDS/Chap6.md
+      - Algorithm/FDS/Chap7.md
+      - Algorithm/FDS/Chap8.md
+      - Algorithm/FDS/Chap9.md
     - 高级数据结构与算法分析:
       - Algorithm/ADS/index.md
       - Algorithm/ADS/Lec1.md
@@ -171,6 +181,20 @@ nav:
       - System/CO/Chapter4.md
       - System/CO/Chapter5.md
       - System/CO/Chapter6.md
-  - 数学基础: Math/index.md
+  - 数学基础: 
+    - Math/index.md
+    - 离散数学及其应用:
+      - Math/DM/index.md
+    - 数值分析:
+      - Math/NA/index.md
+      - Math/NA/Chap1.md
+      - Math/NA/Chap2.md
+      - Math/NA/Chap3.md
+      - Math/NA/Chap4.md
+      - Math/NA/Chap5.md
+      - Math/NA/Chap6.md
+      - Math/NA/Chap7.md
+      - Math/NA/Chap8.md
+      - Math/NA/Chap9.md
   - 前后端开发: Develop/index.md
 
