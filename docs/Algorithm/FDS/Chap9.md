@@ -1,16 +1,21 @@
-# CHAPTER 9. Graph Algorithm
+# Chapter9.Graph Algorithm
 
 ## 1. Definitions
+
 - **G (V, E)** where **G** is ***graph 图***,  **V = V (G)** is finite nonempty set of ***vertices 顶点***, and **E = E (G)** is finite set of ***edges 边***
+
 - ***Undirected graph 无向图*** : $(v_i, v_j) = (v_j, v_i)$ ::= the same edge.
-- ***Directed graph (digraph) 有向图*** : $<v_i, v_j> ::=$    <img src="数据结构基础.assets/image-20250409155735333.png" alt="image-20250409155735333" style="zoom:50%;" />$≠ <v_j, v_i>$
+
+- ***Directed graph (digraph) 有向图*** : $<v_i, v_j> ::=$    <img src="images/image-20250409155735333.png" alt="image-20250409155735333" style="zoom:50%;" />$≠ <v_j, v_i>$
 
 - **Restrictions**:
-  1. ***Self loop 自环*** is illegal.
-  2. ***Multigraph 多重图*** is not considered.
+    1. ***Self loop 自环*** is illegal.
+    2. ***Multigraph 多重图*** is not considered.
+
 - ***Complete graph 完全图*** : a graph that has the maximum number of edges
-- <img src="数据结构基础.assets/image-20250409144237721.png" alt="image-20250409144237721" style="zoom: 67%;" />$v_i$ and $v_j$ are ***adjacent 邻接*** ；$v_i, v_j$ is **incident on** $v_i$ and $v_j$
-- <img src="数据结构基础.assets/image-20250409144252720.png" alt="image-20250409144252720" style="zoom:67%;" />$v_i$ is ***adjacent** **to***  $v_j$ ； $v_j$ is ***adjacent from*** $v_i$  ； $<v_i, v_j>$ is **incident on** $v_i$ and $v_j$
+
+- <img src="images/image-20250409144237721.png" alt="image-20250409144237721" style="zoom: 67%;" />$v_i$ and $v_j$ are ***adjacent 邻接*** ；$v_i, v_j$ is **incident on** $v_i$ and $v_j$
+- <img src="images/image-20250409144252720.png" alt="image-20250409144252720" style="zoom:67%;" />$v_i$ is ***adjacent** **to***  $v_j$ ； $v_j$ is ***adjacent from*** $v_i$  ； $<v_i, v_j>$ is **incident on** $v_i$ and $v_j$
 
 - ***Subgraph 子图*** $G' \subset G$ ::= $V (G') \subseteq V (G) \space \&\& \space E (G') \subseteq E (G)$
 
@@ -23,19 +28,19 @@
 - ***Cycle*** ::= simple path with $v_p = v_q$
 
 - ***connected 联通***
-  * **undirected Graph**
-    * $v_i$ and $v_j$ in an undirected $G$ are ***connected*** if there is a path from $v_i$ to $v_j$ （联通指***存在路径***即可，不需要直接连接两点）
-    * An undirected graph \(G\) is ***connected*** if every pair of distinct $v_i$ and $v_j$ are connected
-    * (Connected) ***Component*** of an undirected G ::= the maximal connected subgraph***最大联通的图***
-    * A **tree** is a graph that is ***connected 联通*** and ***acyclic 无环***
+    * **undirected Graph**
+        * $v_i$ and $v_j$ in an undirected $G$ are ***connected*** if there is a path from $v_i$ to $v_j$ （联通指***存在路径***即可，不需要直接连接两点）
+        * An undirected graph \(G\) is ***connected*** if every pair of distinct $v_i$ and $v_j$ are connected
+        * (Connected) ***Component*** of an undirected G ::= the maximal connected subgraph***最大联通的图***
+        * A **tree** is a graph that is ***connected 联通*** and ***acyclic 无环***
 
-  * **directed Graph**
-    * A **DAG** ::= ***a directed acyclic graph 有向无环图***
-    * ***Strongly connected 强连通*** directed graph G : for every pair of $v_i$ and $v_j$ in $V (G)$, there exist directed paths from $v_i$ to $v_j$ and from $v_j$ and $v_i$. 
-    * ***weakly connected 弱联通*** directed graph G :  the graph is connected without direction to the edges
-    * ***Strongly connected component 强连通分量*** ::= the maximal subgraph that is strongly connected
+    * **directed Graph**
+        * A **DAG** ::= ***a directed acyclic graph 有向无环图***
+        * ***Strongly connected 强连通*** directed graph G : for every pair of $v_i$ and $v_j$ in $V (G)$, there exist directed paths from $v_i$ to $v_j$ and from $v_j$ and $v_i$. 
+        * ***weakly connected 弱联通*** directed graph G :  the graph is connected without direction to the edges
+        * ***Strongly connected component 强连通分量*** ::= the maximal subgraph that is strongly connected
 
-- ***Degree (v)*** ::= number of edges incident to v. For a directed G, we have ***in - degree*** and ***out - degree***. 
+- ***Degree (v)*** ::= number of edges incident to v. For a directed G, we have ***in-degree*** and ***out-degree***. 
 
 ### Representation of Graph
 
@@ -51,13 +56,14 @@ $$
 
 #### 2. 邻接表 (adjacency lists)
 
-![image-20250620161640406](数据结构基础.assets/image-20250620161640406.png).
+<div style="text-align: center"><img src="images/image-20250620161640406.png" width="35%"></div>
+
 
 #### 3. 邻接多重表 (adjacency multilist)
 
 > 不作要求，了解即可
 
-![image-20250410193821159](数据结构基础.assets/image-20250410193821159.png).
+<div style="text-align: center"><img src="images/image-20250410193821159.png" width="35%"></div>
 
 ## 2. Topological Sort
 
@@ -147,7 +153,8 @@ Given as input a weighted graph, $G = (V, E)$, and a distinguished vertex $s$, f
 - **Table[ i ]. Known**: 1 if $v_i$ is checked; or 0 if not
 - **Table[ i ]. Path**: for tracking the path /* initialized to be 0 */
 
-<img src="数据结构基础.assets/image-20250620170158551.png" alt="image-20250620170158551" style="zoom:100%;" />
+
+<div style="text-align: center"><img src="images/image-20250620170158551.png" width="55%"></div>
 
 **广度优先搜索 (breadth-first search, BFS)**
 
@@ -197,7 +204,8 @@ Void Unweighted (Table T){
 #### 2. Dijkstra's Algorithm (for weighted shortest paths)
 
 * 令 $S = \{s$ 和已找到最短路径的顶点 $v_i$ 的集合 $\}$
-  对于 $\forall u \notin S$，定义 $\text{distance}[u] =$ 路径 $\{s \rightarrow (v_i \in S) \rightarrow u\}$ 的最小长度
+
+对于 $\forall u \notin S$，定义 $\text{distance}[u] =$ 路径 $\{s \rightarrow (v_i \in S) \rightarrow u\}$ 的最小长度
 
   - Dijkstra 算法按阶段执行，在每个阶段中，挑选一个顶点 $v$，它是所有**未被标记**的顶点中 $d_v$**最短**的顶点（有多个最短则任意挑选）
   - 对于从顶点 $v$ 出发的邻接顶点 $w$，$d_w = \min (d_w, d_v + c_{v, w})$
@@ -206,7 +214,7 @@ Void Unweighted (Table T){
 
   不难发现，这是一种**贪心算法 Greedy Algorithm**
 
- ##### Some Preparations
+##### Some Preparations
 
 ```c
 // Declarations for Dijkstra's algorithm
@@ -277,27 +285,27 @@ Void Dijkstra (Table T){
 
 * **Implementation 1**
 
-  * $V$ = smallest unknown distance vertex;   
+    * $V$ = smallest unknown distance vertex;   
 
-    /* simply scan the table – $O (|V|)$*/
+      /* simply scan the table – $O (|V|)$*/
 
-  * $T = O (|V|^2 + |E|)$  - Good if the graph is ***dense 稠密*** （此时复杂度相当于线性复杂度)
+    * $T = O (|V|^2 + |E|)$  - Good if the graph is ***dense 稠密*** （此时复杂度相当于线性复杂度)
 
 * **Implementation 2** 
 
-  * $V$ = smallest unknown distance vertex;  
+    * $V$ = smallest unknown distance vertex;  
 
     /* keep distances in a **priority queue** and call DeleteMin – $O (\log|V|)$*/
 
-  * Decrease ( $T[W]. Dist$ to $T[V]. Dist + C_{vw}$ );  
+    * Decrease ( $T[W]. Dist$ to $T[V]. Dist + C_{vw}$ );  
 
-    * Method 1: DecreaseKey – $O (\log|V|)$
+        * Method 1: DecreaseKey – $O (\log|V|)$
       $T = O (|V|\log|V| + |E|\log|V|) = O (|E|\log|V|)$ 
 
-    * Method 2: 将更新后的 $d_w$ 插入堆中
+        * Method 2: 将更新后的 $d_w$ 插入堆中
 
-      在 `V = smallest unknown distance vertex;` 中，重复使用 `DeleteMin`，直到未标记的点出现（标记过的点就扔掉不用）
-      $T = O (|E|\log|V|)$ but requires $|E|$ DeleteMin with $|E|$ space 
+        在 `V = smallest unknown distance vertex;` 中，重复使用 `DeleteMin`，直到未标记的点出现（标记过的点就扔掉不用）
+        $T = O (|E|\log|V|)$ but requires $|E|$ DeleteMin with $|E|$ space 
 
 #### 3. Graphs with Negative Edge Costs
 
@@ -347,29 +355,35 @@ Void Dijkstra (Table T){
 **Application**: 
 
 * **AOE Networks** 
-  ![image-20250426123556253](数据结构基础.assets/image-20250426123556253.png)
 
-  $a_i$ := activity，$v_j$: Signals the completion of $a_i$
+<div style="text-align: center"><img src="images/image-20250426123556253.png" width="35%"></div>
 
-<img src="数据结构基础.assets/image-20250426123613229.png" alt="image-20250426123613229" style="zoom:150%;" />
+
+
+$a_i$ := activity，$v_j$: Signals the completion of $a_i$
+
+<div style="text-align: center"><img src="images/image-20250426123613229.png" width="65%"></div>
+
 
 > 注：必要时需要添加 dummy edges 和 dummy nodes，避免错误或缺少的依赖关系产生
 
 * 计算 **EC** 
 
-  Start from $v_0$, for any $a_i = <v, w>$, we have 
-  $$
-  EC[0]=0, EC[w] = \max_{(v, w) \in E} \{ EC[v] + C_{v, w} \} 
-  $$
+    Start from $v_0$, for any $a_i = <v, w>$, we have 
+
+    $$
+    EC[0]=0, EC[w] = \max_{(v, w) \in E} \{ EC[v] + C_{v, w} \} 
+    $$
 
 * 计算 **LC** 
 
-  Start from the last vertex, for any $a_i = <v, w>$, we have 
-  $$
-  LC[endIndex]=EC[endIndex], LC[v] = \min_{(v, w) \in E} \{ LC[w] - C_{v, w} \}
-  $$
+    Start from the last vertex, for any $a_i = <v, w>$, we have 
 
-* **Slack Time** of $<v, w>  = LC[w] - EC[v] - C_{v, w} $
+    $$
+    LC[endIndex]=EC[endIndex], LC[v] = \min_{(v, w) \in E} \{ LC[w] - C_{v, w} \}
+    $$
+
+* **Slack Time** of $<v, w>  = LC[w] - EC[v] - C_{v, w}$
 
 * **Critical Path** : path consisting entirely of **zero - slack** edges. 
 
@@ -385,13 +399,15 @@ For all pairs of $v_i, v_j$ ($i \neq j$), find the shortest path between.
 
 ## 4. Network Flow Problems
 
-<img src="数据结构基础.assets/image-20250426125057475.png" alt="image-20250426125057475" style="zoom:150%;" />
+<div style="text-align: center"><img src="images/image-20250426125057475.png" width="30%"></div>
+
 
 ### 4.1 Solution
 
 * allow the algorithm to **undo 撤销** its decisions
 
-  <img src="数据结构基础.assets/image-20250426125321824.png" alt="image-20250426125321824" style="zoom:140%;" />
+<div style="text-align: center"><img src="images/image-20250426125321824.png" width="55%"></div>
+
 
 ### Analysis
 
@@ -401,7 +417,7 @@ For all pairs of $v_i, v_j$ ($i \neq j$), find the shortest path between.
 
   $T=O (f\cdot|E|)$, where $f$ is the maximum flow
 
-<img src="数据结构基础.assets/image-20250620213100028.png" alt="image-20250620213100028" style="zoom:120%;" />
+<div style="text-align: center"><img src="images/image-20250620213100028.png" width="55%"></div>
 
 如果我们随机挑选增广路径，挑到一条包括 $a→b$ 的路径，就会产生问题：
 
@@ -410,33 +426,35 @@ For all pairs of $v_i, v_j$ ($i \neq j$), find the shortest path between.
 #### **Solution**
 
 * 在选择增广路径时，总是挑选**对流量提升最大**的路径
-  $$
+
+    $$
   \begin{align*}
   T&=T_{\text{augmentation}}\cdot T_{\text{find a path}}\\
   &=O (|E|\log \text{cap}_{\text{max}})\cdot O (|E|\log |V|)\\
   &=O (|E|^2\log |V|) \quad (\text{if } \text{cap}_{\text{max}} \text{ is a small integer})
   \end{align*}
-  $$
+    $$
 
 * 在选择增广路径时，挑选**边最少**的增广路径
-  $$
+
+    $$
   \begin{align*}
   T&=T_{\text{augmentation}}\cdot T_{\text{find a path}}\\
   &=O (|E|\cdot |V|)\cdot O (|E|)\text{(unweighted shortest path algorithm)}\\
   &=O (|E|^2\log |V|) 
   \end{align*}
-  $$
+    $$
 
 ## 5. Minimum Spanning Tree
 
 **【Definition】** A **spanning tree** of a graph G is a **tree** which consists of V (G) and a subset of E (G). 
 
-* Note: 
-  * The minimum spanning tree is a ***tree*** since it is **acyclic** -- the number of edges is $|V| - 1$. 
-  * It is ***minimum*** for the total cost of edges is minimized.  
-  * It is ***spanning*** because it covers every vertex.  
-  * A minimum spanning tree exists iff G is ***connected***.  
-  * Adding a non-tree edge to a spanning tree, we obtain a ***cycle***. 
+!!!note
+    * The minimum spanning tree is a ***tree*** since it is **acyclic** -- the number of edges is $|V| - 1$. 
+    * It is ***minimum*** for the total cost of edges is minimized.  
+    * It is ***spanning*** because it covers every vertex.  
+    * A minimum spanning tree exists iff G is ***connected***.  
+    * Adding a non-tree edge to a spanning tree, we obtain a ***cycle***. 
 
 ### 5.1 Prim's Algorithm
 
@@ -504,14 +522,14 @@ Return total_w;
 
 ### 5.2 Kruskal's Algorithm
 
-* **maintain a forest**
+**maintain a forest**
 
 - 初始情况下，有 $∣V∣$ 棵单个节点构成的树
 - 添加一条边，可以合并两棵树。
 - 挑选边（这里假设挑选边 $(u, v)$）时要注意的细节：
-  - 如果 $u, v$ 在同一个集合内，则不能添加这条边（否则会出现环）
-  - 否则加入这条边，使用 `Union` 算法将两个集合合并起来
-  - 用**堆**维护未被检验过的最小的边，每当检验一条边时，使用 `DeleteMin` 算法
+    - 如果 $u, v$ 在同一个集合内，则不能添加这条边（否则会出现环）
+    - 否则加入这条边，使用 `Union` 算法将两个集合合并起来
+    - 用**堆**维护未被检验过的最小的边，每当检验一条边时，使用 `DeleteMin` 算法
 
 ``` c
 Void Kruskal (Graph G)
@@ -531,7 +549,7 @@ Void Kruskal (Graph G)
 }
 ```
 
-* 时间复杂度：$T=O (|E|\log⁡|E|)=O (|E|\log⁡|V|)$    $(|E|=O (|V|^2))$
+* 时间复杂度：$T=O (|E|\log⁡|E|)=O (|E|\log⁡|V|),\quad (|E|=O (|V|^2))$
 
 ## 6. Applications of Depth-First Search
 
@@ -565,8 +583,8 @@ Void ListComponents (Graph G)
 
 ### 6.2 Biconnectivity
 
-* $ v $ is an ***articulation point 关节点*** if $ G' = \text{DeleteVertex}(G, v) $ has **<u>at least 2</u>** connected components. 
-* $ G $ is a ***biconnected graph 双连通图*** if $ G $ is connected and has no articulation points. 
+* $v$ is an ***articulation point 关节点*** if $ G' = \text{DeleteVertex}(G, v) $ has **<u>at least 2</u>** connected components. 
+* $G$ is a ***biconnected graph 双连通图*** if $G$ is connected and has no articulation points. 
 * A ***biconnected component 双连通分量*** is a maximal biconnected subgraph.
 
 > Note: **No edges** can be shared by two or more biconnected components. Hence E (G) is partitioned by the biconnected components of G, and biconnected components are divided byarticulation points.
@@ -575,24 +593,28 @@ Void ListComponents (Graph G)
 
 * Use **depth first search** to obtain a spanning tree of $G$
 
-  <img src="数据结构基础.assets/image-20250501132944215.png" alt="image-20250501132944215" style="zoom:60%;" />
+<div style="text-align: center"><img src="images/image-20250501132944215.png" width="65%"></div>
 
-  * Note: If $u$ is an ancestor of $v$, then $Num (u)<Num (v)$
+
+Note: If $u$ is an ancestor of $v$, then $Num (u)<Num (v)$
+
 
 * Find the **articulation points** in $G$
 
-  * 当且仅当**根节点**至少有 $2$ 个孩子时，根节点为关节点
-  * 当且仅当**除根节点外的顶点 $u$**至少有 $1$ 个孩子，且该孩子与它的祖先之间没有回边（即`Low (child) >= Num (u)`）时，$u$ 为关节点
+    * 当且仅当**根节点**至少有 $2$ 个孩子时，根节点为关节点
+    * 当且仅当**除根节点外的顶点 $u$**至少有 $1$ 个孩子，且该孩子与它的祖先之间没有回边（即`Low (child) >= Num (u)`）时，$u$ 为关节点
 
 $$
 Low (u)=min\{Num (u),  min\{Low (w)|\text{w is a child of u}\}, min\{Num (w)|(u, w)\text{is a back edge}\}              \}
 $$
 
-<img src="数据结构基础.assets/image-20250501133628127.png" alt="image-20250501133628127" style="zoom:80%;" />
+
+<div style="text-align: center"><img src="images/image-20250501133628127.png" width="50%"></div>
+
 
 * Therefore, $u$ is an articulation point iff
-  1. $u$ is the root and has at least $2$ children; or
-  2. $u$ is not the root, and has at least $1$ child such that $\text{Low (child)} \geq \text{Num (u)}$.
+    1. $u$ is the root and has at least $2$ children; or
+    2. $u$ is not the root, and has at least $1$ child such that $\text{Low (child)} \geq \text{Num (u)}$.
 
 ### 6.3 Euler Circuits
 
@@ -617,4 +639,4 @@ $$
 
 - The path should be maintained as a linked list.
 - For each adjacency list, maintain a pointer to the last edge scanned.
-- $ T = O (|E| + |V|) $
+- $T = O (|E| + |V|)$

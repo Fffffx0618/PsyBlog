@@ -1,24 +1,29 @@
-# CHAPTER 5. Hashing
+# Chapter5.Hashing
 
 ## 1. General Idea
+
 **==Symbol Table ( = Dictionary ) ::= {<name, attribute>}==**
 
 **Symbol Table (简单表) ADT** :   
-* **Objects**: A set of name - attribute pairs, where the names are unique   
-* **Operations**:  
-  * `SymTab Create (TableSize)   `
-  * `Boolean IsIn (symtab, name) ` 
-  * `Attribute Find (symtab, name)  `
-  * `SymTab Insert (symtab, name, attr)  `
-  * `SymTab Delete (symtab, name)`
+
+- **Objects**: A set of name - attribute pairs, where the names are unique   
+- **Operations**:  
+    - `SymTab Create (TableSize)   `
+    - `Boolean IsIn (symtab, name) ` 
+    - `Attribute Find (symtab, name)  `
+    - `SymTab Insert (symtab, name, attr)  `
+    - `SymTab Delete (symtab, name)`
 
 **Hash Tables (散列表)**
-<img src="数据结构基础.assets/image-20250524161808278.png" alt="image-20250524161808278" style="zoom:67%;" />
 
-* **标识符密度 (identifier density)** $= \frac{n}{T}$ 
-* **加载密度 (loading density)** $λ=\frac{n}{s⋅b}$
+<div style="text-align: center"><img src="images/image-20250524161808278.png" width="67%"></div>
+
+
+* **标识符密度 (identifier density)** $= \dfrac{n}{T}$ 
+* **加载密度 (loading density)** $λ=\dfrac{n}{s⋅b}$
 
 **Problem** :
+
 * A **collision 冲突** occurs when we hash two nonidentical identifiers in to the same bucket, i.e. $f (i_1)=f (i_2)$ when $i_1 \neq i_2$.
 * An **overflow 溢出** occurs when we hash a new identifier into a full bucket.
 
@@ -26,27 +31,43 @@
 
 ## 2. Hash Function
 Properties of $f$: 
+
 1.  $f (x)$ must be **easy** to compute and **minimizes** the number of collisions. 
+   
 2.  $f (x)$ should be unbiased. That is, for any $ x $ and any $ i $, we have that Probability $(  f (x) = i  ) = 1 / b$. Such kind of a hash function is called a ***uniform hash function 统一散列函数***.  
+   
+
 ### Some Hash Function
-$$ f (x) = x \% \text{TableSize}; \quad /* \text{if } x \text{ is an integer} */  $$
+
+$$ 
+f (x) = x \% \text{TableSize}; \quad /* \text{if } x \text{ is an integer} */  
+$$
+
 >  What if TableSize = $10$ and $ x $'s are all end in zero? ---- bad
 >  TableSize = **prime** number ---- good for random integer keys
-$$ f (x) = (\sum x[i] )\% \text{TableSize}; \quad /* \text{if } x \text{ is a string} */  $$
-$$f (x)=(x[0]+x[1]∗27+x[2]∗27^2) \% \text{TableSize}f (x)=(∑x[N−i−1]∗32^i) \% TableSize$$
+
+$$ 
+f (x) = (\sum x[i] )\% \text{TableSize}; \quad /* \text{if } x \text{ is a string} */  
+$$
+
+$$
+f (x)=(x[0]+x[1]∗27+x[2]∗27^2) \% \text{TableSize}f (x)=(∑x[N−i−1]∗32^i) \% TableSize
+$$
 
 ```c
-> Index Hash 3 (const char *x, int TableSize)
-> {
-> Unsigned int HashVal = 0;
-> While (*x != '\0')
->   HashVal = (HashVal << 5) + *x++;
-> Return HashVal % TableSize;
-> }
-> ```
+Index Hash 3 (const char *x, int TableSize)
+{
+Unsigned int HashVal = 0;
+While (*x != '\0')
+  HashVal = (HashVal << 5) + *x++;
+Return HashVal % TableSize;
+}
+```
+
 * If $x$ is too long, the early characters will be left-shifted out of place.
 
 ## 3. Seperate Chaining
+
 * keep a list of all keys that hash to the same value
 ### 3.1 Initialize
 
@@ -74,7 +95,9 @@ Struct HashTbl
 ```
 
 ### 3.2 Create an empty table
-<img src="数据结构基础.assets/image-20250524165112663.png" alt="image-20250524165112663" style="zoom: 100%;" />
+
+<div style="text-align: center"><img src="images/image-20250524165112663.png" width="90%"></div>
+
 
 ```c
 HashTable InitializeTable (int TableSize)
@@ -123,6 +146,7 @@ Position Find (ElementType Key, HashTable H)
 ```
 
 ### 3.4 Insert a key into a hash table
+
 ```c
 Void Insert (ElementType Key, HashTable H)
 {
@@ -148,6 +172,7 @@ Void Insert (ElementType Key, HashTable H)
 * Make the TableSize about as large as the number of keys expected (i.e. to make the loading density factor $\lambda ≈ 1$)
 
 ## 4. Opening Addressing
+
 * find another empty cell to solve collision (avoiding pointers)
   ```c
   Algorithm: insert key into an array of hash table
@@ -161,15 +186,21 @@ Void Insert (ElementType Key, HashTable H)
       Insert key at index;
   }
   ```
-  * $f (i)$ is collision resolving function. $f (0)=0$
+
+* $f (i)$ is collision resolving function. $f (0)=0$
 
 ### 4.1 Linear Probing
 线性探测 $f (i)=i$
-<img src="数据结构基础.assets/image-20250524191127740.png" alt="image-20250524191127740" style="zoom:80%;" />
+
+<div style="text-align: center"><img src="images/image-20250524191127740.png" width="70%"></div>
+
+
 
 **Analysis：**
 
-$$ p =  \begin{cases}  \frac{1}{2}\left (1 + \frac{1}{(1-\lambda)^2}\right) & \text{for insertions and unsuccessful searches} \\ \frac{1}{2}\left (1 + \frac{1}{1-\lambda}\right) & \text{for successful searches} \end{cases} $$
+$$ 
+p =  \begin{cases}  \frac{1}{2}\left (1 + \frac{1}{(1-\lambda)^2}\right) & \text{for insertions and unsuccessful searches} \\ \frac{1}{2}\left (1 + \frac{1}{1-\lambda}\right) & \text{for successful searches} \end{cases} 
+$$
 
 ### 4.2 Quadratic Probing
 
@@ -177,19 +208,37 @@ $$ p =  \begin{cases}  \frac{1}{2}\left (1 + \frac{1}{(1-\lambda)^2}\right) & \t
 
 > * **【Theorem】** If quadratic probing is used, and the table size is **prime**, then a new element can always be inserted if the table is **at least half empty**.
 >
-> * Note: If the table size is a prime of the form $4 k+3$, then the quadratic probing $f (i)=±i^2$ can probe the **entire** table.
+> * Note: If the table size is a prime of the form $4 k+3$, then the quadratic probing $f (i)\plusmn i^2$ can probe the **entire** table.
 
-**Proof:** Just prove that the first $⌊TableSize/2⌋$ alternative locations are all distinct. That is, for any $0 ≤ i ≠ j ≤ ⌊TableSize/2⌋$, we have $(h (x) + i²) \% TableSize ≠ (h (x) + j²) \% TableSize$ 
+!!!proof 
+    Just prove that the first $⌊\text{TableSize}/2⌋$ alternative locations are all distinct. 
+    
+    That is, for any $0 \leq i \ne j \leq ⌊\text{TableSize}/2⌋$, we have 
+    $$
+    (h (x) + i²) \% TableSize \ne (h (x) + j^2) \% \text{TableSize}
+    $$ 
 
-Suppose:    $h (x) + i² = h (x) + j² (mod TableSize)$ 
-Then:          $i² = j² (mod TableSize)$
-                  $  (i + j)(i - j) = 0 (mod TableSize)$
+Suppose:    
 
-TableSize is prime ➞ either $(i + j)$ or $(i - j)$ is divisible by $TableSize$ 
+$$
+h (x) + i^2 = h (x) + j^2 (\text{mod TableSize})
+$$ 
+
+Then:  
+
+$$
+\begin{align}
+i^2 &= j^2 (\text{mod TableSize}) \\
+(i + j)(i - j) &= 0 (\text{mod TableSize})
+\end{align}
+$$
+                    
+
+TableSize is prime $\Rightarrow$ either $(i + j)$ or $(i - j)$ is divisible by TableSize
 
 **Contradiction!** 
 
-For any $x$, it has $⌊TableSize/2⌋$ distinct locations into which it can go. If **at most** $⌊TableSize/2⌋ $ positions are taken, then an empty spot can always be found.
+For any $x$, it has $⌊\text{TableSize}/2⌋$ distinct locations into which it can go. If **at most** $⌊\text{TableSize}/2⌋$ positions are taken, then an empty spot can always be found.
 
 #### Find Position  
 * using $F (i)=F (i-1)+2 i-1$ 
@@ -211,7 +260,9 @@ Position Find (ElementType Key, HashTable H)
 ```
 
 #### Insert ELement
+
 * 每个元素有三种状态：`Empty`, `Legitimate`, `Deleted`
+
 ```c
 Void Insert (ElementType Key, HashTable H)
 {
@@ -225,21 +276,26 @@ Void Insert (ElementType Key, HashTable H)
 }
 ```
 
-**Note:**  
-1.  Insertion will be seriously slowed down if there are too many deletions intermixed with insertions.
-2.  Although primary clustering is solved, secondary clustering occurs – that is, keys that hash to the same position will probe the same alternative cells.
+!!!note
+    1.  Insertion will be seriously slowed down if there are too many deletions intermixed with insertions.
+    2. Although primary clustering is solved, secondary clustering occurs – that is, keys that hash to the same position will probe the same alternative cells.
 
 ### 4.3 Double Hashing
- $f (i)=i * hash_2 (x);$ // $hash_2 (x)$ is the $2_{nd}$ hash function 
-* $hash_2 (x)\neq 0$
+$f(i)=i \times \text{hash}_2 (x);$ and $\text{hash}_2 (x)$ is the $2_{nd}$ hash function 
+
+* $\text{hash}_2 (x)\neq 0$
 * make sure that all cells can be probed
-Tip: $hash_2 (x)=R-(x\% R)$ with $R$ a prime smaller than Tablesize, will work well.
+  
+Tip: $\text{hash}_2 (x)=R-(x\% R)$ with $R$ a prime smaller than Tablesize, will work well.
 
 **Note:** 
+
 1.  If double hashing is correctly implemented, simulations imply that the **expected** number of probes is almost the same as for a **random** collision resolution strategy. 
+   
 2.  Quadratic probing does not require the use of a second hash function and is thus likely to be **simpler and faster** in practice.
 
 ## 5. Rehashing
+
 * Build another table whose size is a **prime** and **at least as twice as big**
 * Scan down the entire original hash table for non-deleted elements
 * Use a **new function** to hash those elements into the new table

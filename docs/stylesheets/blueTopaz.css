@@ -24,6 +24,12 @@
   --glass-blur: 18px;
 }
 
+/* 确保代码块使用 JB Mono */
+.md-typeset code,
+.md-typeset pre {
+  font-family: "JetBrains Mono", "Sarasa Mono SC", Consolas, monospace !important;
+}
+
 /* -------------------------------------------------------------------------- */
 /* 2. 配色方案 (Color Schemes)                                                */
 /* -------------------------------------------------------------------------- */
@@ -269,7 +275,7 @@ body {
 .md-typeset h6 { color: var(--h6-color); font-size: 1em; }
 
 /* -------------------------------------------------------------------------- */
-/* 列表样式                                                                    */
+/* 5. 列表样式 (删除竖线、紧凑缩进版)                                          */
 /* -------------------------------------------------------------------------- */
 
 .md-typeset ul,
@@ -277,10 +283,9 @@ body {
   padding-left: 0;
   margin-top: calc(var(--mkdocs-paragraph-spacing) * 1em);
   margin-bottom: calc(var(--mkdocs-paragraph-spacing) * 1em);
-  list-style: none !important; /* 关键：禁用原生标记 */
+  list-style: none !important; 
 }
 
-/* 启用 CSS 计数器用于有序列表 */
 .md-typeset ol {
   counter-reset: ordered-list;
 }
@@ -288,31 +293,34 @@ body {
 .md-typeset ul > li,
 .md-typeset ol > li {
   position: relative;
-  padding-left: 1rem; /* 文字内容统一缩进（给标记留出空间）*/
+  /* 保持较小的缩进 */
+  padding-left: 0.3rem; 
   margin-bottom: 0.4em;
-  border-left: 2px solid rgba(var(--interactive-accent-rgb), 0.15);
+  /* --- 已删除 border-left --- */
+  border-left: none; 
   transition: all 0.3s;
 }
 
 .md-typeset ul > li:hover,
 .md-typeset ol > li:hover {
-  border-left-color: var(--interactive-accent);
-  background-color: rgba(var(--interactive-accent-rgb), 0.03);
+  /* 悬停时仅保留背景微显，不再显示竖线 */
+  background-color: rgba(var(--interactive-accent-rgb), 0.05);
+  border-radius: 4px;
 }
 
-/* 无序列表：自定义圆点 */
+/* 无序列表：自定义圆点位置 */
 .md-typeset ul > li::before {
   content: '';
   position: absolute;
-  left: 0.25rem; /* 距离左侧 0.2rem */
-  top: 0.55rem;
+  left: -0.3rem; /* 调整圆点距离边缘的距离 */
+  top: 0.65em;
   width: 6px;
   height: 6px;
   background-color: var(--list-ul-marker-color);
   border-radius: 50%;
 }
 
-/* 有序列表：用计数器生成数字 */
+/* 有序列表：数字位置 */
 .md-typeset ol > li {
   counter-increment: ordered-list;
 }
@@ -320,10 +328,9 @@ body {
 .md-typeset ol > li::before {
   content: counter(ordered-list) ".";
   position: absolute;
-  left: 0.2rem;
+  left: -0.4rem; /* 数字靠最左侧 */
   font-weight: 600;
   color: var(--interactive-accent);
-  /* 可选：微调字体大小 */
   font-size: 0.95em;
 }
 
@@ -332,9 +339,9 @@ body {
 .md-typeset ol ol,
 .md-typeset ul ol,
 .md-typeset ol ul {
-  padding-left: 0.5rem;
-  border-left: none;
+  padding-left: 0rem; /* 嵌套缩进也相应减小 */
   margin: 0.2em 0;
+  border-left: none;
 }
 
 /* 布局调整 (桌面端宽度扩充)                                               */
@@ -500,4 +507,23 @@ body {
     color: var(--text-normal);
     text-align: left;
   }
+}
+/* -------------------------------------------------------------------------- */
+/* 8. 数学公式 (LaTeX) 统一化                                                 */
+/* -------------------------------------------------------------------------- */
+
+/* 统一行内和块级公式的字号，微调至 1.05em 以适配霞鹜文楷 */
+.arithmatex, 
+.MathJax, 
+.MathJax_Display,
+.katex,
+.katex-display {
+  font-size: 1.03em !important; 
+  font-family: inherit; /* 尽可能继承上下文逻辑 */
+  color: inherit;
+}
+
+/* 针对行内公式的特殊微调 */
+.md-typeset :not(pre) > .arithmatex > .MathJax {
+  vertical-align: middle; /* 修正对齐问题 */
 }

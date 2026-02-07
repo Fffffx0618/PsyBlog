@@ -32,8 +32,8 @@ theme:
     - toc.follow
 
   font:
-    text: "LXGW WenKai Screen, Microsoft YaHei, sans-serif"
-    code: "JetBrains Mono, Sarasa Mono SC, Consolas, monospace"
+    text: LXGW WenKai Screen, Microsoft YaHei, sans-serif
+    code: JetBrains Mono, Sarasa Mono SC, Consolas, monospace
 
   icon:
     repo: fontawesome/brands/github
@@ -97,11 +97,6 @@ markdown_extensions:
           class: mermaid
           format: !!python/name:pymdownx.superfences.fence_code_format
 
-  - pymdownx.highlight:
-      anchor_linenums: true
-      line_spans: __span
-      pygments_lang_class: true
-
   - pymdownx.inlinehilite
   - pymdownx.snippets
 
@@ -123,9 +118,14 @@ extra_javascript:
   - https://unpkg.com/mermaid/dist/mermaid.min.js
 
 extra_css:
+  - https://fonts.loli.net/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap
   - https://gcore.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.1.0/style.css
+  - https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap
   - https://cdn.jsdelivr.net/npm/sarasa-gothic@0.43.0/css/sarasa-mono-sc.css
+  - https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/one-dark.min.css
   - stylesheets/blueTopaz.css
+
+  
 
 
 nav:
