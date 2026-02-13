@@ -72,7 +72,42 @@ theme:
         name: Switch to light mode
 
 # Markdown 扩展
+# markdown_extensions:
+#   - footnotes
+#   - attr_list
+#   - def_list
+#   - admonition
+#   - pymdownx.details
+#   - pymdownx.critic
+#   - pymdownx.caret
+#   - pymdownx.keys
+#   - pymdownx.mark
+#   - pymdownx.tilde
+#   - pymdownx.arithmatex:
+#       inline_syntax: [dollar, round]
+#       block_syntax: [dollar, square]
+#       generic: true  # ← 必须为 true！
+
+#   - pymdownx.tasklist:
+#       custom_checkbox: true
+
+#   - pymdownx.superfences:
+#       custom_fences:
+#         - name: mermaid
+#           class: mermaid
+#           format: !!python/name:pymdownx.superfences.fence_code_format
+
+#   - pymdownx.inlinehilite
+#   - pymdownx.snippets
+
+#   - toc:
+#       permalink: true
+#       slugify: !!python/object/apply:pymdownx.slugs.slugify {kwds: {case: lower}}
+
 markdown_extensions:
+  - nl2br             # 模拟 Typora 的换行习惯
+  - tables
+  - md_in_html        # 支持在 HTML 中写 MD，提高兼容性
   - footnotes
   - attr_list
   - def_list
@@ -83,27 +118,23 @@ markdown_extensions:
   - pymdownx.keys
   - pymdownx.mark
   - pymdownx.tilde
+  - pymdownx.magiclink # 自动链接转换
   - pymdownx.arithmatex:
-      inline_syntax: [dollar, round]
-      block_syntax: [dollar, square]
-      generic: true  # ← 必须为 true！
-
+      generic: true
+      smart_dollar: true
   - pymdownx.tasklist:
       custom_checkbox: true
-
   - pymdownx.superfences:
       custom_fences:
         - name: mermaid
           class: mermaid
           format: !!python/name:pymdownx.superfences.fence_code_format
-
   - pymdownx.inlinehilite
   - pymdownx.snippets
-
   - toc:
       permalink: true
       slugify: !!python/object/apply:pymdownx.slugs.slugify {kwds: {case: lower}}
-
+      
 plugins:
   - search
   - roamlinks:
@@ -185,6 +216,16 @@ nav:
     - Math/index.md
     - 离散数学及其应用:
       - Math/DM/index.md
+      - Math/DM/Chap1.md
+      - Math/DM/Chap2.md
+      - Math/DM/Chap3.md
+      - Math/DM/Chap4.md
+      - Math/DM/Chap5.md
+      - Math/DM/Chap6.md
+      - Math/DM/Chap8.md
+      - Math/DM/Chap9.md
+      - Math/DM/Chap10.md
+      - Math/DM/Chap11.md
     - 数值分析:
       - Math/NA/index.md
       - Math/NA/Chap1.md

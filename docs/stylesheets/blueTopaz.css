@@ -74,30 +74,50 @@
 
 /* === 暗色模式 (Default Dark) === */
 [data-md-color-scheme="slate"] {
-  --background-primary: #202020;
-  --background-secondary: #282828;
-  --background-secondary-alt: #1a1a1a;
-  --background-blockquote: rgba(145, 145, 145, 0.11);
-  --background-code: rgba(17, 17, 17, 0.55);
+  /* 背景优化：
+     让主背景更深一点 (#1a1b1e)，减少灰色蒙层感。
+     由纯灰转向带一点点冷色调的深灰，提升质感。
+  */
+  --background-primary: #1a1b1e; 
+  --background-secondary: #242528;
+  --background-secondary-alt: #161618;
+  
+  /* 功能区块背景：增加不透明度，减少杂乱的穿透感 */
+  --background-blockquote: rgba(145, 155, 170, 0.15);
+  --background-code: rgba(255, 255, 255, 0.07);
 
-  --text-normal: #c6c6c6;
-  --interactive-accent: #3674bb;
-  --interactive-accent-rgb: 54, 116, 187;
+  /* 文字优化 (关键)：
+     不要使用纯白 (#fcfcfc)，改用 #e6e8eb 或 rgba(255,255,255,0.88)。
+     稍微降低亮度可以消除“发光”的错觉，让边缘更清晰。
+  */
+  --text-normal: #e3e5e8; 
+  --text-muted: #9aa0a6;  /* 提升次要文字对比度 */
 
-  /* 标题颜色: 原始彩虹色阶梯 */
-  --h1-color: hsl(78, 62%, 47%); 
-  --h2-color: hsl(118, 42%, 49%);
-  --h3-color: hsl(180, 53%, 48%);
-  --h4-color: hsl(216, 69%, 68%);
-  --h5-color: hsl(258, 79%, 77%);
-  --h6-color: hsl(290, 85%, 81%);
+  /* 强调色：稍微提亮，使其在深色背景更突出 */
+  --interactive-accent: #58a6ff; 
+  --interactive-accent-rgb: 88, 166, 255;
 
-  --list-ul-marker-color: #eb9563;
-  --md-primary-fg-color: #2c2e31;
+  /* 标题颜色：保留原有的彩虹色，但稍微提高亮度(Lightness)以防变暗 */
+  --h1-color: hsl(78, 70%, 55%); 
+  --h2-color: hsl(118, 50%, 55%);
+  --h3-color: hsl(180, 60%, 55%);
+  --h4-color: hsl(216, 80%, 75%);
+  --h5-color: hsl(258, 85%, 80%);
+  --h6-color: hsl(290, 90%, 85%);
 
-  /* 暗色毛玻璃背景 */
-  --header-bg-glass: rgba(30, 30, 35, 0.85);
-  --tabs-bg-glass: rgba(28, 28, 32, 0.8);
+  --list-ul-marker-color: #ffaa75;
+  --md-primary-fg-color: #202225; /* 顶栏背景更深 */
+
+  /* 暗色毛玻璃背景：加深颜色，减少透明度，避免背景过于杂乱影响文字 */
+  --header-bg-glass: rgba(26, 27, 30, 0.85);
+  --tabs-bg-glass: rgba(26, 27, 30, 0.80);
+}
+
+/* === 全局字体渲染优化 (针对暗色模式糊的问题) === */
+/* 强制在暗色模式下使用抗锯齿渲染，这能显著解决“字体发虚” */
+[data-md-color-scheme="slate"] body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* -------------------------------------------------------------------------- */
@@ -275,73 +295,83 @@ body {
 .md-typeset h6 { color: var(--h6-color); font-size: 1em; }
 
 /* -------------------------------------------------------------------------- */
-/* 5. 列表样式 (删除竖线、紧凑缩进版)                                          */
+/* 5. 列表样式 (强效修复版：严格区分有序无序)                                  */
 /* -------------------------------------------------------------------------- */
 
-.md-typeset ul,
+/* 1. 基础重置：确保原生样式被移除，并统一间距 */
+.md-typeset ul, 
 .md-typeset ol {
-  padding-left: 0;
-  margin-top: calc(var(--mkdocs-paragraph-spacing) * 1em);
-  margin-bottom: calc(var(--mkdocs-paragraph-spacing) * 1em);
-  list-style: none !important; 
+  list-style: none !important;
+  padding-left: 1.2rem !important;
+  margin-top: 0.6em !important;
+  margin-bottom: 0.6em !important;
 }
 
-.md-typeset ol {
-  counter-reset: ordered-list;
+/* 2. 针对所有列表项清除之前的干扰伪元素 */
+.md-typeset li::before {
+  content: none !important; /* 先抹除所有伪元素干扰 */
 }
 
-.md-typeset ul > li,
-.md-typeset ol > li {
+/* 3. 【无序列表专用】重新定义圆点 */
+.md-typeset ul > li {
   position: relative;
-  /* 保持较小的缩进 */
-  padding-left: 0.3rem; 
-  margin-bottom: 0.4em;
-  /* --- 已删除 border-left --- */
-  border-left: none; 
-  transition: all 0.3s;
+  display: block;
+  padding-left: 0.2rem;
 }
 
-.md-typeset ul > li:hover,
-.md-typeset ol > li:hover {
-  /* 悬停时仅保留背景微显，不再显示竖线 */
-  background-color: rgba(var(--interactive-accent-rgb), 0.05);
-  border-radius: 4px;
-}
-
-/* 无序列表：自定义圆点位置 */
-.md-typeset ul > li::before {
+.md-typeset ul > li::after {
   content: '';
   position: absolute;
-  left: -0.3rem; /* 调整圆点距离边缘的距离 */
+  left: -0.8rem;
   top: 0.65em;
-  width: 6px;
-  height: 6px;
-  background-color: var(--list-ul-marker-color);
+  width: 5px;
+  height: 5px;
+  background-color: var(--list-ul-marker-color, #f39c55); /* 默认橙色 */
   border-radius: 50%;
 }
 
-/* 有序列表：数字位置 */
-.md-typeset ol > li {
-  counter-increment: ordered-list;
+/* 4. 【有序列表专用】利用计数器重新写数字 */
+.md-typeset ol {
+  counter-reset: md-ordered-list; /* 使用专用计数器名称避免冲突 */
 }
 
-.md-typeset ol > li::before {
-  content: counter(ordered-list) ".";
+.md-typeset ol > li {
+  position: relative;
+  display: block;
+  padding-left: 0.2rem;
+}
+
+.md-typeset ol > li::after {
+  counter-increment: md-ordered-list;
+  content: counter(md-ordered-list) ".";
   position: absolute;
-  left: -0.4rem; /* 数字靠最左侧 */
+  left: -1.3rem;
+  width: 1.2rem;
+  text-align: right;
   font-weight: 600;
   color: var(--interactive-accent);
-  font-size: 0.95em;
+  font-size: 0.85em;
+  top: 0.1em; /* 稍微上抬以对齐文楷字体 */
 }
 
-/* 嵌套列表 */
-.md-typeset ul ul,
-.md-typeset ol ol,
-.md-typeset ul ol,
-.md-typeset ol ul {
-  padding-left: 0rem; /* 嵌套缩进也相应减小 */
-  margin: 0.2em 0;
-  border-left: none;
+/* 5. 嵌套列表修正 (防止父级数字传给子级) */
+.md-typeset ul ul, .md-typeset ol ol, 
+.md-typeset ul ol, .md-typeset ol ul {
+  margin-left: 0.5rem !important;
+}
+
+/* 6. 任务列表兼容 (解决打勾和圆点重叠) */
+.md-typeset .task-list-item::after {
+  display: none !important; /* 任务列表项不显示圆点或数字 */
+}
+.md-typeset .task-list-control {
+  left: -1.2rem !important;
+}
+
+/* 7. 解决段落标签导致的错位 */
+.md-typeset li p {
+  display: inline !important;
+  margin: 0 !important;
 }
 
 /* 布局调整 (桌面端宽度扩充)                                               */

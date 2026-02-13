@@ -101,7 +101,9 @@ void add(int a[][MAX_SIZE],
 
   * 语句的运行时间**不超过**<u>判断时间+耗时最长的语句块</u>的运行时间
 
-- **recursion**  <img src="数据结构基础.assets/image-20250619214658581.png" alt="image-20250619214658581" style="zoom:80%;" />
+- **recursion**  
+
+<img src="数据结构基础.assets/image-20250619214658581.png" alt="image-20250619214658581" style="zoom:65%;" />
 
 > **补充** : ==主定理==
 >

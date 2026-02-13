@@ -39,10 +39,12 @@ $$
 	$$
 
 Performance depends on
+
 - Algorithm: affects IC, possibly CPI
 - Programming language: affects IC, CPI
 - Compiler: affects IC, CPI
 - Instruction set architecture: affects IC, CPI, Tc (Clock Cycle Time)
+
 **CPI in More Detail**
 
 $$
@@ -63,6 +65,7 @@ $$
 【Corollary】：*Make the common case fast*
 
 **MIPS: Millions of Instructions Per Second**
+
 - Doesn’t account for
 	- Differences in ISAs between computers
 	- Differences in complexity between instructions
