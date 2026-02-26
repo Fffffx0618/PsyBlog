@@ -9,8 +9,11 @@
 :root {
   /* 字体族 */
   --font-text: "LXGW WenKai Screen", "Microsoft YaHei", sans-serif;
+  font-size: 27px; /* 增加根字体大小 */
+
   --font-monospace: "JetBrains Mono", "Sarasa Mono SC", "Consolas", monospace;
-  
+  font-size: 25px; /* 增加根字体大小 */
+
   /* 基础尺寸 */
   --radius-s: 5px;
   --radius-m: 8px;
@@ -201,25 +204,7 @@ body {
   background-color: rgba(255, 255, 255, 0.08) !important;
 }
 
-/* 仓库按钮按钮化 */
-.md-header__source {
-  margin-left: 0.5rem;
-  width: 155px;
-  height: 60px;
-  margin-top: 5px;
-  margin-bottom: 5px;
-}
 
-.md-source {
-  background-color: rgba(var(--interactive-accent-rgb), 0.1);
-  padding: 0.2rem 0.6rem;
-  border-radius: 20px;
-  transition: background-color 0.3s;
-}
-
-.md-source:hover {
-  background-color: rgba(var(--interactive-accent-rgb), 0.2);
-}
 
 /* 粘性标签栏 */
 .md-tabs {
@@ -265,7 +250,7 @@ body {
 
 .md-typeset h1 {
   color: var(--h1-color);
-  font-size: 1.9em;
+  font-size: 1.8em;
   border-bottom: 2px solid var(--h1-color);
   padding-bottom: 0.3em;
   background: linear-gradient(to right, rgba(var(--interactive-accent-rgb), 0.1) 0%, transparent 100%);
@@ -275,7 +260,7 @@ body {
 
 .md-typeset h2 {
   color: var(--h2-color);
-  font-size: 1.7em;
+  font-size: 1.6em;
   border-left: 5px solid var(--h2-color);
   padding-left: 10px;
   background: linear-gradient(to right, rgba(var(--interactive-accent-rgb), 0.05) 0%, transparent 80%);
@@ -284,14 +269,14 @@ body {
 
 .md-typeset h3 {
   color: var(--h3-color);
-  font-size: 1.5em;
+  font-size: 1.4em;
   border-bottom: 1px solid rgba(var(--interactive-accent-rgb), 0.3);
   padding-bottom: 5px;
   display: inline-block;
 }
 
-.md-typeset h4 { color: var(--h4-color); font-size: 1.25em; }
-.md-typeset h5 { color: var(--h5-color); font-size: 1.125em; }
+.md-typeset h4 { color: var(--h4-color); font-size: 1.2em; }
+.md-typeset h5 { color: var(--h5-color); font-size: 1.1em; }
 .md-typeset h6 { color: var(--h6-color); font-size: 1em; }
 
 /* -------------------------------------------------------------------------- */
@@ -374,66 +359,6 @@ body {
   margin: 0 !important;
 }
 
-/* 布局调整 (桌面端宽度扩充)                                               */
-
-@media screen and (min-width: 76.25em) {
-  /* 1. 总容器：使用百分比配合 max-width，保证在大屏下撑开，缩放时自适应 */
-  .md-grid {
-    max-width: 95%;      /* 缩放时优先利用边缘空间 */
-    width: 88rem;        /* 目标最大宽度 */
-    display: flex;
-  }
-
-  /* 2. 中间内容区：设定 Min-Width 保证不被挤压 */
-  .md-content {
-    flex: 1;
-    min-width: 42rem;    /* 核心：保证中间正文最少占据 42rem (约670px) */
-    padding-inline: 1rem;
-    transition: width 0.2s ease;
-  }
-
-  /* 3. 侧边栏：设定固定宽度，并利用 margin 推开距离 */
-  .md-sidebar--primary {
-    width: 11.5rem;
-
-  }
-
-  .md-sidebar--secondary {
-    width: 11.5rem;
-
-  }
-
-  /* 4. 调整布局间距 */
-  .md-main__inner {
-    display: flex;
-    justify-content: center; /* 窗口宽时居中显示 */
-    gap: 1rem;              /* 侧栏与正文的间距 */
-  }
-}
-
-/* 适配超大屏显示器 (2K/4K) */
-@media screen and (min-width: 120rem) {
-  .md-grid {
-    width: 100rem;
-  }
-  .md-content {
-    min-width: 55rem;
-  }
-}
-
-/* 针对缩放时的精细调整：当侧栏开始拥挤时 */
-@media screen and (max-width: 85rem) and (min-width: 76.25em) {
-  .md-sidebar--primary, .md-sidebar--secondary {
-    width: 11rem; /* 稍微缩小侧边栏以给正文腾空间 */
-  }
-}
-
-@media screen and (max-width: 76.24em) {
-  .md-content__inner {
-    padding-left: 1rem !important;
-    padding-right: 1rem !important;
-  }
-}
 
 
 /* -------------------------------------------------------------------------- */
@@ -556,4 +481,24 @@ body {
 /* 针对行内公式的特殊微调 */
 .md-typeset :not(pre) > .arithmatex > .MathJax {
   vertical-align: middle; /* 修正对齐问题 */
+}
+
+/* -------------------------------------------------------------------------- */
+/* 9. 增加正文宽度 (Custom Width)                                             */
+/* -------------------------------------------------------------------------- */
+
+/* 方案 A: 全局增加最大宽度 (适用于所有页面) */
+:root {
+  /* 将默认的 34.4rem 改为你想要的值，例如 48rem, 60rem, 或 80% */
+  --md-typeset-max-width: 48rem; 
+}
+
+/* 如果上面的变量不起作用（取决于 MkDocs 版本），强制覆盖 md-grid */
+.md-grid {
+  max-width: 64rem !important; /* 这里可以设得更宽，例如 70rem 或 90% */
+}
+
+/* 确保内容容器占满 grid */
+.md-content {
+  max-width: 100%; 
 }

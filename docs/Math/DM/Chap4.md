@@ -44,13 +44,17 @@ If $a$ is an integer and $d$ a positive integer, then there are unique integers 
 
 #### 3.2 Algebraic Manipulation of Congruences
 
-- **在同余式两边同时乘以一个整数后仍然同余**
-    - If  $a \equiv b \pmod{m}$ holds then  ==$c \cdot a \equiv c \cdot b \pmod{m}$== , where $c$ is any integer
+**在同余式两边同时乘以一个整数后仍然同余**
 
-- **在同余式两边同时加上一个整数后仍然同余**
-    - If  $a \equiv b \pmod{m}$ holds then  ==$a+c \equiv b+c \pmod{m}$== , where $c$ is any integer
+- If  $a \equiv b \pmod{m}$ holds then  ==$c \cdot a \equiv c \cdot b \pmod{m}$== , where $c$ is any integer
 
-- **在同余式两边同时除以一个整数后同余无法确定**
+**在同余式两边同时加上一个整数后仍然同余**
+
+- If  $a \equiv b \pmod{m}$ holds then  ==$a+c \equiv b+c \pmod{m}$== , where $c$ is any integer
+
+**在同余式两边同时除以一个整数后同余无法确定**
+
+- If  $a \equiv b \pmod{m}$ holds then  ==$a \div c \equiv b \div c \pmod{m}$== , where $c$ is any integer
 
 **[Corollary]** :
 
@@ -119,23 +123,23 @@ Distributivity 分配律
 
 > 方法：找出所有不超过 n 的质数，然后从小到大依次将它们的倍数 ( 不超过 n ) 删去，剩下的数就是不超过 n 的质数。
 
-* For example, $n=100$ Begin with the list of integers between 1 and 100. 
+For example, $n=100$ Begin with the list of integers between 1 and 100. 
 
-     ① Delete all  the integers, other than 2, divisible by 2. 
+① Delete all  the integers, other than 2, divisible by 2. 
      
-     ② Delete all the integers, other than 3, divisible by 3. 
+② Delete all the integers, other than 3, divisible by 3. 
 
-     ③ Next, delete all the integers, other than 5, divisible by 5. 
+③ Next, delete all the integers, other than 5, divisible by 5. 
 
-     ④ Next, delete all the integers, other than 7, divisible by 7. 
+④ Next, delete all the integers, other than 7, divisible by 7. 
 
-     ⑤ Since all the remaining integers  are not divisible by any of the previous integers, other than 1, the primes are: $\{2,3,5,7,11,15,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83,89,97\}$
+⑤ Since all the remaining integers  are not divisible by any of the previous integers, other than 1, the primes are: $\{2,3,5,7,11,15,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83,89,97\}$
 
 ### 4. 素数的分布
 
 **Prime Number Theorem**: 
 
-- The ratio of the number of primes not exceeding $x$ and $x/lnx$ approaches $1$ as $x$ grows without bound.
+The ratio of the number of primes not exceeding $x$ and $x/lnx$ approaches $1$ as $x$ grows without bound.
 
 $$
 \lim_{x\rightarrow \infty}\frac{\pi(x)}{x/lnx}=1
@@ -217,27 +221,25 @@ To construct a solution
   
     Since $\gcd{m_k, M_k} = 1$, there is an integer $y_k$, an inverse of $M_k$ modulo $m_k$, such that $M_k y_k \equiv 1 \ (\text{mod} \ m_k)$
 
-* Form the sum
-
-  ==$x = a_1 M_1 y_1 + a_2 M_2 y_2 + \cdots + a_n M_n y_n$==
+* Form the sum ==$x = a_1 M_1 y_1 + a_2 M_2 y_2 + \cdots + a_n M_n y_n$==
 
 * Note that because $M_j \equiv 0 \ (\text{mod} \ m_k)$ whenever $j \neq k$, all terms except the $k$th term in this sum are congruent to $0$ modulo $m_k$.
 
-* Because $M_k y_k \equiv 1  \pmod {m_k}$, we see that $x \equiv a_k M_k y_k \equiv a_k \pmod{m_k}$, for $k = 1, 2, ..., n$.
+* Because $M_{k} y_{k} \equiv 1  \pmod {m_{k}}$, we see that $x \equiv a_{k} M_{k} y_{k} \equiv a_k \pmod{m_{k}}$, for $k = 1, 2, \dots , n$.
     Hence, $x$ is a simultaneous solution to the $n$ congruences.
 
 #### 反向替换 Back Substitution
 
 - The first congruence can be rewritten as $x = 5t +1$, where $t$ is an integer
-- Substituting into the second congruence yields  $5t +1 \equiv 2 (mod 6).$ 
-- Solving this tells us that $t \equiv 5 (mod 6)$
+- Substituting into the second congruence yields  $5t +1 \equiv 2 \pmod{6}.$ 
+- Solving this tells us that $t \equiv 5 \pmod{6}$
 - $t = 6u + 5$ where $u$ is an integer.  
-- Substituting this back into $x = 5t +1$,  gives $ x = 5(6u + 5) +1 = 30u + 26$
-- Inserting this into the third equation gives $30u + 26 \equiv 3 (mod 7)$
-- Solving this congruence tells us that $u \equiv 6 (mod 7)$
+- Substituting this back into $x = 5t +1$,  gives $x = 5(6u + 5) +1 = 30u + 26$
+- Inserting this into the third equation gives $30u + 26 \equiv 3 \pmod{7}$
+- Solving this congruence tells us that $u \equiv 6 \pmod{7}$
 - $u = 7v + 6$, where $v$ is an integer
 - Substituting this expression for $u$ into $x  =  30u + 26$, tells us that $x  =  30(7v + 6) + 26 = 210v + 206$
-- Translating this back into a congruence we find the solution $x \equiv 206 (mod 210)$
+- Translating this back into a congruence we find the solution $x \equiv 206 \pmod{210}$
 
 ### 4. Computer Arithmetic with Large Integers
 

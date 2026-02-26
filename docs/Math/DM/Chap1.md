@@ -213,15 +213,19 @@ Predicates are also used to establish the correctness of computer programs.
 
 ### 2. Quantifiers
 
-- **全称量词(universal quantifier)** $\forall$ ：都是真才为真，存在一个为假就为假。可以转化为合取。
-- **存在量词(existential quantifier)** $\exists$ ：都是假才为假，存在一个为真就为真。可以转化为析取。
-- **唯一量词(uniqueless quantifier)** $\exists !$ ：有且仅有一个为真时才为真。
+**全称量词(universal quantifier)** $\forall$ ：都是真才为真，存在一个为假就为假。可以转化为合取。
+
+**存在量词(existential quantifier)** $\exists$ ：都是假才为假，存在一个为真就为真。可以转化为析取。
+
+**唯一量词(uniqueless quantifier)** $\exists !$ ：有且仅有一个为真时才为真。
 
 我们在使用量词时，可能只要求对于某一范围内的 $x$ 成立，我们把此时 $x$ 的取值范围称为 **讨论域** (domain of discourse / universe of discourse)，一般简写为 **domain**。
 
-* **量词的优先级(precedence of quantifiers)**
-    * The quantifiers \forall  and \exists  have higher precedence(优先级) than **all** the logical operators.
-* If t**he domain is finite**, <u>**a universally quantified proposition**</u> is  equivalent to a **conjunction** of propositions without quantifiers and <u>**an existentially quantified proposition**</u> is equivalent to a **disjunction** of  propositions without quantifiers.
+**量词的优先级(precedence of quantifiers)**
+
+* The quantifiers \forall  and \exists  have higher precedence(优先级) than **all** the logical operators.
+
+If t**he domain is finite**, <u>**a universally quantified proposition**</u> is  equivalent to a **conjunction** of propositions without quantifiers and <u>**an existentially quantified proposition**</u> is equivalent to a **disjunction** of  propositions without quantifiers.
 
 ### 3. Equivalences in Predicate Logic
 
@@ -232,7 +236,7 @@ Statements involving predicates and quantifiers are logically **equivalent** if 
 
 同样使用 $\equiv $ 符号来表示谓词逻辑中的等值。
 
-**德摩根定律(De Morgan’s laws)** 在谓词逻辑中也适用：
+**德摩根定律(De Morgan's laws)** 在谓词逻辑中也适用：
 
 * $¬\forall xP(x)\equiv \exists x¬P(x)$
 
@@ -406,25 +410,31 @@ $$
 
 ### 1. Some Terminology
 
--  **Theorem**（定理）: A statement that can be shown to be true
-     * **Proposition**（命题）: Less important theorem (also called result / fact)
--  **Proof**（证明）: A valid argument that establishes the truth of a theorem
-     * **Axioms**（公理）: The underlying assumptions about mathematical structures,  or hypotheses of the theorem to be proved, or previously proved theorems. 
-     * **Lemma**（引理） : A ‘helping theorem’ or a result which is needed to prove a theorem. 
-     * **Corollary**（推论） :A result which follows directly from a theorem.
-     * **Conjecture**（猜想）:  A statement whose truth value is unknown.
+**Theorem**（定理）: A statement that can be shown to be true
+
+* **Proposition**（命题）: Less important theorem (also called result / fact)
+  
+**Proof**（证明）: A valid argument that establishes the truth of a theorem
+
+* **Axioms**（公理）: The underlying assumptions about mathematical structures,  or hypotheses of the theorem to be proved, or previously proved theorems. 
+* **Lemma**（引理） : A 'helping theorem' or a result which is needed to prove a theorem. 
+* **Corollary**（推论） :A result which follows directly from a theorem.
+* **Conjecture**（猜想）:  A statement whose truth value is unknown.
 
 ### 2. Formal Proofs
 
 **形式化证明(formal proof)** v.s. **非形式化证明(informal proof)**：
 
-- Formal Proofs：
-    - All steps were supplied
-    - The rules for each step in the  argument were given
-- Informal Proofs:
-    - More than one rule of inference may be used in each step
-    - Steps may be skipped
-    - The axioms being assumed and the  rules of inference used are not explicity stated
+Formal Proofs：
+
+- All steps were supplied
+- The rules for each step in the  argument were given
+
+Informal Proofs:
+
+- More than one rule of inference may be used in each step
+- Steps may be skipped
+- The axioms being assumed and the  rules of inference used are not explicity stated
 
 ### 3. Proof Methods
 
@@ -444,8 +454,9 @@ $$
 
 #### 3.4 Vacuous and Trivial Proof
 
-- **空证明(vacuous proof)**：可通过证明 $p$ 为假来证明 $ p\rightarrow q$ 为真。
-- **平凡证明(trivial proof)**：可以通过证明 $q$ 为真来证明 $p\rightarrow q$ 为真。
+**空证明(vacuous proof)**：可通过证明 $p$ 为假来证明 $p\rightarrow q$ 为真。
+
+**平凡证明(trivial proof)**：可以通过证明 $q$ 为真来证明 $p\rightarrow q$ 为真。
 
 #### 3.5 Proof by Contradiciton
 
@@ -463,7 +474,7 @@ $$
 (2)To prove that several propositions $p_{1}, p_{2} ,...,p_{n}$ are equivalent  
 
 * establish the implications $p_{1}\rightarrow  p_{2}, p_{2}\rightarrow p_{3},...,p_{n}\rightarrow p_{1}$  
-* $ p_{1}↔p_{2}↔...↔p_{n}\equiv (p_{1}\rightarrow p_{2})\land (p_{2}\rightarrow p_{3} )\land ... \land (p_{n}\rightarrow p_{1})$
+* $p_{1}↔p_{2}↔...↔p_{n}\equiv (p_{1}\rightarrow p_{2})\land (p_{2}\rightarrow p_{3} )\land ... \land (p_{n}\rightarrow p_{1})$
 
 ## 1.8 Proof Method and Strategy
 
@@ -490,7 +501,7 @@ Using **nonconstructive existence proof 非构造存在性证明** to establish 
 
 To show that a theorem assert the existence of a unique element with  a particular property. 
 
-$\exists x( P(x) \land  \forall  y ( y≠ x\rightarrow ¬P(y) ) )$ 
+$$\exists x( P(x) \land  \forall  y ( y≠ x\rightarrow ¬P(y) ) )$$ 
 
 * Existence（存在性）: We show that an element x with the desired  property exists. 
 * Uniqueness（唯一性） : We show that if $y≠x$, then y does not have the  desired property. Or, we can show that if $x$ and $y$ both have the  desired property ,then $x=y$.

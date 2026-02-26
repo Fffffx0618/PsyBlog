@@ -39,7 +39,7 @@ $A\subset B\Leftrightarrow A\subseteq B\land A\ne B\Leftrightarrow  \forall x(x\
 
 #### Power Sets
 
-Given a set $S$, the **幂集(power set)** of $S$ is the set of **all subsets** of the set $S$. **$P(x) $** denotes the power set of $S$.
+Given a set $S$, the **幂集(power set)** of $S$ is the set of **all subsets** of the set $S$. **$P(x)$** denotes the power set of $S$.
 
 Example : If $S=\{a,b,c\}$, then $P(S)=\{\emptyset,\{a\},\{b\},\{c\},\{a,b\},\{a,c\},\{b,c\},\{a,b,c\}\}$
 
@@ -47,9 +47,13 @@ Example : If $S=\{a,b,c\}$, then $P(S)=\{\emptyset,\{a\},\{b\},\{c\},\{a,b\},\{a
 
 **[Definition]** The **有序 n 元组(ordered $n-tuple$)** ($a_{1},a_{2},\dots,a_{n}$) is the ordered collection that has $a_{1}$ as its first element,  as its second $a_{2}$ element, … , and $a_{n}$ as its $n_{th}$ element. In particular, $2-tuples$ are called **ordered pairs**.
 
- The Cartesian product of $A$ and $B$: $A \times B = \{(a, b)| a \in A, b \in B\}$
+The Cartesian product of $A$ and $B$: 
+ 
+$$A \times B = \{(a, b)| a \in A, b \in B\}$$
 
-The Cartesian product of $A_1 , A_2 , … , A_n$ : $A_{1}×A_{2}×\dots A_{n}$={$(a_{1},a_{2},\dots,a_{n})∣a_{i}\in A_{i}$, for $i = 1,2,\dots ,n$}
+The Cartesian product of $A_1 , A_2 , … , A_n$: 
+
+$$A_{1}\times A_{2}\times \dots A_{n} = \{(a_{1},a_{2},\dots,a_{n})∣a_{i} \in A_{i} \text{ , for } i = 1,2,\dots ,n\}$$
 
 #### Using Set Notation with Quantifiers 
 
@@ -135,7 +139,7 @@ $f$ maps $A$ to $B$ or $f$ is a mapping from $A$ to $B$.
 
 【Definition】Let  $f_{1}$ and $f_{2}$ be functions from $A$ to $R$. Then $(f_{1} + f_{2})(x) = f_{1}(x)+ f_{2}(x),\quad(f_{1}f_{2})(x) = f_{1}(x) f_{2}(x)$ 
 
-【Definition】 Let $f$ be a function from A to B and let $S$ be a subset of A. The  image of $S$  is the subset of B that consists of the images of the elements of S. We denote the image of $S$ by $f(S)$, so that $f (S) = \{{ f(s) | s\in S }\}$
+【Definition】Let $f$ be a function from $A$ to $B$ and let $S$ be a subset of $A$. The  image of $S$ is the subset of $B$ that consists of the images of the elements of $S$. We denote the image of $S$ by $f(S)$, so that $f (S) = \{ f(s) | s\in S \}$
 
 ### One-to-one Functions
 
@@ -162,55 +166,49 @@ Let $f$ be a bijection from A to B. Then the inverse function of $f$, denoted $f
 
 ### Floor and Ceiling Function
 
-The ceiling function $f (x)$ is the smallest integer greater than or equal to x
+The ceiling function $f (x)$ is the smallest integer greater than or equal to $x$
 
-The floor function $f (x)$ is the biggest integer smaller than or equal to x
+The floor function $f (x)$ is the biggest integer smaller than or equal to $x$
 
 ## 2.4 Sequences and Summations
 
 ### 1. Introduction
 
-[Definiton] A **数列(sequence)** is a function from a subset of the set of integers (usually either the set {0,1,2,…} or the set {1,2,3,…} ) to a set S. We use the notation $a_{n}$ to denote the image of the integer n. We call $a_{n}$ a **term(项)** of the sequence.
+[Definiton] A **数列(sequence)** is a function from a subset of the set of integers (usually either the set $\{0,1,2,\dots \}$ or the set $\{1,2,3,\dots \}$ ) to a set $S$. We use the notation $a_{n}$ to denote the image of the integer $n$. We call $a_{n}$ a **term(项)** of the sequence.
 
 ### 2. Some Familiar Sequences
 
-A **等比数列(geometric progression)** is a sequence of the form$a, ar, ar^{2}, …, ar^{n}$
+A **等比数列(geometric progression)** is a sequence of the form $a, ar, ar^{2}, …, ar^{n}$, where the initial term a and the **公比(common ratio)** $r$ are real numbers.
 
-where the initial term a and the **公比(common ratio)** r are real numbers.
-
-An **等差数列(arithmetic progression)** is a sequence of the form$a, a+d, a+2d …, a+nd$
-
-where the initial term a and the **公差(common difference)** d are real numbers.
+An **等差数列(arithmetic progression)** is a sequence of the form $a, a+d, a+2d …, a+nd$, where the initial term a and the **公差(common difference)** $d$ are real numbers.
 
 ### 3. Strings
 
-[Definition] A string is a finite sequence of characters from a finite set (an  alphabet).
+[Definition] A **string** is a finite sequence of characters from a finite set (an  alphabet).
 
 ### 4. Recurrence Relations
 
 [Definition] A **recurrence relation(迭代关系)** for the sequence $\{a_{n}\}$ is an equation that expresses an in terms of one or more of the previous terms of the  sequence, namely, $a_{0}, a_{1}, …, a_{n-1}$, for all integers n with $n ≥ n_{0}$, where $n_{0}$  is a nonnegative integer.  
 
-* A sequence is called a solution of a recurrence relation if its terms  satisfy the recurrence relation. 
+* A sequence is called a solution of a recurrence relation if its terms satisfy the recurrence relation. 
 * The initial conditions for a sequence specify the terms that precede the  first term where the recurrence relation takes effect. 
 
 ## 2.5 Cardinality of Sets
 
-* 【Definition】: The sets $A$ and $B$ have the same cardinality (denoted by $| A | = | B |$) iff there exists a <u>one-to-one correspondence (bijection双射)</u> from $A$ to $B$
+【Definition】: The sets $A$ and $B$ have the same cardinality (denoted by $| A | = | B |$) iff there exists a <u>one-to-one correspondence (bijection双射)</u> from $A$ to $B$
 
-    * This provides a **relative measure** of the sizes of two sets, rather than a measure of the size of one particular set.
+* This provides a **relative measure** of the sizes of two sets, rather than a measure of the size of one particular set.
 
-* 【Definition】: If there is a <u>one-to-one function单射</u> form $A$ to $B$, the cardinality of $A$ is less than or the same as cardinality of B ($|A|≤|B|$). When $|A|≤|B|$ and $A$ and $B$ have different cardinality, we say that the cardinality of $A$ is less than the cardinality of B and we write $|A|<|B|$
+【Definition】: If there is a <u>one-to-one function单射</u> form $A$ to $B$, the cardinality of $A$ is less than or the same as cardinality of B ($|A|≤|B|$). When $|A|≤|B|$ and $A$ and $B$ have different cardinality, we say that the cardinality of $A$ is less than the cardinality of B and we write $|A|<|B|$
 
 
 ### 1. Countable Sets
 
-* 【Definition】: A set that is either finite or has the same cardinality as <u>the set of positive integers</u> is called **countable可数**
+【Definition】: A set that is either finite or has the same cardinality as <u>the set of positive integers</u> is called **countable可数**
 
-* When an infinite set is countable (countably infinite) , its cardinality is **$ℵ_{0}$** (where $ℵ$ is aleph, the 1st letter of the Hebrew alphabet). We write *$|S| = ℵ_{0}$* and say that S has cardinality ***"aleph null 阿列夫零"***
+When an infinite set is countable (countably infinite) , its cardinality is **$ℵ_{0}$** (where $ℵ$ is aleph, the 1st letter of the Hebrew alphabet). We write *$|S| = ℵ_{0}$* and say that S has cardinality ***"aleph null 阿列夫零"***
 
-* An infinite set is **countable** if and only if it is possible to **list the elements of the set in a sequence** (indexed by the positive integers, be expressed in terms of a sequence $a_{1},a_{2},\dots, a_{n} ,\dots $where $a_{1}=f(1),a_{2}=f(2),\dots, a_{n} =f(n),\dots$
-
----
+An infinite set is **countable** if and only if it is possible to **list the elements of the set in a sequence** (indexed by the positive integers, be expressed in terms of a sequence $a_{1},a_{2},\dots, a_{n} ,\dots $where $a_{1}=f(1),a_{2}=f(2),\dots, a_{n} =f(n),\dots$
 
 * 正有理数集$Q_{+}$是可数的
 * 0 到 1 之间的实数集不可数
@@ -219,8 +217,9 @@ where the initial term a and the **公差(common difference)** d are real number
 
 ### 2. Uncountable Sets
 
-> * If set $A$ and $B$ is countable, then $A\cup B$ is countable.
-> * **有限个**可数集合的交集是可数的
+> If set $A$ and $B$ is countable, then $A\cup B$ is countable.
+> 
+> **有限个**可数集合的交集是可数的
 
 【Theorem】The set of real numbers between $0$ and $1$ is **uncountable**.
 

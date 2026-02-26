@@ -2,7 +2,7 @@
 
 ## 3.1 算法 Algorithms
 
-[Definition] : An **algorithm** is a finite set of precise instructions for  performing a computation or for solving a problem.
+【Definition】: An **algorithm** is a finite set of precise instructions for  performing a computation or for solving a problem.
 
 ### 算法的性质 Properties of Algorithms
 

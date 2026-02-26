@@ -4,15 +4,15 @@
 
 ### 1. Principle of Mathematical Induction
 
-* **The (first) principle of Mathematical Induction** 
+**The (first) principle of Mathematical Induction** 
 
-  $(P(1) \land  \forall  k(P(k) \rightarrow  P(k+1))) \rightarrow \forall  n P(n)$ where the domain is the set of positive integers
+$$(P(1) \land  \forall  k(P(k) \rightarrow  P(k+1))) \rightarrow \forall  n P(n) \text{ where the domain is the set of positive integers}$$
 
 ### 2. The procedure
 
-1. Inductive base: Establish $P(k)$
+1.Inductive base: Establish $P(k)$
 
-2. Inductive step: Prove that $P(n) \rightarrow  P(n+1)$ for $n\geq  k$
+2.Inductive step: Prove that $P(n) \rightarrow  P(n+1)$ for $n\geq  k$
 
 Conclusion: The inductive base and the inductive step together imply $P(n) \forall  n \geq  k$
 
@@ -20,7 +20,7 @@ Conclusion: The inductive base and the inductive step together imply $P(n) \fora
 
 ### 1. Strong Induction
 
-* The Second Principle of Mathematical Induction*数学归纳法第二原理*  (==Strong Induction==,  complete induction) 
+**The Second Principle of Mathematical Induction数学归纳法第二原理  (==Strong Induction==,  complete induction)**
 
 $$
 (P(n_0 )\land \forall k ( k\geq n_0 \land P(n_0 )\land P(n_0 +1)\land \dots \land P(k) \rightarrow   P(k+1)))\rightarrow  \forall n P(n)
@@ -47,7 +47,7 @@ $$
 
 ### 3. Well-ordering property 
 
-* 假设 $r\geq d$，因为 $a=dq_0+r$，所以 $a−d(q_0+1)=r−d\geq 0$，因此存在 $q$ 和 $r$，使得 $0\leq \r<d$ 成立（且 $q$ 和 $r$ 是唯一的）
+假设 $r\geq d$，因为 $a=dq_0+r$，所以 $a−d(q_0+1)=r−d\geq 0$，因此存在 $q$ 和 $r$，使得 $0\leq \r<d$ 成立（且 $q$ 和 $r$ 是唯一的）
 
 
 <div style="text-align: center"><img src="images/image-20250409103839783.png" width="70%"></div>
@@ -65,7 +65,7 @@ $$
 
 **LAME'S Theorem** 
 
-- Let $a , b$ be positive integers with $a\geq b$. Then the number of divisions used by the Euclidean algorithm to find $\gcd (a, b)$ is less than or equal to <u>five times the number of decimal digits in b</u>.
+Let $a , b$ be positive integers with $a\geq b$. Then the number of divisions used by the Euclidean algorithm to find $\gcd (a, b)$ is less than or equal to <u>five times the number of decimal digits in b</u>.
 
 <div style="text-align: center"><img src="images/image-20250409135735686.png" width="75%"></div>
 
@@ -129,17 +129,18 @@ Another important use of recursive definitions is to define well-formed formulae
 
 ### 5. Generalized Induction
 
-* **Generalized induction 广义归纳法** is used to prove results about sets other than the integers that  have the **well-ordering property**.
+**Generalized induction 广义归纳法** is used to prove results about sets other than the integers that  have the **well-ordering property**.
 
-* Consider an ordering on $N ⨉ N$, ordered pairs of nonnegative integers.  Specify that $(x_1 ,y_1)$ is less than or equal to $(x_2 ,y_2)$ if either $x_1 < x_2$, or $x_1 = x_2$  and $y_1<y_2$ .  
-    * This is called the ***lexicographic ordering*** ***词典序***
+Consider an ordering on $N ⨉ N$, ordered pairs of nonnegative integers.  Specify that $(x_1 ,y_1)$ is less than or equal to $(x_2 ,y_2)$ if either $x_1 < x_2$, or $x_1 = x_2$  and $y_1<y_2$ .  
+
+* This is called the ***lexicographic ordering*** ***词典序***
 
 <div style="text-align: center"><img src="images/image-20250409140908979.png" width="70%"></div>
 
 
 ## 5.4 Recursive Algorithms
 
-* An algorithm is called **recursive** if it solves a problem by <u>reducing it to an instance of the same problem with smaller input</u>.
+- An algorithm is called **recursive** if it solves a problem by <u>reducing it to an instance of the same problem with smaller input</u>.
 
 ### Recursion and Iteration 
 

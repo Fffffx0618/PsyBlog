@@ -71,6 +71,7 @@ theme:
         icon: material/toggle-switch
         name: Switch to light mode
 
+  favicon: assets/icon.png
 # Markdown 扩展
 # markdown_extensions:
 #   - footnotes
