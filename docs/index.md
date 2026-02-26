@@ -15,7 +15,7 @@
 !!! advice "一些链接"
     - [ZJU CS 笔记索引大全 | All Sum in One](https://isshikihugh.github.io/zju-cs-asio/){target="_blank"}
     - [我就这样在ZJU混吃等死｜可达鸭的一路楼](https://www.cc98.org/topic/6270835)
-[/align]
+
 
 !!! info "这里是留言板"
     <div align="center" style="font-size:18px">
