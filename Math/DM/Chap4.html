@@ -1,0 +1,2508 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="可达鸭的笔记本，记录了 ZJU-CS 的一些课程笔记。">
+      
+      
+        <meta name="author" content="Fffffx">
+      
+      
+      
+        <link rel="prev" href="Chap3.html">
+      
+      
+        <link rel="next" href="Chap5.html">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/icon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Ch4.The Number Theory and Cryptography - Fffffx's Note</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+  
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+  
+  <style>:root{--md-admonition-icon--note:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M1%207.775V2.75C1%201.784%201.784%201%202.75%201h5.025c.464%200%20.91.184%201.238.513l6.25%206.25a1.75%201.75%200%200%201%200%202.474l-5.026%205.026a1.75%201.75%200%200%201-2.474%200l-6.25-6.25A1.75%201.75%200%200%201%201%207.775m1.5%200c0%20.066.026.13.073.177l6.25%206.25a.25.25%200%200%200%20.354%200l5.025-5.025a.25.25%200%200%200%200-.354l-6.25-6.25a.25.25%200%200%200-.177-.073H2.75a.25.25%200%200%200-.25.25ZM6%205a1%201%200%201%201%200%202%201%201%200%200%201%200-2%22/%3E%3C/svg%3E');--md-admonition-icon--abstract:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M2.5%201.75v11.5c0%20.138.112.25.25.25h3.17a.75.75%200%200%201%200%201.5H2.75A1.75%201.75%200%200%201%201%2013.25V1.75C1%20.784%201.784%200%202.75%200h8.5C12.216%200%2013%20.784%2013%201.75v7.736a.75.75%200%200%201-1.5%200V1.75a.25.25%200%200%200-.25-.25h-8.5a.25.25%200%200%200-.25.25m13.274%209.537zl-4.557%204.45a.75.75%200%200%201-1.055-.008l-1.943-1.95a.75.75%200%200%201%201.062-1.058l1.419%201.425%204.026-3.932a.75.75%200%201%201%201.048%201.074M4.75%204h4.5a.75.75%200%200%201%200%201.5h-4.5a.75.75%200%200%201%200-1.5M4%207.75A.75.75%200%200%201%204.75%207h2a.75.75%200%200%201%200%201.5h-2A.75.75%200%200%201%204%207.75%22/%3E%3C/svg%3E');--md-admonition-icon--info:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M0%208a8%208%200%201%201%2016%200A8%208%200%200%201%200%208m8-6.5a6.5%206.5%200%201%200%200%2013%206.5%206.5%200%200%200%200-13M6.5%207.75A.75.75%200%200%201%207.25%207h1a.75.75%200%200%201%20.75.75v2.75h.25a.75.75%200%200%201%200%201.5h-2a.75.75%200%200%201%200-1.5h.25v-2h-.25a.75.75%200%200%201-.75-.75M8%206a1%201%200%201%201%200-2%201%201%200%200%201%200%202%22/%3E%3C/svg%3E');--md-admonition-icon--tip:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M3.499.75a.75.75%200%200%201%201.5%200v.996C5.9%202.903%206.793%203.65%207.662%204.376l.24.202c-.036-.694.055-1.422.426-2.163C9.1.873%2010.794-.045%2012.622.26%2014.408.558%2016%201.94%2016%204.25c0%201.278-.954%202.575-2.44%202.734l.146.508.065.22c.203.701.412%201.455.476%202.226.142%201.707-.4%203.03-1.487%203.898C11.714%2014.671%2010.27%2015%208.75%2015h-6a.75.75%200%200%201%200-1.5h1.376a4.5%204.5%200%200%201-.563-1.191%203.84%203.84%200%200%201-.05-2.063%204.65%204.65%200%200%201-2.025-.293.75.75%200%200%201%20.525-1.406c1.357.507%202.376-.006%202.698-.318l.009-.01a.747.747%200%200%201%201.06%200%20.75.75%200%200%201-.012%201.074c-.912.92-.992%201.835-.768%202.586.221.74.745%201.337%201.196%201.621H8.75c1.343%200%202.398-.296%203.074-.836.635-.507%201.036-1.31.928-2.602-.05-.603-.216-1.224-.422-1.93l-.064-.221c-.12-.407-.246-.84-.353-1.29a2.4%202.4%200%200%201-.507-.441%203.1%203.1%200%200%201-.633-1.248.75.75%200%200%201%201.455-.364c.046.185.144.436.31.627.146.168.353.305.712.305.738%200%201.25-.615%201.25-1.25%200-1.47-.95-2.315-2.123-2.51-1.172-.196-2.227.387-2.706%201.345-.46.92-.27%201.774.019%203.062l.042.19.01.05c.348.443.666.949.94%201.553a.75.75%200%201%201-1.365.62c-.553-1.217-1.32-1.94-2.3-2.768L6.7%205.527c-.814-.68-1.75-1.462-2.692-2.619a3.7%203.7%200%200%200-1.023.88c-.406.495-.663%201.036-.722%201.508.116.122.306.21.591.239.388.038.797-.06%201.032-.19a.75.75%200%200%201%20.728%201.31c-.515.287-1.23.439-1.906.373-.682-.067-1.473-.38-1.879-1.193L.75%205.677V5.5c0-.984.48-1.94%201.077-2.664.46-.559%201.05-1.055%201.673-1.353z%22/%3E%3C/svg%3E');--md-admonition-icon--success:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M13.78%204.22a.75.75%200%200%201%200%201.06l-7.25%207.25a.75.75%200%200%201-1.06%200L2.22%209.28a.75.75%200%200%201%20.018-1.042.75.75%200%200%201%201.042-.018L6%2010.94l6.72-6.72a.75.75%200%200%201%201.06%200%22/%3E%3C/svg%3E');--md-admonition-icon--question:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M0%208a8%208%200%201%201%2016%200A8%208%200%200%201%200%208m8-6.5a6.5%206.5%200%201%200%200%2013%206.5%206.5%200%200%200%200-13M6.92%206.085h.001a.749.749%200%201%201-1.342-.67c.169-.339.436-.701.849-.977C6.845%204.16%207.369%204%208%204a2.76%202.76%200%200%201%201.637.525c.503.377.863.965.863%201.725%200%20.448-.115.83-.329%201.15-.205.307-.47.513-.692.662-.109.072-.22.138-.313.195l-.006.004a6%206%200%200%200-.26.16%201%201%200%200%200-.276.245.75.75%200%200%201-1.248-.832c.184-.264.42-.489.692-.661q.154-.1.313-.195l.007-.004c.1-.061.182-.11.258-.161a1%201%200%200%200%20.277-.245C8.96%206.514%209%206.427%209%206.25a.61.61%200%200%200-.262-.525A1.27%201.27%200%200%200%208%205.5c-.369%200-.595.09-.74.187a1%201%200%200%200-.34.398M9%2011a1%201%200%201%201-2%200%201%201%200%200%201%202%200%22/%3E%3C/svg%3E');--md-admonition-icon--warning:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M6.457%201.047c.659-1.234%202.427-1.234%203.086%200l6.082%2011.378A1.75%201.75%200%200%201%2014.082%2015H1.918a1.75%201.75%200%200%201-1.543-2.575Zm1.763.707a.25.25%200%200%200-.44%200L1.698%2013.132a.25.25%200%200%200%20.22.368h12.164a.25.25%200%200%200%20.22-.368Zm.53%203.996v2.5a.75.75%200%200%201-1.5%200v-2.5a.75.75%200%200%201%201.5%200M9%2011a1%201%200%201%201-2%200%201%201%200%200%201%202%200%22/%3E%3C/svg%3E');--md-admonition-icon--failure:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M2.344%202.343za8%208%200%200%201%2011.314%2011.314A8.002%208.002%200%200%201%20.234%2010.089a8%208%200%200%201%202.11-7.746m1.06%2010.253a6.5%206.5%200%201%200%209.108-9.275%206.5%206.5%200%200%200-9.108%209.275M6.03%204.97%208%206.94l1.97-1.97a.749.749%200%200%201%201.275.326.75.75%200%200%201-.215.734L9.06%208l1.97%201.97a.749.749%200%200%201-.326%201.275.75.75%200%200%201-.734-.215L8%209.06l-1.97%201.97a.749.749%200%200%201-1.275-.326.75.75%200%200%201%20.215-.734L6.94%208%204.97%206.03a.75.75%200%200%201%20.018-1.042.75.75%200%200%201%201.042-.018%22/%3E%3C/svg%3E');--md-admonition-icon--danger:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M9.504.43a1.516%201.516%200%200%201%202.437%201.713L10.415%205.5h2.123c1.57%200%202.346%201.909%201.22%203.004l-7.34%207.142a1.25%201.25%200%200%201-.871.354h-.302a1.25%201.25%200%200%201-1.157-1.723L5.633%2010.5H3.462c-1.57%200-2.346-1.909-1.22-3.004zm1.047%201.074L3.286%208.571A.25.25%200%200%200%203.462%209H6.75a.75.75%200%200%201%20.694%201.034l-1.713%204.188%206.982-6.793A.25.25%200%200%200%2012.538%207H9.25a.75.75%200%200%201-.683-1.06l2.008-4.418.003-.006-.004-.009-.006-.006-.008-.001q-.005%200-.009.004%22/%3E%3C/svg%3E');--md-admonition-icon--bug:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M4.72.22a.75.75%200%200%201%201.06%200l1%20.999a3.5%203.5%200%200%201%202.441%200l.999-1a.748.748%200%200%201%201.265.332.75.75%200%200%201-.205.729l-.775.776c.616.63.995%201.493.995%202.444v.327q0%20.15-.025.292c.408.14.764.392%201.029.722l1.968-.787a.75.75%200%200%201%20.556%201.392L13%207.258V9h2.25a.75.75%200%200%201%200%201.5H13v.5q-.002.615-.141%201.186l2.17.868a.75.75%200%200%201-.557%201.392l-2.184-.873A5%205%200%200%201%208%2016a5%205%200%200%201-4.288-2.427l-2.183.873a.75.75%200%200%201-.558-1.392l2.17-.868A5%205%200%200%201%203%2011v-.5H.75a.75.75%200%200%201%200-1.5H3V7.258L.971%206.446a.75.75%200%200%201%20.558-1.392l1.967.787c.265-.33.62-.583%201.03-.722a1.7%201.7%200%200%201-.026-.292V4.5c0-.951.38-1.814.995-2.444L4.72%201.28a.75.75%200%200%201%200-1.06m.53%206.28a.75.75%200%200%200-.75.75V11a3.5%203.5%200%201%200%207%200V7.25a.75.75%200%200%200-.75-.75ZM6.173%205h3.654A.17.17%200%200%200%2010%204.827V4.5a2%202%200%201%200-4%200v.327c0%20.096.077.173.173.173%22/%3E%3C/svg%3E');--md-admonition-icon--example:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M5%205.782V2.5h-.25a.75.75%200%200%201%200-1.5h6.5a.75.75%200%200%201%200%201.5H11v3.282l3.666%205.76C15.619%2013.04%2014.543%2015%2012.767%2015H3.233c-1.776%200-2.852-1.96-1.899-3.458Zm-2.4%206.565a.75.75%200%200%200%20.633%201.153h9.534a.75.75%200%200%200%20.633-1.153L12.225%2010.5h-8.45ZM9.5%202.5h-3V6c0%20.143-.04.283-.117.403L4.73%209h6.54L9.617%206.403A.75.75%200%200%201%209.5%206Z%22/%3E%3C/svg%3E');--md-admonition-icon--quote:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M1.75%202.5h10.5a.75.75%200%200%201%200%201.5H1.75a.75.75%200%200%201%200-1.5m4%205h8.5a.75.75%200%200%201%200%201.5h-8.5a.75.75%200%200%201%200-1.5m0%205h8.5a.75.75%200%200%201%200%201.5h-8.5a.75.75%200%200%201%200-1.5M2.5%207.75v6a.75.75%200%200%201-1.5%200v-6a.75.75%200%200%201%201.5%200%22/%3E%3C/svg%3E');}</style>
+
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=LXGW+WenKai+Screen,+Microsoft+YaHei,+sans-serif:300,300i,400,400i,700,700i%7CJetBrains+Mono,+Sarasa+Mono+SC,+Consolas,+monospace:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"LXGW WenKai Screen, Microsoft YaHei, sans-serif";--md-code-font:"JetBrains Mono, Sarasa Mono SC, Consolas, monospace"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="https://fonts.loli.net/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap">
+    
+      <link rel="stylesheet" href="https://gcore.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.1.0/style.css">
+    
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap">
+    
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sarasa-gothic@0.43.0/css/sarasa-mono-sc.css">
+    
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/one-dark.min.css">
+    
+      <link rel="stylesheet" href="../../stylesheets/blueTopaz.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue-grey" data-md-color-accent="blue-grey">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#ch4the-number-theory-and-cryptography" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="Fffffx&#39;s Note" class="md-header__button md-logo" aria-label="Fffffx's Note" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m19.07 14.88 2.05 2.05L15.06 23H13v-2.06zm1.97-1.75c.14 0 .27.06.38.17l1.28 1.28c.22.21.22.56 0 .77l-1 1-2.05-2.05 1-1c.11-.11.25-.17.39-.17M17 4v6l-2-2-2 2V4H9v16h2v2H7c-1.05 0-2-.95-2-2v-1H3v-2h2v-4H3v-2h2V7H3V5h2V4a2 2 0 0 1 2-2h12c1.05 0 2 .95 2 2v6l-2 2V4zM5 5v2h2V5zm0 6v2h2v-2zm0 6v2h2v-2z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Fffffx's Note
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Ch4.The Number Theory and Cryptography
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="blue-grey" data-md-color-accent="blue-grey"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4M7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="blue-grey" data-md-color-accent="teal"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256l137.3-137.4c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="分享" aria-label="分享" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Fffffx0618/PsyBlog" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Fffffx
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  首页
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../blog/index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  我的Blog
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Language/index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  编程语言
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Algorithm/index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  程序算法
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../System/index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  体系结构
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  数学基础
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../Develop/index.md" class="md-tabs__link">
+        
+  
+  
+    
+  
+  前后端开发
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Fffffx&#39;s Note" class="md-nav__button md-logo" aria-label="Fffffx's Note" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m19.07 14.88 2.05 2.05L15.06 23H13v-2.06zm1.97-1.75c.14 0 .27.06.38.17l1.28 1.28c.22.21.22.56 0 .77l-1 1-2.05-2.05 1-1c.11-.11.25-.17.39-.17M17 4v6l-2-2-2 2V4H9v16h2v2H7c-1.05 0-2-.95-2-2v-1H3v-2h2v-4H3v-2h2V7H3V5h2V4a2 2 0 0 1 2-2h12c1.05 0 2 .95 2 2v6l-2 2V4zM5 5v2h2V5zm0 6v2h2v-2zm0 6v2h2v-2z"/></svg>
+
+    </a>
+    Fffffx's Note
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Fffffx0618/PsyBlog" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Fffffx
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../index.html" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    首页
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../blog/index.html" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    我的Blog
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../Language/index.html" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    编程语言
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../Algorithm/index.html" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    程序算法
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../System/index.html" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    体系结构
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../index.html" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    数学基础
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6" id="__nav_6_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    数学基础
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_2" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="index.html" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    离散数学及其应用
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6_2" id="__nav_6_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    离散数学及其应用
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Chap1.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch1.Logic &amp; Proofs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Chap2.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch2.Basic Structures
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Chap3.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch3.Algorithm
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch4.The Number Theory and Cryptography
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="Chap4.html" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch4.The Number Theory and Cryptography
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#41-divisibility-and-modular-arithmetic" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Divisibility and Modular Arithmetic
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.1 Divisibility and Modular Arithmetic">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-division" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Division
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Division">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#properties-of-divisibility" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Properties of Divisibility
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-division-algorithm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Division Algorithm
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-congruence-relation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Congruence Relation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Congruence Relation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-congruences-of-sums-and-products" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Congruences of Sums and Products
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-algebraic-manipulation-of-congruences" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Algebraic Manipulation of Congruences
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-arithmetic-modulo-m" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Arithmetic Modulo m
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#43-primes-and-greatest-common-divisors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 Primes and Greatest Common Divisors
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.3 Primes and Greatest Common Divisors">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-primes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Primes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-the-fundamental-theorem-of-arithmetic" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. The Fundamental Theorem of Arithmetic
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-the-sieve-of-eratosthenes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. The Sieve of Eratosthenes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-素数的分布" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. 素数的分布
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-greatest-common-divisor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Greatest Common Divisor
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-least-common-multiple" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Least Common Multiple
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-euclidean-algorithm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Euclidean Algorithm
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-gcds-as-linear-combinations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. gcds as Linear Combinations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#9-dividing-congruences-by-an-integer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Dividing Congruences by an Integer
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#44-solving-congruences" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4 Solving Congruences
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.4 Solving Congruences">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-linear-congruences" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Linear Congruences
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-inverse-of-a-modulo-m" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Inverse of a modulo m
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-the-chinese-remainder-theorem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. The Chinese Remainder Theorem
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. The Chinese Remainder Theorem">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#反向替换-back-substitution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        反向替换 Back Substitution
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-computer-arithmetic-with-large-integers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Computer Arithmetic with Large Integers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-fermats-little-theorem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Fermat's Little Theorem
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-pseudoprimes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Pseudoprimes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-carmichael-numbers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Carmichael Numbers
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Chap5.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch5.Induction and Recursion
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Chap6.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch6.Counting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Chap8.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch8.Advanced Counting Techniques
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Chap9.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch9 Relations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Chap10.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch10 Graphs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Chap11.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch11 Trees
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../NA/index.md" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    数值分析
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Develop/index.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    前后端开发
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#41-divisibility-and-modular-arithmetic" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Divisibility and Modular Arithmetic
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.1 Divisibility and Modular Arithmetic">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-division" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Division
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Division">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#properties-of-divisibility" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Properties of Divisibility
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-division-algorithm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Division Algorithm
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-congruence-relation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Congruence Relation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Congruence Relation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-congruences-of-sums-and-products" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Congruences of Sums and Products
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-algebraic-manipulation-of-congruences" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Algebraic Manipulation of Congruences
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-arithmetic-modulo-m" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Arithmetic Modulo m
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#43-primes-and-greatest-common-divisors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 Primes and Greatest Common Divisors
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.3 Primes and Greatest Common Divisors">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-primes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Primes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-the-fundamental-theorem-of-arithmetic" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. The Fundamental Theorem of Arithmetic
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-the-sieve-of-eratosthenes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. The Sieve of Eratosthenes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-素数的分布" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. 素数的分布
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-greatest-common-divisor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Greatest Common Divisor
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-least-common-multiple" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Least Common Multiple
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-euclidean-algorithm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Euclidean Algorithm
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-gcds-as-linear-combinations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. gcds as Linear Combinations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#9-dividing-congruences-by-an-integer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Dividing Congruences by an Integer
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#44-solving-congruences" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4 Solving Congruences
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.4 Solving Congruences">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-linear-congruences" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Linear Congruences
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-inverse-of-a-modulo-m" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Inverse of a modulo m
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-the-chinese-remainder-theorem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. The Chinese Remainder Theorem
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. The Chinese Remainder Theorem">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#反向替换-back-substitution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        反向替换 Back Substitution
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-computer-arithmetic-with-large-integers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Computer Arithmetic with Large Integers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-fermats-little-theorem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Fermat's Little Theorem
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-pseudoprimes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Pseudoprimes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-carmichael-numbers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Carmichael Numbers
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+
+  <nav class="md-path" aria-label="导航栏" >
+    <ol class="md-path__list">
+      
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../index.html" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    数学基础
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="index.html" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    离散数学及其应用
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/Fffffx0618/PsyBlog/edit/master/docs/Math/DM/Chap4.md" title="编辑此页" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+    
+      
+    
+    <a href="https://github.com/Fffffx0618/PsyBlog/raw/master/docs/Math/DM/Chap4.md" title="查看本页的源代码" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.2 8.2 0 0 1-1.23-2"/></svg>
+    </a>
+  
+
+
+<h1 id="ch4the-number-theory-and-cryptography">Ch4.The Number Theory and Cryptography<a class="headerlink" href="#ch4the-number-theory-and-cryptography" title="Permanent link">&para;</a></h1>
+<h2 id="41-divisibility-and-modular-arithmetic">4.1 Divisibility and Modular Arithmetic<a class="headerlink" href="#41-divisibility-and-modular-arithmetic" title="Permanent link">&para;</a></h2>
+<h3 id="1-division">1. Division<a class="headerlink" href="#1-division" title="Permanent link">&para;</a></h3>
+<p><strong>[Definition]</strong>: If <span class="arithmatex">\(a\)</span> and <span class="arithmatex">\(b\)</span> are integers with <span class="arithmatex">\(a \neq 0\)</span>, then <span class="arithmatex">\(a\)</span> divides <span class="arithmatex">\(b\)</span> if there exists an integer <span class="arithmatex">\(c\)</span> such that <span class="arithmatex">\(b=ac\)</span></p>
+<ul>
+<li>When <span class="arithmatex">\(a\)</span> divides <span class="arithmatex">\(b\)</span> we say that <span class="arithmatex">\(a\)</span> is a factor or divisor of <span class="arithmatex">\(b\)</span> and that <span class="arithmatex">\(b\)</span> is a multiple of <span class="arithmatex">\(a\)</span>.</li>
+<li>The notation <span class="arithmatex">\(a \mid b\)</span> denotes that <span class="arithmatex">\(a\)</span> divides <span class="arithmatex">\(b\)</span>.</li>
+<li>If <span class="arithmatex">\(a \mid b\)</span> , then <strong><span class="arithmatex">\(b/a\)</span></strong>  is an integer.</li>
+<li>If <span class="arithmatex">\(a\)</span> does not divide <span class="arithmatex">\(b\)</span>, we write <span class="arithmatex">\(a ∤ b\)</span></li>
+</ul>
+<h4 id="properties-of-divisibility">Properties of Divisibility<a class="headerlink" href="#properties-of-divisibility" title="Permanent link">&para;</a></h4>
+<p><strong>Theorem</strong>: Let a, b, and c be integers, where <span class="arithmatex">\(a ≠ 𝟎\)</span>.</p>
+<ul>
+<li>If <span class="arithmatex">\(𝑎 \mid 𝑏\)</span> and <span class="arithmatex">\(𝑎 \mid 𝑐\)</span> , then <span class="arithmatex">\(𝑎 \mid (𝑏 + 𝑐)\)</span></li>
+<li>If <span class="arithmatex">\(𝑎 \mid 𝑏\)</span> , then <span class="arithmatex">\(𝑎 \mid 𝑏𝑐\)</span> for all integers <span class="arithmatex">\(c\)</span></li>
+<li>If <span class="arithmatex">\(𝑎 \mid 𝑏\)</span> and <span class="arithmatex">\(𝑏 \mid 𝑐\)</span>, then <span class="arithmatex">\(𝑎 \mid 𝑐\)</span></li>
+</ul>
+<p><strong>Corollary</strong>: If a, b, and c be integers, where <span class="arithmatex">\(a \neq 0\)</span>, such that <span class="arithmatex">\(𝑎 \mid 𝑏\)</span> and <span class="arithmatex">\(𝑎 \mid c\)</span>, then <span class="arithmatex">\(𝑎 \mid m𝑏+nc\)</span> whenever m and n are integers.</p>
+<h3 id="2-division-algorithm">2. Division Algorithm<a class="headerlink" href="#2-division-algorithm" title="Permanent link">&para;</a></h3>
+<p>If <span class="arithmatex">\(a\)</span> is an integer and <span class="arithmatex">\(d\)</span> a positive integer, then there are unique integers <span class="arithmatex">\(q\)</span> and <span class="arithmatex">\(r\)</span>, with <span class="arithmatex">\(0 \leq r &lt; d\)</span>, such that <span class="arithmatex">\(a = dq + r\)</span></p>
+<ul>
+<li>d is called the <strong>divisor 除数</strong> </li>
+<li>a is called the <strong>dividend 被除数</strong> </li>
+<li>q is called the <strong>quotient 商</strong>  <strong><u>q = a div d</u></strong></li>
+<li>r is called the <strong>remainder 余数(非负)</strong> <strong><u>r = a mod d</u></strong></li>
+</ul>
+<h3 id="3-congruence-relation">3. Congruence Relation<a class="headerlink" href="#3-congruence-relation" title="Permanent link">&para;</a></h3>
+<p><strong>[Definition]</strong> : 若 <span class="arithmatex">\(a\)</span> 和 <span class="arithmatex">\(b\)</span> 为整数，<span class="arithmatex">\(m\)</span> 为正整数，当 m 能整除 <span class="arithmatex">\(a − b\)</span> 时，称 <span class="arithmatex">\(a\)</span> 与 <span class="arithmatex">\(b\)</span> 对模 <span class="arithmatex">\(m\)</span> 同余。</p>
+<ul>
+<li>The notation <span class="arithmatex">\(a \equiv b \pmod{m}\)</span> says that a is congruent to b modulo m.</li>
+<li>If a is not congruent to b modulo m, we write <span class="arithmatex">\(a ≢ b \pmod{m}\)</span></li>
+</ul>
+<p><strong>Theorem</strong>: Let <span class="arithmatex">\(m\)</span> be a positive integer. The integers <span class="arithmatex">\(a\)</span> and <span class="arithmatex">\(b\)</span> are congruent modulo <span class="arithmatex">\(m\)</span> if and only if there is an integer <span class="arithmatex">\(k\)</span> such that <span class="arithmatex">\(a = b+km\)</span></p>
+<h4 id="31-congruences-of-sums-and-products">3.1 Congruences of Sums and Products<a class="headerlink" href="#31-congruences-of-sums-and-products" title="Permanent link">&para;</a></h4>
+<p><strong>Theorem</strong>: Let m be a positive integer. If <span class="arithmatex">\(a \equiv b\pmod{m}\)</span> and <span class="arithmatex">\(c \equiv d \pmod{m}\)</span>, then <span class="arithmatex">\(a+c \equiv b+d\pmod{m}\)</span> and <span class="arithmatex">\(ac \equiv bd\pmod{m}\)</span></p>
+<h4 id="32-algebraic-manipulation-of-congruences">3.2 Algebraic Manipulation of Congruences<a class="headerlink" href="#32-algebraic-manipulation-of-congruences" title="Permanent link">&para;</a></h4>
+<p><strong>在同余式两边同时乘以一个整数后仍然同余</strong></p>
+<ul>
+<li>If  <span class="arithmatex">\(a \equiv b \pmod{m}\)</span> holds then  <mark><span class="arithmatex">\(c \cdot a \equiv c \cdot b \pmod{m}\)</span></mark> , where <span class="arithmatex">\(c\)</span> is any integer</li>
+</ul>
+<p><strong>在同余式两边同时加上一个整数后仍然同余</strong></p>
+<ul>
+<li>If  <span class="arithmatex">\(a \equiv b \pmod{m}\)</span> holds then  <mark><span class="arithmatex">\(a+c \equiv b+c \pmod{m}\)</span></mark> , where <span class="arithmatex">\(c\)</span> is any integer</li>
+</ul>
+<p><strong>在同余式两边同时除以一个整数后同余无法确定</strong></p>
+<ul>
+<li>If  <span class="arithmatex">\(a \equiv b \pmod{m}\)</span> holds then  <mark><span class="arithmatex">\(a \div c \equiv b \div c \pmod{m}\)</span></mark> , where <span class="arithmatex">\(c\)</span> is any integer</li>
+</ul>
+<p><strong>[Corollary]</strong> :</p>
+<ul>
+<li><mark><span class="arithmatex">\((a + b) \mod {m} = [(a \mod {m}) + (b \mod {m})] \mod {m}\)</span></mark></li>
+<li><mark><span class="arithmatex">\(ab \mod {m} = [(a \mod {m})(b \mod {m})] \mod {m}\)</span>.</mark></li>
+</ul>
+<h3 id="4-arithmetic-modulo-m">4. Arithmetic Modulo m<a class="headerlink" href="#4-arithmetic-modulo-m" title="Permanent link">&para;</a></h3>
+<p><strong>[Definitions]</strong> : Let <span class="arithmatex">\(Z_m\)</span> be the set of nonnegative integers less than <span class="arithmatex">\(m\)</span>: { <span class="arithmatex">\(0,1, \dots , m − 1\)</span> }</p>
+<ul>
+<li>The operation <strong>+m</strong> is defined as <span class="arithmatex">\(a+ _mb = (a+b)\mod m\)</span>. This is <strong>addition modulo m</strong>.</li>
+<li>The operation <strong>∙m</strong> is defined as <span class="arithmatex">\(a ⋅ _mb = (a\cdot b)\mod m\)</span>. This is <strong>multiplication modulo m</strong>.</li>
+<li>Using these operations is said to be doing <u><strong><em>arithmetic modulo m算术模 m</em></strong></u></li>
+</ul>
+<p>The operations <strong>+m</strong> and <strong>·m</strong> satisfy many of the same properties as ordinary addition and multiplication.</p>
+<p><strong>Closure 封闭性</strong></p>
+<ul>
+<li>If <span class="arithmatex">\(a\)</span> and <span class="arithmatex">\(b\)</span> belong to <span class="arithmatex">\(Z_m\)</span> , then <span class="arithmatex">\(a +_m b \in Z_m\)</span> and <span class="arithmatex">\(a ·_m b \in Z_m\)</span> .</li>
+</ul>
+<p><strong>Associativity 结合律</strong></p>
+<ul>
+<li>If <span class="arithmatex">\(a\)</span>, <span class="arithmatex">\(b\)</span>, and <span class="arithmatex">\(c\)</span> belong to <span class="arithmatex">\(Z_m\)</span> , then <span class="arithmatex">\((a +_mb) + _m c = a +_m (b +_m c)\)</span> and <span class="arithmatex">\((a ·_m b) ·_m c = a ·_m (b ·_m c)\)</span>.</li>
+</ul>
+<p><strong>Commutativity 交换律</strong></p>
+<ul>
+<li>If a and b belong to <span class="arithmatex">\(Z_m\)</span> , then <span class="arithmatex">\(a +_m b = b +_m a\)</span> and <span class="arithmatex">\(a ·_m b = b ·_m a\)</span>.</li>
+</ul>
+<p><strong>Identity elements 单位元</strong></p>
+<ul>
+<li>
+<p>The elements <span class="arithmatex">\(0\)</span> and <span class="arithmatex">\(1\)</span> are identity elements for addition and multiplication modulo <span class="arithmatex">\(m\)</span>, respectively. </p>
+<p>If a belongs to <span class="arithmatex">\(Z_m\)</span> , then <span class="arithmatex">\(a +_m 0 = a\)</span> and <span class="arithmatex">\(a ·_m 1 = a\)</span>.</p>
+</li>
+</ul>
+<p><strong>Additive inverses 加法逆元</strong></p>
+<ul>
+<li>
+<p>If <span class="arithmatex">\(a ≠ 0\)</span> belongs to <span class="arithmatex">\(Z_m\)</span> , then <span class="arithmatex">\(m − a\)</span> is the additive inverse of <strong>a modulo m</strong> and 0 is its own additive inverse. </p>
+</li>
+<li>
+<p><span class="arithmatex">\(𝑎 + _𝑚 (𝑚 − 𝑎 ) = 0\)</span> and <span class="arithmatex">\(0 +_𝑚 0 = 0\)</span></p>
+</li>
+</ul>
+<p>Distributivity 分配律</p>
+<ul>
+<li>If a, b, and c belong to <span class="arithmatex">\(𝑍_𝑚\)</span> , then <span class="arithmatex">\(𝑎 ·_𝑚 (𝑏 +_𝑚 𝑐) = (𝑎· _𝑚 𝑏) + _𝑚 (𝑎 +_𝑚 𝑐)\)</span> and <span class="arithmatex">\((𝑎 +_𝑚 𝑏) ·_𝑚 𝑐 = (𝑎 ·_𝑚 𝑐) +_𝑚 (𝑏·_𝑚 𝑐)\)</span></li>
+</ul>
+<h2 id="43-primes-and-greatest-common-divisors">4.3 Primes and Greatest Common Divisors<a class="headerlink" href="#43-primes-and-greatest-common-divisors" title="Permanent link">&para;</a></h2>
+<h3 id="1-primes">1. Primes<a class="headerlink" href="#1-primes" title="Permanent link">&para;</a></h3>
+<p><strong>[Definition]</strong> : A positive integer p greater than <span class="arithmatex">\(1\)</span> is called prime if the only positive factors of <span class="arithmatex">\(p\)</span> are <span class="arithmatex">\(1\)</span> and <span class="arithmatex">\(p\)</span>. A positive integer that is greater than <span class="arithmatex">\(1\)</span> and is not <strong>prime素数</strong> is called <strong>composite合数</strong></p>
+<p><strong>Theorem</strong>: There are infinitely many primes. (Euclid) 素数的无限性</p>
+<p><strong>[Definition]</strong> : Prime numbers of the form <span class="arithmatex">\(2^p − 1\)</span>, where <span class="arithmatex">\(p\)</span> is prime, are called <strong>Mersenne primes梅森数</strong></p>
+<h3 id="2-the-fundamental-theorem-of-arithmetic">2. The Fundamental Theorem of Arithmetic<a class="headerlink" href="#2-the-fundamental-theorem-of-arithmetic" title="Permanent link">&para;</a></h3>
+<p><strong>Theorem 1</strong>: Every positive integer greater than 1 can be written uniquely as a prime or as the product of two or more primes where the prime factors are written in order of nondecreasing size. </p>
+<p><strong>Theorem 2</strong>: If n is a composite integer, then n has a prime divisor less than or equal to <span class="arithmatex">\(\sqrt n\)</span></p>
+<p>若 n 为合数，则 n 必有一个质因数小于或等于<span class="arithmatex">\(\sqrt n\)</span></p>
+<h3 id="3-the-sieve-of-eratosthenes">3. The Sieve of Eratosthenes<a class="headerlink" href="#3-the-sieve-of-eratosthenes" title="Permanent link">&para;</a></h3>
+<p><strong><em>The Sieve of Eratosthenes</em></strong> can be used to find all primes not  exceeding a specified positive integer n.  </p>
+<blockquote>
+<p>方法：找出所有不超过 n 的质数，然后从小到大依次将它们的倍数 ( 不超过 n ) 删去，剩下的数就是不超过 n 的质数。</p>
+</blockquote>
+<p>For example, <span class="arithmatex">\(n=100\)</span> Begin with the list of integers between 1 and 100. </p>
+<p>① Delete all  the integers, other than 2, divisible by 2. </p>
+<p>② Delete all the integers, other than 3, divisible by 3. </p>
+<p>③ Next, delete all the integers, other than 5, divisible by 5. </p>
+<p>④ Next, delete all the integers, other than 7, divisible by 7. </p>
+<p>⑤ Since all the remaining integers  are not divisible by any of the previous integers, other than 1, the primes are: <span class="arithmatex">\(\{2,3,5,7,11,15,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83,89,97\}\)</span></p>
+<h3 id="4-素数的分布">4. 素数的分布<a class="headerlink" href="#4-素数的分布" title="Permanent link">&para;</a></h3>
+<p><strong>Prime Number Theorem</strong>: </p>
+<p>The ratio of the number of primes not exceeding <span class="arithmatex">\(x\)</span> and <span class="arithmatex">\(x/lnx\)</span> approaches <span class="arithmatex">\(1\)</span> as <span class="arithmatex">\(x\)</span> grows without bound.</p>
+<div class="arithmatex">\[
+\lim_{x\rightarrow \infty}\frac{\pi(x)}{x/lnx}=1
+\]</div>
+<h3 id="5-greatest-common-divisor">5. Greatest Common Divisor<a class="headerlink" href="#5-greatest-common-divisor" title="Permanent link">&para;</a></h3>
+<p><strong>[Definition]</strong> : Let <span class="arithmatex">\(a\)</span> and <span class="arithmatex">\(b\)</span> be integers, not both zero. The largest integer <span class="arithmatex">\(d\)</span> such that <span class="arithmatex">\(d \mid a\)</span> and also <span class="arithmatex">\(d \mid b\)</span> is called the greatest common divisor of <span class="arithmatex">\(a\)</span> and <span class="arithmatex">\(b\)</span>. The greatest common divisor of a and b is denoted by <span class="arithmatex">\(\gcd{(a,b)}\)</span></p>
+<p><strong>[Definition]</strong> : The integers <span class="arithmatex">\(a\)</span> and <span class="arithmatex">\(b\)</span> are <strong>relatively prime</strong> if their greatest common divisor is <span class="arithmatex">\(1\)</span></p>
+<h3 id="6-least-common-multiple">6. Least Common Multiple<a class="headerlink" href="#6-least-common-multiple" title="Permanent link">&para;</a></h3>
+<p><strong>[Definition]</strong> : The least common multiple of the positive integers <span class="arithmatex">\(a\)</span> and <span class="arithmatex">\(b\)</span> is the smallest positive integer that is divisible by both a and b. It is denoted by <span class="arithmatex">\(\text{lcm}(a,b)\)</span></p>
+<p><strong>[Theorem]</strong> : Let a and b be positive integers. Then <span class="arithmatex">\(ab = \gcd{(a, b)} \cdot \text{lcm}(a, b)\)</span></p>
+<h3 id="7-euclidean-algorithm">7. Euclidean Algorithm<a class="headerlink" href="#7-euclidean-algorithm" title="Permanent link">&para;</a></h3>
+<p>The Euclidian algorithm is an efficient method for computing the greatest common divisor of two integers.</p>
+<ul>
+<li>let <span class="arithmatex">\(a=bq+r\)</span>, then <span class="arithmatex">\(\gcd(a,b) = \gcd(b,r)\)</span></li>
+</ul>
+<div style="text-align: center"><img src="images/image-20250326103806432.png" width="55%"></div>
+
+<h3 id="8-gcds-as-linear-combinations">8. gcds as Linear Combinations<a class="headerlink" href="#8-gcds-as-linear-combinations" title="Permanent link">&para;</a></h3>
+<p><strong>裴蜀定理 Bézout’s Theorem</strong> : If a and b are positive integers, then there exist integers s and t such that <mark><span class="arithmatex">\(\gcd{(a,b)} = sa+tb\)</span></mark></p>
+<p><strong>[Definition]</strong> : If a and b are positive integers, then integers <span class="arithmatex">\(s\)</span> and <span class="arithmatex">\(t\)</span> such that <span class="arithmatex">\(\gcd{(a,b)} = sa+tb\)</span> are called <strong>Bézout coefficients 裴蜀系数</strong> of a and b. The equation  <span class="arithmatex">\(gcd(a,b) =sa+tb\)</span> is called <strong>Bézout’s identity 裴蜀恒等式</strong></p>
+<ul>
+<li>Lemma : If a, b, and c are positive integers such that <span class="arithmatex">\(\gcd{(a,b)}=1\)</span> and <span class="arithmatex">\(a \mid bc\)</span>, then <span class="arithmatex">\(a \mid c\)</span></li>
+<li>Lemma : If p is prime and <span class="arithmatex">\(p \mid a_1 a_2 \dots a_n\)</span>, then <span class="arithmatex">\(p \mid a_i\)</span> for some <span class="arithmatex">\(i\)</span></li>
+</ul>
+<h3 id="9-dividing-congruences-by-an-integer">9. Dividing Congruences by an Integer<a class="headerlink" href="#9-dividing-congruences-by-an-integer" title="Permanent link">&para;</a></h3>
+<p><strong>[Theorem]</strong> : Let m be a positive integer and let a, b, and c be integers.</p>
+<p>If <span class="arithmatex">\(ac \equiv bc \pmod m\)</span> and <span class="arithmatex">\(\gcd(c, m) = 𝟏\)</span>, then <span class="arithmatex">\(a \equiv b \pmod m\)</span></p>
+<h2 id="44-solving-congruences">4.4 Solving Congruences<a class="headerlink" href="#44-solving-congruences" title="Permanent link">&para;</a></h2>
+<h3 id="1-linear-congruences">1. Linear Congruences<a class="headerlink" href="#1-linear-congruences" title="Permanent link">&para;</a></h3>
+<p><strong>[Definition]</strong> : A congruence of the form <span class="arithmatex">\(ax \equiv b \pmod m\)</span>, where m is <span class="arithmatex">\(a\)</span> positive integer, <span class="arithmatex">\(a\)</span> and <span class="arithmatex">\(b\)</span> are integers, and <span class="arithmatex">\(x\)</span> is a variable, is called a linear congruence.</p>
+<ul>
+<li><em>The solutions to a linear congruence</em> <span class="arithmatex">\(ax \equiv b \pmod m\)</span> are all integers x that satisfy the congruence</li>
+</ul>
+<h3 id="2-inverse-of-a-modulo-m">2. Inverse of a modulo m<a class="headerlink" href="#2-inverse-of-a-modulo-m" title="Permanent link">&para;</a></h3>
+<p><strong>[Definition]</strong>: An integer <span class="arithmatex">\(\overline{a}\)</span> such that <span class="arithmatex">\(\overline a a \equiv 1 \pmod m\)</span> is said to be <strong>an inverse of a modulo m</strong>.</p>
+<p><strong>Theorem</strong> : 若 <span class="arithmatex">\(a,m\)</span> 互质并且 <span class="arithmatex">\(m\geq1\)</span>，则 <span class="arithmatex">\(a模m\)</span> 的逆存在，且对模<span class="arithmatex">\(m\)</span>的逆是唯一的。</p>
+<ul>
+<li>The Euclidean algorithm and Bézout coefficients gives us a <strong>systematic approaches</strong> to finding inverses</li>
+</ul>
+<p>if <span class="arithmatex">\(sa+tm=1\)</span>, then <mark><span class="arithmatex">\(s a \equiv 1 \pmod m\)</span></mark>, <mark><span class="arithmatex">\(s=\overline{a}\)</span></mark></p>
+<h3 id="3-the-chinese-remainder-theorem">3. The Chinese Remainder Theorem<a class="headerlink" href="#3-the-chinese-remainder-theorem" title="Permanent link">&para;</a></h3>
+<div class="arithmatex">\[
+\begin{align}
+x &amp;\equiv a_1 \pmod {m_1} \\
+x &amp;\equiv a_2 \pmod {m_2} \\
+&amp;\dots \\
+x &amp;\equiv a_n \pmod {m_n}
+\end{align}
+\]</div>
+<div class="arithmatex">\[
+\gcd(m_i,m_j)=1(i \neq j) \text{ and } m_i &gt; 1
+\]</div>
+<p>To construct a solution</p>
+<ul>
+<li>
+<p>First let <span class="arithmatex">\(M_k = {m}/{m_k}\)</span> for <span class="arithmatex">\(k = 1, 2, ..., n\)</span>, where <span class="arithmatex">\(m = m_1 m_2 \dots m_n\)</span> .</p>
+<p>Since <span class="arithmatex">\(\gcd{m_k, M_k} = 1\)</span>, there is an integer <span class="arithmatex">\(y_k\)</span>, an inverse of <span class="arithmatex">\(M_k\)</span> modulo <span class="arithmatex">\(m_k\)</span>, such that <span class="arithmatex">\(M_k y_k \equiv 1 \ (\text{mod} \ m_k)\)</span></p>
+</li>
+<li>
+<p>Form the sum <mark><span class="arithmatex">\(x = a_1 M_1 y_1 + a_2 M_2 y_2 + \cdots + a_n M_n y_n\)</span></mark></p>
+</li>
+<li>
+<p>Note that because <span class="arithmatex">\(M_j \equiv 0 \ (\text{mod} \ m_k)\)</span> whenever <span class="arithmatex">\(j \neq k\)</span>, all terms except the <span class="arithmatex">\(k\)</span>th term in this sum are congruent to <span class="arithmatex">\(0\)</span> modulo <span class="arithmatex">\(m_k\)</span>.</p>
+</li>
+<li>
+<p>Because <span class="arithmatex">\(M_{k} y_{k} \equiv 1  \pmod {m_{k}}\)</span>, we see that <span class="arithmatex">\(x \equiv a_{k} M_{k} y_{k} \equiv a_k \pmod{m_{k}}\)</span>, for <span class="arithmatex">\(k = 1, 2, \dots , n\)</span>.<br />
+    Hence, <span class="arithmatex">\(x\)</span> is a simultaneous solution to the <span class="arithmatex">\(n\)</span> congruences.</p>
+</li>
+</ul>
+<h4 id="反向替换-back-substitution">反向替换 Back Substitution<a class="headerlink" href="#反向替换-back-substitution" title="Permanent link">&para;</a></h4>
+<ul>
+<li>The first congruence can be rewritten as <span class="arithmatex">\(x = 5t +1\)</span>, where <span class="arithmatex">\(t\)</span> is an integer</li>
+<li>Substituting into the second congruence yields  <span class="arithmatex">\(5t +1 \equiv 2 \pmod{6}.\)</span> </li>
+<li>Solving this tells us that <span class="arithmatex">\(t \equiv 5 \pmod{6}\)</span></li>
+<li><span class="arithmatex">\(t = 6u + 5\)</span> where <span class="arithmatex">\(u\)</span> is an integer.  </li>
+<li>Substituting this back into <span class="arithmatex">\(x = 5t +1\)</span>,  gives <span class="arithmatex">\(x = 5(6u + 5) +1 = 30u + 26\)</span></li>
+<li>Inserting this into the third equation gives <span class="arithmatex">\(30u + 26 \equiv 3 \pmod{7}\)</span></li>
+<li>Solving this congruence tells us that <span class="arithmatex">\(u \equiv 6 \pmod{7}\)</span></li>
+<li><span class="arithmatex">\(u = 7v + 6\)</span>, where <span class="arithmatex">\(v\)</span> is an integer</li>
+<li>Substituting this expression for <span class="arithmatex">\(u\)</span> into <span class="arithmatex">\(x  =  30u + 26\)</span>, tells us that <span class="arithmatex">\(x  =  30(7v + 6) + 26 = 210v + 206\)</span></li>
+<li>Translating this back into a congruence we find the solution <span class="arithmatex">\(x \equiv 206 \pmod{210}\)</span></li>
+</ul>
+<h3 id="4-computer-arithmetic-with-large-integers">4. Computer Arithmetic with Large Integers<a class="headerlink" href="#4-computer-arithmetic-with-large-integers" title="Permanent link">&para;</a></h3>
+<p>Suppose that <span class="arithmatex">\(m_1, m_2, \dots, m_n\)</span> are pairwise relatively prime moduli and let <span class="arithmatex">\(m\)</span> be their product.  By the Chinese remainder theorem, we can show that an integer <span class="arithmatex">\(a\)</span> with <span class="arithmatex">\(0 ≤ a &lt; m\)</span> can be  uniquely represented by the n-tuple consisting of its remainders upon division by <span class="arithmatex">\(m_i , i = 1,  2, … , n\)</span> That is, we can uniquely represent <span class="arithmatex">\(a\)</span> by <mark><span class="arithmatex">\((a \mod {m_1}, a \mod {m_2}, \dots , a \mod {m_n})\)</span></mark></p>
+<h3 id="5-fermats-little-theorem">5. Fermat's Little Theorem<a class="headerlink" href="#5-fermats-little-theorem" title="Permanent link">&para;</a></h3>
+<blockquote>
+<p>如果 <span class="arithmatex">\(p\)</span> 是质数，<span class="arithmatex">\(a\)</span> 为整数，且 <span class="arithmatex">\(p∤a\)</span>，那么 <span class="arithmatex">\(a^p \equiv a \pmod p\)</span></p>
+</blockquote>
+<p><strong>[Theorem]</strong> : If <span class="arithmatex">\(p\)</span> is prime and <span class="arithmatex">\(a\)</span> is an integer not divisible by <span class="arithmatex">\(p\)</span>, then <span class="arithmatex">\(a^{p-1} \equiv 1 \pmod p\)</span>. Furthermore, for every integer <span class="arithmatex">\(a\)</span> we have <mark><span class="arithmatex">\(a^p \equiv a \pmod p\)</span></mark></p>
+<ul>
+<li><strong>Note</strong>：To find an mod <span class="arithmatex">\(p\)</span>, we only need to compute <span class="arithmatex">\(a^r\)</span> mod <span class="arithmatex">\(p\)</span>, where <span class="arithmatex">\(n = q(p − 1) + r, 0 \leq r \leq p − 1\)</span></li>
+</ul>
+<h3 id="6-pseudoprimes">6. Pseudoprimes<a class="headerlink" href="#6-pseudoprimes" title="Permanent link">&para;</a></h3>
+<ul>
+<li>By Fermat's little theorem <span class="arithmatex">\(n &gt; 2\)</span> is prime, where <span class="arithmatex">\(2^{n-1} \equiv 1 \pmod n\)</span>  </li>
+<li>But if this congruence holds, <span class="arithmatex">\(n\)</span> may not be prime.</li>
+</ul>
+<p>Given a positive integer <span class="arithmatex">\(n\)</span>, such that  <span class="arithmatex">\(2^{n-1} \equiv 1 \pmod n\)</span>: </p>
+<ul>
+<li>If <span class="arithmatex">\(n\)</span> does not satisfy the congruence, it is <strong>composite合数</strong>.  </li>
+<li>If <span class="arithmatex">\(n\)</span> does satisfy the congruence, it is either <strong>prime</strong> or <strong>pseudoprime</strong></li>
+</ul>
+<h3 id="7-carmichael-numbers">7. Carmichael  Numbers<a class="headerlink" href="#7-carmichael-numbers" title="Permanent link">&para;</a></h3>
+<p><strong>[Definition]</strong> : A composite integer <span class="arithmatex">\(n\)</span> that satisfies the congruence <span class="arithmatex">\(bn-1 \equiv 1 \pmod n\)</span> for all positive integers <span class="arithmatex">\(b\)</span> with <span class="arithmatex">\(\gcd(b,n) = 1\)</span> is called a <mark>Carmichael number</mark></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="页脚" >
+        
+          
+          <a href="Chap3.html" class="md-footer__link md-footer__link--prev" aria-label="上一页: Ch3.Algorithm">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256l137.3-137.4c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              <div class="md-ellipsis">
+                Ch3.Algorithm
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="Chap5.html" class="md-footer__link md-footer__link--next" aria-label="下一页: Ch5.Induction and Recursion">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              <div class="md-ellipsis">
+                Ch5.Induction and Recursion
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M247.1 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L179.2 256 41.9 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["header.autohide", "content.math", "content.action.edit", "content.action.view", "content.code.copy", "content.code.annotate", "content.tooltips", "navigation.footer", "navigation.indexes", "navigation.path", "navigation.prune", "navigation.tabs", "navigation.tabs.sticky", "navigation.top", "navigation.tracking", "search.share", "search.suggest", "search.highlight", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+        <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+      
+    
+  </body>
+</html>
