@@ -22,7 +22,7 @@
 
 - **Dynamic (on - line)**  动态的在线算法
 
-~~~ c
+~~~c
 Algorithm: (Union / Find)
 {   
     // step 1: read the relations in
@@ -59,11 +59,9 @@ Note: `S[root] = 0` and `set name = root index`
 
 <div style="text-align: center"><img src="images/image-20250402150154939.png" width="70%"></div>
 
-
 - **After**
 
 <div style="text-align: center"><img src="images/image-20250402150203165.png" width="70%"></div>
-
 
 ~~~c
 Void SetUnion (DisSet S, SetType Rt 1, SetType Rt 2)
@@ -102,8 +100,6 @@ Algorithm using union-find operations
 **Time complexity :  $Θ(N^2)$**
 
 <div style="text-align: center"><img src="images/Quicker_20240410_170917.png" width="40%"></div>
-
-
 
 ## 4. Smart Union Algorithms
 
@@ -155,9 +151,7 @@ Void SetUnion (DisjSet S, SetType Root 1, SetType Root 2)
 
 <div style="text-align: center"><img src="images/Quicker_20240421_170311.png" width="55%"></div>
 
-
-
->- 该方法与 union-by-height 的方法不兼容，因为树的高度发生改变。所以推荐使用 **union-by-size**
+> - 该方法与 union-by-height 的方法不兼容，因为树的高度发生改变。所以推荐使用 **union-by-size**
 
 ```c
 SetType Find ( ElementType X, DisjSet S )
@@ -167,7 +161,7 @@ SetType Find ( ElementType X, DisjSet S )
 }
 ```
 
-``` c
+```c
 SetType Find ( ElementType X, DisjSet S )
 {
     ElementType root, trail, lead;

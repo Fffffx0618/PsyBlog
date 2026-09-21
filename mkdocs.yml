@@ -11,7 +11,6 @@ theme:
   language: zh
   html_sanitizer: false
   features:
-    - header.autohide
     - content.math
     - content.action.edit
     - content.action.view
@@ -23,7 +22,6 @@ theme:
     - navigation.path
     - navigation.prune
     - navigation.tabs
-    - navigation.tabs.sticky
     - navigation.top
     - navigation.tracking
     - search.share
@@ -41,7 +39,7 @@ theme:
     previous: fontawesome/solid/angle-left
     next: fontawesome/solid/angle-right
     admonition:
-      note: octicons/tag-16
+      note: material/pencil-outline
       abstract: octicons/checklist-16
       info: octicons/info-16
       tip: octicons/squirrel-16
@@ -72,42 +70,10 @@ theme:
         name: Switch to light mode
 
   favicon: assets/icon.png
-# Markdown 扩展
-# markdown_extensions:
-#   - footnotes
-#   - attr_list
-#   - def_list
-#   - admonition
-#   - pymdownx.details
-#   - pymdownx.critic
-#   - pymdownx.caret
-#   - pymdownx.keys
-#   - pymdownx.mark
-#   - pymdownx.tilde
-#   - pymdownx.arithmatex:
-#       inline_syntax: [dollar, round]
-#       block_syntax: [dollar, square]
-#       generic: true  # ← 必须为 true！
-
-#   - pymdownx.tasklist:
-#       custom_checkbox: true
-
-#   - pymdownx.superfences:
-#       custom_fences:
-#         - name: mermaid
-#           class: mermaid
-#           format: !!python/name:pymdownx.superfences.fence_code_format
-
-#   - pymdownx.inlinehilite
-#   - pymdownx.snippets
-
-#   - toc:
-#       permalink: true
-#       slugify: !!python/object/apply:pymdownx.slugs.slugify {kwds: {case: lower}}
-
 markdown_extensions:
-  - nl2br             # 模拟 Typora 的换行习惯
+  - nl2br             # 保留笔记中的段内换行；块之间仍需空行
   - tables
+  - sane_lists
   - md_in_html        # 支持在 HTML 中写 MD，提高兼容性
   - footnotes
   - attr_list
@@ -125,6 +91,8 @@ markdown_extensions:
       smart_dollar: true
   - pymdownx.tasklist:
       custom_checkbox: true
+  - pymdownx.highlight:
+      pygments_lang_class: true
   - pymdownx.superfences:
       custom_fences:
         - name: mermaid
@@ -138,10 +106,6 @@ markdown_extensions:
       
 plugins:
   - search
-  - roamlinks:
-      safe_mode: false
-      image_embed: true
-      image_path: "images"
 
 extra_javascript:
   - javascripts/mathjax.js
@@ -153,8 +117,8 @@ extra_css:
   - https://gcore.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.1.0/style.css
   - https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap
   - https://cdn.jsdelivr.net/npm/sarasa-gothic@0.43.0/css/sarasa-mono-sc.css
-  - https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/one-dark.min.css
   - stylesheets/blueTopaz.css
+  - stylesheets/extra.css
 
   
 
@@ -163,8 +127,6 @@ nav:
   - 首页: 
     - index.md
 
-  - 我的Blog: 
-    - blog/index.md
   - 编程语言: 
     - Language/index.md
     - C:
@@ -186,7 +148,7 @@ nav:
       - Algorithm/FDS/Chap8.md
       - Algorithm/FDS/Chap9.md
     - 高级数据结构与算法分析:
-      - Algorithm/ADS/index.md
+      - Algorithm/ADS/Index.md
       - Algorithm/ADS/Lec1.md
       - Algorithm/ADS/Lec2.md
       - Algorithm/ADS/Lec3.md
@@ -212,6 +174,29 @@ nav:
       - System/CO/Chapter4.md
       - System/CO/Chapter5.md
       - System/CO/Chapter6.md
+    - 计算机体系结构:
+      - 课程信息: System/CA/info.md
+      - System/CA/Chapter1.md
+      - System/CA/Chapter2.md
+      - System/CA/Chapter3.md
+      - System/CA/Chapter4.md
+      - System/CA/Chapter5.md
+    - 数据库系统:
+      - 课程信息: System/DB/info.md
+      - System/DB/Lec1.md
+      - System/DB/Lec2.md
+      - System/DB/Lec3.md
+      - System/DB/Lec4.md
+      - System/DB/Lec5.md
+      - System/DB/Lec6.md
+      - System/DB/Lec8.md
+      - System/DB/Lec9.md
+      - B+ 树: System/DB/B+Tree.md
+      - System/DB/Lec10.md
+      - System/DB/Lec11.md
+      - System/DB/Lec12.md
+      - System/DB/Lec13.md
+      - System/DB/Lec14.md
   - 数学基础: 
     - Math/index.md
     - 离散数学及其应用:
@@ -227,7 +212,7 @@ nav:
       - Math/DM/Chap10.md
       - Math/DM/Chap11.md
     - 数值分析:
-      - Math/NA/index.md
+      - Math/NA/Index.md
       - Math/NA/Chap1.md
       - Math/NA/Chap2.md
       - Math/NA/Chap3.md
@@ -237,5 +222,35 @@ nav:
       - Math/NA/Chap7.md
       - Math/NA/Chap8.md
       - Math/NA/Chap9.md
-  - 前后端开发: Develop/index.md
-
+  - 人工智能:
+    - AI/index.md
+    - 深度学习:
+      - 课程信息: AI/DeepLearning/info.md
+      - AI/DeepLearning/Chapter1.md
+      - AI/DeepLearning/Chapter2.md
+      - AI/DeepLearning/Chapter3.md
+      - AI/DeepLearning/Chapter4.md
+      - AI/DeepLearning/Chapter5.md
+      - AI/DeepLearning/Chapter6.md
+      - AI/DeepLearning/Chapter7.md
+      - AI/DeepLearning/Chapter8.md
+      - AI/DeepLearning/Chapter9.md
+      - AI/DeepLearning/Chapter10.md
+      - AI/DeepLearning/Chapter11.md
+      - AI/DeepLearning/Chapter12.md
+      - AI/DeepLearning/Chapter13.md
+      - AI/DeepLearning/Chapter14.md
+      - AI/DeepLearning/Chapter15.md
+      - AI/DeepLearning/Chapter16.md
+      - AI/DeepLearning/Chapter17.md
+      - AI/DeepLearning/Chapter18.md
+    - 自然语言处理:
+      - 课程信息: AI/NLP/info.md
+      - AI/NLP/WordEmbedding.md
+      - AI/NLP/RNN.md
+      - AI/NLP/NLG_and_NMT.md
+      - AI/NLP/Transformers.md
+      - AI/NLP/TrainLLM.md
+      - AI/NLP/Model_Compression.md
+      - AI/NLP/Reinforcement_Learning.md
+      - AI/NLP/GPTs.md

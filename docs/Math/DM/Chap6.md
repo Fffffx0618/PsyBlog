@@ -35,12 +35,12 @@
 
 > 鸽巢原理又被称为狄利克雷抽屉原理 (*Dirchlet drawer principle*)
 
-
 [Theorem2] ***The Generalized Pigeonhole Principle*** 
 
 - If $N$ objects are placed into $k$ boxes, then there is at least one box containing at least $⌈N/k⌉$ objects.
 
 ## 6.3 Permutations and Combinations
+
 ### 1. Permutation 排列
 
 * ***permutation*** : an **ordered** arrangement of the elements of a set
@@ -84,66 +84,69 @@ $$
 $$
 \binom{n+1}{k}=\binom{n}{k-1} + \binom{n}{k}
 $$
-  
+
 【Theorem 3】 ***Vandermonde’s Identity 范德蒙德恒等式*** : Let $m$, $n$ and $r$ be nonnegative integer with $r$ not exceeding either $m$ or $n$. Then 
 
 $$
 \binom{n+m}{r}=\sum_{k=0}^r\binom{n}{k}  \binom{m}{r-k}
 $$
-  
 
 【Corollary】If $n$ is a nonnegative integer. Then 
 
 $$
 \binom{2n}{n}=\sum_{k=0}^n\binom{n}{k}^2
 $$
-    
 
 【Theorem 4】Let $n$ and $r$ be nonnegative integer with $r≤n$. Then 
 
 $$
 \binom{n+1}{r+1}=\sum_{j=r}^n\binom{r}{j}
 $$
-  
 
 ## 6.5 Generalized Permutations and Combinations
+
 ### 1. Permutations With Repetition
+
 【Theorem1】The number of r-permutations of a set of n objects with repetition allowed is $n^r$.
-  
+
 - 对包含 $n$ 类对象的集合进行 $r$ 排列，如果允许重复，则总数为 $n^r$
 
 ### 2. Combination With Repetition
 
 【Theorem2】There are ==$C (n-1+r, r)$== r-combination from a set with $n$ elements when repetition of elements is allowed.
-  
-- 对包含 $n$ 类对象的集合进行 $r$ 组合，如果允许重复，则总数$C(n−1+r,r)=C(n−1+r,n−1)$，记作 ==$H_{n}^{r}$==
-  
-> 即 $r$ 个不可区分的物体放入 $n$ 个可区分的箱子中, 共 $H_n^r=C_{n-1+r}^r$ 种情况
 
+- 对包含 $n$ 类对象的集合进行 $r$ 组合，如果允许重复，则总数$C(n−1+r,r)=C(n−1+r,n−1)$，记作 ==$H_{n}^{r}$==
+
+> 即 $r$ 个不可区分的物体放入 $n$ 个可区分的箱子中, 共 $H_n^r=C_{n-1+r}^r$ 种情况
 
 <div style="text-align: center"><img src="images/image-20250416130507966.png" width="75%"></div>
 
 ### Permutations of Sets With Indistinguishable Objects
+
 n-Permutation with limited repetition $A = { n_{1\cdot} a_1 ,n_{2 \cdot} a_2 ,…,n_{k \cdot} a_k },\text{where } n_1 +n_2 +\dots +n_k = n$
 
 【Theorem3】 The number of different permutations of $n$ objects, where there are $n_1$ indistinguishable objects of type1,…,and $n_k$ indistinguishable objects of type k, is  ==$\dfrac{n!}{n_1! n_2! \ldots n_k!}$==
-  
+
 - 对 $n$ 个物体进行排列，其中有 $n_i$ 个属于类型 $i$ 的物体$(i=1,2,\dots,n)$，则排列种数为$\dfrac{n!}{n_1! n_2! \ldots n_k!}$
 
   <div style="text-align: center"><img src="images/image-20250416131025490.png" width="70%"></div>
 
 ### 3. Distributing objects into boxes
+
 #### 3.1 Distinguishable Objects and Distinguishable Boxes
+
 【Theorem4】The number of ways to distribute $n$ distinguishable objects into $k$ distinguishable boxes so that $n_i$ objects are place into box $i$, $i=1,2,…,k$, equals ==$\dfrac{n!}{n_1 !n_2 !…n_k!}$==
 
 - 将 $n$ 个可区别的物体放入 $k$ 个可区分的箱子中，$n_i$ 表示第 $i$个箱子中物体的数量
 
 #### 3.2 Indistinguishable Objects and Distinguishable Boxes
+
 There are ==$C(n  − 1+k, k)$== ways to place $k$ indistinguishable objects into $n$ distinguishable boxes.
 
 - 将  $r$ 个不可区分的物体放入 $n$ 个可区分的箱子
 
 #### 3.3 Distinguishable Objects and Indistinguishable Boxes 
+
 counting the ways to place $n$ distinguishable objects into $k$ indistinguishable boxes
 
 - 将 $n$ 个可区分物体放入 $j$ 个不可区分的箱子
@@ -153,33 +156,40 @@ counting the ways to place $n$ distinguishable objects into $k$ indistinguishabl
 * the number of ways to distribute $n$ **distinguishable objects** into $j$ **indistinguishable boxes** so that no boxes is emptyset. 
 
 * **Notation:  ==$S(n,j)$==** ——<u>将 $n$ 个可区分物体放入 $j$ 个不可区分的箱子，且每个箱子**非空**的方法数</u>
-  
+
     * $S(r,1)=S(r,r) = 1$
     * $S(r,2) = 2^{r-1}-1$
     * $S(r,r-1)=S(r,2)$
     * $S(r+1,n) = S(r,n-1)+nS(r,n)$
-  
+
 * 利用容斥原理，可得
-  
-$$S(n,j) =  \frac{1}{j!} \sum ^{j} _{i=0}(-1)^i \binom{j}{i}(j-i)^n$$
-  
+
+$$
+S(n,j) =  \frac{1}{j!} \sum ^{j} _{i=0}(-1)^i \binom{j}{i}(j-i)^n
+$$
 
   因此，将 $n$ 个可区分物体放入 $k$ 个不可区分的箱子的方法数为
 
-$$\sum ^k _{j=1} S(n,j) = \sum ^k _{j=1} \frac{1}{j!} \sum ^{j} _{i=0}(-1)^i \binom{j}{i}(j-i)^n$$
-  
+$$
+\sum ^k _{j=1} S(n,j) = \sum ^k _{j=1} \frac{1}{j!} \sum ^{j} _{i=0}(-1)^i \binom{j}{i}(j-i)^n
+$$
 
 #### 3.4 Indistinguishable Objects and Indistinguishable Boxes
 
->注：没有闭合公式能够求解这类问题
+> 注：没有闭合公式能够求解这类问题
 
 #### Note:
+
 1. $S(n, j)$ is the number of ways to partition the set with $n$ elements into $j$ nonemptyset and disjoint subsets.
 2. $S(n, j)j!$ is the number of ways to distribute $n$ distinguishable objects into $j$ distinguishable boxes so that no boxes is emptyset 
 3. the number of onto functions from a set with $n$ elements to a set with $j$ elements
 
-  $$S(n, j)j! = \left(\sum_{i = 0}^{j - 1} (-1)^i C_j^i (j - i)^n\right)$$
+  $$
+  S(n, j)j! = \left(\sum_{i = 0}^{j - 1} (-1)^i C_j^i (j - i)^n\right)
+  $$
 
 4. the number of ways to place $n$ distinguishable objects into $k$ indistinguishable boxes
 
-  $$\sum_{j = 1}^{k} S(n, j)=\sum_{j = 1}^{k} \left(\left(\sum_{i = 0}^{j - 1} (-1)^i C_j^i (j - i)^n\right)/j!\right)$$
+  $$
+  \sum_{j = 1}^{k} S(n, j)=\sum_{j = 1}^{k} \left(\left(\sum_{i = 0}^{j - 1} (-1)^i C_j^i (j - i)^n\right)/j!\right)
+  $$

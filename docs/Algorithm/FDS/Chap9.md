@@ -58,7 +58,6 @@ $$
 
 <div style="text-align: center"><img src="images/image-20250620161640406.png" width="35%"></div>
 
-
 #### 3. 邻接多重表 (adjacency multilist)
 
 > 不作要求，了解即可
@@ -153,7 +152,6 @@ Given as input a weighted graph, $G = (V, E)$, and a distinguished vertex $s$, f
 - **Table[ i ]. Known**: 1 if $v_i$ is checked; or 0 if not
 - **Table[ i ]. Path**: for tracking the path /* initialized to be 0 */
 
-
 <div style="text-align: center"><img src="images/image-20250620170158551.png" width="55%"></div>
 
 **广度优先搜索 (breadth-first search, BFS)**
@@ -207,10 +205,10 @@ Void Unweighted (Table T){
 
 对于 $\forall u \notin S$，定义 $\text{distance}[u] =$ 路径 $\{s \rightarrow (v_i \in S) \rightarrow u\}$ 的最小长度
 
-  - Dijkstra 算法按阶段执行，在每个阶段中，挑选一个顶点 $v$，它是所有**未被标记**的顶点中 $d_v$**最短**的顶点（有多个最短则任意挑选）
-  - 对于从顶点 $v$ 出发的邻接顶点 $w$，$d_w = \min (d_w, d_v + c_{v, w})$
-  - 标记顶点 $v$，即令 $v \in S$
-  - 然后对于剩余未被标记的顶点，重复上述操作，直至所有顶点均被标记
+- Dijkstra 算法按阶段执行，在每个阶段中，挑选一个顶点 $v$，它是所有**未被标记**的顶点中 $d_v$**最短**的顶点（有多个最短则任意挑选）
+- 对于从顶点 $v$ 出发的邻接顶点 $w$，$d_w = \min (d_w, d_v + c_{v, w})$
+- 标记顶点 $v$，即令 $v \in S$
+- 然后对于剩余未被标记的顶点，重复上述操作，直至所有顶点均被标记
 
   不难发现，这是一种**贪心算法 Greedy Algorithm**
 
@@ -358,12 +356,9 @@ Void Dijkstra (Table T){
 
 <div style="text-align: center"><img src="images/image-20250426123556253.png" width="35%"></div>
 
-
-
 $a_i$ := activity，$v_j$: Signals the completion of $a_i$
 
 <div style="text-align: center"><img src="images/image-20250426123613229.png" width="65%"></div>
-
 
 > 注：必要时需要添加 dummy edges 和 dummy nodes，避免错误或缺少的依赖关系产生
 
@@ -401,13 +396,11 @@ For all pairs of $v_i, v_j$ ($i \neq j$), find the shortest path between.
 
 <div style="text-align: center"><img src="images/image-20250426125057475.png" width="30%"></div>
 
-
 ### 4.1 Solution
 
 * allow the algorithm to **undo 撤销** its decisions
 
 <div style="text-align: center"><img src="images/image-20250426125321824.png" width="55%"></div>
-
 
 ### Analysis
 
@@ -428,21 +421,21 @@ For all pairs of $v_i, v_j$ ($i \neq j$), find the shortest path between.
 * 在选择增广路径时，总是挑选**对流量提升最大**的路径
 
     $$
-  \begin{align*}
-  T&=T_{\text{augmentation}}\cdot T_{\text{find a path}}\\
-  &=O (|E|\log \text{cap}_{\text{max}})\cdot O (|E|\log |V|)\\
-  &=O (|E|^2\log |V|) \quad (\text{if } \text{cap}_{\text{max}} \text{ is a small integer})
-  \end{align*}
+    \begin{align*}
+    T&=T_{\text{augmentation}}\cdot T_{\text{find a path}}\\
+    &=O (|E|\log \text{cap}_{\text{max}})\cdot O (|E|\log |V|)\\
+    &=O (|E|^2\log |V|) \quad (\text{if } \text{cap}_{\text{max}} \text{ is a small integer})
+    \end{align*}
     $$
 
 * 在选择增广路径时，挑选**边最少**的增广路径
 
     $$
-  \begin{align*}
-  T&=T_{\text{augmentation}}\cdot T_{\text{find a path}}\\
-  &=O (|E|\cdot |V|)\cdot O (|E|)\text{(unweighted shortest path algorithm)}\\
-  &=O (|E|^2\log |V|) 
-  \end{align*}
+    \begin{align*}
+    T&=T_{\text{augmentation}}\cdot T_{\text{find a path}}\\
+    &=O (|E|\cdot |V|)\cdot O (|E|)\text{(unweighted shortest path algorithm)}\\
+    &=O (|E|^2\log |V|) 
+    \end{align*}
     $$
 
 ## 5. Minimum Spanning Tree
@@ -450,6 +443,7 @@ For all pairs of $v_i, v_j$ ($i \neq j$), find the shortest path between.
 **【Definition】** A **spanning tree** of a graph G is a **tree** which consists of V (G) and a subset of E (G). 
 
 !!!note
+
     * The minimum spanning tree is a ***tree*** since it is **acyclic** -- the number of edges is $|V| - 1$. 
     * It is ***minimum*** for the total cost of edges is minimized.  
     * It is ***spanning*** because it covers every vertex.  
@@ -531,7 +525,7 @@ Return total_w;
     - 否则加入这条边，使用 `Union` 算法将两个集合合并起来
     - 用**堆**维护未被检验过的最小的边，每当检验一条边时，使用 `DeleteMin` 算法
 
-``` c
+```c
 Void Kruskal (Graph G)
 {
     T = { };
@@ -595,9 +589,7 @@ Void ListComponents (Graph G)
 
 <div style="text-align: center"><img src="images/image-20250501132944215.png" width="65%"></div>
 
-
 Note: If $u$ is an ancestor of $v$, then $Num (u)<Num (v)$
-
 
 * Find the **articulation points** in $G$
 
@@ -608,9 +600,7 @@ $$
 Low (u)=min\{Num (u),  min\{Low (w)|\text{w is a child of u}\}, min\{Num (w)|(u, w)\text{is a back edge}\}              \}
 $$
 
-
 <div style="text-align: center"><img src="images/image-20250501133628127.png" width="50%"></div>
-
 
 * Therefore, $u$ is an articulation point iff
     1. $u$ is the root and has at least $2$ children; or

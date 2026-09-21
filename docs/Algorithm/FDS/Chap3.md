@@ -12,6 +12,7 @@
     - 与实现操作的算法和编程语言无关 
 
 ## 2. The List ADT
+
 ### 1. Simple Array Implementation of Lists 
 
 >  内部存储连续
@@ -33,7 +34,6 @@
 ### 3. Doubly Linked Circular Lists
 
 <div style="text-align: center"><img src="images/image-20250619222511917.png" width="60%"></div>
-
 
 ~~~c
 typedef struct node*node_ptr;
@@ -81,15 +81,15 @@ typedef struct node{
 
 <div style="text-align: center"><img src="images/image-20250619222912693.png" width="50%"></div>
 
-
-
 ## 3. The Stack ADT
+
 ### 1. ADT
+
 A **stack** is a **Last-In-First-Out (LIFO)** list, insertions and deletions are made at the **top** only.
 
 **Operations:**
 
-~~~ c
+~~~c
 int IsEmpty(Stack S);
 Stack CreateStack(void);
 void DisposeStack(Stack S);
@@ -116,6 +116,7 @@ struct StackRecord{
 ~~~
 
 #### Linked List Implementation
+
 - **Push**
 
     ```c
@@ -171,11 +172,12 @@ struct StackRecord{
 ## 4. The Queue ADT
 
 ### 1. ADT
+
 A queue is a **First-In-First-Out (FIFO)** list, insertions take place at one end and deletions are take place at the oppose end.
 
 **Operations:**
 
-~~~ c
+~~~c
 Int IsEmpty ( Queue Q );//是否是空
 Queue CreateQueue ( void );//申请内存，返回 queue
 Void DisposeQueue ( Queue Q );//消除一个 queue
@@ -206,6 +208,5 @@ Struct QueueRecord{
 - 增加一个 `Size` 的字段，用来实时统计队列元素个数，这样无需浪费空间
 
   > 如果用 `front` 表示队首元素，`size` 表示当前队伍大小，`m` 表示队伍最大大小，则队尾元素 `rear = (front + size - 1) % m`
-  
 
 <div style="text-align: center"><img src="images/image-20250305154604454.png" width="35%"></div>

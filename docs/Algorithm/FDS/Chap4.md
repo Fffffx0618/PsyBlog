@@ -1,5 +1,7 @@
 # Chapter4.Trees
+
 ## 1. Preliminaries
+
 ### 1. Terminology
 
 [Definition] A **tree** is a collections of nodes. The collection can be empty; otherwise, a tree consists of
@@ -8,10 +10,10 @@
 2. And zero or more nonempty **subtrees** $T_{1},\dots ,T_{k}$, each of whose roots are connected by a directed **edge** from **r**.
 
 !!!note
+
     * Subtrees must **not** connect together. Therefore every node in the tree is the root of some subtree.
     * There are $N-1$ edges in a tree with $N$ nodes.
     * Normally the root is drawn at the **top**.
-
 
 | 术语                             | 解释                                                         |
 | -------------------------------- | ------------------------------------------------------------ |
@@ -30,10 +32,10 @@
 | **descendants of a node**        | all the nodes in its subtrees                                |
 
 ### 2. Implementation
+
 #### 2.1 List Representation
 
 <div style="text-align: center"><img src="images/image-20250620133622688.png" width="40%"></div>
-
 
 $$
 ( A ( B ( E ( K, L ), F ), C ( G ), D ( H ( M ), I, J ) ) )
@@ -42,7 +44,6 @@ $$
 #### 2.2 FirstChild-NextSibling Representation
 
 <div style="text-align: center"><img src="images/image-20250620134440937.png" width="65%"></div>
-
 
 - 记录第一个子节点和下一个兄弟节点
 - 因为一棵树的儿子顺序不定，所以一棵树的表示方式不唯一
@@ -61,35 +62,37 @@ Typedef struct TreeNode *PtrToNode;
 <div style="text-align: center"><img src="images/image-20250620134908440.png" width="70%"></div>
 
 * 列出文件
-  ```c
-  Static void ListDir (DirOfFile D, int Depth)
-  {
-      If (D is legitimate entry)
-      {
-          PrintName (D, Depth);
-          If (D is a directory)
-              For (each child C of D)
-                  ListDir (C, Depth + 1);
-      }
-  }
-  ```
+
+    ```c
+    Static void ListDir (DirOfFile D, int Depth)
+    {
+        If (D is legitimate entry)
+        {
+            PrintName (D, Depth);
+            If (D is a directory)
+                For (each child C of D)
+                    ListDir (C, Depth + 1);
+        }
+    }
+    ```
 
 * 计算目录大小
-  ```c
-  Static int SizeDir (DirOrFile D)
-  {
-      Int TotalSize;
-      TotalSize = 0;
-      If (D is a legitimate entry)
-      {
-          TotalSize = FileSize (D);
-          If (D is a directory)
-              For (each child C of D)
-                  TotalSize += SizeDir (C);
-      } // end if D is legal
-      Return TotalSize;
-  }
-  ```
+
+    ```c
+    Static int SizeDir (DirOrFile D)
+    {
+        Int TotalSize;
+        TotalSize = 0;
+        If (D is a legitimate entry)
+        {
+            TotalSize = FileSize (D);
+            If (D is a directory)
+                For (each child C of D)
+                    TotalSize += SizeDir (C);
+        } // end if D is legal
+        Return TotalSize;
+    }
+    ```
 
 ## 2. Binary Trees
 
@@ -97,8 +100,8 @@ Typedef struct TreeNode *PtrToNode;
 
 - 每棵树都可以用二叉树来表示
 
-  - 即通过 FirstChild-NextSibling 表示法
-  - 将 FirstChild 视为左儿子，NextSibling 视为右儿子
+    - 即通过 FirstChild-NextSibling 表示法
+    - 将 FirstChild 视为左儿子，NextSibling 视为右儿子
 
 ### 1. Expression Trees (syntax trees)
 
@@ -106,9 +109,9 @@ Typedef struct TreeNode *PtrToNode;
 
 - 然后类似 `后缀表达式求解` 的方法，遇到运算符时，将栈内的两个操作数弹出，与运算符构建一棵树，对应关系如下：
 
-  - 左子树：栈顶下面的元素
-  - 根节点：运算符
-  - 右子树：栈顶元素
+    - 左子树：栈顶下面的元素
+    - 根节点：运算符
+    - 右子树：栈顶元素
 
   将这棵树压入栈中，重复上述步骤直到遍历完整个表达式
 
@@ -119,71 +122,75 @@ Typedef struct TreeNode *PtrToNode;
 #### 1.1 Preorder Traversal
 
 - ==根 -> 左 -> 右==
-  ~~~ c
-  Void preorder (tree_ptr tree)
-  { if (tree) {
-      Visit (tree);
-      For (each child of tree)
-          Preorder (tree);
+
+    ~~~c
+    Void preorder (tree_ptr tree)
+    { if (tree) {
+        Visit (tree);
+        For (each child of tree)
+            Preorder (tree);
+      }
     }
-  }
-  ~~~
+    ~~~
 
 #### 1.2 Postorder Traversal
 
 - ==左 -> 右 -> 根==
-  ~~~ c
-  Void postorder (tree_ptr tree)
-  { if (tree) {
-      For (each child of tree)
-          Postorder (tree);
-      Visit (tree);
+
+    ~~~c
+    Void postorder (tree_ptr tree)
+    { if (tree) {
+        For (each child of tree)
+            Postorder (tree);
+        Visit (tree);
+      }
     }
-  }
-  ~~~
+    ~~~
 
 #### 1.3 Level Order Traversal
 
 - ==从上到下，从左到右==
-  ```c
-  Void levelorder (tree_ptr tree) 
-  {  enqueue (tree);
-     While (queue is not empty) {
-          Visit ( T = dequeue ( ) );
-          For (each child C of T) 
-              Enqueue (C);
+
+    ```c
+    Void levelorder (tree_ptr tree) 
+    {  enqueue (tree);
+       While (queue is not empty) {
+            Visit ( T = dequeue ( ) );
+            For (each child C of T) 
+                Enqueue (C);
+      }
     }
-  }
-  ```
+    ```
 
 #### 1.4 Inorder Traversal
 
 - ==左 -> 根 -> 右==   (只适用于二叉树)
 - 迭代写法
-  ~~~c
-  Void iter_inorder (tree_ptr tree)  
-  { if (tree) {     
-      Inorder (tree->Left);     
-      Visit (tree->Elelment);     
-      Inorder (tree->Right);  
-    } 
-  }
-  ~~~
+
+    ~~~c
+    Void iter_inorder (tree_ptr tree)  
+    { if (tree) {     
+        Inorder (tree->Left);     
+        Visit (tree->Elelment);     
+        Inorder (tree->Right);  
+      } 
+    }
+    ~~~
 
 - 非迭代写法
 
-  ```C
-  Void iter_inorder (tree_ptr tree) 
-  {Stack S = Create_Stack (MAX_SIZE);
-      For (;;) {
-          For (; tree; tree = tree->Left)
-              Push (tree, S);
-          Tree = Top (S); Pop (S);
-          If (! Tree) break;
-          Visit (tree->Element);
-          Tree = tree->Right; }
-  }
-  ```
+    ```C
+    Void iter_inorder (tree_ptr tree) 
+    {Stack S = Create_Stack (MAX_SIZE);
+        For (;;) {
+            For (; tree; tree = tree->Left)
+                Push (tree, S);
+            Tree = Top (S); Pop (S);
+            If (! Tree) break;
+            Visit (tree->Element);
+            Tree = tree->Right; }
+    }
+    ```
 
 > - 知道<u>前序或者后序遍历</u> + 中序遍历，可以确定唯一的一棵树
 > - 知道<u>前序遍历 + 后序遍历</u>，一般情况下无法确定树的形状
@@ -218,6 +225,7 @@ Struct ThreadedTreeNode
 - For any nonempty binary tree, $n_0 = n_2 + 1$ , where $n_0$ is the number of leaf nodes and $n_2$ the number of nodes of degree 2.
 
 !!!proof
+
     $$
     \begin{align}
     n &= n_0 + n_1 + n_2 \\
@@ -227,6 +235,7 @@ Struct ThreadedTreeNode
     $$
 
 ### 4. Complete Binary Tree
+
 **完全二叉树**是所有叶节点都在<u>相邻的两层</u>上的二叉树
 
 - 除了最后一层，每一层都是满的
@@ -244,6 +253,7 @@ Struct ThreadedTreeNode
     - 用于表示算术表达式
 
 ## 3. Binary Search Tree
+
 ### 1. Definition
 
 - **二叉搜索树**是一种二叉树，它可以是空树，如果非空，则遵循以下性质：
@@ -254,6 +264,7 @@ Struct ThreadedTreeNode
 - 二叉搜索树的中序遍历是有序的
 
 ### 2. Operations
+
 #### 2.1 Find
 
 * 从 root 开始，如果 key 小于当前节点的 key，就往左子树找，否则往右子树找

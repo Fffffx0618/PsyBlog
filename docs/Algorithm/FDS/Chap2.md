@@ -29,7 +29,7 @@
 - $T_{avg}(N)$ & $T_{worst}(N)$     
 - $N$: 表示输入数据规模（可有多个输入规模）
 
-~~~ c
+~~~c
 void add(int a[][MAX_SIZE],
          int b[][MAX_SIZE],
          int c[][MAX_SIZE],
@@ -68,18 +68,19 @@ void add(int a[][MAX_SIZE],
     - **渐进紧确界**，即 $T(N)$ 与 $h(N)$ 增长速度相同
 
 > 小 $o$ 表示法 
-> 
+>
 > - 当 $T(N) = O(p(N))$ 且 $T(N)\ne \Theta(p(N))$ 时，$T(N) = o(p(N))$.
-> 
+>
 > - **非渐进紧确上界**，即 $T(N)$ 增长比 $p(N)$ 慢
-> 
+>
 > 小 $\omega$ 表示法 
-> 
+>
 > - 当 $T(N) = \Omega(q(N))$ 且 $T(N)\ne \Theta(q(N))$ 时，$T(N) = \omega(p(N))$.
-> 
+>
 > - **非渐进紧确下界**，$T(N)$ 增长比 $q(N)$ 快
 
 ###  2.2 Rules
+
 > **<u>Make sure that N is sufficiently large.</u>**
 
 - If $T_{1}(N)=O(f(N))$ and $T_{2}(N)=O(g(N))$ , then
@@ -99,7 +100,7 @@ void add(int a[][MAX_SIZE],
 
 - **if / else** 
 
-  * 语句的运行时间**不超过**<u>判断时间+耗时最长的语句块</u>的运行时间
+    * 语句的运行时间**不超过**<u>判断时间+耗时最长的语句块</u>的运行时间
 
 - **recursion**  
 
@@ -110,9 +111,9 @@ void add(int a[][MAX_SIZE],
 > 假设有 $T(n) = aT(n/b)+f(n)$（$a\geq 1, b>1$），则：
 >
 > - 如果存在常数 $\epsilon > 0$ 有 $f(n) = O(n^{\log_ba-\epsilon})$，则 $T(n) = \Theta(n^{\log_ba})$
-> 
+>
 > - 如果 $f(n) = \Theta(n^{\log_ba})$ 则 $T(n) = \Theta(n^{\log_ba}\log n)$
-> 
+>
 > - 如果存在常数 $\epsilon > 0$ 有 $f(n) = \Omega(n^{\log_ba+\epsilon})$，同时存在常数 $c<1$ 使得对于充分大 $n$ 有 $af(n/b)\leq cf(n)$ 则 $T(N) = \Theta(f(n))$
 
 ## 3. Compare the Algorithms
@@ -121,7 +122,7 @@ void add(int a[][MAX_SIZE],
 
 $O(N^3)$：直接枚举开头结尾，并计算中间子序列和：
 
-```c 
+```c
 int MaxSubsequenceSum(const int a[], int N) {
     int res = 0;
     for (int i = 0; i < N; ++i) {
@@ -217,7 +218,7 @@ $$
 
 $O(N)$：==**On-line Algorithm**==
 
-~~~ c
+~~~c
 int MaxSubsequenceSum(const int a[], int N) {
     int ThisSum, MaxSum, i;
     ThisSum = Maxsum = 0;

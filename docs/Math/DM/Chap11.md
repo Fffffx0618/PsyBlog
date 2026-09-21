@@ -37,8 +37,8 @@
 
 * **Ancestors & Descendants** 
 
-  * The **ancestors of a non-root vertex** are all the vertices in the path from root to this vertex.   
-  * The **descendants of vertex $v$** are all the vertices that have $v$ as an ancestor.  
+    * The **ancestors of a non-root vertex** are all the vertices in the path from root to this vertex.   
+    * The **descendants of vertex $v$** are all the vertices that have $v$ as an ancestor.  
 
 * **Leaf**
 
@@ -83,10 +83,10 @@ The **height高度** of a rooted tree is the <u>maximum of the levels</u> of its
 
 * A binary search tree can be used to **store item**s in its vertices. It enables efficient searches.
 * **Binary search tree**  
-  * An ordered rooted binary tree 
-  * Each vertex contains a distinct **key value** 
-  * The key values in the tree can be compared using “greater than” and “less than”, and
-  * The key value of each vertex in the tree is **less than every key value in its right subtree**, and **greater than every key value in its left subtree**.
+    * An ordered rooted binary tree 
+    * Each vertex contains a distinct **key value** 
+    * The key values in the tree can be compared using “greater than” and “less than”, and
+    * The key value of each vertex in the tree is **less than every key value in its right subtree**, and **greater than every key value in its left subtree**.
 
 <img src="images/image-20250531202859165.png" alt="image-20250531202859165" style="zoom:67%;" />
 
@@ -113,16 +113,16 @@ The **height高度** of a rooted tree is the <u>maximum of the levels</u> of its
   >
   > - 每一步中，我们挑选权重 ( 频率 ) 最小的两棵树，组成新的树：
   >
-  >   - 引入一个新的根
-  >   - 将**权重较大**的树作为**左子树**
-  >   - 将权重较小的树作为**右子树**
-  >   - 新的树的权重为 2 棵树的权重和
+  >     - 引入一个新的根
+  >     - 将**权重较大**的树作为**左子树**
+  >     - 将权重较小的树作为**右子树**
+  >     - 新的树的权重为 2 棵树的权重和
   >
   >   然后将新的树放回原来的森林中
   >
   > - 直到只剩下一棵树时为止
 
-![image-20250603214511014](image-20250603214511014.png)
+![image-20250603214511014](images/image-20250603214511014.png)
 
 ## 11.3 Tree Traversal
 
@@ -179,11 +179,11 @@ A Binary Expression Tree is a special kind of binary tree in which:
 <img src="images/image-20250601105129898.png" alt="image-20250601105129898" style="zoom:80%;" />
 
 * **Infix Form中缀式**: An **inorder traversal** of the tree representing an expression produces the original expression when parentheses are included except for unary operations, which now immediately follow their operands. 
-  * infix form: $3*ln(x+1)+a/x \uparrow 2$
+    * infix form: $3*ln(x+1)+a/x \uparrow 2$
 * **Prefix Form前缀式**: The expression obtained by an preorder traversal of the binary tree is said to be in prefix form ( **Polish notation波兰表示法** ).
-  * prefix form: $+*3ln+x1/a\uparrow x2$
+    * prefix form: $+*3ln+x1/a\uparrow x2$
 * **Postfix Form后缀式**: The expression obtained by an postorder traversal of the binary tree is said to be in postfix form ( **reverse Polish notation逆波兰表示法** ).
-  * postfix form: $3x1+ln*ax2\uparrow /+$
+    * postfix form: $3x1+ln*ax2\uparrow /+$
 
 ## 11.4 Spanning Trees 
 
@@ -236,7 +236,7 @@ while L is not empty
 
 ### Backtracking scheme
 
-![image-20250604104545179](image-20250604104545179.png)
+![image-20250604104545179](images/image-20250604104545179.png)
 
 ## 11.5 Minimum Spanning Trees
 
@@ -271,4 +271,3 @@ begin
   T:= T with e added
 end {T is a minimum spanning tree of G}
 ```
-

@@ -1,7 +1,9 @@
 # Chapter6.Priority Queues (Heaps)
 
 ## 1. ADT Model
+
 **Operations**
+
 ~~~c
 PriorityQueue Initialize (int MaxElements);
 Void Insert (ElementType X, PriorityQueue H);
@@ -12,6 +14,7 @@ ELementType FindMax (PriorityQueue H);
 ~~~
 
 ## 2. Binary Heap
+
 ### 2.1 Introduction
 
 **Definition**: ***A binary tree*** with $n$ nodes and height $h$ is **complete** if its nodes correspond to the nodes numbered from $1$ to $n$ in the perfect binary tree of height $h$.
@@ -20,56 +23,73 @@ ELementType FindMax (PriorityQueue H);
 
 <div style="text-align: center"><img src="images/image-20250413122038841.png" width="80%"></div>
 
-
 【Lemma】If a complete binary tree with **n nodes** is represented sequentially, then for any node with **index i**, $1 \leq i \leq n$, we have:
 
-1. $$ index \space of \space parent (i) = 
-     \begin{cases} 
-     \left\lfloor i/2 \right\rfloor & \text{if } i \neq 1 \\
-     \text{None} & \text{if } i = 1 
-     \end{cases} $$
-2. $$index \space of \space left\space child (i) = 
-     \begin{cases} 
-     2 i & \text{if } 2 i \leq n \\
-     \text{None} & \text{if } 2 i > n 
-     \end{cases} $$
-3. $$index \space of \space right\space child (i) = 
-     \begin{cases} 
-     2 i+1 & \text{if } 2 i+1 \leq n \\
-     \text{None} & \text{if } 2 i+1 > n 
-     \end{cases} $$
+1.
+
+    $$
+    index \space of \space parent (i) =
+    \begin{cases} 
+    \left\lfloor i/2 \right\rfloor & \text{if } i \neq 1 \\
+    \text{None} & \text{if } i = 1 
+    \end{cases}
+    $$
+
+2.
+
+    $$
+    index \space of \space left\space child (i) =
+    \begin{cases} 
+    2 i & \text{if } 2 i \leq n \\
+    \text{None} & \text{if } 2 i > n 
+    \end{cases}
+    $$
+
+3.
+
+    $$
+    index \space of \space right\space child (i) =
+    \begin{cases} 
+    2 i+1 & \text{if } 2 i+1 \leq n \\
+    \text{None} & \text{if } 2 i+1 > n 
+    \end{cases}
+    $$
 
 - 初始化
-  ```c
-  PriorityQueue Initiailize (int MaxElments)
-  {
-      PriorityQueue H;
-      If (MaxElements < MinPQSize)
-          Return Error ("Priority queue size is too small");
-      H = (PriorityQueue) malloc (sizeof (struct HeapStruct));
-      If (H == NULL)
-          Return FatalError ("Out of Space!!!");
-      // Allocate the array plus one extra for sentinel
-      H->Elements = (ElementType * ) malloc ((MaxElements + 1) * sizeof (ElementType));
-      If (H->Elements == NULL)
-          Return FatalError ("Out of Space!!!");
-      H->Capacity = MaxElements;
-      H->Size = 0;
-      H->Elements[0] = MinData;  // set the sentinel
-      Return H;
-  }
-  ```
+
+    ```c
+    PriorityQueue Initiailize (int MaxElments)
+    {
+        PriorityQueue H;
+        If (MaxElements < MinPQSize)
+            Return Error ("Priority queue size is too small");
+        H = (PriorityQueue) malloc (sizeof (struct HeapStruct));
+        If (H == NULL)
+            Return FatalError ("Out of Space!!!");
+        // Allocate the array plus one extra for sentinel
+        H->Elements = (ElementType * ) malloc ((MaxElements + 1) * sizeof (ElementType));
+        If (H->Elements == NULL)
+            Return FatalError ("Out of Space!!!");
+        H->Capacity = MaxElements;
+        H->Size = 0;
+        H->Elements[0] = MinData;  // set the sentinel
+        Return H;
+    }
+    ```
 
 ### 2.2 Heap Order Property
+
 **[Definition]** 
 
 * A **min tree 最小树** is a tree in which the key value in each node is **no larger** than the key values in its children
 * A **min heap 最小堆** is a complete binary tree that is also a min tree.
 
 ### 2.3 Basic Heap Operations
+
 #### 1. Insertion
 
 - 先放到最后一个位置，然后和父节点比较，不满足条件则和父节点交换，直到满足
+
   > 这种技巧被称为“**上滤 (percolate up)**”
 
   ```c
@@ -85,9 +105,11 @@ ELementType FindMax (PriorityQueue H);
       H->Elements[i] = X;
   }
   ```
+
 * $T (N)=O (logN)$
 
 ####  2. DeleteMin
+
 - 将最后一个叶节点放到根节点，然后和两个儿子比较，不满足则和最大（或最小）的儿子交换，直到满足
 
   > 这种技巧被称为“**下滤 (percolate down)**”
@@ -121,9 +143,13 @@ ELementType FindMax (PriorityQueue H);
 ####  3. Other operations
 
 - $DecreaseKey ( P, ∆, H )$ 
+
     **Percolate up** 自下而上堆化（即这个元素可能会向上移动）
+
 - $IncreaseKey ( P, ∆, H )$ 
+
     **Percolate down** 自上而下堆化（即这个元素可能会向下移动）
+
 - $Delete ( P, H )$
     从堆中移除位置为 $P$ 的节点，可以运用 `DecreaseKey ()` 和 `DeleteMin ()` ，其中前者第二个参数令为 $\infty$，然后利用 `DeleteMin ()`
 - $BuildHeap ( H )$
@@ -133,8 +159,8 @@ ELementType FindMax (PriorityQueue H);
 <div style="text-align: center"><img src="images/image-20250326154655445.png" width="70%"></div>
 
 ## 3. D-Heaps
-<div style="text-align: center"><img src="images/image-20250620152435048.png" width="70%"></div>
 
+<div style="text-align: center"><img src="images/image-20250620152435048.png" width="70%"></div>
 
 - `Insert ( )`: $O (\log_d N)$
 - `DeleteMin ( )`: $O (d\log_d N)$

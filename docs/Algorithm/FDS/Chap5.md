@@ -18,7 +18,6 @@
 
 <div style="text-align: center"><img src="images/image-20250524161808278.png" width="67%"></div>
 
-
 * **标识符密度 (identifier density)** $= \dfrac{n}{T}$ 
 * **加载密度 (loading density)** $λ=\dfrac{n}{s⋅b}$
 
@@ -30,23 +29,23 @@
 **Without overflow, $T_{search}=T_{insert}=T_{delete}=O (1)$**
 
 ## 2. Hash Function
+
 Properties of $f$: 
 
 1.  $f (x)$ must be **easy** to compute and **minimizes** the number of collisions. 
-   
+
 2.  $f (x)$ should be unbiased. That is, for any $ x $ and any $ i $, we have that Probability $(  f (x) = i  ) = 1 / b$. Such kind of a hash function is called a ***uniform hash function 统一散列函数***.  
-   
 
 ### Some Hash Function
 
-$$ 
+$$
 f (x) = x \% \text{TableSize}; \quad /* \text{if } x \text{ is an integer} */  
 $$
 
 >  What if TableSize = $10$ and $ x $'s are all end in zero? ---- bad
 >  TableSize = **prime** number ---- good for random integer keys
 
-$$ 
+$$
 f (x) = (\sum x[i] )\% \text{TableSize}; \quad /* \text{if } x \text{ is a string} */  
 $$
 
@@ -69,6 +68,7 @@ Return HashVal % TableSize;
 ## 3. Seperate Chaining
 
 * keep a list of all keys that hash to the same value
+
 ### 3.1 Initialize
 
 ```c
@@ -97,7 +97,6 @@ Struct HashTbl
 ### 3.2 Create an empty table
 
 <div style="text-align: center"><img src="images/image-20250524165112663.png" width="90%"></div>
-
 
 ```c
 HashTable InitializeTable (int TableSize)
@@ -129,6 +128,7 @@ HashTable InitializeTable (int TableSize)
 ```
 
 ### 3.3 Find a key from a hash table
+
 ```c
 Position Find (ElementType Key, HashTable H)
 {
@@ -174,31 +174,31 @@ Void Insert (ElementType Key, HashTable H)
 ## 4. Opening Addressing
 
 * find another empty cell to solve collision (avoiding pointers)
-  ```c
-  Algorithm: insert key into an array of hash table
-  {
-      If (table is full) ERROR ("No space left");
-      Initalize i = 0; /*the counter of probing*/
-      Do{
-          Index = ( hash (key) + f (i) )%TableSize;
-          ++i;
-      }while ( collision at index );
-      Insert key at index;
-  }
-  ```
+
+    ```c
+    Algorithm: insert key into an array of hash table
+    {
+        If (table is full) ERROR ("No space left");
+        Initalize i = 0; /*the counter of probing*/
+        Do{
+            Index = ( hash (key) + f (i) )%TableSize;
+            ++i;
+        }while ( collision at index );
+        Insert key at index;
+    }
+    ```
 
 * $f (i)$ is collision resolving function. $f (0)=0$
 
 ### 4.1 Linear Probing
+
 线性探测 $f (i)=i$
 
 <div style="text-align: center"><img src="images/image-20250524191127740.png" width="70%"></div>
 
-
-
 **Analysis：**
 
-$$ 
+$$
 p =  \begin{cases}  \frac{1}{2}\left (1 + \frac{1}{(1-\lambda)^2}\right) & \text{for insertions and unsuccessful searches} \\ \frac{1}{2}\left (1 + \frac{1}{1-\lambda}\right) & \text{for successful searches} \end{cases} 
 $$
 
@@ -212,17 +212,18 @@ $$
 
 !!!proof 
     Just prove that the first $⌊\text{TableSize}/2⌋$ alternative locations are all distinct. 
-    
+
     That is, for any $0 \leq i \ne j \leq ⌊\text{TableSize}/2⌋$, we have 
+
     $$
     (h (x) + i²) \% TableSize \ne (h (x) + j^2) \% \text{TableSize}
-    $$ 
+    $$
 
 Suppose:    
 
 $$
 h (x) + i^2 = h (x) + j^2 (\text{mod TableSize})
-$$ 
+$$
 
 Then:  
 
@@ -232,7 +233,6 @@ i^2 &= j^2 (\text{mod TableSize}) \\
 (i + j)(i - j) &= 0 (\text{mod TableSize})
 \end{align}
 $$
-                    
 
 TableSize is prime $\Rightarrow$ either $(i + j)$ or $(i - j)$ is divisible by TableSize
 
@@ -241,7 +241,9 @@ TableSize is prime $\Rightarrow$ either $(i + j)$ or $(i - j)$ is divisible by T
 For any $x$, it has $⌊\text{TableSize}/2⌋$ distinct locations into which it can go. If **at most** $⌊\text{TableSize}/2⌋$ positions are taken, then an empty spot can always be found.
 
 #### Find Position  
+
 * using $F (i)=F (i-1)+2 i-1$ 
+
 ```c
 Position Find (ElementType Key, HashTable H)
 {
@@ -277,21 +279,23 @@ Void Insert (ElementType Key, HashTable H)
 ```
 
 !!!note
+
     1.  Insertion will be seriously slowed down if there are too many deletions intermixed with insertions.
     2. Although primary clustering is solved, secondary clustering occurs – that is, keys that hash to the same position will probe the same alternative cells.
 
 ### 4.3 Double Hashing
+
 $f(i)=i \times \text{hash}_2 (x);$ and $\text{hash}_2 (x)$ is the $2_{nd}$ hash function 
 
 * $\text{hash}_2 (x)\neq 0$
 * make sure that all cells can be probed
-  
+
 Tip: $\text{hash}_2 (x)=R-(x\% R)$ with $R$ a prime smaller than Tablesize, will work well.
 
 **Note:** 
 
 1.  If double hashing is correctly implemented, simulations imply that the **expected** number of probes is almost the same as for a **random** collision resolution strategy. 
-   
+
 2.  Quadratic probing does not require the use of a second hash function and is thus likely to be **simpler and faster** in practice.
 
 ## 5. Rehashing

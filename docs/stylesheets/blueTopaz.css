@@ -527,46 +527,7 @@ body {
 }
 
 
-/* 响应式：小屏堆叠显示 */
-
-@media (max-width: 600px) {
-    .md-typeset table,
-    .md-typeset thead,
-    .md-typeset tbody,
-    .md-typeset th,
-    .md-typeset td,
-    .md-typeset tr {
-        display: block;
-    }
-    .md-typeset thead tr {
-        position: absolute;
-        top: -9999px;
-        left: -9999px;
-    }
-    .md-typeset tr {
-        border: 1px solid rgba(0, 0, 0, 0.08);
-        border-radius: var(--radius-m);
-        margin-bottom: 0.8em;
-        padding: 0.8em;
-        background: var(--background-primary);
-    }
-    .md-typeset td {
-        border: none;
-        position: relative;
-        padding-left: 40% !important;
-        text-align: right;
-    }
-    .md-typeset td:before {
-        content: attr(data-label) ": ";
-        position: absolute;
-        left: 1em;
-        width: calc(40% - 2em);
-        font-weight: 600;
-        color: var(--text-normal);
-        text-align: left;
-    }
-}
-
+/* 小屏表格由 Material 的横向滚动容器处理，保留表头与列关系。 */
 
 /* -------------------------------------------------------------------------- */
 

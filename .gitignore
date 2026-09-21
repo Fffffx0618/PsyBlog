@@ -1,2 +1,6 @@
 .vscode/settings.json
 .obsidian/*
+site/
+.venv/
+__pycache__/
+*.py[cod]

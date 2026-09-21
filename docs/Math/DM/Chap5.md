@@ -6,7 +6,9 @@
 
 **The (first) principle of Mathematical Induction** 
 
-$$(P(1) \land  \forall  k(P(k) \rightarrow  P(k+1))) \rightarrow \forall  n P(n) \text{ where the domain is the set of positive integers}$$
+$$
+(P(1) \land  \forall  k(P(k) \rightarrow  P(k+1))) \rightarrow \forall  n P(n) \text{ where the domain is the set of positive integers}
+$$
 
 ### 2. The procedure
 
@@ -48,7 +50,6 @@ $$
 ### 3. Well-ordering property 
 
 假设 $r\geq d$，因为 $a=dq_0+r$，所以 $a−d(q_0+1)=r−d\geq 0$，因此存在 $q$ 和 $r$，使得 $0\leq \r<d$ 成立（且 $q$ 和 $r$ 是唯一的）
-
 
 <div style="text-align: center"><img src="images/image-20250409103839783.png" width="70%"></div>
 
@@ -136,7 +137,6 @@ Consider an ordering on $N ⨉ N$, ordered pairs of nonnegative integers.  Speci
 * This is called the ***lexicographic ordering*** ***词典序***
 
 <div style="text-align: center"><img src="images/image-20250409140908979.png" width="70%"></div>
-
 
 ## 5.4 Recursive Algorithms
 

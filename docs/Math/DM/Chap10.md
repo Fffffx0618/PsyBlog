@@ -1,23 +1,26 @@
 # Ch10 Graphs
+
 ## 10.1 Graphs and Graph Models
+
 ### 1. The Concept of Graph
+
 * **【Definition 1】**A ***graph图*** $G=(V,E)$ consists of $V$, a nonempty set of ***vertices顶点*** and $E$, a set of ***edges 边***. Each edge has either one or two vertices associated with it, called its ***endpoints端点***. An edge is said to connect its endpoints.
-  * **Infinite graph无限图**: a graph with an infinite vertex set or an infinite number of edges
-  * **Finite graph有限图**: a graph with an finite vertex set and a finite number of edges
+    * **Infinite graph无限图**: a graph with an infinite vertex set or an infinite number of edges
+    * **Finite graph有限图**: a graph with an finite vertex set and a finite number of edges
 * **【Definition 2】**A ***directed graph有向图*** (or ***digraph***) $(V, E)$ consists of a nonempty set of vertices $V$ and a set of **directed edges** (or **arcs**) $E$.  
   Each directed edge is associated with an ordered pair of vertices. The directed edge associated with the ordered pair $(u,v)$ is said to start at $u$ and end at $v$.
 
 #### **Types of Graphs**
 
 * **Undirected graph无向图** : a graph with **undirected** edges. 
-  * ***Simple graph简单图*** : A graph in which each edge connects two different vertices and where **no two edges connect the same pair of vertices**. 
-  * ***Multigraph多重图*** : Graphs that may have **multiple edges** connecting the same vertices.
-  * ***Pseudograph伪图*** : Graphs that may include **loops**, and possibly multiple edges connecting the same pair of vertices
+    * ***Simple graph简单图*** : A graph in which each edge connects two different vertices and where **no two edges connect the same pair of vertices**. 
+    * ***Multigraph多重图*** : Graphs that may have **multiple edges** connecting the same vertices.
+    * ***Pseudograph伪图*** : Graphs that may include **loops**, and possibly multiple edges connecting the same pair of vertices
 
 * **Directed graph有向图** : a graph with **directed** edges. 
-  * ***Simple directed graph简单有向图*** : a directed graph has **no loops** and has **no multiple directed edges**.
+    * ***Simple directed graph简单有向图*** : a directed graph has **no loops** and has **no multiple directed edges**.
 
-  * ***Directed multigraph有向多重图*** : a directed graphs that may have **multiple directed edges**  from a vertex to a second (possibly the same)  vertex.
+    * ***Directed multigraph有向多重图*** : a directed graphs that may have **multiple directed edges**  from a vertex to a second (possibly the same)  vertex.
 
 * ***Mixed graph混合图*** : a graph with **both** directed and undirected edges.    
 
@@ -45,8 +48,8 @@
 
   Notation: $deg(v)$         
 
-  * If $deg(v) = 0$, $v$ is called **isolated孤立的**.    
-  * If $deg(v) = 1$, $v$ is called **pendant下垂的**.
+* If $deg(v) = 0$, $v$ is called **isolated孤立的**.    
+* If $deg(v) = 1$, $v$ is called **pendant下垂的**.
 
 **【Theorem 1】** ==**The Handshaking Theorem握手定理**== : Let $G = (V, E)$ be an undirected graph $G$ with $e$ edges. Then $\sum_{v\in V}deg(v)=2e$
 
@@ -80,17 +83,27 @@ Let $(u, v)$ be an edge in $G$. Then $u$ is an **initial vertex起点** and is a
 
 * ***n-Cubes*** - ==$Q_n (n>0)$==
 
-  $$Q_n = \langle V, E \rangle$$ is a graph with $$2^n$$ vertices representing bit strings of length n, where $V = \{ v | v = a_1a_2...a_n, a_i = 0, 1, i = 1, 2, ..., n \}$ and $E = \{ (u, v) | u, v \in V \land u \text{ and } v \text{ differ in exactly one bit position }\}.$
+  $$
+  Q_n = \langle V, E \rangle
+  $$
 
-  ![image-20250514103428074](image-20250514103428074.png)
+  is a graph with
+
+  $$
+  2^n
+  $$
+
+  vertices representing bit strings of length n, where $V = \{ v | v = a_1a_2...a_n, a_i = 0, 1, i = 1, 2, ..., n \}$ and $E = \{ (u, v) | u, v \in V \land u \text{ and } v \text{ differ in exactly one bit position }\}.$
+
+  ![image-20250514103428074](images/image-20250514103428074.png)
 
   > * Construct $Q_{n+1}$ from $Q_n$
   >
-  >   1. making two copies of $Q_n$ , prefacing the labels on the vertices with a $0$ in one copy and with a $1$ in the other copy  
+  >     1. making two copies of $Q_n$ , prefacing the labels on the vertices with a $0$ in one copy and with a $1$ in the other copy  
   >
-  >   2. adding edges connecting two vertices that have labels differing only in the first bit 
+  >     2. adding edges connecting two vertices that have labels differing only in the first bit 
   >
-  >      ![image-20250514103647388](image-20250514103647388.png) 
+  >      ![image-20250514103647388](images/image-20250514103647388.png) 
   >
   > * The number of edges: $a_n=2a_{n-1}+2^{n-1}$
 
@@ -100,13 +113,13 @@ Let $(u, v)$ be an edge in $G$. Then $u$ is an **initial vertex起点** and is a
 
 * The pair $ \{V_1, V_2\} $ is called a ***bipartition二分*** of the vertex $ V $ of $ G $.
 
-  ![image-20250514104414459](image-20250514104414459.png)
+  ![image-20250514104414459](images/image-20250514104414459.png)
 
 * **【Theorem 4】** A simple graph is **bipartite** if and only if it is possible to assign one of **two different colors** to each vertex of the graph so that no two adjacent vertices are assigned the same color. 
 
 * The **complete bipartite graph完全二分图** is the simple graph that has its vertex set partitioned into two subsets $ V_1 $ and $ V_2 $ with $ m $ and $ n $ vertices, respectively, and every vertex in $ V_1 $ is connected to every vertex in $ V_2 $, denoted by ==$ K_{m,n} $==, where $ m = |V_1| $ and $ n = |V_2| $.
 
-  ![image-20250514104353981](image-20250514104353981.png)
+  ![image-20250514104353981](images/image-20250514104353981.png)
 
 ### 4. Regular graph Regular graph 
 
@@ -133,13 +146,13 @@ $ G = (V, E) $, $ H = (W, F) $
 
 **得到新图的方式**
 
-  * **Removing edges of a graph** : $G-e=(V,E-\{e\})$
-  * **Adding edges to a graph** : $G+e=(V,E+\{e\})$
-  * **Edge contration 边压缩** : 
+* **Removing edges of a graph** : $G-e=(V,E-\{e\})$
+* **Adding edges to a graph** : $G+e=(V,E+\{e\})$
+* **Edge contration 边压缩** : 
     1.  Remove an edge $e$ with endpoints $u$ and $v$, 
     2.  merge $u$ and $v$ into a new single vertex $w$, 
     3.  and for each edge with $u$ or $v$ as an endpoint replaces the edge with one with $w$ as endpoint in place of $u$ and $v$ and with the same second endpoint. 
-  * **Removing vertices from a graph** : $G-v =(V-v, E’)$, where $E’$ is the set of edges of $G$ not incident to $v$
+* **Removing vertices from a graph** : $G-v =(V-v, E’)$, where $E’$ is the set of edges of $G$ not incident to $v$
 
 ### 6. Graph Union
 
@@ -159,19 +172,19 @@ The union of two simple graphs $G1 = ( V1 , E1 )$ and $G2 = ( V2 , E2 )$ is the 
 
 * A simple graph $G = (V, E)$ with $n$ vertices $(v_1,v_2,\dots,v_n)$ can  be represented by its ***adjacency matrix邻接矩阵***, $A$, where $a_{ij} = 1$ if $\{v_i, v_j \}$ is an edge of $G$, $a_{ij} = 0$ otherwise.
 
-  ![image-20250514205654541](image-20250514205654541.png)
+  ![image-20250514205654541](images/image-20250514205654541.png)
 
 * The adjacency matrix of a **multigraph** or **pseudograph**
 
   The $(i, j)th$ entry of such a matrix equals the number of edges that  are associated to $\{v_i, v_j\}$.
 
-  ![image-20250514210048087](image-20250514210048087.png)
+  ![image-20250514210048087](images/image-20250514210048087.png)
 
 * The adjacency matrix of a **directed graph**
 
   For directed graph $G = (V, E)$ with $|V| = n$, suppose that the vertices of $G$ are listed in arbitrary order as $v_1, v_2, …, v_n$, the adjacency matrix $A = [a_{ij}]$, where $a_{ij} = 1$ if $(v_i, v_j)$ is an edge of $G$, $a_{ij} = 0$ otherwise.
 
-  ![image-20250514210249748](image-20250514210249748.png)
+  ![image-20250514210249748](images/image-20250514210249748.png)
 
 ### 3. Incidence matrices 
 
@@ -192,12 +205,12 @@ $G = (V, E)$, $V = \{v_1, v_2, ..., v_n\}$, $E = \{e_1, e_2, ..., e_m\}$. The **
 
   **Important invariants in isomorphic graphs**: 
 
-  * the number of vertices 
-  * the number of edges 
-  * the degrees of corresponding vertices  
-  * if one is bipartite, the other must be 
-  * if one is complete, the other must be  
-  * if one is a wheel, the other must be etc.
+* the number of vertices 
+* the number of edges 
+* the degrees of corresponding vertices  
+* if one is bipartite, the other must be 
+* if one is complete, the other must be  
+* if one is a wheel, the other must be etc.
 
 ## 10.4 Connectivity
 
@@ -209,7 +222,7 @@ $G = (V, E)$, $V = \{v_1, v_2, ..., v_n\}$, $E = \{e_1, e_2, ..., e_m\}$. The **
 
 * **Path of length $n$ from $u$ to $v$ in an undirected graph**  
 * a sequence of $n$ edges $e_1, ..., e_n$ for which there exists a sequence $x_0=u, x_1, ..., x_{n-1}, x_n=v$ such that $e_i$ has endpoints $x_{i-1}$ and $ x_{i}$  
-  
+
 * When the graph is simple, we denote this path by its vertex sequence $x_0, x_1, ..., x_{n-1}, x_n$ 
 * **Circuit** : if the path begins and ends with the same vertex 
 * The path or circuit is said to **pass through** the vertices $x_0, x_1, ..., x_{n-1}, x_n$  or **traverse** the edges $e_1, ..., e_n$ 
@@ -218,15 +231,15 @@ $G = (V, E)$, $V = \{v_1, v_2, ..., v_n\}$, $E = \{e_1, e_2, ..., e_m\}$. The **
 #### Definition of path in directed graph   
 
 * **path of length $n$ from $u$ to $v$ in a directed graph**  
-  * a sequence of edges $e_1, ..., e_n$ such that $e_1$ is associated with $(x_0,x_1),e_2,\dots$
-  
-  * When there are no multiple edges in the directed graph, this path is denoted by its vertex sequence $x_0, x_1, ..., x_{n-1}, x_n$ 
-  
+    * a sequence of edges $e_1, ..., e_n$ such that $e_1$ is associated with $(x_0,x_1),e_2,\dots$
+
+    * When there are no multiple edges in the directed graph, this path is denoted by its vertex sequence $x_0, x_1, ..., x_{n-1}, x_n$ 
+
 * **circuit or cycle**  
-  * if the path begins and ends with the same vertex 
+    * if the path begins and ends with the same vertex 
 
 * **simple path/circuit**  
-  * if it does not contain the same edge more than once
+    * if it does not contain the same edge more than once
 
 ### 2. Connectedness in undirected graphs
 
@@ -243,12 +256,12 @@ $G = (V, E)$, $V = \{v_1, v_2, ..., v_n\}$, $E = \{e_1, e_2, ..., e_m\}$. The **
 ### 3. How connected is a graph?
 
 * **cut vertex割点** (or articulation point) 
-  * if removing a vertex and all edges incident with it results in **more connected components** than in the original graph. 
+    * if removing a vertex and all edges incident with it results in **more connected components** than in the original graph. 
 * **cut edge割边** or bridge 
-  * if removing a edge creates **more components**
+    * if removing a edge creates **more components**
 * **nonseparable graphs不可分割图**
-  * Connected graphs without cut vertices
-  * Nonseparable graphs can be thought of as more connected than those with a cut vertex.
+    * Connected graphs without cut vertices
+    * Nonseparable graphs can be thought of as more connected than those with a cut vertex.
 
 ### 4. Vertex connectivity
 
@@ -291,20 +304,20 @@ A graph is **K-connected** (or k-vertex-connected ), if $κ(G)≥K$
 ### 6. Connectedness in directed graphs
 
 * **strongly connected** 
-  * if there is a path from $a$ to $b$ and from $b$ to $a$ for **all** vertices $a$ and $b$ in the graph.   
+    * if there is a path from $a$ to $b$ and from $b$ to $a$ for **all** vertices $a$ and $b$ in the graph.   
 
 * **weakly connected** 
-  * if the underlying undirected graph is connected
+    * if the underlying undirected graph is connected
 * **strong components of a directed graph**
-  * For directed graph, the maximal strongly connected subgraphs are called **the strongly connected components强连通分量** or just **the strong components**
+    * For directed graph, the maximal strongly connected subgraphs are called **the strongly connected components强连通分量** or just **the strong components**
 
 > A weakly connected directed graph with $deg^+(v)=deg^-(v)$ for all vertices $v$ is strongly connected.
 
 ### 7. Paths and Isomorphism
 
 * Some other graph invariants involving path  
-  * Two graphs are **isomorphic** only if they have <u>simple circuits of the same length</u>.  
-  * Two graphs are **isomorphic** only if they contain paths that go through vertices so that the corresponding vertices in the two graphs have the same degree.  
+    * Two graphs are **isomorphic** only if they have <u>simple circuits of the same length</u>.  
+    * Two graphs are **isomorphic** only if they contain paths that go through vertices so that the corresponding vertices in the two graphs have the same degree.  
 
 * We can also use paths to find mapping that are potential isomorphisms
 
@@ -398,8 +411,8 @@ Approximation algorithm:
 
 * **Region**: a part of the plane completely disconnected off from other parts of the plane by the edges of the graph. 
 
-  * Bounded region  
-  * Unbounded region 
+    * Bounded region  
+    * Unbounded region 
 
   Note: There is **one unbounded region** in a planar graph. 
 
@@ -435,7 +448,7 @@ Approximation algorithm:
 
 **Elementary subdivision初等细分**: If a graph is planar, so will be any graph obtained by removing an edge $\{u, v\}$ and adding a new vertex $w$ together with edges $\{u,w\}$ and $\{w,v\}$.
 
-![image-20250523222110861](image-20250523222110861.png)
+![image-20250523222110861](images/image-20250523222110861.png)
 
 **homeomorphic同胚的** : the graph $G_1=(V_1,E_1)$ and $G_2=(V_2,E_2)$ are called **homeomorphic** if they can be obtained from the same graph by a sequence of elementary subdivision.
 
@@ -449,7 +462,7 @@ the **dual graph对偶图** of the map
 * Edge connect two vertices if the regions represented by these vertices have a common border.  
 * Two regions that touch at only one point are not considered  adjacent.
 
-![image-20250531161419396](image-20250531161419396.png)
+![image-20250531161419396](images/image-20250531161419396.png)
 
 ### The chromatic numbers of a graph
 
@@ -464,9 +477,11 @@ Terminologies:
 
 2. The graph $G$ is a path containing no circuit. $χ(G)=2$
 
-3. $C_n(n \geq 3)$ , $$\begin{cases} \chi(C_n) = 2 & \text{if } n \text{ is even} \\ \chi(G) = 3 & \text{if } n \text{ is odd} \end{cases}$$
+3. $C_n(n \geq 3)$ ,
 
-   
+    $$
+    \begin{cases} \chi(C_n) = 2 & \text{if } n \text{ is even} \\ \chi(G) = 3 & \text{if } n \text{ is odd} \end{cases}
+    $$
 
    <img src="images/image-20250531162954522.png" alt="image-20250531162954522"  />
 
@@ -480,7 +495,7 @@ Terminologies:
 
 ### Algorithm for coloring simple graphs
 
-![image-20250531163157862](image-20250531163157862.png)
+![image-20250531163157862](images/image-20250531163157862.png)
 
 **【 Theorem 1】** **==The Four Color Theorem==** 
 The chromatic number of a **planar graph** is **no greater than four**.

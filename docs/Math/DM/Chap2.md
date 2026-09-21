@@ -48,12 +48,16 @@ Example : If $S=\{a,b,c\}$, then $P(S)=\{\emptyset,\{a\},\{b\},\{c\},\{a,b\},\{a
 **[Definition]** The **有序 n 元组(ordered $n-tuple$)** ($a_{1},a_{2},\dots,a_{n}$) is the ordered collection that has $a_{1}$ as its first element,  as its second $a_{2}$ element, … , and $a_{n}$ as its $n_{th}$ element. In particular, $2-tuples$ are called **ordered pairs**.
 
 The Cartesian product of $A$ and $B$: 
- 
-$$A \times B = \{(a, b)| a \in A, b \in B\}$$
+
+$$
+A \times B = \{(a, b)| a \in A, b \in B\}
+$$
 
 The Cartesian product of $A_1 , A_2 , … , A_n$: 
 
-$$A_{1}\times A_{2}\times \dots A_{n} = \{(a_{1},a_{2},\dots,a_{n})∣a_{i} \in A_{i} \text{ , for } i = 1,2,\dots ,n\}$$
+$$
+A_{1}\times A_{2}\times \dots A_{n} = \{(a_{1},a_{2},\dots,a_{n})∣a_{i} \in A_{i} \text{ , for } i = 1,2,\dots ,n\}
+$$
 
 #### Using Set Notation with Quantifiers 
 
@@ -145,18 +149,21 @@ $f$ maps $A$ to $B$ or $f$ is a mapping from $A$ to $B$.
 
 A function f is **单射函数(one-to-one function / injection)** , or **单射的(injective)** if
 
-$$\forall a \forall b(f(a)=f(b)\rightarrow a=b)$$
+$$
+\forall a \forall b(f(a)=f(b)\rightarrow a=b)
+$$
 
 ### Onto Functions
 
 A function f from A to B is called **满射函数(onto function / surjection)**, or **满射的(surjective)** if
 
-$$\forall b\in B\exists a\in A(f(a)=b)$$
+$$
+\forall b\in B\exists a\in A(f(a)=b)
+$$
 
 ### One-to-one Correspondence Functions
 
 The function f is a **one-to-one correspondence**, or a **bijection**(双射), if it is both **one-to-one** and **onto**.
-
 
 > <div style="text-align: center"><img src="images/image-20250615162038356.png" width="55%"></div>
 
@@ -201,7 +208,6 @@ An **等差数列(arithmetic progression)** is a sequence of the form $a, a+d, a
 
 【Definition】: If there is a <u>one-to-one function单射</u> form $A$ to $B$, the cardinality of $A$ is less than or the same as cardinality of B ($|A|≤|B|$). When $|A|≤|B|$ and $A$ and $B$ have different cardinality, we say that the cardinality of $A$ is less than the cardinality of B and we write $|A|<|B|$
 
-
 ### 1. Countable Sets
 
 【Definition】: A set that is either finite or has the same cardinality as <u>the set of positive integers</u> is called **countable可数**
@@ -218,7 +224,7 @@ An infinite set is **countable** if and only if it is possible to **list the ele
 ### 2. Uncountable Sets
 
 > If set $A$ and $B$ is countable, then $A\cup B$ is countable.
-> 
+>
 > **有限个**可数集合的交集是可数的
 
 【Theorem】The set of real numbers between $0$ and $1$ is **uncountable**.
@@ -234,7 +240,7 @@ An infinite set is **countable** if and only if it is possible to **list the ele
 ### 3. Results about cardinality
 
 1) No infinite set has a smaller cardinality than a countable set.
-   
+
 2) If A and B are countable, $A\cup B$ is countable.
 
 3) The union of finite number of countable sets is countable.

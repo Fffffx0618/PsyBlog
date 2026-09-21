@@ -9,7 +9,7 @@
 * **A solution of a recurrence relation** is a **sequence** if its terms satisfy the recurrence relation.
 
 * The **degree** of a recurrence relation  
-  
+
     * $a_n = a_{n-1}  + a_{n-8}$   — a recurrence relation of degree $8$
 
 ### Algorithm and Recurrence relations
@@ -39,23 +39,28 @@ $a_n=c_1a_{n−1}+c_2a_{n−2}+\dots+c_ka_{n−k}$ where $c_1 , c_2 ,\dots, c_k$
 
 1. **These recurrence relations have solutions of the form $a_n = r_n$, where $r$ is a constant**  
    这种递推关系有形如 ==$a_n=r^n$== 的解，$r$ 为常数。 
-    
-    $$\begin{align}r^n-c_1r^{n-1}-c_2r^{n-2}-\dots--c_kr^{n-k}=0\\r^{n-k}(r^k-c_1r^{k-1}-c_2r^{k-2}-\dots--c_k)=0\\r^k-c_1r^{k-1}-c_2r^{k-2}-\dots--c_k=0\end{align}$$
+
+    $$
+    \begin{align}r^n-c_1r^{n-1}-c_2r^{n-2}-\dots--c_kr^{n-k}=0\\r^{n-k}(r^k-c_1r^{k-1}-c_2r^{k-2}-\dots--c_k)=0\\r^k-c_1r^{k-1}-c_2r^{k-2}-\dots--c_k=0\end{align}
+    $$
 
     - The sequence $\{a_n\}$ with $a_n = r_n$ where $r ≠ 0$ is a solution if and only if $r$ is a solution of this last equation.  
 
     > 我们称上述方程为**特征方程 (characteristic equation)**，称这个方程的解为**特征根 (characteristic roots)**
 
-
 2. **A linear combination of two solutions of a linear homogeneous recurrence relation is also a solution.**  
    suppose that $s_n$ and $t_n$ are both solutions of this recurrence relation.  
    Then, 线性齐次递推关系的两个解的**线性组合**也是它的解
-   
-    $$s_n=c_1s_{n-1}+c_2s_{n-2}+\dots+c_ks_{n-k}\\t_n=c_1t_{n-1}+c_2t_{n-2}+\dots+c_kt_{n-k}\\$$  
-   
+
+    $$
+    s_n=c_1s_{n-1}+c_2s_{n-2}+\dots+c_ks_{n-k}\\t_n=c_1t_{n-1}+c_2t_{n-2}+\dots+c_kt_{n-k}\\
+    $$
+
     - Now suppose that $b_1$ and $b_2$ are real numbers, Then   
-    
-    $$b_1s_n+b_2t_n=c_1(b_1s_{n-1}+b_2t_{n-1})+c_2(b_1s_{n-2}+b_2t_{n-2})+\dots+c_k(b_1s_{n-k}+b_2t_{n-k})$$  
+
+    $$
+    b_1s_n+b_2t_n=c_1(b_1s_{n-1}+b_2t_{n-1})+c_2(b_1s_{n-2}+b_2t_{n-2})+\dots+c_k(b_1s_{n-k}+b_2t_{n-k})
+    $$
 
     - This means that ==$b_1 s_n + b_2 t_n$== is also a **solution** of the same linear homogeneous recurrence relation. 
 
@@ -83,10 +88,8 @@ $a_n=c_1a_{n−1}+c_2a_{n−2}+\dots+c_ka_{n−k}$ where $c_1 , c_2 ,\dots, c_k$
   & + \cdots + \left( \alpha_{t,0} + \alpha_{t,1} n + \cdots + \alpha_{t,m_t-1} n^{m_t-1} \right) r_t^n
   \end{aligned}
     \]
-    
+
     for $n = 0, 1, 2, \ldots$ where $\alpha_{i,j}$ are constants for $1 \leq i \leq t, 0 \leq j \leq m_i - 1$.
-
-
 
 ### 3. Linear Nonhomogeneous Recurrence Relation With Constant Coefficients 
 
@@ -101,7 +104,7 @@ $a_n=c_1a_{n−1}+c_2a_{n−2}+\dots+c_ka_{n−k}$ is called ***关联齐次递�
 * Let $\{a_n^{(p)}\}$ be ***a particular solution 特殊解*** of <u>the nonhomogeneous linear</u> recurrence relation with constant coefficients
 
     $$
-a_n = c_1 a_{n-1} + c_2 a_{n-2} + \ldots + c_k a_{n-k} + F(n)
+    a_n = c_1 a_{n-1} + c_2 a_{n-2} + \ldots + c_k a_{n-k} + F(n)
     $$
 
     Then every solution is of the form ==$\{a_n^{(p)} + a_n^{(h)}\}$==, where $\{a_n^{(h)}\}$ is **a solution** of <u>the associated homogeneous recurrence relation</u>.
@@ -144,25 +147,34 @@ $$
 **[ Theorem 1 ]** Let $f(x)=\sum_{k=0}^{\infty}a_k x^k, g(x)=\sum_{k=0}^{\infty}b_k x^k$. Then
 
 1.  
+
 $$
 f(x)+g(x)=\sum_{k = 0}^{\infty}(a_{k}+b_{k})x^{k} 
 $$
+
 2. 
+
 $$
 \alpha\cdot f(x)=\sum_{k = 0}^{\infty}\alpha\cdot a_{k}x^{k}\quad \alpha\in R
 $$
+
 3.  
+
 $$
 x\cdot f^{\prime}(x)=\sum_{k = 0}^{\infty}k\cdot a_{k}x^{k}
 $$
+
 4. 
+
 $$
 f(\alpha x)=\sum_{k = 0}^{\infty}\alpha^{k}\cdot a_{k}x^{k}
-$$ 
+$$
+
 5. 
+
 $$
 f(x)g(x)=\sum_{k = 0}^{\infty}(\sum_{j = 0}^{k}a_{j}b_{k - j})x^{k} 
-$$ 
+$$
 
 #### **The extended binomial coefficient**
 
@@ -170,9 +182,9 @@ Recall $\binom{m}{k}=C(m,k)= \dfrac{m!}{k!(m-k)!}$
 
 **[ Definition ]** Let $u$ be a real number and $k$ a nonnegative integer. Then the ***extended binomial coefficient扩展二项式系数*** is defined by 
 
-$$ 
+$$
 \begin{pmatrix} u \\ k \end{pmatrix}= \begin{cases} u(u - 1)\cdots(u - k + 1)/k! &\text{if } k > 0 \\ 1 &\text{if } k = 0 \end{cases} 
-$$ 
+$$
 
 * If $n > 0$, then $\binom{-n}{r}=(-1)^r\binom{n+r-1}{r}=(-1)^rC(n+r-1,r)$
 
@@ -184,15 +196,13 @@ $$
 (1+x)^u=\sum_{k=0}^{\infty}\binom{u}{k}x^k
 $$
 
-![image-20250423201104412](image-20250423201104412.png)
+![image-20250423201104412](images/image-20250423201104412.png)
 
 ### Counting Problems and Generating Functions
 
 <img src="images/image-20250423201325630.png" alt="image-20250423201325630" style="zoom:80%;" />
 
 ### Use Generating Function To Solve Recurrence Relations
-
-
 
 <img src="images/image-20250423201416355.png" alt="image-20250423201416355" style="zoom:80%;" />
 
@@ -212,7 +222,6 @@ $$
 \left|A_1\cup A_2\cup\cdots\cup A_n\right| = \sum_{i = 1}^{n}\left|A_i\right| - \sum_{1\leq i < j\leq n}\left|A_i\cap A_j\right| + \sum_{1\leq i < j < k\leq n}\left|A_i\cap A_j\cap A_k\right|+\cdots+(- 1)^{n - 1}\left|A_1\cap A_2\cap\cdots\cap A_n\right|
 $$
 
-
 *  There are $2^n − 1$ terms in this formula
 
 ## 8.6 Applications of Inclusion-Exclusion
@@ -221,7 +230,9 @@ $$
 
 * To solve problems that ask for the number of elements in a set that have none of n properties.
 
-$$P_1,P_2,\dots,P_n$$
+$$
+P_1,P_2,\dots,P_n
+$$
 
   Let $A_i$ be the subset containing the elements that have property $P_i$.
 

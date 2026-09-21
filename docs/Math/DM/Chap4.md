@@ -1,6 +1,7 @@
 # Ch4.The Number Theory and Cryptography
 
 ## 4.1 Divisibility and Modular Arithmetic
+
 ### 1. Division
 
 **[Definition]**: If $a$ and $b$ are integers with $a \neq 0$, then $a$ divides $b$ if there exists an integer $c$ such that $b=ac$
@@ -126,7 +127,7 @@ Distributivity 分配律
 For example, $n=100$ Begin with the list of integers between 1 and 100. 
 
 ① Delete all  the integers, other than 2, divisible by 2. 
-     
+
 ② Delete all the integers, other than 3, divisible by 3. 
 
 ③ Next, delete all the integers, other than 5, divisible by 5. 
@@ -144,7 +145,6 @@ The ratio of the number of primes not exceeding $x$ and $x/lnx$ approaches $1$ a
 $$
 \lim_{x\rightarrow \infty}\frac{\pi(x)}{x/lnx}=1
 $$
-
 
 ### 5. Greatest Common Divisor 
 
@@ -165,7 +165,6 @@ The Euclidian algorithm is an efficient method for computing the greatest common
 * let $a=bq+r$, then $\gcd(a,b) = \gcd(b,r)$
 
 <div style="text-align: center"><img src="images/image-20250326103806432.png" width="55%"></div>
-
 
 ### 8. gcds as Linear Combinations 
 
@@ -218,7 +217,7 @@ $$
 To construct a solution
 
 * First let $M_k = {m}/{m_k}$ for $k = 1, 2, ..., n$, where $m = m_1 m_2 \dots m_n$ .
-  
+
     Since $\gcd{m_k, M_k} = 1$, there is an integer $y_k$, an inverse of $M_k$ modulo $m_k$, such that $M_k y_k \equiv 1 \ (\text{mod} \ m_k)$
 
 * Form the sum ==$x = a_1 M_1 y_1 + a_2 M_2 y_2 + \cdots + a_n M_n y_n$==

@@ -46,13 +46,11 @@ We call a series of propositions **==consistent== (一致的)** if they can poss
 - **p :** **假设(hypothesis / antecedent / premise)**
 - **q :** **结论(conclusion / consequence)**
 
-
 对于推断 p\rightarrow q可定义以下条件语句：
 
 - **Converse (逆命题)**：$q\rightarrow p$
 - **Inverse (否命题)**：$¬p\rightarrow ¬q$
 - **Contrapositive (逆否命题)**：$¬q\rightarrow ¬p$
-
 
 When two compound propositions always have the same truth values, regardless of the truth values of its propositional variables, we call them **==equivalent==（等价的）**.
 
@@ -129,6 +127,7 @@ When two compound propositions always have the same truth values, regardless of 
   | Absurdity Laws                 |                $(p\rightarrow q)\land (p\rightarrow ¬q) \equiv  ¬p$                 |                        |
   | **蕴含律 Implication Laws**    |                    $p\rightarrow q \equiv  ¬p\lor q$                    | 用于去掉箭头           |
   | Equivalence Laws               |                $p↔q \equiv  (p\rightarrow q)\land (q\rightarrow p)$                 |                        |
+
 ### 3. The Dual of a Compound Proposition 
 
 The **dual对偶** of compound proposition that contains only the logical operators  $\lor $ , $\land $ and $¬$ is the proposition obtained by replacing each $\lor $ by $\land $,each $\land $ by $\lor $,each $T$ by $F$ and each $F$ by $T$. The dual of $S$ is denoted by $S^{*}$.  
@@ -173,7 +172,7 @@ The **dual对偶** of compound proposition that contains only the logical operat
 - **合取范式(Conjunctive Normal Form, CNF)**
 
     > e.g. $(p \lor  q)\land (p\lor ¬q)$
-  
+
   和 DNF 的定义相反；把 $\land $ 和 $\lor $ 互换。
 
 #### 5.2 Full DNF & Full CNF
@@ -208,8 +207,8 @@ If a formula is expressed as a disjunction of minterms, it is said to be in **fu
 
 Predicates are also used to establish the correctness of computer programs. 
 
-  * **preconditions前置条件** : the statements that describe **valid input** 
-  * **postconditions后置条件** : the conditions that the **output** should satisfy when the  program has run
+* **preconditions前置条件** : the statements that describe **valid input** 
+* **postconditions后置条件** : the conditions that the **output** should satisfy when the  program has run
 
 ### 2. Quantifiers
 
@@ -398,11 +397,11 @@ $$
 #### Universal Modus Tollens 全称取拒式
 
 $$
-  \forall x (P(x) \rightarrow Q(x)) \\
+\forall x (P(x) \rightarrow Q(x)) \\
 \frac{
-  \neg Q(a), \text{ where } a \text{ is a particular element in the domain}
+\neg Q(a), \text{ where } a \text{ is a particular element in the domain}
 }{
-  \therefore \neg P(a)
+\therefore \neg P(a)
 }
 $$
 
@@ -413,7 +412,7 @@ $$
 **Theorem**（定理）: A statement that can be shown to be true
 
 * **Proposition**（命题）: Less important theorem (also called result / fact)
-  
+
 **Proof**（证明）: A valid argument that establishes the truth of a theorem
 
 * **Axioms**（公理）: The underlying assumptions about mathematical structures,  or hypotheses of the theorem to be proved, or previously proved theorems. 
@@ -501,7 +500,9 @@ Using **nonconstructive existence proof 非构造存在性证明** to establish 
 
 To show that a theorem assert the existence of a unique element with  a particular property. 
 
-$$\exists x( P(x) \land  \forall  y ( y≠ x\rightarrow ¬P(y) ) )$$ 
+$$
+\exists x( P(x) \land  \forall  y ( y≠ x\rightarrow ¬P(y) ) )
+$$
 
 * Existence（存在性）: We show that an element x with the desired  property exists. 
 * Uniqueness（唯一性） : We show that if $y≠x$, then y does not have the  desired property. Or, we can show that if $x$ and $y$ both have the  desired property ,then $x=y$.

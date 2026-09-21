@@ -10,9 +10,9 @@
 
   **Note** :
 
-  * A binary relation $R$ is a set
-  * $R \subseteq A\times B$
-  * $R = \{(a,b)|a \in A,b \in B, aRb \}$
+* A binary relation $R$ is a set
+* $R \subseteq A\times B$
+* $R = \{(a,b)|a \in A,b \in B, aRb \}$
 
  Relations are a ***generalization泛化*** of function.
 
@@ -115,6 +115,7 @@ Suppose that $R, S$ are the relations from $A$ to $B$, $T$ is the relation from 
 
 **[ Definition ]** : Let $R$ be a relation from $A = \{a_1,a_2,\dots,a_m\}$, to $B=\{b_1, b_2, \dots b_n\}$, 
 An $m \times n$ ***connection matrix连接矩阵*** $M_R=[m_{ij}]$ for $R$ is defined by
+
 $$
 m_{ij}= \begin{cases} 1 & \text{if } (a_i, b_j)\in R, \\ 0 & \text{if } (a_i, b_j)\notin R. \end{cases}
 $$
@@ -151,10 +152,10 @@ containing $R$ such that $S$ is a subset of every relation with property $P$ con
 **Terminologies术语**:
 
 *  <u>***A path of length n in a digraph G***</u> 
-  * A sequence of edges $(x_0,x_1),\dots,(x_{n-1},x_n)$
-  * Notation: $x_0,x_1,\dots,x_n$
+    * A sequence of edges $(x_0,x_1),\dots,(x_{n-1},x_n)$
+    * Notation: $x_0,x_1,\dots,x_n$
 * ***<u>Cycle or circuit</u>*** 
-  * If there is a sequence of edges $(x_0,x_1),\dots,(x_{n-1},x_n)$, and $x_0 = x_n$​
+    * If there is a sequence of edges $(x_0,x_1),\dots,(x_{n-1},x_n)$, and $x_0 = x_n$​
 
  The term path also applies to relation.  
 
@@ -190,8 +191,6 @@ $$
 w_{ij}^{(k)}= \begin{cases} 1 & \text{If there is a path from } V_i \text{ to } V_j \text{ such that all the interior vertices of this path }\\ &\text{are in the set } \{V_1, V_2, \ldots, V_k\}\\ 0 & \text{otherwise} \end{cases}
 $$
 
-
-
 *  $ W_n = M_{t(R)} $
 *  $ w_{ij}^{(k)}=w_{ij}^{(k - 1)}\vee(w_{ik}^{(k - 1)}\wedge w_{kj}^{(k - 1)})$
 
@@ -218,7 +217,7 @@ $$
 * $A_i \cap A_j = \empty, when \space i \neq j$
 * $\forall a \in A,\exist i\text{ such that }a \in A_i(i=1,2,\dots)$  [ $\cup_{i\in Z}A_i=A$ ]
 
-![image-20250509225218227](image-20250509225218227.png)
+![image-20250509225218227](images/image-20250509225218227.png)
 
 > 贝尔数 $B_n=\sum_{k=1}^{n}S(n,k)$ , 满足$B_{n+1}=\sum_{k=0}^{n}\binom{n}{k}B_k$,
 >
@@ -247,9 +246,9 @@ $$
 ### 1. Basic Concepts
 
 * 【Definition】Let $R$ be a relation on $S$. Then $R$ is a ***==partial ordering== or partial order偏序*** if $R$ is 
-  * **reflexive** 
-  * **antisymmetric** - $\forall x \forall y ((x,y)\in R \and (y,x)\in R\rightarrow x=y)$
-  * **transitive** 
+    * **reflexive** 
+    * **antisymmetric** - $\forall x \forall y ((x,y)\in R \and (y,x)\in R\rightarrow x=y)$
+    * **transitive** 
 * Notation : $(S,R)$--- partially ordered set or a ***poset偏序集***
 
 #### **Comparable/ Incomparable**

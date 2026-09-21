@@ -1,6 +1,7 @@
 # Chapter7.Sorting
 
 ## 1. Preliminaries
+
 `void X_sort (ElementType A[], int N)`
 
 * N must be a legal integer
@@ -33,6 +34,7 @@ Void InsertionSort (ElementType A[], int N)
 * The best case : Input A[ ] is in sorted order. $T (N)=O (N)$.
 
 ## 3. A Lower Bound for Simple Sorting Algorithms
+
 【Definition】An ***inversion 逆序*** in an array of numbers is any ordered pair $(i, j)$ having the property that $i < j$ but $A[i] > A[j]$.
 
 * Swapping two adjacent elements that are out of place removes **exactly one** inversion.
@@ -45,7 +47,6 @@ Void InsertionSort (ElementType A[], int N)
 
 ## 4. Shellsort
 
-
 <div style="text-align: center"><img src="images/image-20250507142708116.png" width="55%"></div>
 
 * Define an ***increment sequence 增量序列*** $h_1<h_2<\dots<h_t (h_1=1)$
@@ -53,6 +54,7 @@ Void InsertionSort (ElementType A[], int N)
     * An $h_k-sorted$ file that is then $h_{k-1}sorted$ reamains $h_k-sorted$
 
 ### 4.1 Shell's increment sequence
+
 $$
 H_t=⌊ \frac{N}{2}⌋, h_k=⌊ \frac{h_{k+1}}{2}⌋
 $$
@@ -80,6 +82,7 @@ Void Shellsort (ElementType A[], int N)
 **[Theorem]**: The worst-case running time of Shellsort, using Shell's increments, is $\Theta (N^2)$
 
 ### 4.2 Hibbard's increment sequence
+
 > Improved
 
 $$
@@ -155,6 +158,7 @@ $$
   ```
 
 ## 6. Mergesort
+
 #### Merge two sorted lists
 
 * $T (N)=O (N)$
@@ -162,54 +166,55 @@ $$
 <div style="text-align: center"><img src="images/image-20250507152213200.png" width="60%"></div>
 
 #### Mergesort
+
 * 体现了分治 (divide-and-conquer)思想
 
-  ```c
-  Void MergeSort (ElementType A[], int N)
-  {
-      ElementType *TmpArray;
-      TmpArray = (ElementType *) malloc (N * sizeof (ElementType));
-      If (TmpArray != NULL)
-      {
-          MSort (A, TmpArray, 0, N - 1);
-          Free (TmpArray);
-      }
-      Else FatalError ("No space for tmp array!!!");
-  }
-  
-  Void MSort (ElementType A[], ElementType TmpArray[], int Left, int Right)
-  {
-      Int Center;
-      If (Left < Right)
-      {
-          Center = (Left + Right) / 2;
-          MSort (A, TmpArray, Left, Center);
-          MSort (A, TmpArray, Center + 1, Right);
-          Merge (A, TmpArray, Left, Center + 1, Right);
-      }
-  }
-  
-  // Lpos = start of left half, Rpos = start of right half
-  Void Merge (ElementType A[], ElementType TmpArray[], int Lpos, int Rpos, int RightEnd)
-  {
-      Int i, LeftEnd, NumElements, TmpPos;
-      LeftEnd = Rpos - 1;
-      TmpPos = Lpos;
-      NumElements = RightEnd - Lpos + 1;
-      While (Lpos <= LeftEnd && Rpos <= RightEnd) // main loop
-          If (A[Lpos] <= A[Rpos])
-              TmpArray[TmpPos++] = A[Lpos++];
-          Else
-              TmpArray[TmpPos++] = A[Rpos++];
-      While (Lpos <= LeftEnd) // Copy rest of first half
-          TmpArray[TmpPos++] = A[Lpos++];
-      While (Rpos <= RightEnd) // Copy rest of second half
-          TmpArray[TmpPos++] = A[Rpos++];
-      For (i = 0; i < NumElements; i++, RightEnd--)
-          // Copy TmpArray back
-          A[RightEnd] = TmpArray[RightEnd];
-  }
-  ```
+    ```c
+    Void MergeSort (ElementType A[], int N)
+    {
+        ElementType *TmpArray;
+        TmpArray = (ElementType *) malloc (N * sizeof (ElementType));
+        If (TmpArray != NULL)
+        {
+            MSort (A, TmpArray, 0, N - 1);
+            Free (TmpArray);
+        }
+        Else FatalError ("No space for tmp array!!!");
+    }
+    
+    Void MSort (ElementType A[], ElementType TmpArray[], int Left, int Right)
+    {
+        Int Center;
+        If (Left < Right)
+        {
+            Center = (Left + Right) / 2;
+            MSort (A, TmpArray, Left, Center);
+            MSort (A, TmpArray, Center + 1, Right);
+            Merge (A, TmpArray, Left, Center + 1, Right);
+        }
+    }
+    
+    // Lpos = start of left half, Rpos = start of right half
+    Void Merge (ElementType A[], ElementType TmpArray[], int Lpos, int Rpos, int RightEnd)
+    {
+        Int i, LeftEnd, NumElements, TmpPos;
+        LeftEnd = Rpos - 1;
+        TmpPos = Lpos;
+        NumElements = RightEnd - Lpos + 1;
+        While (Lpos <= LeftEnd && Rpos <= RightEnd) // main loop
+            If (A[Lpos] <= A[Rpos])
+                TmpArray[TmpPos++] = A[Lpos++];
+            Else
+                TmpArray[TmpPos++] = A[Rpos++];
+        While (Lpos <= LeftEnd) // Copy rest of first half
+            TmpArray[TmpPos++] = A[Lpos++];
+        While (Rpos <= RightEnd) // Copy rest of second half
+            TmpArray[TmpPos++] = A[Rpos++];
+        For (i = 0; i < NumElements; i++, RightEnd--)
+            // Copy TmpArray back
+            A[RightEnd] = TmpArray[RightEnd];
+    }
+    ```
 
 #### Analysis
 
@@ -229,6 +234,7 @@ $$
 | merge     |    0     |   1    |
 
 ## 7. Quicksort
+
 ### 7.1 The Algorithm
 
 ```c
@@ -260,7 +266,6 @@ Median-of-Three Partitoning:`Pivot=median (left, center, right)`
   这样，数组中比 `Pivot` 小的元素在左边，比 `Pivot` 大的元素在右边
 - 最后 `i >= j` 时，`i` 位置上的元素和 `pivot` 互换，让 `pivot` 重新回到中间
 
-
 <div style="text-align: center"><img src="images/image-20250514144928822.png" width="60%"></div>
 
 * `key == pivot` 时, 同时停止 `i` 和 `j`：
@@ -279,6 +284,7 @@ Solution:
 - Cutoff when $N$ gets small (e.g. $N=10$) and use other efficient algorithms (such as insertion sort).
 
 ### 7.5 Implementation
+
 ```c
 Void Quicksort (ElementType A[], int N)
 {
@@ -355,9 +361,7 @@ $T (N)=T (i)+T (N-i-1)+cN$
 
 * 如何输出排好序的列表：`list[table[0]], list[table[1]], ..., list[table[n-1]]`
 
-
 <div style="text-align: center"><img src="images/image-20250514192913570.png" width="30%"></div>
-
 
 The worst case: there are $⌊N/2⌋$ cycles and requires $⌊3 N/2⌋$ record moves
 
@@ -369,10 +373,10 @@ The worst case: there are $⌊N/2⌋$ cycles and requires $⌊3 N/2⌋$ record m
 
 <div style="text-align: center"><img src="images/image-20250514193814214.png" width="40%"></div>
 
-
 【Theorem】Any algorithm that sorts by comparisons only must have a worst case computing time of $Ω( N \log{N} )$.
 
 ## 10. Bucket Sort and Radix Sort
+
 ### 10.1 Bucket Sort
 
 ```c
@@ -397,16 +401,15 @@ Algorithm
 
 <div style="text-align: center"><img src="images/image-20250514194034014.png" width="50%"></div>
 
-
 Suppose that the record $R_i$ has $r$ keys.  
 
 * $K_i^j :=$ the $j$ -th key of record $R_i$ -
 * $K_i^0 :=$ the most significant key of record $R_i$ 
 * $K_i^{r-1} :=$ the least significant key of record $R_i$ 
 * A list of records $R_0, \ldots, R_{n-1}$ is lexically sorted with respect to the keys $K^0, K^1, \ldots, K^{r-1}$ iff 
- 
-    $$ (K_i^0, K_i^1, \ldots, K_i^{r-1}) \leq (K_{i+1}^0, K_{i+1}^1, \ldots, K_{i+1}^{r-1}), \quad 0 \leq i < n-1. $$
+
+    $$
+    (K_i^0, K_i^1, \ldots, K_i^{r-1}) \leq (K_{i+1}^0, K_{i+1}^1, \ldots, K_{i+1}^{r-1}), \quad 0 \leq i < n-1. 
+    $$
 
     That is, $K_i^0 = K_{i+1}^0$, ..., $K_i^l = K_{i+1}^l$, $K_i^{l+1} < K_{i+1}^{l+1}$ for some $l < r-1$.
-
-
