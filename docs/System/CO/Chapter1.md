@@ -1,11 +1,5 @@
 # Chap1.Computer Abstractions and Technology
 
-!!!info Computer Organization
-
-    <div style="text-align: center"><img src="images/image-192.png" width="80%"></div>
-
-    - Decomposability of computer systems
-
 ## 1.1 Computer design: performance and idea
 
 - **响应时间 / 执行时间**(response time/execution time)：执行任务所需的时间

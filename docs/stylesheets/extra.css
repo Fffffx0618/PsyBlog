@@ -109,3 +109,68 @@ code {
 
 /* 宽公式可独立横向滚动，不撑破手机上的页面。 */
 .md-typeset div.arithmatex { overflow-x: auto; overflow-y: hidden; }
+
+/* 桌面端：加宽页面，减少正文内部留白 */
+@media (min-width: 67.25em) {
+  .md-grid {
+    max-width: 67rem !important;
+  }
+
+  .md-content__inner {
+    padding: 1.5rem 1rem !important;
+  }
+}
+/* 有序列表、无序列表及其嵌套层级缩进 */
+.md-typeset {
+  --list-indent: 1rem;        /* 第一层列表缩进 */
+  --nested-list-indent: 0.8rem;  /* 每层嵌套额外缩进 */
+}
+
+/* 有序、无序列表 */
+.md-typeset :is(ul, ol) {
+  padding-left: var(--list-indent) !important;
+  margin-left: 0 !important;
+}
+
+/* 嵌套列表，包括有序和无序混合嵌套 */
+.md-typeset :is(ul, ol) :is(ul, ol) {
+  padding-left: var(--nested-list-indent) !important;
+  margin-left: 0 !important;
+}
+
+/* 去掉列表项自身的额外缩进 */
+.md-typeset li {
+  margin-left: 0;
+}
+
+/* 正文行距 */
+.md-typeset {
+  line-height: 1.6;
+}
+
+/* 段落间距 */
+.md-typeset p {
+  margin-block: 0.4em;
+}
+
+/* 列表项之间更紧凑 */
+.md-typeset li {
+  margin-bottom: 0.1em;
+}
+
+/* 列表项内部的段落 */
+.md-typeset li p {
+  margin: 0.15em 0 !important;
+}
+
+/* 嵌套列表与上下内容之间的距离 */
+.md-typeset :is(ul, ol) :is(ul, ol) {
+  margin-top: 0.15em !important;
+  margin-bottom: 0.15em !important;
+}
+
+/* 代码行距 */
+.md-typeset pre,
+.md-typeset pre > code {
+  line-height: 1.5;
+}

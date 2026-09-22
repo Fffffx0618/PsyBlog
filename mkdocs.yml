@@ -126,6 +126,7 @@ extra_css:
 nav:
   - 首页: 
     - index.md
+    - 关于我: AboutMe.html
 
   - 编程语言: 
     - Language/index.md
