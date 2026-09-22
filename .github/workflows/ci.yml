@@ -1,27 +1,44 @@
-name: ci
+name: Deploy documentation
+
 on:
   push:
     branches:
       - main
       - master
 
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/configure-pages@v6
 
-      - uses: actions/setup-python@v4
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-python@v6
         with:
           python-version: 3.x
 
-      - uses: actions/cache@v3
-        with:
-          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
-          path: ～/.cache/pip
-
       - run: pip install -r requirements.txt
 
-      - run: mkdocs gh-deploy --force
+      - run: zensical build --clean
+
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: site
+
+      - uses: actions/deploy-pages@v5
+        id: deployment
