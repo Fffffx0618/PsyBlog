@@ -8,7 +8,7 @@
 
 ---
 
-# Part I: Introduction of RL
+## Part I: Introduction of RL
 
 ## 1. Machine Learning Algorithms
 
@@ -92,7 +92,7 @@ $$
 
 ---
 
-# Part II: Value-based RL
+## Part II: Value-based RL
 
 ## 1. Q-Learning
 
@@ -277,7 +277,7 @@ Nature DQN 之后，DeepMind 和后续工作提出了很多改进：
 
 ---
 
-# Part III: Policy-based RL
+## Part III: Policy-based RL
 
 ## 1. Policy
 
@@ -399,7 +399,7 @@ $$
 
 ---
 
-# Part IV: Value + Policy
+## Part IV: Value + Policy
 
 ## 1. Critic
 

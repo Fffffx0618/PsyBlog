@@ -7,7 +7,7 @@
 
 ---
 
-# Part I: Model Compression
+## Part I: Model Compression
 
 模型压缩的核心目标是：**降低存储、显存、计算或推理延迟，同时尽量保留原模型性能**
 主要方法有三类：
@@ -346,7 +346,7 @@ To be done
 
 ---
 
-# Part II: Data-Efficient Fine-tuning
+## Part II: Data-Efficient Fine-tuning
 
 预训练模型下游适配有两个典型问题：
 

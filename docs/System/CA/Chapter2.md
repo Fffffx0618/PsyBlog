@@ -1,6 +1,6 @@
 # Memory Hierarchy Design 
 
-# Part 1.Memory Basics
+## Part 1.Memory Basics
 
 !!! info "不同计算机类型的存储器层级"
 
@@ -560,7 +560,7 @@ $L_1$ 内的数据是否需要出现在 $L_2$ 内？由此引出了两种策�
 
 ---
 
-# Part 2.Memory Advances
+## Part 2.Memory Advances
 
 ## 2.5 Ten advanced optimizations
 

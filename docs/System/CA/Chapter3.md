@@ -2,7 +2,7 @@
 
 ==指令级并行(intruction-level parallelism, ILP)==，它允许指令能够被并行计算
 
-# Static Parallelism
+## Static Parallelism
 
 ## 3.1 Pipeling
 
@@ -646,7 +646,7 @@ Loop: fld    f0, 0(x1)    # highest-address element of x[i]
 
 ---
 
-# Dynamic Parallelism
+## Dynamic Parallelism
 
 ## 3.9 Dynamic Branch Prediction
 
