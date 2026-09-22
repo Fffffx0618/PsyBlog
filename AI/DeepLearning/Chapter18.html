@@ -1,0 +1,2619 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="可达鸭的笔记本，记录了 ZJU-CS 的一些课程笔记。">
+      
+      
+        <meta name="author" content="Fffffx">
+      
+      
+      
+        <link rel="prev" href="Chapter17.html">
+      
+      
+        <link rel="next" href="../NLP/info.html">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/icon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Chapter18. Explainable Artificial Intelligence - Fffffx's Note</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+  
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+  
+  <style>:root{--md-admonition-icon--note:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22m14.06%209%20.94.94L5.92%2019H5v-.92zm3.6-6c-.25%200-.51.1-.7.29l-1.83%201.83%203.75%203.75%201.83-1.83c.39-.39.39-1.04%200-1.41l-2.34-2.34c-.2-.2-.45-.29-.71-.29m-3.6%203.19L3%2017.25V21h3.75L17.81%209.94z%22/%3E%3C/svg%3E');--md-admonition-icon--abstract:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M2.5%201.75v11.5c0%20.138.112.25.25.25h3.17a.75.75%200%200%201%200%201.5H2.75A1.75%201.75%200%200%201%201%2013.25V1.75C1%20.784%201.784%200%202.75%200h8.5C12.216%200%2013%20.784%2013%201.75v7.736a.75.75%200%200%201-1.5%200V1.75a.25.25%200%200%200-.25-.25h-8.5a.25.25%200%200%200-.25.25m13.274%209.537zl-4.557%204.45a.75.75%200%200%201-1.055-.008l-1.943-1.95a.75.75%200%200%201%201.062-1.058l1.419%201.425%204.026-3.932a.75.75%200%201%201%201.048%201.074M4.75%204h4.5a.75.75%200%200%201%200%201.5h-4.5a.75.75%200%200%201%200-1.5M4%207.75A.75.75%200%200%201%204.75%207h2a.75.75%200%200%201%200%201.5h-2A.75.75%200%200%201%204%207.75%22/%3E%3C/svg%3E');--md-admonition-icon--info:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M0%208a8%208%200%201%201%2016%200A8%208%200%200%201%200%208m8-6.5a6.5%206.5%200%201%200%200%2013%206.5%206.5%200%200%200%200-13M6.5%207.75A.75.75%200%200%201%207.25%207h1a.75.75%200%200%201%20.75.75v2.75h.25a.75.75%200%200%201%200%201.5h-2a.75.75%200%200%201%200-1.5h.25v-2h-.25a.75.75%200%200%201-.75-.75M8%206a1%201%200%201%201%200-2%201%201%200%200%201%200%202%22/%3E%3C/svg%3E');--md-admonition-icon--tip:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M3.499.75a.75.75%200%200%201%201.5%200v.996C5.9%202.903%206.793%203.65%207.662%204.376l.24.202c-.036-.694.055-1.422.426-2.163C9.1.873%2010.794-.045%2012.622.26%2014.408.558%2016%201.94%2016%204.25c0%201.278-.954%202.575-2.44%202.734l.146.508.065.22c.203.701.412%201.455.476%202.226.142%201.707-.4%203.03-1.487%203.898C11.714%2014.671%2010.27%2015%208.75%2015h-6a.75.75%200%200%201%200-1.5h1.376a4.5%204.5%200%200%201-.563-1.191%203.84%203.84%200%200%201-.05-2.063%204.65%204.65%200%200%201-2.025-.293.75.75%200%200%201%20.525-1.406c1.357.507%202.376-.006%202.698-.318l.009-.01a.747.747%200%200%201%201.06%200%20.75.75%200%200%201-.012%201.074c-.912.92-.992%201.835-.768%202.586.221.74.745%201.337%201.196%201.621H8.75c1.343%200%202.398-.296%203.074-.836.635-.507%201.036-1.31.928-2.602-.05-.603-.216-1.224-.422-1.93l-.064-.221c-.12-.407-.246-.84-.353-1.29a2.4%202.4%200%200%201-.507-.441%203.1%203.1%200%200%201-.633-1.248.75.75%200%200%201%201.455-.364c.046.185.144.436.31.627.146.168.353.305.712.305.738%200%201.25-.615%201.25-1.25%200-1.47-.95-2.315-2.123-2.51-1.172-.196-2.227.387-2.706%201.345-.46.92-.27%201.774.019%203.062l.042.19.01.05c.348.443.666.949.94%201.553a.75.75%200%201%201-1.365.62c-.553-1.217-1.32-1.94-2.3-2.768L6.7%205.527c-.814-.68-1.75-1.462-2.692-2.619a3.7%203.7%200%200%200-1.023.88c-.406.495-.663%201.036-.722%201.508.116.122.306.21.591.239.388.038.797-.06%201.032-.19a.75.75%200%200%201%20.728%201.31c-.515.287-1.23.439-1.906.373-.682-.067-1.473-.38-1.879-1.193L.75%205.677V5.5c0-.984.48-1.94%201.077-2.664.46-.559%201.05-1.055%201.673-1.353z%22/%3E%3C/svg%3E');--md-admonition-icon--success:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M13.78%204.22a.75.75%200%200%201%200%201.06l-7.25%207.25a.75.75%200%200%201-1.06%200L2.22%209.28a.75.75%200%200%201%20.018-1.042.75.75%200%200%201%201.042-.018L6%2010.94l6.72-6.72a.75.75%200%200%201%201.06%200%22/%3E%3C/svg%3E');--md-admonition-icon--question:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M0%208a8%208%200%201%201%2016%200A8%208%200%200%201%200%208m8-6.5a6.5%206.5%200%201%200%200%2013%206.5%206.5%200%200%200%200-13M6.92%206.085h.001a.749.749%200%201%201-1.342-.67c.169-.339.436-.701.849-.977C6.845%204.16%207.369%204%208%204a2.76%202.76%200%200%201%201.637.525c.503.377.863.965.863%201.725%200%20.448-.115.83-.329%201.15-.205.307-.47.513-.692.662-.109.072-.22.138-.313.195l-.006.004a6%206%200%200%200-.26.16%201%201%200%200%200-.276.245.75.75%200%200%201-1.248-.832c.184-.264.42-.489.692-.661q.154-.1.313-.195l.007-.004c.1-.061.182-.11.258-.161a1%201%200%200%200%20.277-.245C8.96%206.514%209%206.427%209%206.25a.61.61%200%200%200-.262-.525A1.27%201.27%200%200%200%208%205.5c-.369%200-.595.09-.74.187a1%201%200%200%200-.34.398M9%2011a1%201%200%201%201-2%200%201%201%200%200%201%202%200%22/%3E%3C/svg%3E');--md-admonition-icon--warning:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M6.457%201.047c.659-1.234%202.427-1.234%203.086%200l6.082%2011.378A1.75%201.75%200%200%201%2014.082%2015H1.918a1.75%201.75%200%200%201-1.543-2.575Zm1.763.707a.25.25%200%200%200-.44%200L1.698%2013.132a.25.25%200%200%200%20.22.368h12.164a.25.25%200%200%200%20.22-.368Zm.53%203.996v2.5a.75.75%200%200%201-1.5%200v-2.5a.75.75%200%200%201%201.5%200M9%2011a1%201%200%201%201-2%200%201%201%200%200%201%202%200%22/%3E%3C/svg%3E');--md-admonition-icon--failure:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M2.344%202.343za8%208%200%200%201%2011.314%2011.314A8.002%208.002%200%200%201%20.234%2010.089a8%208%200%200%201%202.11-7.746m1.06%2010.253a6.5%206.5%200%201%200%209.108-9.275%206.5%206.5%200%200%200-9.108%209.275M6.03%204.97%208%206.94l1.97-1.97a.749.749%200%200%201%201.275.326.75.75%200%200%201-.215.734L9.06%208l1.97%201.97a.749.749%200%200%201-.326%201.275.75.75%200%200%201-.734-.215L8%209.06l-1.97%201.97a.749.749%200%200%201-1.275-.326.75.75%200%200%201%20.215-.734L6.94%208%204.97%206.03a.75.75%200%200%201%20.018-1.042.75.75%200%200%201%201.042-.018%22/%3E%3C/svg%3E');--md-admonition-icon--danger:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M9.504.43a1.516%201.516%200%200%201%202.437%201.713L10.415%205.5h2.123c1.57%200%202.346%201.909%201.22%203.004l-7.34%207.142a1.25%201.25%200%200%201-.871.354h-.302a1.25%201.25%200%200%201-1.157-1.723L5.633%2010.5H3.462c-1.57%200-2.346-1.909-1.22-3.004zm1.047%201.074L3.286%208.571A.25.25%200%200%200%203.462%209H6.75a.75.75%200%200%201%20.694%201.034l-1.713%204.188%206.982-6.793A.25.25%200%200%200%2012.538%207H9.25a.75.75%200%200%201-.683-1.06l2.008-4.418.003-.006-.004-.009-.006-.006-.008-.001q-.005%200-.009.004%22/%3E%3C/svg%3E');--md-admonition-icon--bug:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M4.72.22a.75.75%200%200%201%201.06%200l1%20.999a3.5%203.5%200%200%201%202.441%200l.999-1a.748.748%200%200%201%201.265.332.75.75%200%200%201-.205.729l-.775.776c.616.63.995%201.493.995%202.444v.327q0%20.15-.025.292c.408.14.764.392%201.029.722l1.968-.787a.75.75%200%200%201%20.556%201.392L13%207.258V9h2.25a.75.75%200%200%201%200%201.5H13v.5q-.002.615-.141%201.186l2.17.868a.75.75%200%200%201-.557%201.392l-2.184-.873A5%205%200%200%201%208%2016a5%205%200%200%201-4.288-2.427l-2.183.873a.75.75%200%200%201-.558-1.392l2.17-.868A5%205%200%200%201%203%2011v-.5H.75a.75.75%200%200%201%200-1.5H3V7.258L.971%206.446a.75.75%200%200%201%20.558-1.392l1.967.787c.265-.33.62-.583%201.03-.722a1.7%201.7%200%200%201-.026-.292V4.5c0-.951.38-1.814.995-2.444L4.72%201.28a.75.75%200%200%201%200-1.06m.53%206.28a.75.75%200%200%200-.75.75V11a3.5%203.5%200%201%200%207%200V7.25a.75.75%200%200%200-.75-.75ZM6.173%205h3.654A.17.17%200%200%200%2010%204.827V4.5a2%202%200%201%200-4%200v.327c0%20.096.077.173.173.173%22/%3E%3C/svg%3E');--md-admonition-icon--example:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M5%205.782V2.5h-.25a.75.75%200%200%201%200-1.5h6.5a.75.75%200%200%201%200%201.5H11v3.282l3.666%205.76C15.619%2013.04%2014.543%2015%2012.767%2015H3.233c-1.776%200-2.852-1.96-1.899-3.458Zm-2.4%206.565a.75.75%200%200%200%20.633%201.153h9.534a.75.75%200%200%200%20.633-1.153L12.225%2010.5h-8.45ZM9.5%202.5h-3V6c0%20.143-.04.283-.117.403L4.73%209h6.54L9.617%206.403A.75.75%200%200%201%209.5%206Z%22/%3E%3C/svg%3E');--md-admonition-icon--quote:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M1.75%202.5h10.5a.75.75%200%200%201%200%201.5H1.75a.75.75%200%200%201%200-1.5m4%205h8.5a.75.75%200%200%201%200%201.5h-8.5a.75.75%200%200%201%200-1.5m0%205h8.5a.75.75%200%200%201%200%201.5h-8.5a.75.75%200%200%201%200-1.5M2.5%207.75v6a.75.75%200%200%201-1.5%200v-6a.75.75%200%200%201%201.5%200%22/%3E%3C/svg%3E');}</style>
+
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=LXGW+WenKai+Screen,+Microsoft+YaHei,+sans-serif:300,300i,400,400i,700,700i%7CJetBrains+Mono,+Sarasa+Mono+SC,+Consolas,+monospace:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"LXGW WenKai Screen, Microsoft YaHei, sans-serif";--md-code-font:"JetBrains Mono, Sarasa Mono SC, Consolas, monospace"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="https://fonts.loli.net/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap">
+    
+      <link rel="stylesheet" href="https://gcore.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.1.0/style.css">
+    
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap">
+    
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sarasa-gothic@0.43.0/css/sarasa-mono-sc.css">
+    
+      <link rel="stylesheet" href="../../stylesheets/blueTopaz.css">
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue-grey" data-md-color-accent="blue-grey">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#chapter18-explainable-artificial-intelligence" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="Fffffx&#39;s Note" class="md-header__button md-logo" aria-label="Fffffx's Note" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m19.07 14.88 2.05 2.05L15.06 23H13v-2.06zm1.97-1.75c.14 0 .27.06.38.17l1.28 1.28c.22.21.22.56 0 .77l-1 1-2.05-2.05 1-1c.11-.11.25-.17.39-.17M17 4v6l-2-2-2 2V4H9v16h2v2H7c-1.05 0-2-.95-2-2v-1H3v-2h2v-4H3v-2h2V7H3V5h2V4a2 2 0 0 1 2-2h12c1.05 0 2 .95 2 2v6l-2 2V4zM5 5v2h2V5zm0 6v2h2v-2zm0 6v2h2v-2z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Fffffx's Note
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Chapter18. Explainable Artificial Intelligence
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="blue-grey" data-md-color-accent="blue-grey"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4M7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="blue-grey" data-md-color-accent="teal"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256l137.3-137.4c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="分享" aria-label="分享" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Fffffx0618/PsyBlog" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Fffffx
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  首页
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Language/index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  编程语言
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Algorithm/index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  程序算法
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../System/index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  体系结构
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Math/index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  数学基础
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  人工智能
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Fffffx&#39;s Note" class="md-nav__button md-logo" aria-label="Fffffx's Note" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m19.07 14.88 2.05 2.05L15.06 23H13v-2.06zm1.97-1.75c.14 0 .27.06.38.17l1.28 1.28c.22.21.22.56 0 .77l-1 1-2.05-2.05 1-1c.11-.11.25-.17.39-.17M17 4v6l-2-2-2 2V4H9v16h2v2H7c-1.05 0-2-.95-2-2v-1H3v-2h2v-4H3v-2h2V7H3V5h2V4a2 2 0 0 1 2-2h12c1.05 0 2 .95 2 2v6l-2 2V4zM5 5v2h2V5zm0 6v2h2v-2zm0 6v2h2v-2z"/></svg>
+
+    </a>
+    Fffffx's Note
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Fffffx0618/PsyBlog" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Fffffx
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../index.html" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    首页
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../Language/index.html" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    编程语言
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../Algorithm/index.html" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    程序算法
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../System/index.html" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    体系结构
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../Math/index.html" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    数学基础
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../index.html" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    人工智能
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6" id="__nav_6_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    人工智能
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_6_2" id="__nav_6_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    深度学习
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    深度学习
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="info.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    课程信息
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Chapter1.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter1. Machine Learning
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Chapter2.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter2. General Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Chapter3.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter3. Deep Learning Basics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Chapter4.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter4. Convolutional Neural Network
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Chapter5.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter5. Recurrent Neural Network
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Chapter6.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter6. Self-attention
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Chapter7.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter7. Transformer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Chapter8.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter8. Generative Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Chapter9.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter9. Diffusion Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Chapter10.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter10. Self-Supervised Learning
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Chapter11.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter11. Auto-encoder
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Chapter12.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter12. Adversarial Attack
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Chapter13.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter13. Transfer Learning
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Chapter14.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter14. Reinforcement Learning
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Chapter15.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter15. Meta Learning
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Chapter16.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter16. Lifelong Learning
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Chapter17.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter17. Network Compression
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter18. Explainable Artificial Intelligence
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="Chapter18.html" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter18. Explainable Artificial Intelligence
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#181-why-explainability-matters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18.1 Why Explainability Matters
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#182-interpretability-of-decision-tree" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18.2 Interpretability of Decision Tree
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#183-goal-of-xai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18.3 Goal of XAI
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#184-local-explanation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18.4 Local Explanation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="18.4 Local Explanation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#occlusion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Occlusion
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-gradient" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using Gradient
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Using Gradient">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#saliency-map" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Saliency Map
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#smoothgrad" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SmoothGrad
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gradient-saturation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Gradient Saturation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#integrated-gradients" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Integrated Gradients
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#representation-visualization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Representation Visualization
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#probing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Probing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#generative-probing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Generative Probing
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#185-global-explanation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18.5 Global Explanation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="18.5 Global Explanation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#class-visualization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Class Visualization
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#generative-models" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Generative Models
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#186-lime" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18.6 LIME
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../NLP/info.html" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    自然语言处理
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#181-why-explainability-matters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18.1 Why Explainability Matters
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#182-interpretability-of-decision-tree" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18.2 Interpretability of Decision Tree
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#183-goal-of-xai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18.3 Goal of XAI
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#184-local-explanation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18.4 Local Explanation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="18.4 Local Explanation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#occlusion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Occlusion
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-gradient" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using Gradient
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Using Gradient">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#saliency-map" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Saliency Map
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#smoothgrad" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SmoothGrad
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gradient-saturation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Gradient Saturation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#integrated-gradients" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Integrated Gradients
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#representation-visualization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Representation Visualization
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#probing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Probing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#generative-probing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Generative Probing
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#185-global-explanation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18.5 Global Explanation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="18.5 Global Explanation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#class-visualization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Class Visualization
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#generative-models" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Generative Models
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#186-lime" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18.6 LIME
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+
+  <nav class="md-path" aria-label="导航栏" >
+    <ol class="md-path__list">
+      
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../index.html" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    人工智能
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="info.html" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    深度学习
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/Fffffx0618/PsyBlog/edit/master/docs/AI/DeepLearning/Chapter18.md" title="编辑此页" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+    
+      
+    
+    <a href="https://github.com/Fffffx0618/PsyBlog/raw/master/docs/AI/DeepLearning/Chapter18.md" title="查看本页的源代码" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.2 8.2 0 0 1-1.23-2"/></svg>
+    </a>
+  
+
+
+<h1 id="chapter18-explainable-artificial-intelligence">Chapter18. Explainable Artificial Intelligence<a class="headerlink" href="#chapter18-explainable-artificial-intelligence" title="Permanent link">&para;</a></h1>
+<p>可解释性人工智能（eXplainable Artificial Intelligence，XAI）研究的是：</p>
+<ul>
+<li>模型为什么给出这个答案</li>
+<li>模型到底看了输入的哪些部分</li>
+<li>模型内部表示学到了什么信息</li>
+<li>模型整体上认为某个类别应该长什么样子</li>
+</ul>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<ul>
+<li>深度学习模型通常表现很强，但也常常像黑盒：</li>
+</ul>
+<div class="arithmatex">\[
+x \rightarrow \text{model} \rightarrow y
+\]</div>
+<div class="language-text highlight"><pre><span></span><code>- 我们知道输入和输出，却不一定知道中间为什么会这样决策。
+</code></pre></div>
+<ul>
+<li>XAI 的目标是让强大的黑盒模型在关键场景中也能<strong>被检查、被质疑、被信任</strong>。</li>
+</ul>
+</div>
+<hr />
+<h2 id="181-why-explainability-matters">18.1 Why Explainability Matters<a class="headerlink" href="#181-why-explainability-matters" title="Permanent link">&para;</a></h2>
+<p>模型得到正确答案，不代表它真的学到了我们期待它学的东西。</p>
+<ul>
+<li>机器学习的模型表现出很高的分类准确率，但可能实际利用的是数据集中的偏差、背景、文字水印或其他捷径。一旦环境变化，模型就可能<strong>失效</strong>。</li>
+</ul>
+<div class="admonition info">
+<p class="admonition-title">Real-world Scenarios</p>
+<p>很多真实场景中，模型必须给出理由：</p>
+<ol>
+<li><strong>金融</strong>：银行用模型判断是否放贷，用户有权知道被拒绝的原因</li>
+<li><strong>医疗</strong>：模型给出疾病判断，医生需要知道模型依据了哪些症状或影像区域</li>
+<li><strong>法律</strong>：模型辅助判断假释风险，需要检查模型是否存在偏见或歧视</li>
+<li><strong>自动驾驶</strong>：车辆突然急刹，需要知道是因为看到行人还是模型误判</li>
+</ol>
+</div>
+<p>可解释性还可以帮助模型改进：</p>
+<ul>
+<li>找出模型错误依赖的特征</li>
+<li>检查数据集是否有 bias</li>
+<li>判断模型有没有学到任务真正需要的规律</li>
+</ul>
+<hr />
+<h2 id="182-interpretability-of-decision-tree">18.2 Interpretability of Decision Tree<a class="headerlink" href="#182-interpretability-of-decision-tree" title="Permanent link">&para;</a></h2>
+<p>==决策树（decision tree）==是一个相对容易解释的模型：<br />
+<u>每个节点问一个问题，根据答案往左或往右走，当你走到叶子节点时得到最终判断</u></p>
+<p>我们可以沿着路径读出决策规则，因此单棵决策树有比较好的可解释性。</p>
+<p>但是决策树也不是万能答案：</p>
+<ul>
+<li>特征很多时，树会变得非常复杂</li>
+<li>节点太多时，人也很难理解完整规则</li>
+<li>实际比赛和工业中常用的是 random forest / boosted trees，而不是单棵树<ul>
+<li>单棵树可以解释，而一整片森林就很难解释</li>
+</ul>
+</li>
+</ul>
+<hr />
+<h2 id="183-goal-of-xai">18.3 Goal of XAI<a class="headerlink" href="#183-goal-of-xai" title="Permanent link">&para;</a></h2>
+<p>为了解释比如决策树、随机森林的意义，我们首先应该定义可解释性的目标是什么。一个常见误解是：好的解释必须完整说明<strong>整个模型的全部运作机制</strong>，但这通常不现实，也未必必要。</p>
+<p>1970 年哈佛大学教授做的一个心理学实验：有人在图书馆插队复印，只要给出一个“理由”，即使理由很空泛，别人接受插队的概率也会大幅上升。</p>
+<ul>
+<li>这说明人类在很多时候需要的是：<br />
+  一个能被理解的理由、一个能让人接受的解释、一个足以支持信任或质疑的证据</li>
+<li>所以在 XAI 中，解释常常有一定主观性：<ul>
+<li>对人来说合理的解释，未必等于模型真实的内部机制</li>
+<li>解释方法常常是在黑盒行为和人类理解之间搭桥</li>
+</ul>
+</li>
+</ul>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>可解释性结果不能盲目信任。解释本身也是一种模型或算法，也可能误导人。</p>
+</div>
+<hr />
+<p>XAI 常分为两大类：<mark>局部解释</mark>（local explanation）和<mark>全局解释</mark>（global explanation）</p>
+<h2 id="184-local-explanation">18.4 Local Explanation<a class="headerlink" href="#184-local-explanation" title="Permanent link">&para;</a></h2>
+<p>局部解释针对某一个具体输入：</p>
+<ul>
+<li>给模型一张猫的图片，模型说这是猫。问题是：<u>这张图片中的哪些部分让模型认为它是猫？</u></li>
+</ul>
+<p>局部解释关心：</p>
+<ul>
+<li>某个样本为什么被这样分类</li>
+<li>输入的哪些部分最关键</li>
+<li>如果改变某部分，输出会不会变化</li>
+</ul>
+<h3 id="occlusion">Occlusion<a class="headerlink" href="#occlusion" title="Permanent link">&para;</a></h3>
+<p>最直接的局部解释方法是 <mark>遮挡法（occlusion）</mark>。</p>
+<p>假设输入可以拆成许多部分：</p>
+<ul>
+<li>这部分可以是图片中的像素或区域、文本中的 token、音频中的时间片段、时间序列中的时间点</li>
+</ul>
+<div class="arithmatex">\[
+x=(x_1,x_2,\cdots,x_n)
+\]</div>
+<p>遮挡法的做法：</p>
+<ol>
+<li>把原始输入 <span class="arithmatex">\(x\)</span> 输入模型，得到输出</li>
+<li>依次遮挡或删除某个部分 <span class="arithmatex">\(x_i\)</span></li>
+<li>再次输入模型，观察输出变化</li>
+<li>如果遮挡 <span class="arithmatex">\(x_i\)</span> 后输出大幅改变，说明 <span class="arithmatex">\(x_i\)</span> 很重要</li>
+</ol>
+<h3 id="using-gradient">Using Gradient<a class="headerlink" href="#using-gradient" title="Permanent link">&para;</a></h3>
+<h4 id="saliency-map">Saliency Map<a class="headerlink" href="#saliency-map" title="Permanent link">&para;</a></h4>
+<p>另一种常见方法是使用梯度得到 <mark>显著图（saliency map）</mark>。</p>
+<div style="text-align: center"><img src="images/image-179.png" width="70%"></div>
+
+<p>假设输入是一张图片：</p>
+<div class="arithmatex">\[
+x=(x_1,x_2,\cdots,x_N)
+\]</div>
+<p>其中 <span class="arithmatex">\(x_i\)</span> 是第 <span class="arithmatex">\(i\)</span> 个像素。若模型的损失为 <span class="arithmatex">\(e\)</span>，可以计算 <span class="arithmatex">\(\dfrac{\partial e}{\partial x_i}\)</span></p>
+<ul>
+<li>如果轻微改变 <span class="arithmatex">\(x_i\)</span> 会让损失大幅变化，则 <span class="arithmatex">\(x_i\)</span> 很重要</li>
+<li>如果改变 <span class="arithmatex">\(x_i\)</span> 几乎不影响损失，则 <span class="arithmatex">\(x_i\)</span> 不重要<br />
+因此可以用梯度大小表示重要性：</li>
+</ul>
+<div class="arithmatex">\[
+S_i=\left|\frac{\partial e}{\partial x_i}\right|
+\]</div>
+<ul>
+<li>把所有像素的重要性 <span class="arithmatex">\(S_i\)</span> 画出来，就得到 saliency map</li>
+</ul>
+<h4 id="smoothgrad">SmoothGrad<a class="headerlink" href="#smoothgrad" title="Permanent link">&para;</a></h4>
+<div class="admonition question">
+<p class="admonition-title">Question</p>
+<p>如果模型判断一张图是马，但 saliency map 最亮的位置在图片角落的水印，而不是马身上，说明模型可能学到了数据集偏差。</p>
+</div>
+<p>原始 saliency map 往往噪声很多，于是可以使用 <mark>SmoothGrad</mark>。</p>
+<p><strong>做法</strong>：</p>
+<ol>
+<li>对原始输入加入多组随机噪声</li>
+</ol>
+<p>$$<br />
+   x^{(m)}=x+\epsilon^{(m)}<br />
+   $$</p>
+<ol start="2">
+<li>分别计算每个 noisy input 的 saliency map</li>
+<li>把这些 saliency map 平均</li>
+</ol>
+<p><strong>公式写作</strong>：</p>
+<div class="arithmatex">\[
+S_{\text{smooth}}(x)=\frac{1}{M}\sum_{m=1}^{M}S(x+\epsilon^{(m)})
+\]</div>
+<ul>
+<li>这样可以<strong>减少</strong>随机噪声，让重要区域更<strong>集中</strong>。</li>
+</ul>
+<h4 id="gradient-saturation">Gradient Saturation<a class="headerlink" href="#gradient-saturation" title="Permanent link">&para;</a></h4>
+<p>梯度方法有一个重要问题：<mark>梯度饱和（gradient saturation）</mark></p>
+<div style="text-align: center"><img src="images/image-180.png" width="80%"></div>
+
+<p>教材用大象鼻子的例子说明：</p>
+<ul>
+<li>鼻子越长，越像大象</li>
+<li>但长到一定程度后，再变长也不会让“大象概率”继续明显增加</li>
+<li>此时梯度可能接近 0</li>
+</ul>
+<p>如果只看梯度，会误以为鼻子长度不重要。但实际上鼻子长度显然是判断大象的重要特征。因此梯度小不一定代表特征不重要，也可能代表<strong>模型已经处在饱和区域</strong>。</p>
+<h4 id="integrated-gradients">Integrated Gradients<a class="headerlink" href="#integrated-gradients" title="Permanent link">&para;</a></h4>
+<p>为了解决梯度饱和问题，可以使用 <mark>积分梯度（integrated gradients）</mark></p>
+<ul>
+<li>衡量的是从“没有信息的输入”变成当前输入的过程中，每个维度<strong>累计贡献</strong>了多少</li>
+<li>它不是只看当前点的梯度，而是从一个 baseline <span class="arithmatex">\(x'\)</span> 逐渐走到输入 <span class="arithmatex">\(x\)</span>，沿途累计梯度：</li>
+</ul>
+<div class="arithmatex">\[
+IG_i(x)=(x_i-x_i')\int_0^1
+\frac{\partial F(x'+\alpha(x-x'))}{\partial x_i}d\alpha
+\]</div>
+<ul>
+<li>其中：<ul>
+<li><span class="arithmatex">\(x'\)</span>：baseline，例如全黑图片； <span class="arithmatex">\(x\)</span>：原始输入</li>
+<li><span class="arithmatex">\(F(\cdot)\)</span>：模型对目标类别的输出</li>
+</ul>
+</li>
+</ul>
+<h3 id="representation-visualization">Representation Visualization<a class="headerlink" href="#representation-visualization" title="Permanent link">&para;</a></h3>
+<p>除了看输入哪些部分重要，也可以看模型内部<strong>如何处理输入</strong>。<br />
+假设某一层隐藏表示是一个高维向量：</p>
+<div class="arithmatex">\[
+h\in\mathbb{R}^{100}
+\]</div>
+<ul>
+<li>高维向量不容易直接观察，可以用 PCA、T-SNE 或 UMAP 等降维方法把它投影到<strong>二维</strong>，然后把不同样本的隐藏表示画在<strong>平面</strong>上。</li>
+</ul>
+<div class="admonition example">
+<p class="admonition-title">Speech Example</p>
+<p>在语音识别中：</p>
+<ul>
+<li>原始声音特征可能无法清楚区分“内容相同但说话人不同”的样本</li>
+<li>经过多层神经网络后，隐藏表示可能按语义内容聚集</li>
+<li>说明模型逐渐去除了说话人差异，保留了语音内容</li>
+</ul>
+<p><div style="text-align: center"><img src="images/image-181.png" width="80%"></div></p>
+<p>这种可视化可以帮助我们理解：</p>
+<ul>
+<li>哪一层开始形成类别结构</li>
+<li>模型是否学到了说话内容</li>
+<li>模型是否还保留 speaker information 或 noise information</li>
+</ul>
+</div>
+<h3 id="probing">Probing<a class="headerlink" href="#probing" title="Permanent link">&para;</a></h3>
+<p><mark>探针</mark>（probing）：训练一个分类器检查某层表示中是否包含某种信息。</p>
+<ul>
+<li>以 BERT 为例，假设取出某一层的 token embedding 训练一个 POS classifier，如果这个 classifier 准确率高，说明该层 embedding 中包含较多词性信息；也可以训练 NER classifier 用来检查这一层是否包含人名、地名、组织名等信息。</li>
+</ul>
+<div class="admonition warning">
+<p class="admonition-title">Be Careful with Probes</p>
+<p>使用 probing 时要小心：</p>
+<ul>
+<li>如果 probe 太弱，准确率低不代表表示中没有信息</li>
+<li>如果 probe 太强，可能自己学会任务，而不是证明原表示已经编码了信息</li>
+<li>probe 的训练质量、模型容量和数据集都会影响结论</li>
+</ul>
+</div>
+<h3 id="generative-probing">Generative Probing<a class="headerlink" href="#generative-probing" title="Permanent link">&para;</a></h3>
+<p>探针不一定是分类器，也可以是生成模型。</p>
+<div style="text-align: center"><img src="images/image-182.png" width="70%"></div>
+
+<p>例如语音模型中，可以把某层隐藏表示输入到 TTS 模型，让它重建声音：</p>
+<div class="arithmatex">\[
+h^{(l)}\rightarrow \text{TTS}\rightarrow \hat{x}
+\]</div>
+<p>如果重建出的声音：</p>
+<ul>
+<li>内容还在，但说话人信息消失，说明该层可能去除了 speaker information</li>
+<li>噪声消失，说明该层可能过滤了噪声</li>
+<li>内容也消失，说明该层表示已经不适合还原原始语音</li>
+</ul>
+<p>这种方法可以帮助分析不同层负责保留或丢弃哪些信息。</p>
+<hr />
+<h2 id="185-global-explanation">18.5 Global Explanation<a class="headerlink" href="#185-global-explanation" title="Permanent link">&para;</a></h2>
+<p>全局解释不针对某个特定输入，而是分析整个模型：</p>
+<ul>
+<li>对这个模型而言，什么样的东西叫做猫？</li>
+</ul>
+<p>全局解释关心：</p>
+<ul>
+<li>某个 filter 想检测什么模式</li>
+<li>某个类别在模型心中长什么样</li>
+<li>模型整体学到的特征是什么</li>
+</ul>
+<div class="admonition info">
+<p class="admonition-title">Feature Map</p>
+<ul>
+<li>
+<p>以 CNN 为例，假设某个 filter 的 feature map 为：<span class="arithmatex">\(a_{ij}^{(k)}(X)\)</span></p>
+<ul>
+<li>其中 <span class="arithmatex">\(X\)</span> 为输入图片，<span class="arithmatex">\(k\)</span> 为第 <span class="arithmatex">\(k\)</span> 个 filter，<span class="arithmatex">\(a_{ij}^{(k)}\)</span> 是该 filter 在位置 <span class="arithmatex">\((i,j)\)</span> 的激活值</li>
+</ul>
+</li>
+<li>
+<p>为了知道这个 filter 喜欢什么模式，可以直接优化输入图片：</p>
+</li>
+</ul>
+<div class="arithmatex">\[
+X^*=\arg\max_X\sum_{i,j}a_{ij}^{(k)}(X)
+\]</div>
+<div class="language-text highlight"><pre><span></span><code>- 也就是说，可以用梯度上升法找到 $X^*$，让这个 filter 的总激活越大越好。
+</code></pre></div>
+</div>
+<p>在 MNIST 这类任务中，浅层或中层 filter 往往会学到：横线、竖线、斜线以及局部笔画</p>
+<div style="text-align: center"><img src="images/image-183.png" width="60%"></div>
+
+<p>这说明 CNN 的中间层可能在检测<strong>数字的基本笔画结构</strong>。</p>
+<h3 id="class-visualization">Class Visualization<a class="headerlink" href="#class-visualization" title="Permanent link">&para;</a></h3>
+<p>既然模型能将图片分类为某个类别 <span class="arithmatex">\(c\)</span>，那么什么样的图片能让模型最确信它是类别 <span class="arithmatex">\(c\)</span>？</p>
+<ul>
+<li><strong>固定模型参数不动，把输入图片当作可优化变量</strong>，通过梯度上升让类别的输出分数最大化：</li>
+</ul>
+<div class="arithmatex">\[
+X^*=\arg\max_Xy_c(X)
+\]</div>
+<ul>
+<li><strong>问题</strong>：直接这样优化，得到的图片往往是人眼看不懂的高频噪声。因为模型学到的判别特征可能是一些人眼不敏感的 pattern（比如某种特定频率的纹理），这些 pattern 在数学上确实能让分数变大，但对人类毫无可读性。</li>
+</ul>
+<p>为了让生成出来的图片更像人类能理解的图片，可以加入<strong>正则化（regularization）</strong>：</p>
+<div class="arithmatex">\[
+X^*=\arg\max_X \left(y_c(X)-\lambda R(X)\right)
+\]</div>
+<p>加入 <span class="arithmatex">\(R(X)\)</span> 的目的是让生成的图片<strong>同时满足人类对"自然图片"的先验认知</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>正则化方法</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="arithmatex">\(\|X\|_2^2\)</span>（L2 范数）</td>
+<td>限制像素值不要过大</td>
+</tr>
+<tr>
+<td>限制图像变化剧烈程度</td>
+<td>避免高频噪声</td>
+</tr>
+<tr>
+<td>相邻像素平滑性</td>
+<td>让图片更"连续"</td>
+</tr>
+<tr>
+<td>Total variation penalty</td>
+<td>抑制相邻像素间的剧烈跳变</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>这些正则项本质上是<strong>强加的人类先验</strong>。我们看到的"解释"并不是模型的"真实想法"，而是<strong>在人类审美约束下的近似</strong>。正则化越强，图片越好看，但可能离模型真正的决策依据越远。</p>
+</div>
+<h3 id="generative-models">Generative Models<a class="headerlink" href="#generative-models" title="Permanent link">&para;</a></h3>
+<p>直接优化像素空间自由度太大，优化会陷入<strong>高频噪声</strong>。</p>
+<ul>
+<li>更好的方式是先训练一个<strong>生成器</strong>（如 GAN 或 VAE）来约束搜索空间</li>
+</ul>
+<div style="text-align: center"><img src="images/image-184.png" width="60%"></div>
+
+<div class="admonition info">
+<p class="admonition-title">Train</p>
+<ol>
+<li><strong>Step 1</strong>：训练一个生成模型 （如 GAN 或 VAE）</li>
+</ol>
+<p>$$<br />
+   X=G(z)<br />
+   $$</p>
+<div class="language-text highlight"><pre><span></span><code>- $z$：低维 latent vector
+- $G$：GAN / VAE 等生成模型，只生成"看起来像真实图片"的内容，比随机像素更合理
+</code></pre></div>
+<ol start="2">
+<li><strong>Step 2</strong>：不再优化 <span class="arithmatex">\(X\)</span>，而是优化 <span class="arithmatex">\(z\)</span></li>
+</ol>
+<div class="arithmatex">\[
+z^*=\arg\max_z y_c(G(z))
+\]</div>
+<div class="language-text highlight"><pre><span></span><code>- 分类器 $y_c$ 对 $G(z)$ 输出的图片做分类
+- 梯度可以**回传到 $z$**，用梯度上升更新 $z$
+- $z$ 的维度远低于像素空间，搜索空间小得多
+</code></pre></div>
+<ol start="3">
+<li><strong>Step 3</strong>：得到最终解释图片</li>
+</ol>
+<div class="arithmatex">\[
+X^*=G(z^*)
+\]</div>
+<p>把这个<strong>图像生成器和图像分类器接在一起即可</strong>。<br />
+图像生成器输入是 <span class="arithmatex">\(z\)</span>，输出 <span class="arithmatex">\(G(z)\)</span> 是一张图片，分类器把这个图片当做输入，输出分类的结果。</p>
+</div>
+<p>这样做的好处是：</p>
+<ul>
+<li><span class="arithmatex">\(G(z)\)</span> 通常更像真实图片</li>
+<li>搜索空间被限制在生成模型学到的 image manifold 上</li>
+<li>生成出的解释更容易被人理解</li>
+</ul>
+<p>缺点是：</p>
+<ul>
+<li>解释结果依赖生成器质量</li>
+<li>如果生成器本身有 bias，解释也会有 bias</li>
+<li>生成器限制了模型可能真正依赖的非自然模式</li>
+</ul>
+<hr />
+<h2 id="186-lime">18.6 LIME<a class="headerlink" href="#186-lime" title="Permanent link">&para;</a></h2>
+<p>除了直接解释模型内部，还可以用<strong>简单模型</strong>去近似黑盒模型。<br />
+<mark>LIME</mark>（Local Interpretable Model-agnostic Explanations）的想法是：</p>
+<ul>
+<li>用一个可解释模型，在某个输入附近局部模仿黑盒模型</li>
+<li>这个局部区域内的行为是可以用线性模型去模仿的，所以它叫局部的可解释性</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="页脚" >
+        
+          
+          <a href="Chapter17.html" class="md-footer__link md-footer__link--prev" aria-label="上一页: Chapter17. Network Compression">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256l137.3-137.4c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              <div class="md-ellipsis">
+                Chapter17. Network Compression
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../NLP/info.html" class="md-footer__link md-footer__link--next" aria-label="下一页: 课程信息">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              <div class="md-ellipsis">
+                课程信息
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M247.1 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L179.2 256 41.9 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["content.math", "content.action.edit", "content.action.view", "content.code.copy", "content.code.annotate", "content.tooltips", "navigation.footer", "navigation.indexes", "navigation.path", "navigation.prune", "navigation.tabs", "navigation.top", "navigation.tracking", "search.share", "search.suggest", "search.highlight", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+        <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+      
+    
+  </body>
+</html>

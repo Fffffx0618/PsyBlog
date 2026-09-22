@@ -1,0 +1,2063 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="可达鸭的笔记本，记录了 ZJU-CS 的一些课程笔记。">
+      
+      
+        <meta name="author" content="Fffffx">
+      
+      
+      
+        <link rel="prev" href="Model_Compression.html">
+      
+      
+        <link rel="next" href="GPTs.html">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/icon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Deep Reinforcement Learning - Fffffx's Note</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+  
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+  
+  <style>:root{--md-admonition-icon--note:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22m14.06%209%20.94.94L5.92%2019H5v-.92zm3.6-6c-.25%200-.51.1-.7.29l-1.83%201.83%203.75%203.75%201.83-1.83c.39-.39.39-1.04%200-1.41l-2.34-2.34c-.2-.2-.45-.29-.71-.29m-3.6%203.19L3%2017.25V21h3.75L17.81%209.94z%22/%3E%3C/svg%3E');--md-admonition-icon--abstract:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M2.5%201.75v11.5c0%20.138.112.25.25.25h3.17a.75.75%200%200%201%200%201.5H2.75A1.75%201.75%200%200%201%201%2013.25V1.75C1%20.784%201.784%200%202.75%200h8.5C12.216%200%2013%20.784%2013%201.75v7.736a.75.75%200%200%201-1.5%200V1.75a.25.25%200%200%200-.25-.25h-8.5a.25.25%200%200%200-.25.25m13.274%209.537zl-4.557%204.45a.75.75%200%200%201-1.055-.008l-1.943-1.95a.75.75%200%200%201%201.062-1.058l1.419%201.425%204.026-3.932a.75.75%200%201%201%201.048%201.074M4.75%204h4.5a.75.75%200%200%201%200%201.5h-4.5a.75.75%200%200%201%200-1.5M4%207.75A.75.75%200%200%201%204.75%207h2a.75.75%200%200%201%200%201.5h-2A.75.75%200%200%201%204%207.75%22/%3E%3C/svg%3E');--md-admonition-icon--info:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M0%208a8%208%200%201%201%2016%200A8%208%200%200%201%200%208m8-6.5a6.5%206.5%200%201%200%200%2013%206.5%206.5%200%200%200%200-13M6.5%207.75A.75.75%200%200%201%207.25%207h1a.75.75%200%200%201%20.75.75v2.75h.25a.75.75%200%200%201%200%201.5h-2a.75.75%200%200%201%200-1.5h.25v-2h-.25a.75.75%200%200%201-.75-.75M8%206a1%201%200%201%201%200-2%201%201%200%200%201%200%202%22/%3E%3C/svg%3E');--md-admonition-icon--tip:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M3.499.75a.75.75%200%200%201%201.5%200v.996C5.9%202.903%206.793%203.65%207.662%204.376l.24.202c-.036-.694.055-1.422.426-2.163C9.1.873%2010.794-.045%2012.622.26%2014.408.558%2016%201.94%2016%204.25c0%201.278-.954%202.575-2.44%202.734l.146.508.065.22c.203.701.412%201.455.476%202.226.142%201.707-.4%203.03-1.487%203.898C11.714%2014.671%2010.27%2015%208.75%2015h-6a.75.75%200%200%201%200-1.5h1.376a4.5%204.5%200%200%201-.563-1.191%203.84%203.84%200%200%201-.05-2.063%204.65%204.65%200%200%201-2.025-.293.75.75%200%200%201%20.525-1.406c1.357.507%202.376-.006%202.698-.318l.009-.01a.747.747%200%200%201%201.06%200%20.75.75%200%200%201-.012%201.074c-.912.92-.992%201.835-.768%202.586.221.74.745%201.337%201.196%201.621H8.75c1.343%200%202.398-.296%203.074-.836.635-.507%201.036-1.31.928-2.602-.05-.603-.216-1.224-.422-1.93l-.064-.221c-.12-.407-.246-.84-.353-1.29a2.4%202.4%200%200%201-.507-.441%203.1%203.1%200%200%201-.633-1.248.75.75%200%200%201%201.455-.364c.046.185.144.436.31.627.146.168.353.305.712.305.738%200%201.25-.615%201.25-1.25%200-1.47-.95-2.315-2.123-2.51-1.172-.196-2.227.387-2.706%201.345-.46.92-.27%201.774.019%203.062l.042.19.01.05c.348.443.666.949.94%201.553a.75.75%200%201%201-1.365.62c-.553-1.217-1.32-1.94-2.3-2.768L6.7%205.527c-.814-.68-1.75-1.462-2.692-2.619a3.7%203.7%200%200%200-1.023.88c-.406.495-.663%201.036-.722%201.508.116.122.306.21.591.239.388.038.797-.06%201.032-.19a.75.75%200%200%201%20.728%201.31c-.515.287-1.23.439-1.906.373-.682-.067-1.473-.38-1.879-1.193L.75%205.677V5.5c0-.984.48-1.94%201.077-2.664.46-.559%201.05-1.055%201.673-1.353z%22/%3E%3C/svg%3E');--md-admonition-icon--success:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M13.78%204.22a.75.75%200%200%201%200%201.06l-7.25%207.25a.75.75%200%200%201-1.06%200L2.22%209.28a.75.75%200%200%201%20.018-1.042.75.75%200%200%201%201.042-.018L6%2010.94l6.72-6.72a.75.75%200%200%201%201.06%200%22/%3E%3C/svg%3E');--md-admonition-icon--question:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M0%208a8%208%200%201%201%2016%200A8%208%200%200%201%200%208m8-6.5a6.5%206.5%200%201%200%200%2013%206.5%206.5%200%200%200%200-13M6.92%206.085h.001a.749.749%200%201%201-1.342-.67c.169-.339.436-.701.849-.977C6.845%204.16%207.369%204%208%204a2.76%202.76%200%200%201%201.637.525c.503.377.863.965.863%201.725%200%20.448-.115.83-.329%201.15-.205.307-.47.513-.692.662-.109.072-.22.138-.313.195l-.006.004a6%206%200%200%200-.26.16%201%201%200%200%200-.276.245.75.75%200%200%201-1.248-.832c.184-.264.42-.489.692-.661q.154-.1.313-.195l.007-.004c.1-.061.182-.11.258-.161a1%201%200%200%200%20.277-.245C8.96%206.514%209%206.427%209%206.25a.61.61%200%200%200-.262-.525A1.27%201.27%200%200%200%208%205.5c-.369%200-.595.09-.74.187a1%201%200%200%200-.34.398M9%2011a1%201%200%201%201-2%200%201%201%200%200%201%202%200%22/%3E%3C/svg%3E');--md-admonition-icon--warning:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M6.457%201.047c.659-1.234%202.427-1.234%203.086%200l6.082%2011.378A1.75%201.75%200%200%201%2014.082%2015H1.918a1.75%201.75%200%200%201-1.543-2.575Zm1.763.707a.25.25%200%200%200-.44%200L1.698%2013.132a.25.25%200%200%200%20.22.368h12.164a.25.25%200%200%200%20.22-.368Zm.53%203.996v2.5a.75.75%200%200%201-1.5%200v-2.5a.75.75%200%200%201%201.5%200M9%2011a1%201%200%201%201-2%200%201%201%200%200%201%202%200%22/%3E%3C/svg%3E');--md-admonition-icon--failure:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M2.344%202.343za8%208%200%200%201%2011.314%2011.314A8.002%208.002%200%200%201%20.234%2010.089a8%208%200%200%201%202.11-7.746m1.06%2010.253a6.5%206.5%200%201%200%209.108-9.275%206.5%206.5%200%200%200-9.108%209.275M6.03%204.97%208%206.94l1.97-1.97a.749.749%200%200%201%201.275.326.75.75%200%200%201-.215.734L9.06%208l1.97%201.97a.749.749%200%200%201-.326%201.275.75.75%200%200%201-.734-.215L8%209.06l-1.97%201.97a.749.749%200%200%201-1.275-.326.75.75%200%200%201%20.215-.734L6.94%208%204.97%206.03a.75.75%200%200%201%20.018-1.042.75.75%200%200%201%201.042-.018%22/%3E%3C/svg%3E');--md-admonition-icon--danger:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M9.504.43a1.516%201.516%200%200%201%202.437%201.713L10.415%205.5h2.123c1.57%200%202.346%201.909%201.22%203.004l-7.34%207.142a1.25%201.25%200%200%201-.871.354h-.302a1.25%201.25%200%200%201-1.157-1.723L5.633%2010.5H3.462c-1.57%200-2.346-1.909-1.22-3.004zm1.047%201.074L3.286%208.571A.25.25%200%200%200%203.462%209H6.75a.75.75%200%200%201%20.694%201.034l-1.713%204.188%206.982-6.793A.25.25%200%200%200%2012.538%207H9.25a.75.75%200%200%201-.683-1.06l2.008-4.418.003-.006-.004-.009-.006-.006-.008-.001q-.005%200-.009.004%22/%3E%3C/svg%3E');--md-admonition-icon--bug:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M4.72.22a.75.75%200%200%201%201.06%200l1%20.999a3.5%203.5%200%200%201%202.441%200l.999-1a.748.748%200%200%201%201.265.332.75.75%200%200%201-.205.729l-.775.776c.616.63.995%201.493.995%202.444v.327q0%20.15-.025.292c.408.14.764.392%201.029.722l1.968-.787a.75.75%200%200%201%20.556%201.392L13%207.258V9h2.25a.75.75%200%200%201%200%201.5H13v.5q-.002.615-.141%201.186l2.17.868a.75.75%200%200%201-.557%201.392l-2.184-.873A5%205%200%200%201%208%2016a5%205%200%200%201-4.288-2.427l-2.183.873a.75.75%200%200%201-.558-1.392l2.17-.868A5%205%200%200%201%203%2011v-.5H.75a.75.75%200%200%201%200-1.5H3V7.258L.971%206.446a.75.75%200%200%201%20.558-1.392l1.967.787c.265-.33.62-.583%201.03-.722a1.7%201.7%200%200%201-.026-.292V4.5c0-.951.38-1.814.995-2.444L4.72%201.28a.75.75%200%200%201%200-1.06m.53%206.28a.75.75%200%200%200-.75.75V11a3.5%203.5%200%201%200%207%200V7.25a.75.75%200%200%200-.75-.75ZM6.173%205h3.654A.17.17%200%200%200%2010%204.827V4.5a2%202%200%201%200-4%200v.327c0%20.096.077.173.173.173%22/%3E%3C/svg%3E');--md-admonition-icon--example:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M5%205.782V2.5h-.25a.75.75%200%200%201%200-1.5h6.5a.75.75%200%200%201%200%201.5H11v3.282l3.666%205.76C15.619%2013.04%2014.543%2015%2012.767%2015H3.233c-1.776%200-2.852-1.96-1.899-3.458Zm-2.4%206.565a.75.75%200%200%200%20.633%201.153h9.534a.75.75%200%200%200%20.633-1.153L12.225%2010.5h-8.45ZM9.5%202.5h-3V6c0%20.143-.04.283-.117.403L4.73%209h6.54L9.617%206.403A.75.75%200%200%201%209.5%206Z%22/%3E%3C/svg%3E');--md-admonition-icon--quote:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M1.75%202.5h10.5a.75.75%200%200%201%200%201.5H1.75a.75.75%200%200%201%200-1.5m4%205h8.5a.75.75%200%200%201%200%201.5h-8.5a.75.75%200%200%201%200-1.5m0%205h8.5a.75.75%200%200%201%200%201.5h-8.5a.75.75%200%200%201%200-1.5M2.5%207.75v6a.75.75%200%200%201-1.5%200v-6a.75.75%200%200%201%201.5%200%22/%3E%3C/svg%3E');}</style>
+
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=LXGW+WenKai+Screen,+Microsoft+YaHei,+sans-serif:300,300i,400,400i,700,700i%7CJetBrains+Mono,+Sarasa+Mono+SC,+Consolas,+monospace:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"LXGW WenKai Screen, Microsoft YaHei, sans-serif";--md-code-font:"JetBrains Mono, Sarasa Mono SC, Consolas, monospace"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="https://fonts.loli.net/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap">
+    
+      <link rel="stylesheet" href="https://gcore.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.1.0/style.css">
+    
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap">
+    
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sarasa-gothic@0.43.0/css/sarasa-mono-sc.css">
+    
+      <link rel="stylesheet" href="../../stylesheets/blueTopaz.css">
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue-grey" data-md-color-accent="blue-grey">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#deep-reinforcement-learning" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="Fffffx&#39;s Note" class="md-header__button md-logo" aria-label="Fffffx's Note" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m19.07 14.88 2.05 2.05L15.06 23H13v-2.06zm1.97-1.75c.14 0 .27.06.38.17l1.28 1.28c.22.21.22.56 0 .77l-1 1-2.05-2.05 1-1c.11-.11.25-.17.39-.17M17 4v6l-2-2-2 2V4H9v16h2v2H7c-1.05 0-2-.95-2-2v-1H3v-2h2v-4H3v-2h2V7H3V5h2V4a2 2 0 0 1 2-2h12c1.05 0 2 .95 2 2v6l-2 2V4zM5 5v2h2V5zm0 6v2h2v-2zm0 6v2h2v-2z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Fffffx's Note
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Deep Reinforcement Learning
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="blue-grey" data-md-color-accent="blue-grey"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4M7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="blue-grey" data-md-color-accent="teal"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256l137.3-137.4c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="分享" aria-label="分享" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Fffffx0618/PsyBlog" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Fffffx
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  首页
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Language/index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  编程语言
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Algorithm/index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  程序算法
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../System/index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  体系结构
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Math/index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  数学基础
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  人工智能
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Fffffx&#39;s Note" class="md-nav__button md-logo" aria-label="Fffffx's Note" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m19.07 14.88 2.05 2.05L15.06 23H13v-2.06zm1.97-1.75c.14 0 .27.06.38.17l1.28 1.28c.22.21.22.56 0 .77l-1 1-2.05-2.05 1-1c.11-.11.25-.17.39-.17M17 4v6l-2-2-2 2V4H9v16h2v2H7c-1.05 0-2-.95-2-2v-1H3v-2h2v-4H3v-2h2V7H3V5h2V4a2 2 0 0 1 2-2h12c1.05 0 2 .95 2 2v6l-2 2V4zM5 5v2h2V5zm0 6v2h2v-2zm0 6v2h2v-2z"/></svg>
+
+    </a>
+    Fffffx's Note
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Fffffx0618/PsyBlog" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Fffffx
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../index.html" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    首页
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../Language/index.html" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    编程语言
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../Algorithm/index.html" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    程序算法
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../System/index.html" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    体系结构
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../Math/index.html" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    数学基础
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../index.html" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    人工智能
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6" id="__nav_6_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    人工智能
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../DeepLearning/info.html" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    深度学习
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_6_3" id="__nav_6_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    自然语言处理
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    自然语言处理
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="info.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    课程信息
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="WordEmbedding.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Word Embedding
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="RNN.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Recurrent Neural Networks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="NLG_and_NMT.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Natural Language Generation and Neural Machine Translation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Transformers.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Transformers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="TrainLLM.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    How to train your LLM
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Model_Compression.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Model Compression and Data-Efficient Fine-tuning
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="Reinforcement_Learning.html" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deep Reinforcement Learning
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="GPTs.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GPTs: ChatGPT, GPT-4, and etc
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+
+  <nav class="md-path" aria-label="导航栏" >
+    <ol class="md-path__list">
+      
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../index.html" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    人工智能
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="info.html" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    自然语言处理
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/Fffffx0618/PsyBlog/edit/master/docs/AI/NLP/Reinforcement_Learning.md" title="编辑此页" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+    
+      
+    
+    <a href="https://github.com/Fffffx0618/PsyBlog/raw/master/docs/AI/NLP/Reinforcement_Learning.md" title="查看本页的源代码" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.2 8.2 0 0 1-1.23-2"/></svg>
+    </a>
+  
+
+
+<h1 id="deep-reinforcement-learning">Deep Reinforcement Learning<a class="headerlink" href="#deep-reinforcement-learning" title="Permanent link">&para;</a></h1>
+<div class="admonition abstract">
+<p class="admonition-title">Abstract</p>
+<ol>
+<li>Reinforcement Learning 和 Supervised Learning 最大的区别是：<ul>
+<li><u>很多时候没有直接的标签 <span class="arithmatex">\(y\)</span>，只有环境给出的稀疏 reward</u>。</li>
+</ul>
+</li>
+<li>Agent 必须通过 <strong>trial and error</strong> 学会在当前状态下采取什么行动，目标不是让某一步看起来正确，而是让长期累计回报最大。</li>
+</ol>
+</div>
+<hr />
+<h1 id="part-i-introduction-of-rl">Part I: Introduction of RL<a class="headerlink" href="#part-i-introduction-of-rl" title="Permanent link">&para;</a></h1>
+<h2 id="1-machine-learning-algorithms">1. Machine Learning Algorithms<a class="headerlink" href="#1-machine-learning-algorithms" title="Permanent link">&para;</a></h2>
+<div style="text-align: center"><img src="images/image-88.png" width="70%"></div>
+
+<p>在监督学习中，我们通常学习一个映射：</p>
+<div class="arithmatex">\[
+y=f(x;\theta)
+\]</div>
+<ul>
+<li>模型通过预测值和真实标签之间的 error signal 更新参数</li>
+</ul>
+<p>但强化学习面对的问题更为复杂：</p>
+<ul>
+<li>没有明确的 <span class="arithmatex">\(y\)</span>，reward 可能非常稀疏</li>
+<li>当前 action 的好坏，可能要过很多步之后才知道</li>
+<li>数据分布由 agent 自己的行为决定</li>
+</ul>
+<div class="admonition info">
+<p class="admonition-title">RL in Humans</p>
+<p>人类看起来可以通过很少的 trial and error 学会走路，但这背后可能不只是简单的反向传播：</p>
+<ul>
+<li><strong>Hardware</strong>：生物演化已经积累了大量运动结构和先验</li>
+<li><strong>Imitation Learning</strong>：人类可以观察别人走路</li>
+<li><strong>Algorithms</strong>：大脑可能使用了比普通 SGD 更适合连续交互的学习机制</li>
+</ul>
+</div>
+<h2 id="2-origins-of-rl">2. Origins of RL<a class="headerlink" href="#2-origins-of-rl" title="Permanent link">&para;</a></h2>
+<p>强化学习主要来自两个传统：</p>
+<ol>
+<li><strong>思想假设：心理学中的行为主义</strong><ul>
+<li>learning by <em>trial and error</em>, or search and memory</li>
+<li>Thorndike 的 <strong>Law of Effect</strong></li>
+</ul>
+</li>
+<li><strong>模型求解：控制论中的最优控制理论</strong><ul>
+<li>Bellman equation</li>
+<li>Markov Decision Process (MDP)</li>
+<li>Policy iteration</li>
+</ul>
+</li>
+</ol>
+<h2 id="3-basic-concepts">3. Basic Concepts<a class="headerlink" href="#3-basic-concepts" title="Permanent link">&para;</a></h2>
+<p>强化学习关心的是：<strong>个体如何在环境给予的奖励或惩罚刺激（Reward -- r）下，逐步形成能获得最大利益的习惯性行为（Actions -- a）</strong></p>
+<div style="text-align: center"><img src="images/image-92.png" width="60%"></div>
+
+<p><strong>Experience</strong>：一系列 observation、action、reward 组成的交互历史：</p>
+<div class="arithmatex">\[
+o_1,r_1,a_1,\dots,a_{t-1},o_t,r_t
+\]</div>
+<p><strong>State</strong>：对 experience 的 summary：</p>
+<div class="arithmatex">\[
+s_t=f(o_1,r_1,a_1,\dots,a_{t-1},o_t,r_t)
+\]</div>
+<ul>
+<li>如果环境是 fully observed 的，则可以认为：<span class="arithmatex">\(s_t=f(o_t)\)</span></li>
+<li>也就是说，当前 observation 已经包含了做决策所需的全部信息</li>
+</ul>
+<h2 id="4-rl-taxonomy">4. RL Taxonomy<a class="headerlink" href="#4-rl-taxonomy" title="Permanent link">&para;</a></h2>
+<p>强化学习方法可以从两个维度理解。</p>
+<div style="text-align: center"><img src="images/image-93.png" width="50%"></div>
+
+<h3 id="41-model-based-vs-model-free">4.1 Model-based vs Model-free<a class="headerlink" href="#41-model-based-vs-model-free" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>免模型方法 (Model-free Approach)</strong>：智能体不尝试理解环境运行的底层逻辑（即不预测下一个状态 <span class="arithmatex">\(s'\)</span> 或奖励 <span class="arithmatex">\(r\)</span>），而是直接通过与环境的交互（试错）来学习。这是目前深度增强学习中最主流的方向。</li>
+<li><strong>有模型方法 (Model-based Approach)</strong>：智能体先学习一个关于环境的模型，尝试模拟现实世界的运转逻辑，并利用这个模型进行规划（Planning）。</li>
+</ul>
+<h3 id="42-value-based-vs-policy-based">4.2 Value-based vs Policy-based<a class="headerlink" href="#42-value-based-vs-policy-based" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Value-based RL</strong><ul>
+<li>学习一个 critic / value function，用来估计某个状态或动作的长期回报</li>
+</ul>
+</li>
+<li><strong>Policy-based RL</strong><ul>
+<li>学习一个 actor / policy，直接优化从 state 到 action 的映射</li>
+</ul>
+</li>
+<li><strong>Actor-Critic</strong><ul>
+<li>同时学习 actor 和 critic</li>
+<li>critic 负责评价，actor 负责行动</li>
+</ul>
+</li>
+</ol>
+<hr />
+<h1 id="part-ii-value-based-rl">Part II: Value-based RL<a class="headerlink" href="#part-ii-value-based-rl" title="Permanent link">&para;</a></h1>
+<h2 id="1-q-learning">1. Q-Learning<a class="headerlink" href="#1-q-learning" title="Permanent link">&para;</a></h2>
+<p>Q-function 用来估计：在状态 <span class="arithmatex">\(s\)</span> 下采取 action <span class="arithmatex">\(a\)</span>，之后按照策略 <span class="arithmatex">\(\pi\)</span> 行动，可以得到多少长期回报</p>
+<div class="arithmatex">\[
+Q^\pi(s,a)=\mathbb{E}[r_{t+1}+\gamma r_{t+2}+\gamma^2r_{t+3}+\cdots|s_t=s,a_t=a]
+\]</div>
+<p>其中：</p>
+<ul>
+<li><span class="arithmatex">\(r_{t+1}\)</span> 表示 <span class="arithmatex">\(t+1\)</span> 时刻得到的 reward</li>
+<li><span class="arithmatex">\(\gamma\)</span> 是 discount factor，范围通常在 <span class="arithmatex">\([0,1]\)</span>；<span class="arithmatex">\(\gamma\)</span> 越大，agent 越重视长期回报</li>
+</ul>
+<h3 id="11-bellman-equation">1.1 Bellman Equation<a class="headerlink" href="#11-bellman-equation" title="Permanent link">&para;</a></h3>
+<p>Q-function 满足 Bellman equation 的递归表示：</p>
+<div class="arithmatex">\[
+Q^\pi(s,a)=\mathbb{E}_{s',a'}[r+\gamma Q^\pi(s',a')|s,a]
+\]</div>
+<p>最优价值函数定义为：</p>
+<div class="arithmatex">\[
+Q^*(s,a)=\max_\pi Q^\pi(s,a)=Q^{\pi^*}(s,a)
+\]</div>
+<p>得到 <span class="arithmatex">\(Q^*\)</span> 后，最优策略可以直接写成：</p>
+<div class="arithmatex">\[
+\pi^*(s)=\arg\max_a Q^*(s,a)
+\]</div>
+<p>最优 Bellman 方程为：</p>
+<div class="arithmatex">\[
+Q^*(s,a)=\mathbb{E}_{s'}[r+\gamma\max_{a'}Q^*(s',a')|s,a]
+\]</div>
+<h3 id="12-value-iteration">1.2 Value Iteration<a class="headerlink" href="#12-value-iteration" title="Permanent link">&para;</a></h3>
+<p>核心思想：<strong>通过不断改进某个状态下某个动作的价值评估，让 agent 学会如何最优行动</strong></p>
+<div style="text-align: center"><img src="images/image-94.png" width="65%"></div>
+
+<details class="info">
+<summary>关于Q-learning 的公式</summary>
+<p>原公式可以改写成：</p>
+<div class="arithmatex">\[
+Q_{\text{new}}=(1−\alpha) Q_{\text{old}}+\alpha\times \text{TD target}
+\]</div>
+<p>其中：</p>
+<div class="arithmatex">\[
+\text{TD target}=r+\gamma \max_{\alpha'} Q (s', a')
+\]</div>
+<table>
+<thead>
+<tr>
+<th>变量</th>
+<th style="text-align: right;">数值</th>
+<th>意思</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="arithmatex">\(Q (s, a)\)</span></td>
+<td style="text-align: right;"><span class="arithmatex">\(2\)</span></td>
+<td>原本认为该动作的价值（此处可以理解为最终的期望）是 <span class="arithmatex">\(2\)</span></td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(r(R_{t+1})\)</span></td>
+<td style="text-align: right;">1</td>
+<td>在 <span class="arithmatex">\(s_t\)</span> 状态做 <span class="arithmatex">\(a_t\)</span> 动作，立刻得了 <span class="arithmatex">\(1\)</span> 分</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(\gamma\)</span></td>
+<td style="text-align: right;"><span class="arithmatex">\(0.9\)</span></td>
+<td>对未来的重视程度较高</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(\max Q (s', a')\)</span></td>
+<td style="text-align: right;"><span class="arithmatex">\(3\)</span></td>
+<td>到了新状态 <span class="arithmatex">\(s'(s_{t+1})\)</span> 后，最好的动作 <span class="arithmatex">\(a'\)</span> 价值是 <span class="arithmatex">\(3\)</span></td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(\alpha\)</span></td>
+<td style="text-align: right;"><span class="arithmatex">\(0.5\)</span></td>
+<td>学习率是 <span class="arithmatex">\(0.5\)</span></td>
+</tr>
+<tr>
+<td>先算目标值：</td>
+<td style="text-align: right;"></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<div class="arithmatex">\[
+r + \gamma \max{Q(s',a')}=1+0.9\times 3 = 3.7
+\]</div>
+<p>旧 <span class="arithmatex">\(Q\)</span> 值是 2，新目标是 <span class="arithmatex">\(3.7\)</span>，说明原来低估了：</p>
+<div class="arithmatex">\[
+3.7−2=1.7
+\]</div>
+<p>更新：</p>
+<div class="arithmatex">\[
+Q_{\text{new}} = 2 + 0.5\times 1.7 =2.85
+\]</div>
+<p>所以这个格子的 Q 值从 <strong>2 更新成 2.85</strong>。</p>
+</details>
+<p>下面的伪代码展示了 Q-Learning 的循环迭代逻辑：</p>
+<ol>
+<li><strong>初始化</strong>：随机生成 Q 表的值</li>
+<li><strong>选择并执行动作</strong>：根据当前策略（通常是 <span class="arithmatex">\(\epsilon\)</span> -greedy）选择动作 <span class="arithmatex">\(a\)</span></li>
+<li><strong>观察反馈</strong>：获得奖励 <span class="arithmatex">\(r\)</span> 并进入新状态 <span class="arithmatex">\(s'\)</span></li>
+<li><strong>计算并更新</strong>：利用上述公式计算 TD 误差并更新 Q 表中对应的条目</li>
+<li><strong>状态更替</strong>：将新状态设为当前状态，重复上述过程直到任务结束</li>
+</ol>
+<div style="text-align: center"><img src="images/image-118.png" width="65%"></div>
+
+<h2 id="2-deep-q-network-dqn">2. Deep Q-Network (DQN)<a class="headerlink" href="#2-deep-q-network-dqn" title="Permanent link">&para;</a></h2>
+<ul>
+<li>在 2013 年 DeepMind 发表 Deep QNetwork (DQN) 相关工作之前，强化学习 (Q-learning) 已经进入了瓶颈，主要原因是状态的维度灾难</li>
+<li>DQN 的基本思想：<br />
+  用深度神经网络近似 Q-function：</li>
+</ul>
+<div class="arithmatex">\[
+Q(s,a;\mathbf{w})\approx Q^*(s,a)
+\]</div>
+<div class="admonition note">
+<p class="admonition-title">Nature DQN</p>
+<p>DeepMind 的 DQN 在 Atari Games 上展示了深度强化学习的潜力。<br />
+它把 CNN 的表征能力和 Q-Learning 的长期决策能力结合起来，使 agent 可以直接从像素输入中学习玩游戏。</p>
+</div>
+<h3 id="21-dqn-loss">2.1 DQN Loss<a class="headerlink" href="#21-dqn-loss" title="Permanent link">&para;</a></h3>
+<p>DQN 的目标值为：</p>
+<div class="arithmatex">\[
+y=r+\gamma\max_{a'}Q(s',a';\mathbf{w})
+\]</div>
+<p>loss 可以写成：</p>
+<div class="arithmatex">\[
+L(\mathbf{w})=(y-Q(s,a;\mathbf{w}))^2
+\]</div>
+<p>也就是：</p>
+<div class="arithmatex">\[
+L(\mathbf{w})=(r+\gamma\max_{a'}Q(s',a';\mathbf{w})-Q(s,a;\mathbf{w}))^2
+\]</div>
+<h3 id="22-why-dqn-is-unstable">2.2 Why DQN is Unstable<a class="headerlink" href="#22-why-dqn-is-unstable" title="Permanent link">&para;</a></h3>
+<p>在 DQN 之前，直接用深度神经网络做 Q-Learning 往往会失败，主要原因是不稳定：</p>
+<ol>
+<li><strong>Reward 与 Q-value 的尺度未知</strong><ul>
+<li>不同 Atari 游戏的分数尺度差异很大，比如一个游戏奖励可能经常是 1，另一个游戏一次可能给几百或几千分</li>
+<li>如果直接训练，TD error 可能非常大，梯度也会不稳定</li>
+</ul>
+</li>
+<li><strong>连续输入高度相关</strong><ul>
+<li>戏画面是一帧接一帧来的，相邻图像差别很小。如果神经网络按时间顺序训练，相当于连续喂给模型大量相似样本，容易过拟合最近状态</li>
+</ul>
+</li>
+<li><strong>Q-value 细微变化会导致 policy 剧烈抖动</strong><ul>
+<li>因为 action 由 <span class="arithmatex">\(\arg\max_a Q(s,a)\)</span> 决定</li>
+<li>Q-value 排名一点点变化，就可能导致完全不同的 action</li>
+</ul>
+</li>
+</ol>
+<h3 id="23-deepminds-solutions">2.3 DeepMind's Solutions<a class="headerlink" href="#23-deepminds-solutions" title="Permanent link">&para;</a></h3>
+<p>DeepMind 提出了几个关键技巧：</p>
+<ol>
+<li><strong>Reward Clipping / Normalization</strong><ul>
+<li>将 reward 控制在合理范围内，避免 Q-value 尺度过大</li>
+</ul>
+</li>
+<li><strong>Experience Replay</strong><ul>
+<li>DQN 使用 experience replay，把经历 <span class="arithmatex">\((s, a, r, s')\)</span> 存进 replay memory</li>
+<li>再随机抽 minibatch 训练，从而打散时间相关性，平滑数据分布变化</li>
+</ul>
+</li>
+<li><strong>Freeze Target Q-network</strong><ul>
+<li>维护两个网络：online Q-network 和 target Q-network</li>
+<li>Online 网络正常更新；target 网络隔一段时间才从 online 网络复制一次参数，中间保持不变，让学习过程更稳定<br />
+使用 target network 后：</li>
+</ul>
+</li>
+</ol>
+<div class="arithmatex">\[
+\begin{align}
+y&amp;=r+\gamma\max_{a'}Q(s',a';\mathbf{w}^{-}) \\
+L(\mathbf{w})&amp;=(r+\gamma\max_{a'}Q(s',a';\mathbf{w^-})-Q(s,a;\mathbf{w}))^2
+\end{align}
+\]</div>
+<p>其中 <span class="arithmatex">\(\mathbf{w}^{-}\)</span> 表示 target Q-network 的参数。</p>
+<h3 id="24-improvements-after-nature-dqn">2.4 Improvements after Nature DQN<a class="headerlink" href="#24-improvements-after-nature-dqn" title="Permanent link">&para;</a></h3>
+<p>Nature DQN 之后，DeepMind 和后续工作提出了很多改进：</p>
+<ul>
+<li><strong>Normalized DQN</strong></li>
+<li><strong>Prioritized Experience Replay</strong><ul>
+<li>根据 transition 的 TD error / surprise 分配采样优先级</li>
+<li>让模型更频繁学习“它还没学好”的经验</li>
+</ul>
+</li>
+<li><strong>Double DQN</strong><ul>
+<li>缓解 <span class="arithmatex">\(\max\)</span> 操作导致的 Q-value overestimation</li>
+</ul>
+</li>
+<li><strong>Dueling Network</strong><ul>
+<li>将 state value 和 action advantage 分开建模</li>
+<li>适合很多 action 对结果影响不大的状态</li>
+</ul>
+</li>
+</ul>
+<hr />
+<h1 id="part-iii-policy-based-rl">Part III: Policy-based RL<a class="headerlink" href="#part-iii-policy-based-rl" title="Permanent link">&para;</a></h1>
+<h2 id="1-policy">1. Policy<a class="headerlink" href="#1-policy" title="Permanent link">&para;</a></h2>
+<p>策略（Policy -- <span class="arithmatex">\(\pi\)</span>）：个体的行为，是从 state 到 action 的映射</p>
+<ol>
+<li><strong>Deterministic Policy</strong>，确定性策略直接输出一个 action：</li>
+</ol>
+<div class="arithmatex">\[
+a=\pi(s)
+\]</div>
+<ol start="2">
+<li><strong>Stochastic Policy</strong>，随机策略输出 action 的概率分布：</li>
+</ol>
+<div class="arithmatex">\[
+\pi(a|s)=P(a|s)
+\]</div>
+<h2 id="2-robot-in-a-room">2. Robot in a Room<a class="headerlink" href="#2-robot-in-a-room" title="Permanent link">&para;</a></h2>
+<p><u>最优策略不仅取决于目标位置，还强烈依赖环境模型和 reward structure。</u></p>
+<div class="admonition info">
+<p class="admonition-title">假设</p>
+<ul>
+<li>到达某个格子 reward 为 <span class="arithmatex">\(+1\)</span>；到达危险格子 reward 为 <span class="arithmatex">\(-1\)</span></li>
+<li>每走一步有 step penalty，例如 <span class="arithmatex">\(-0.04\)</span></li>
+<li>action 可能是随机的，例如选择 UP 时：80% 真正向上；10% 向左；10% 向右</li>
+</ul>
+</div>
+<h3 id="environment-matters">Environment Matters<a class="headerlink" href="#environment-matters" title="Permanent link">&para;</a></h3>
+<p>如果 action 是确定性的：</p>
+<ul>
+<li>选择 UP 就一定向上，最优策略通常是 shortest path<br />
+如果 action 是随机的：</li>
+<li>shortest path 可能会经过危险格子旁边，agent 需要考虑动作偏移带来的风险</li>
+<li>最优策略可能会绕路，避开 <span class="arithmatex">\(-1\)</span> 附近的区域</li>
+</ul>
+<h3 id="reward-structure-matters">Reward Structure Matters<a class="headerlink" href="#reward-structure-matters" title="Permanent link">&para;</a></h3>
+<p>step penalty 会改变最优策略：</p>
+<ul>
+<li>如果每步惩罚很大，例如 <span class="arithmatex">\(-2\)</span>：agent 会更急于结束 episode，倾向 shortest path</li>
+</ul>
+<div style="text-align: center"><img src="images/image-120.png" width="60%"></div>
+
+<ul>
+<li>如果每步惩罚较小，例如 <span class="arithmatex">\(-0.04\)</span>：agent 愿意绕路避险</li>
+</ul>
+<div style="text-align: center"><img src="images/image-119.png" width="60%"></div>
+
+<ul>
+<li>如果每步 reward 为正，例如 <span class="arithmatex">\(+0.01\)</span>：agent 可能倾向于走更长路径</li>
+</ul>
+<div style="text-align: center"><img src="images/image-121.png" width="60%"></div>
+
+<h2 id="3-policy-gradient">3. Policy Gradient<a class="headerlink" href="#3-policy-gradient" title="Permanent link">&para;</a></h2>
+<p>Actor 是一个神经网络：</p>
+<ul>
+<li><strong>Input</strong>: the observation of machine represented <u>as a vector or a matrix</u></li>
+<li><strong>Output</strong>: each <u>action</u> corresponds to a neuron in output layer<ul>
+<li>action 可以通过概率采样，也可以取最大概率 action</li>
+<li>如果 action 是连续的，actor 也可以输出连续分布的参数，例如高斯分布的均值和方差</li>
+</ul>
+</li>
+</ul>
+<div style="text-align: center"><img src="images/image-122.png" width="70%"></div>
+
+<h3 id="31-goodness-of-an-actor">3.1 Goodness of an Actor<a class="headerlink" href="#31-goodness-of-an-actor" title="Permanent link">&para;</a></h3>
+<p>给定 actor <span class="arithmatex">\(\pi(s)\)</span> 神经网络参数 <span class="arithmatex">\(\theta^\pi\)</span>，让它与环境交互得到一条 trajectory：</p>
+<div class="arithmatex">\[
+\tau=(s_1,a_1,r_1,s_2,a_2,r_2,\dots,s_T,a_T,r_T)
+\]</div>
+<p>整条 trajectory 的总回报为：</p>
+<div class="arithmatex">\[
+R(\tau)=\sum_{t=1}^{T}r_t
+\]</div>
+<p>因为 actor 本身可能是随机的，环境也可能是随机的，所以即使用同一个 actor，每次得到的 <span class="arithmatex">\(R(\tau)\)</span> 也可能不同。</p>
+<p>因此我们优化的是期望回报：</p>
+<div class="arithmatex">\[
+\bar{R}_{\theta^\pi}=\mathbb{E}_{\tau\sim p_\theta(\tau)}[R(\tau)]
+\]</div>
+<h3 id="32-policy-gradient-formula">3.2 Policy Gradient Formula<a class="headerlink" href="#32-policy-gradient-formula" title="Permanent link">&para;</a></h3>
+<p>神经网络的参数更新公式：</p>
+<div class="arithmatex">\[
+\theta^{\pi'}\leftarrow \theta^\pi+\eta \nabla \bar{R}_{\theta^\pi},\quad \text{using } \theta^\pi\text{ to obtain} \{\tau^1,\tau^2,\dots,\tau^N\}
+\]</div>
+<p>Policy Gradient 的核心公式（对 <span class="arithmatex">\(\theta\)</span> 求偏导）：</p>
+<div class="arithmatex">\[
+\nabla \bar{R}_{\theta^\pi}\approx \frac{1}{N}\sum_{n=1}^{N}R(\tau^n)\nabla\log P(\tau^n|\theta^\pi)
+\]</div>
+<p>trajectory 的概率可以分解为每一步 action 的概率，因此：</p>
+<div class="arithmatex">\[
+\nabla \bar{R}_{\theta^\pi}\approx \frac{1}{N}\sum_{n=1}^{N}\sum_{t=1}^{T_n}R(\tau^n)\nabla\log P(a_t^n|s_t^n,\theta^\pi)
+\]</div>
+<h3 id="33-intuition">3.3 Intuition<a class="headerlink" href="#33-intuition" title="Permanent link">&para;</a></h3>
+<p>如果在 trajectory <span class="arithmatex">\(\tau\)</span> 中，agent 在状态 <span class="arithmatex">\(s_t\)</span> 采取了 action <span class="arithmatex">\(a_t\)</span>：</p>
+<ul>
+<li>当 <span class="arithmatex">\(R(\tau)&gt;0\)</span>：<ul>
+<li>增加 <span class="arithmatex">\(\pi_\theta(a_t|s_t)\)</span>，以后更可能采取这个 action</li>
+</ul>
+</li>
+<li>当 <span class="arithmatex">\(R(\tau)&lt;0\)</span>：<ul>
+<li>减少 <span class="arithmatex">\(\pi_\theta(a_t|s_t)\)</span>，以后更少采取这个 action</li>
+</ul>
+</li>
+</ul>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<ul>
+<li>Policy Gradient 使用的是整条 trajectory 的 cumulative reward，而不是某一步 immediate reward。</li>
+<li>因为某个 action 的真正影响可能要很多步之后才体现出来。如果只看当前 <span class="arithmatex">\(r_t\)</span>，会错误地惩罚“短期吃亏但长期有利”的 action。</li>
+</ul>
+</div>
+<hr />
+<h1 id="part-iv-value--policy">Part IV: Value + Policy<a class="headerlink" href="#part-iv-value--policy" title="Permanent link">&para;</a></h1>
+<h2 id="1-critic">1. Critic<a class="headerlink" href="#1-critic" title="Permanent link">&para;</a></h2>
+<p>Actor 决定行动，而 critic 不直接决定 action。<br />
+Critic 的作用是：给定 actor <span class="arithmatex">\(\pi\)</span>，<strong>评价它在某个 state 下有多好</strong>。</p>
+<div style="text-align: center"><img src="images/image-123.png" width="70%"></div>
+
+<p>状态价值函数：</p>
+<div class="arithmatex">\[
+V^\pi(s)=\mathbb{E}_{\pi}[r_t+\gamma r_{t+1}+\gamma^2r_{t+2}+\cdots|s_t=s]
+\]</div>
+<ul>
+<li>如果 <span class="arithmatex">\(V^\pi(s)\)</span> 很大，说明从这个状态出发，在当前策略下预期能获得较高回报。</li>
+</ul>
+<h2 id="2-how-to-estimate-vpis">2. How to Estimate <span class="arithmatex">\(V^\pi(s)\)</span><a class="headerlink" href="#2-how-to-estimate-vpis" title="Permanent link">&para;</a></h2>
+<h3 id="21-monte-carlo-approach">2.1 Monte-Carlo Approach<a class="headerlink" href="#21-monte-carlo-approach" title="Permanent link">&para;</a></h3>
+<p>MC 方法：<strong>让 critic 观察 actor 玩完整个 episode</strong></p>
+<ul>
+<li>从看到状态 <span class="arithmatex">\(s_t\)</span> 开始，直到 episode 结束，累计得到的 reward 为：</li>
+</ul>
+<div class="arithmatex">\[
+G_t=r_t+\gamma r_{t+1}+\gamma^2r_{t+2}+\cdots
+\]</div>
+<ul>
+<li>可以用 <span class="arithmatex">\(G_t\)</span> 作为 <span class="arithmatex">\(V^\pi(s_t)\)</span> 的监督信号：<span class="arithmatex">\(V^\pi(s_t)\approx G_t\)</span></li>
+</ul>
+<p>优点：估计直观，不需要 bootstrapping<br />
+缺点：必须等 episode 结束，长 episode 中学习反馈太慢，方差较大</p>
+<h3 id="22-temporal-difference-approach">2.2 Temporal-Difference Approach<a class="headerlink" href="#22-temporal-difference-approach" title="Permanent link">&para;</a></h3>
+<p>TD 方法不等到 episode 结束，而是利用一步之后的 value 进行更新：</p>
+<div class="arithmatex">\[
+V^\pi(s_t)\approx r_t+\gamma V^\pi(s_{t+1})
+\]</div>
+<p>TD error：</p>
+<div class="arithmatex">\[
+\delta_t=r_t+\gamma V^\pi(s_{t+1})-V^\pi(s_t)
+\]</div>
+<p>Critic 可以最小化：</p>
+<div class="arithmatex">\[
+L=(r_t+\gamma V^\pi(s_{t+1})-V^\pi(s_t))^2
+\]</div>
+<div class="admonition tip">
+<p class="admonition-title">MC vs TD</p>
+<ul>
+<li><strong>Monte-Carlo</strong>：等到最后，用真实累计回报更新，bias 小但 variance 大</li>
+<li><strong>Temporal-Difference</strong>：边走边更新，使用当前 value 估计作为 bootstrap，bias 较大但 variance 较小</li>
+</ul>
+</div>
+<h2 id="3-actor-critic">3. Actor-Critic<a class="headerlink" href="#3-actor-critic" title="Permanent link">&para;</a></h2>
+<div class="admonition bug">
+<p class="admonition-title">Bug</p>
+<p>回忆 REINFORCE 的梯度公式：</p>
+<div class="arithmatex">\[
+\nabla \bar{R}_{\theta^\pi}\approx \frac{1}{N}\sum_{n=1}^{N}R(\tau^n)\nabla\log P(\tau^n|\theta^\pi)
+\]</div>
+<p><strong>问题</strong>： 计算的是整条轨迹的总回报，方差极大。<br />
+<u> 即使三个轨迹中 agent 的动作几乎一样，回报差异巨大 → 梯度估计抖动严重</u></p>
+</div>
+<p><mark>Actor-Critic</mark> 同时学习 policy 和 value function：</p>
+<ul>
+<li>Actor：<span class="arithmatex">\(\pi_\theta(a|s)\)</span>，负责选择 action</li>
+<li>Critic：<span class="arithmatex">\(V_\phi(s)\)</span>，负责评价 state 或 action 的好坏<br />
+基本流程：<br />
+1. Actor 与环境交互，采样 trajectory<br />
+2. Critic 根据 MC 或 TD 学习 <span class="arithmatex">\(V^\pi(s)\)</span><br />
+3. Actor 根据 critic 的评价更新策略</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Structure</p>
+<p><div style="text-align: center"><img src="images/image-125.png" width="50%"></div></p>
+<p>Actor 和 critic 的网络参数可以部分共享：</p>
+<ul>
+<li>前面的 representation layers 共享，最后分出 policy head 和 value head。</li>
+</ul>
+</div>
+<h2 id="4-advantage-actor-critic">4. Advantage Actor-Critic<a class="headerlink" href="#4-advantage-actor-critic" title="Permanent link">&para;</a></h2>
+<p>直接用 <span class="arithmatex">\(Q^\pi(s, a)\)</span> 做评分有高方差问题（因为 <span class="arithmatex">\(Q\)</span> 值本身的尺度很大），因此引入 <strong>Advantage Function</strong></p>
+<ul>
+<li><mark>Advantage Function</mark> 衡量的是：某个 action 比当前状态下的平均水平好多少</li>
+</ul>
+<div class="arithmatex">\[
+A^\pi(s_t,a_t)=Q^\pi(s_t,a_t)-V^\pi(s_t)
+\]</div>
+<ul>
+<li>在 TD 形式中，可以用 TD error 近似 advantage：</li>
+</ul>
+<div class="arithmatex">\[
+A^\pi(s_t,a_t)\approx r_t+\gamma V^\pi(s_{t+1})-V^\pi(s_t)
+\]</div>
+<div class="admonition tip">
+<p class="admonition-title">Baseline</p>
+<ul>
+<li><span class="arithmatex">\(V^\pi (s)\)</span> 就是 baseline，它满足 <span class="arithmatex">\(\mathbb{E}_{a~\pi}[\nabla_\theta \log\pi(a|s)\cdot b(s)]=0\)</span><ul>
+<li>而且只依赖于 <span class="arithmatex">\(s\)</span>，不依赖于 <span class="arithmatex">\(b (s\)</span>)，因此<strong>不会改变梯度的期望方向</strong>，但可以有效降低方差</li>
+<li>baseline 是“参考线”，减去它后，梯度信号只反映"比参考好/差"，去掉了绝对值波动</li>
+</ul>
+</li>
+</ul>
+</div>
+<h3 id="41-intuition">4.1 Intuition<a class="headerlink" href="#41-intuition" title="Permanent link">&para;</a></h3>
+<p>如果<strong>Advantage Function</strong>为正：</p>
+<div class="arithmatex">\[
+\text{Advantage Function}= r_t- (\gamma V^\pi(s_{t})-V^\pi(s_{t+1})) &gt;0
+\]</div>
+<ul>
+<li>说明实际拿到的 reward <span class="arithmatex">\(r_t^n\)</span> 比 critic 原本预期的结果更好 <span class="arithmatex">\(\rightarrow\)</span> 增加 <span class="arithmatex">\(\pi_\theta(a_t|s_t)\)</span></li>
+</ul>
+<p>如果<strong>Advantage Function</strong>为负：</p>
+<div class="arithmatex">\[
+\text{Advantage Function}= r_t- (\gamma V^\pi(s_{t})-V^\pi(s_{t+1})) &lt;0
+\]</div>
+<ul>
+<li>说明结果比预期更差，advantage 为负：减少 <span class="arithmatex">\(\pi_\theta(a_t|s_t)\)</span></li>
+</ul>
+<p>Policy Gradient 可以改写为：</p>
+<div class="arithmatex">\[
+\nabla_\theta \bar{R}_{\theta}\approx \frac{1}{N}\sum_{n=1}^{N}\sum_{t=1}^{T_n}A^\pi(s_t^n,a_t^n)\nabla_\theta\log\pi_\theta(a_t^n|s_t^n)
+\]</div>
+<h3 id="42-entropy-regularization">4.2 Entropy Regularization<a class="headerlink" href="#42-entropy-regularization" title="Permanent link">&para;</a></h3>
+<p>Actor-Critic 常加入 entropy regularization：</p>
+<div class="arithmatex">\[
+H(\pi(\cdot|s))=-\sum_a\pi(a|s)\log\pi(a|s)
+\]</div>
+<ul>
+<li>更大的 entropy 表示策略更随机，有助于 exploration</li>
+<li>训练时可以鼓励 actor 保持一定随机性，避免过早陷入局部最优。</li>
+</ul>
+<h2 id="5-asynchronous">5. Asynchronous<a class="headerlink" href="#5-asynchronous" title="Permanent link">&para;</a></h2>
+<div style="text-align: center"><img src="images/image-124.png" width="40%"></div>
+
+<p>核心思想是同时运行多个 worker：</p>
+<ol>
+<li>每个 worker 复制一份 global parameters</li>
+<li>worker 与自己的环境交互，采样数据</li>
+<li>worker 在本地计算 actor 和 critic 的梯度</li>
+<li>将梯度异步更新到 global model</li>
+<li>其他 worker 也同时更新 global model</li>
+</ol>
+<div class="admonition info">
+<p class="admonition-title">Why Asynchronous</p>
+<p>异步训练的好处：</p>
+<ul>
+<li>多个 worker 产生不同的数据，降低样本相关性</li>
+<li>不需要单一 replay memory 也能获得较丰富的经验</li>
+<li>提高采样效率</li>
+<li>多个 actor 同时探索，可以缓解局部最优问题</li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="页脚" >
+        
+          
+          <a href="Model_Compression.html" class="md-footer__link md-footer__link--prev" aria-label="上一页: Model Compression and Data-Efficient Fine-tuning">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256l137.3-137.4c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              <div class="md-ellipsis">
+                Model Compression and Data-Efficient Fine-tuning
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="GPTs.html" class="md-footer__link md-footer__link--next" aria-label="下一页: GPTs: ChatGPT, GPT-4, and etc">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              <div class="md-ellipsis">
+                GPTs: ChatGPT, GPT-4, and etc
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M247.1 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L179.2 256 41.9 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["content.math", "content.action.edit", "content.action.view", "content.code.copy", "content.code.annotate", "content.tooltips", "navigation.footer", "navigation.indexes", "navigation.path", "navigation.prune", "navigation.tabs", "navigation.top", "navigation.tracking", "search.share", "search.suggest", "search.highlight", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+        <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+      
+    
+  </body>
+</html>

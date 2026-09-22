@@ -1,0 +1,4236 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="可达鸭的笔记本，记录了 ZJU-CS 的一些课程笔记。">
+      
+      
+        <meta name="author" content="Fffffx">
+      
+      
+      
+        <link rel="prev" href="B%2BTree.html">
+      
+      
+        <link rel="next" href="Lec11.html">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/icon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Query Processing - Fffffx's Note</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+  
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+  
+  <style>:root{--md-admonition-icon--note:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22m14.06%209%20.94.94L5.92%2019H5v-.92zm3.6-6c-.25%200-.51.1-.7.29l-1.83%201.83%203.75%203.75%201.83-1.83c.39-.39.39-1.04%200-1.41l-2.34-2.34c-.2-.2-.45-.29-.71-.29m-3.6%203.19L3%2017.25V21h3.75L17.81%209.94z%22/%3E%3C/svg%3E');--md-admonition-icon--abstract:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M2.5%201.75v11.5c0%20.138.112.25.25.25h3.17a.75.75%200%200%201%200%201.5H2.75A1.75%201.75%200%200%201%201%2013.25V1.75C1%20.784%201.784%200%202.75%200h8.5C12.216%200%2013%20.784%2013%201.75v7.736a.75.75%200%200%201-1.5%200V1.75a.25.25%200%200%200-.25-.25h-8.5a.25.25%200%200%200-.25.25m13.274%209.537zl-4.557%204.45a.75.75%200%200%201-1.055-.008l-1.943-1.95a.75.75%200%200%201%201.062-1.058l1.419%201.425%204.026-3.932a.75.75%200%201%201%201.048%201.074M4.75%204h4.5a.75.75%200%200%201%200%201.5h-4.5a.75.75%200%200%201%200-1.5M4%207.75A.75.75%200%200%201%204.75%207h2a.75.75%200%200%201%200%201.5h-2A.75.75%200%200%201%204%207.75%22/%3E%3C/svg%3E');--md-admonition-icon--info:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M0%208a8%208%200%201%201%2016%200A8%208%200%200%201%200%208m8-6.5a6.5%206.5%200%201%200%200%2013%206.5%206.5%200%200%200%200-13M6.5%207.75A.75.75%200%200%201%207.25%207h1a.75.75%200%200%201%20.75.75v2.75h.25a.75.75%200%200%201%200%201.5h-2a.75.75%200%200%201%200-1.5h.25v-2h-.25a.75.75%200%200%201-.75-.75M8%206a1%201%200%201%201%200-2%201%201%200%200%201%200%202%22/%3E%3C/svg%3E');--md-admonition-icon--tip:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M3.499.75a.75.75%200%200%201%201.5%200v.996C5.9%202.903%206.793%203.65%207.662%204.376l.24.202c-.036-.694.055-1.422.426-2.163C9.1.873%2010.794-.045%2012.622.26%2014.408.558%2016%201.94%2016%204.25c0%201.278-.954%202.575-2.44%202.734l.146.508.065.22c.203.701.412%201.455.476%202.226.142%201.707-.4%203.03-1.487%203.898C11.714%2014.671%2010.27%2015%208.75%2015h-6a.75.75%200%200%201%200-1.5h1.376a4.5%204.5%200%200%201-.563-1.191%203.84%203.84%200%200%201-.05-2.063%204.65%204.65%200%200%201-2.025-.293.75.75%200%200%201%20.525-1.406c1.357.507%202.376-.006%202.698-.318l.009-.01a.747.747%200%200%201%201.06%200%20.75.75%200%200%201-.012%201.074c-.912.92-.992%201.835-.768%202.586.221.74.745%201.337%201.196%201.621H8.75c1.343%200%202.398-.296%203.074-.836.635-.507%201.036-1.31.928-2.602-.05-.603-.216-1.224-.422-1.93l-.064-.221c-.12-.407-.246-.84-.353-1.29a2.4%202.4%200%200%201-.507-.441%203.1%203.1%200%200%201-.633-1.248.75.75%200%200%201%201.455-.364c.046.185.144.436.31.627.146.168.353.305.712.305.738%200%201.25-.615%201.25-1.25%200-1.47-.95-2.315-2.123-2.51-1.172-.196-2.227.387-2.706%201.345-.46.92-.27%201.774.019%203.062l.042.19.01.05c.348.443.666.949.94%201.553a.75.75%200%201%201-1.365.62c-.553-1.217-1.32-1.94-2.3-2.768L6.7%205.527c-.814-.68-1.75-1.462-2.692-2.619a3.7%203.7%200%200%200-1.023.88c-.406.495-.663%201.036-.722%201.508.116.122.306.21.591.239.388.038.797-.06%201.032-.19a.75.75%200%200%201%20.728%201.31c-.515.287-1.23.439-1.906.373-.682-.067-1.473-.38-1.879-1.193L.75%205.677V5.5c0-.984.48-1.94%201.077-2.664.46-.559%201.05-1.055%201.673-1.353z%22/%3E%3C/svg%3E');--md-admonition-icon--success:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M13.78%204.22a.75.75%200%200%201%200%201.06l-7.25%207.25a.75.75%200%200%201-1.06%200L2.22%209.28a.75.75%200%200%201%20.018-1.042.75.75%200%200%201%201.042-.018L6%2010.94l6.72-6.72a.75.75%200%200%201%201.06%200%22/%3E%3C/svg%3E');--md-admonition-icon--question:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M0%208a8%208%200%201%201%2016%200A8%208%200%200%201%200%208m8-6.5a6.5%206.5%200%201%200%200%2013%206.5%206.5%200%200%200%200-13M6.92%206.085h.001a.749.749%200%201%201-1.342-.67c.169-.339.436-.701.849-.977C6.845%204.16%207.369%204%208%204a2.76%202.76%200%200%201%201.637.525c.503.377.863.965.863%201.725%200%20.448-.115.83-.329%201.15-.205.307-.47.513-.692.662-.109.072-.22.138-.313.195l-.006.004a6%206%200%200%200-.26.16%201%201%200%200%200-.276.245.75.75%200%200%201-1.248-.832c.184-.264.42-.489.692-.661q.154-.1.313-.195l.007-.004c.1-.061.182-.11.258-.161a1%201%200%200%200%20.277-.245C8.96%206.514%209%206.427%209%206.25a.61.61%200%200%200-.262-.525A1.27%201.27%200%200%200%208%205.5c-.369%200-.595.09-.74.187a1%201%200%200%200-.34.398M9%2011a1%201%200%201%201-2%200%201%201%200%200%201%202%200%22/%3E%3C/svg%3E');--md-admonition-icon--warning:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M6.457%201.047c.659-1.234%202.427-1.234%203.086%200l6.082%2011.378A1.75%201.75%200%200%201%2014.082%2015H1.918a1.75%201.75%200%200%201-1.543-2.575Zm1.763.707a.25.25%200%200%200-.44%200L1.698%2013.132a.25.25%200%200%200%20.22.368h12.164a.25.25%200%200%200%20.22-.368Zm.53%203.996v2.5a.75.75%200%200%201-1.5%200v-2.5a.75.75%200%200%201%201.5%200M9%2011a1%201%200%201%201-2%200%201%201%200%200%201%202%200%22/%3E%3C/svg%3E');--md-admonition-icon--failure:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M2.344%202.343za8%208%200%200%201%2011.314%2011.314A8.002%208.002%200%200%201%20.234%2010.089a8%208%200%200%201%202.11-7.746m1.06%2010.253a6.5%206.5%200%201%200%209.108-9.275%206.5%206.5%200%200%200-9.108%209.275M6.03%204.97%208%206.94l1.97-1.97a.749.749%200%200%201%201.275.326.75.75%200%200%201-.215.734L9.06%208l1.97%201.97a.749.749%200%200%201-.326%201.275.75.75%200%200%201-.734-.215L8%209.06l-1.97%201.97a.749.749%200%200%201-1.275-.326.75.75%200%200%201%20.215-.734L6.94%208%204.97%206.03a.75.75%200%200%201%20.018-1.042.75.75%200%200%201%201.042-.018%22/%3E%3C/svg%3E');--md-admonition-icon--danger:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M9.504.43a1.516%201.516%200%200%201%202.437%201.713L10.415%205.5h2.123c1.57%200%202.346%201.909%201.22%203.004l-7.34%207.142a1.25%201.25%200%200%201-.871.354h-.302a1.25%201.25%200%200%201-1.157-1.723L5.633%2010.5H3.462c-1.57%200-2.346-1.909-1.22-3.004zm1.047%201.074L3.286%208.571A.25.25%200%200%200%203.462%209H6.75a.75.75%200%200%201%20.694%201.034l-1.713%204.188%206.982-6.793A.25.25%200%200%200%2012.538%207H9.25a.75.75%200%200%201-.683-1.06l2.008-4.418.003-.006-.004-.009-.006-.006-.008-.001q-.005%200-.009.004%22/%3E%3C/svg%3E');--md-admonition-icon--bug:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M4.72.22a.75.75%200%200%201%201.06%200l1%20.999a3.5%203.5%200%200%201%202.441%200l.999-1a.748.748%200%200%201%201.265.332.75.75%200%200%201-.205.729l-.775.776c.616.63.995%201.493.995%202.444v.327q0%20.15-.025.292c.408.14.764.392%201.029.722l1.968-.787a.75.75%200%200%201%20.556%201.392L13%207.258V9h2.25a.75.75%200%200%201%200%201.5H13v.5q-.002.615-.141%201.186l2.17.868a.75.75%200%200%201-.557%201.392l-2.184-.873A5%205%200%200%201%208%2016a5%205%200%200%201-4.288-2.427l-2.183.873a.75.75%200%200%201-.558-1.392l2.17-.868A5%205%200%200%201%203%2011v-.5H.75a.75.75%200%200%201%200-1.5H3V7.258L.971%206.446a.75.75%200%200%201%20.558-1.392l1.967.787c.265-.33.62-.583%201.03-.722a1.7%201.7%200%200%201-.026-.292V4.5c0-.951.38-1.814.995-2.444L4.72%201.28a.75.75%200%200%201%200-1.06m.53%206.28a.75.75%200%200%200-.75.75V11a3.5%203.5%200%201%200%207%200V7.25a.75.75%200%200%200-.75-.75ZM6.173%205h3.654A.17.17%200%200%200%2010%204.827V4.5a2%202%200%201%200-4%200v.327c0%20.096.077.173.173.173%22/%3E%3C/svg%3E');--md-admonition-icon--example:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M5%205.782V2.5h-.25a.75.75%200%200%201%200-1.5h6.5a.75.75%200%200%201%200%201.5H11v3.282l3.666%205.76C15.619%2013.04%2014.543%2015%2012.767%2015H3.233c-1.776%200-2.852-1.96-1.899-3.458Zm-2.4%206.565a.75.75%200%200%200%20.633%201.153h9.534a.75.75%200%200%200%20.633-1.153L12.225%2010.5h-8.45ZM9.5%202.5h-3V6c0%20.143-.04.283-.117.403L4.73%209h6.54L9.617%206.403A.75.75%200%200%201%209.5%206Z%22/%3E%3C/svg%3E');--md-admonition-icon--quote:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M1.75%202.5h10.5a.75.75%200%200%201%200%201.5H1.75a.75.75%200%200%201%200-1.5m4%205h8.5a.75.75%200%200%201%200%201.5h-8.5a.75.75%200%200%201%200-1.5m0%205h8.5a.75.75%200%200%201%200%201.5h-8.5a.75.75%200%200%201%200-1.5M2.5%207.75v6a.75.75%200%200%201-1.5%200v-6a.75.75%200%200%201%201.5%200%22/%3E%3C/svg%3E');}</style>
+
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=LXGW+WenKai+Screen,+Microsoft+YaHei,+sans-serif:300,300i,400,400i,700,700i%7CJetBrains+Mono,+Sarasa+Mono+SC,+Consolas,+monospace:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"LXGW WenKai Screen, Microsoft YaHei, sans-serif";--md-code-font:"JetBrains Mono, Sarasa Mono SC, Consolas, monospace"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="https://fonts.loli.net/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap">
+    
+      <link rel="stylesheet" href="https://gcore.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.1.0/style.css">
+    
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap">
+    
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sarasa-gothic@0.43.0/css/sarasa-mono-sc.css">
+    
+      <link rel="stylesheet" href="../../stylesheets/blueTopaz.css">
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue-grey" data-md-color-accent="blue-grey">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#query-processing" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="Fffffx&#39;s Note" class="md-header__button md-logo" aria-label="Fffffx's Note" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m19.07 14.88 2.05 2.05L15.06 23H13v-2.06zm1.97-1.75c.14 0 .27.06.38.17l1.28 1.28c.22.21.22.56 0 .77l-1 1-2.05-2.05 1-1c.11-.11.25-.17.39-.17M17 4v6l-2-2-2 2V4H9v16h2v2H7c-1.05 0-2-.95-2-2v-1H3v-2h2v-4H3v-2h2V7H3V5h2V4a2 2 0 0 1 2-2h12c1.05 0 2 .95 2 2v6l-2 2V4zM5 5v2h2V5zm0 6v2h2v-2zm0 6v2h2v-2z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Fffffx's Note
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Query Processing
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="blue-grey" data-md-color-accent="blue-grey"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4M7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="blue-grey" data-md-color-accent="teal"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256l137.3-137.4c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="分享" aria-label="分享" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Fffffx0618/PsyBlog" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Fffffx
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  首页
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Language/index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  编程语言
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Algorithm/index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  程序算法
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  体系结构
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Math/index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  数学基础
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../AI/index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  人工智能
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Fffffx&#39;s Note" class="md-nav__button md-logo" aria-label="Fffffx's Note" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m19.07 14.88 2.05 2.05L15.06 23H13v-2.06zm1.97-1.75c.14 0 .27.06.38.17l1.28 1.28c.22.21.22.56 0 .77l-1 1-2.05-2.05 1-1c.11-.11.25-.17.39-.17M17 4v6l-2-2-2 2V4H9v16h2v2H7c-1.05 0-2-.95-2-2v-1H3v-2h2v-4H3v-2h2V7H3V5h2V4a2 2 0 0 1 2-2h12c1.05 0 2 .95 2 2v6l-2 2V4zM5 5v2h2V5zm0 6v2h2v-2zm0 6v2h2v-2z"/></svg>
+
+    </a>
+    Fffffx's Note
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Fffffx0618/PsyBlog" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Fffffx
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../index.html" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    首页
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../Language/index.html" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    编程语言
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../Algorithm/index.html" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    程序算法
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../index.html" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    体系结构
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    体系结构
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../CO/index.html" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    计算机组成
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../CA/info.html" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    计算机体系结构
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4_4" id="__nav_4_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    数据库系统
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    数据库系统
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="info.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    课程信息
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Lec1.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Lec2.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Relational Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Lec3.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Lec4.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Advanced SQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Lec5.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Entity-Relationship Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Lec6.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Relational Database Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Lec8.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Storage and File Structure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Lec9.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Indexing and Hashing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="B%2BTree.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    B+ 树
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Query Processing
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="Lec10.html" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Query Processing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#101-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.1 Overview
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10.1 Overview">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-steps-in-query-processing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Basic Steps in Query Processing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#basic-steps-optimization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Basic Steps: Optimization
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#102-measures-of-query-cost" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.2 Measures of Query Cost
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10.2 Measures of Query Cost">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#simplified-cost-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Simplified Cost Model
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#buffer-and-cost-estimation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Buffer and Cost Estimation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#103-selection-operation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.3 Selection Operation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10.3 Selection Operation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1031-basic-algorithms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.3.1 Basic Algorithms
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10.3.1 Basic Algorithms">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a1-linear-search" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A1 Linear Search
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#a2-binary-search" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A2 Binary Search
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1032-selections-using-indices-and-equality" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.3.2 Selections Using Indices and Equality
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10.3.2 Selections Using Indices and Equality">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a3-primary-index-equality-on-key" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A3 Primary Index, Equality on Key
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#a4-primary-index-equality-on-nonkey" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A4 Primary Index, Equality on Nonkey
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#a5-secondary-index-equality-on-nonkey" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A5 Secondary Index, Equality on Nonkey
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1033-selections-involving-comparisons" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.3.3 Selections Involving Comparisons
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10.3.3 Selections Involving Comparisons">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a6-primary-index-comparison" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A6 Primary Index, Comparison
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#a7-secondary-index-comparison" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A7 Secondary Index, Comparison
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1034-complex-selections" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.3.4 Complex Selections
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10.3.4 Complex Selections">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#conjunction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Conjunction
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#disjunction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Disjunction
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#negation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Negation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#104-sorting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.4 *Sorting
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10.4 *Sorting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1041-external-sort-merge" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.4.1 External Sort-Merge
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1042-cost-of-external-merge-sort" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.4.2 Cost of External Merge Sort
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#105-join-operation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.5 Join Operation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10.5 Join Operation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1051-nested-loop-join" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.5.1 Nested-Loop Join
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1052-block-nested-loop-join" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.5.2 Block Nested-Loop Join
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10.5.2 Block Nested-Loop Join">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#improvements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Improvements
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1053-indexed-nested-loop-join" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.5.3 Indexed Nested-Loop Join
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1054-merge-join" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.5.4 Merge-Join
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10.5.4 Merge-Join">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hybrid-merge-join" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hybrid Merge-Join
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1055-hash-join" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.5.5 Hash-Join
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10.5.5 Hash-Join">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hash-join-algorithm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hash-Join Algorithm
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#recursive-partitioning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Recursive Partitioning
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#handling-of-overflows" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        *Handling of Overflows
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1056-cost-of-hash-join" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.5.6 Cost of Hash-Join
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1057-hybrid-hash-join" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.5.7 *Hybrid Hash-Join
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1058-complex-joins" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.5.8 Complex Joins
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#106-other-operations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.6 *Other Operations
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10.6 *Other Operations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1061-duplicate-elimination" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.6.1 Duplicate Elimination
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1062-projection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.6.2 Projection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1063-aggregation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.6.3 Aggregation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1064-set-operations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.6.4 Set Operations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1065-outer-join" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.6.5 Outer Join
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#107-evaluation-of-expressions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.7 *Evaluation of Expressions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10.7 *Evaluation of Expressions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1071-materialization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.7.1 Materialization
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1072-pipelining" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.7.2 Pipelining
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10.7.2 Pipelining">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#demand-driven-pipelining" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Demand-Driven Pipelining
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#producer-driven-pipelining" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Producer-Driven Pipelining
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#evaluation-algorithms-for-pipelining" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Evaluation Algorithms for Pipelining
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1073-multiway-join-and-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.7.3 Multiway Join and Example
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10.7.3 Multiway Join and Example">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#multiway-join" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Multiway Join
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Example">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#block-nested-loop-join" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Block Nested-Loop Join
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#indexed-nested-loop-join" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Indexed Nested-Loop Join
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Lec11.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Query Optimization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Lec12.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Transactions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Lec13.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Concurrency Control
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Lec14.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Recovery System
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../Math/index.html" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    数学基础
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../AI/index.html" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    人工智能
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#101-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.1 Overview
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10.1 Overview">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-steps-in-query-processing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Basic Steps in Query Processing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#basic-steps-optimization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Basic Steps: Optimization
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#102-measures-of-query-cost" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.2 Measures of Query Cost
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10.2 Measures of Query Cost">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#simplified-cost-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Simplified Cost Model
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#buffer-and-cost-estimation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Buffer and Cost Estimation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#103-selection-operation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.3 Selection Operation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10.3 Selection Operation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1031-basic-algorithms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.3.1 Basic Algorithms
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10.3.1 Basic Algorithms">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a1-linear-search" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A1 Linear Search
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#a2-binary-search" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A2 Binary Search
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1032-selections-using-indices-and-equality" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.3.2 Selections Using Indices and Equality
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10.3.2 Selections Using Indices and Equality">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a3-primary-index-equality-on-key" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A3 Primary Index, Equality on Key
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#a4-primary-index-equality-on-nonkey" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A4 Primary Index, Equality on Nonkey
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#a5-secondary-index-equality-on-nonkey" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A5 Secondary Index, Equality on Nonkey
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1033-selections-involving-comparisons" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.3.3 Selections Involving Comparisons
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10.3.3 Selections Involving Comparisons">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a6-primary-index-comparison" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A6 Primary Index, Comparison
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#a7-secondary-index-comparison" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A7 Secondary Index, Comparison
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1034-complex-selections" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.3.4 Complex Selections
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10.3.4 Complex Selections">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#conjunction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Conjunction
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#disjunction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Disjunction
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#negation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Negation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#104-sorting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.4 *Sorting
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10.4 *Sorting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1041-external-sort-merge" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.4.1 External Sort-Merge
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1042-cost-of-external-merge-sort" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.4.2 Cost of External Merge Sort
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#105-join-operation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.5 Join Operation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10.5 Join Operation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1051-nested-loop-join" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.5.1 Nested-Loop Join
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1052-block-nested-loop-join" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.5.2 Block Nested-Loop Join
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10.5.2 Block Nested-Loop Join">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#improvements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Improvements
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1053-indexed-nested-loop-join" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.5.3 Indexed Nested-Loop Join
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1054-merge-join" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.5.4 Merge-Join
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10.5.4 Merge-Join">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hybrid-merge-join" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hybrid Merge-Join
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1055-hash-join" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.5.5 Hash-Join
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10.5.5 Hash-Join">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hash-join-algorithm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hash-Join Algorithm
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#recursive-partitioning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Recursive Partitioning
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#handling-of-overflows" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        *Handling of Overflows
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1056-cost-of-hash-join" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.5.6 Cost of Hash-Join
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1057-hybrid-hash-join" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.5.7 *Hybrid Hash-Join
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1058-complex-joins" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.5.8 Complex Joins
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#106-other-operations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.6 *Other Operations
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10.6 *Other Operations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1061-duplicate-elimination" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.6.1 Duplicate Elimination
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1062-projection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.6.2 Projection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1063-aggregation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.6.3 Aggregation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1064-set-operations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.6.4 Set Operations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1065-outer-join" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.6.5 Outer Join
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#107-evaluation-of-expressions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.7 *Evaluation of Expressions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10.7 *Evaluation of Expressions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1071-materialization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.7.1 Materialization
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1072-pipelining" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.7.2 Pipelining
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10.7.2 Pipelining">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#demand-driven-pipelining" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Demand-Driven Pipelining
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#producer-driven-pipelining" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Producer-Driven Pipelining
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#evaluation-algorithms-for-pipelining" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Evaluation Algorithms for Pipelining
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1073-multiway-join-and-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.7.3 Multiway Join and Example
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10.7.3 Multiway Join and Example">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#multiway-join" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Multiway Join
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Example">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#block-nested-loop-join" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Block Nested-Loop Join
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#indexed-nested-loop-join" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Indexed Nested-Loop Join
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+
+  <nav class="md-path" aria-label="导航栏" >
+    <ol class="md-path__list">
+      
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../index.html" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    体系结构
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="info.html" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    数据库系统
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/Fffffx0618/PsyBlog/edit/master/docs/System/DB/Lec10.md" title="编辑此页" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+    
+      
+    
+    <a href="https://github.com/Fffffx0618/PsyBlog/raw/master/docs/System/DB/Lec10.md" title="查看本页的源代码" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.2 8.2 0 0 1-1.23-2"/></svg>
+    </a>
+  
+
+
+<h1 id="query-processing">Query Processing<a class="headerlink" href="#query-processing" title="Permanent link">&para;</a></h1>
+<h2 id="101-overview">10.1 Overview<a class="headerlink" href="#101-overview" title="Permanent link">&para;</a></h2>
+<p>本讲关注 <strong>Query Processing</strong>：给定一条 SQL 查询，DBMS 如何把它翻译成内部表达式，并选择具体算法执行。<br />
+需要先记住三个背景事实：</p>
+<ul>
+<li>CPU 不能直接操作磁盘上的数据，数据必须先被读入内存。</li>
+<li>磁盘容量增长速度远快于磁盘读写速度增长速度。<ul>
+<li>20 年内，磁盘容量可能增长约 <span class="arithmatex">\(1000\)</span> 倍，但读写速度只增长约 <span class="arithmatex">\(40\)</span> 倍。</li>
+</ul>
+</li>
+<li>磁盘寻道速度的提升又慢于数据传输速度的提升。</li>
+</ul>
+<p>因此，查询处理的核心矛盾通常不是“CPU 算得快不快”，而是：</p>
+<ul>
+<li><u>如何尽量减少磁盘 I/O，尤其是随机访问和 seek。</u></li>
+</ul>
+<h3 id="basic-steps-in-query-processing">Basic Steps in Query Processing<a class="headerlink" href="#basic-steps-in-query-processing" title="Permanent link">&para;</a></h3>
+<div style="text-align: center"><img src="images/image-93.png" width="60%"></div>
+
+<p>查询处理的基本步骤：</p>
+<ol>
+<li><strong>Parsing and translation（语法分析与翻译）</strong><ul>
+<li>Parser 检查 SQL 语法，并验证涉及的 relation / attribute 是否存在</li>
+<li>将 SQL 翻译成内部形式，通常是 <strong>extended relational algebra（扩展关系代数, ERA）</strong></li>
+</ul>
+</li>
+<li><strong>Optimization（查询优化）</strong><ol>
+<li>对于同一个 SQL 查询，可能对应多个等价的关系代数表达式</li>
+<li>同一个关系代数操作也可能有多种执行算法<br />
+- 因此 Optimizer 需要在多个可行方案中选择估计<strong>代价最低的方案</strong></li>
+</ol>
+</li>
+<li><strong>Evaluation（执行）</strong><ul>
+<li>Query-execution engine 根据 query-evaluation plan 执行查询，并返回结果</li>
+</ul>
+</li>
+</ol>
+<h3 id="basic-steps-optimization">Basic Steps: Optimization<a class="headerlink" href="#basic-steps-optimization" title="Permanent link">&para;</a></h3>
+<p><mark>query-evaluation plan / query-execution plan</mark>：</p>
+<ul>
+<li>指定每个关系代数操作采用什么算法，各个操作之间如何协调执行</li>
+</ul>
+<div class="language-sql highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">balance</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">account</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">balance</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">2500</span><span class="p">;</span>
+</code></pre></div>
+<p>可能有两个等价表达式：</p>
+<div class="arithmatex">\[
+\sigma_{\text{balance} &gt; 2500}(\Pi_{\text{balance}}(\text{account}))
+\]</div>
+<p>或：</p>
+<div class="arithmatex">\[
+\Pi_{\text{balance}}(\sigma_{\text{balance} &gt; 2500}(\text{account}))
+\]</div>
+<p>后者通常更好，因为先选择可以减少后续投影处理的数据量。</p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<p><div style="text-align: center"><img src="images/image-94.png" width="60%"></div></p>
+<div class="arithmatex">\[
+\Pi_{\text{customer-name}}(\sigma_{\text{branch-city=‘Brooklyn’}}(\text{branch} \bowtie\text{account} \bowtie \text{depositor}) )
+\]</div>
+</div>
+<p>优化器考虑的两个主要因素：</p>
+<ul>
+<li><strong>执行算法本身的代价</strong>：例如 selection 用 linear scan 还是 index scan</li>
+<li><strong>数据库目录中的统计信息</strong><ul>
+<li>relation 的 tuple 数量，tuple 大小</li>
+<li>relation 占用的 block 数</li>
+<li>attribute value 的分布等</li>
+</ul>
+</li>
+</ul>
+<hr />
+<h2 id="102-measures-of-query-cost">10.2 Measures of Query Cost<a class="headerlink" href="#102-measures-of-query-cost" title="Permanent link">&para;</a></h2>
+<p><mark>Cost</mark> is generally measured as <strong>total elapsed time</strong> for answering query.</p>
+<ul>
+<li>查询代价一般可以理解为回答查询所需的总时间</li>
+<li>影响查询时间的因素包括：<font color="#ff0000">Disk access</font> + CPU cost + Network communication</li>
+</ul>
+<p>这里主要估计 <strong>disk access cost</strong>：磁盘 I/O 是主要瓶颈；磁盘访问代价相对容易估算</p>
+<ul>
+<li>磁盘代价主要由三部分组成：<ol>
+<li>Number of seek operations performed</li>
+<li>Number of blocks <strong>read</strong> <span class="arithmatex">\(\times\)</span> average-block-read-cost</li>
+<li>Number of blocks <strong>written</strong> <span class="arithmatex">\(\times\)</span> average-block-write-cost</li>
+</ol>
+</li>
+<li>写 block 通常比读 block 更贵：因为写入后可能需要重新读出来，确认写入成功</li>
+</ul>
+<h3 id="simplified-cost-model">Simplified Cost Model<a class="headerlink" href="#simplified-cost-model" title="Permanent link">&para;</a></h3>
+<p>为了简化，只考虑磁盘与内存之间传输了多少个 block，以及发生了多少次寻道</p>
+<ul>
+<li><span class="arithmatex">\(t_T\)</span>：transfer one block 的时间，约 <span class="arithmatex">\(0.1\text{ms}\)</span></li>
+<li><span class="arithmatex">\(t_S\)</span>：one seek 的时间，约 <span class="arithmatex">\(4\text{ms}\)</span></li>
+</ul>
+<p>如果某个算法需要 <span class="arithmatex">\(b\)</span> 次 block transfer 和 <span class="arithmatex">\(S\)</span> 次 seek，则估计时间为：</p>
+<div class="arithmatex">\[
+b \cdot t_T + S \cdot t_S
+\]</div>
+<ul>
+<li>此处不考虑 CPU cost，以及将最终结果写回磁盘的代价</li>
+</ul>
+<h3 id="buffer-and-cost-estimation">Buffer and Cost Estimation<a class="headerlink" href="#buffer-and-cost-estimation" title="Permanent link">&para;</a></h3>
+<p>查询代价依赖内存 buffer 大小：</p>
+<ul>
+<li>内存越大，需要的磁盘访问越少</li>
+<li>实际可用 buffer 受并发进程和 OS 状态影响，不一定能提前准确知道<br />
+因此常用两类估计：<br />
+1. <strong>Worst case estimate</strong>：假设只有该操作所需的最小内存<br />
+2. <strong>Best case estimate</strong>：假设相关数据已经在 buffer 中，或内存足够大</li>
+</ul>
+<hr />
+<h2 id="103-selection-operation">10.3 Selection Operation<a class="headerlink" href="#103-selection-operation" title="Permanent link">&para;</a></h2>
+<p>Selection operation 形如：</p>
+<div class="arithmatex">\[
+\sigma_\theta(r)
+\]</div>
+<ul>
+<li>其目标是从 relation <span class="arithmatex">\(r\)</span> 中找出满足条件 <span class="arithmatex">\(\theta\)</span> 的 tuple</li>
+</ul>
+<div class="admonition info">
+<p class="admonition-title">符号记录</p>
+<ul>
+<li><span class="arithmatex">\(b_r\)</span>：relation <span class="arithmatex">\(r\)</span> 占用的 block 数</li>
+<li><span class="arithmatex">\(n_r\)</span>：relation <span class="arithmatex">\(r\)</span> 中 tuple 数</li>
+<li><span class="arithmatex">\(f_r\)</span>：每个 block 中可容纳的 tuple 数</li>
+<li><span class="arithmatex">\(h_i\)</span>：index tree 的高度</li>
+<li><span class="arithmatex">\(sc(A,r)\)</span>：满足属性 <span class="arithmatex">\(A\)</span> 上选择条件的记录数</li>
+</ul>
+</div>
+<h3 id="1031-basic-algorithms">10.3.1 Basic Algorithms<a class="headerlink" href="#1031-basic-algorithms" title="Permanent link">&para;</a></h3>
+<p><mark>File scan</mark>：一种搜索算法，用于定位和检索满足特定选择条件的记录</p>
+<ul>
+<li>它<strong>不使用索引</strong>，系统必须直接查看数据文件本身，而不是通过辅助结构来查找</li>
+</ul>
+<h4 id="a1-linear-search">A1 Linear Search<a class="headerlink" href="#a1-linear-search" title="Permanent link">&para;</a></h4>
+<p>Linear search（线性扫描）：</p>
+<ul>
+<li>扫描 relation 的每个 block，对每条 record 测试是否满足 selection condition</li>
+</ul>
+<div class="arithmatex">\[
+\text{Cost estimate}=b_r \text{ block transfers} + 1 \text{ seek}
+\]</div>
+<p>如果 selection condition 是 key attribute 上的等值查询（查询一个键属性）：</p>
+<div class="arithmatex">\[
+\text{Average cost} = \frac{b_r}{2} \text{ block transfers} + 1 \text{ seek}
+\]</div>
+<div class="admonition note">
+<p class="admonition-title">Linear search 的优点</p>
+<ul>
+<li>不要求文件有序；不要求有索引；适用于任意 selection condition</li>
+<li>一般情况下，直接在数据文件上 binary search 意义不大，因为数据块在磁盘上未必连续，而且二分会带来更多随机 seek。除非文件确实按目标属性连续排序。</li>
+</ul>
+</div>
+<h4 id="a2-binary-search">A2 Binary Search<a class="headerlink" href="#a2-binary-search" title="Permanent link">&para;</a></h4>
+<p>Binary search（二分查找）适用条件：</p>
+<ul>
+<li>selection 是 equality comparison，文件按照该属性有序存储</li>
+<li>假设 relation 的 blocks 在磁盘上<strong>连续存放</strong></li>
+</ul>
+<ol>
+<li>如果查找 key attribute：</li>
+</ol>
+<div class="arithmatex">\[
+\text{Cost}=\lceil \log_2(b_r) \rceil \text{ block transfers}
++
+\lceil \log_2(b_r) \rceil \text{ seeks}
+\]</div>
+<div class="language-text highlight"><pre><span></span><code>时间约为：
+</code></pre></div>
+<div class="arithmatex">\[
+\lceil \log_2(b_r) \rceil (t_S + t_T)
+\]</div>
+<ol start="2">
+<li>如果查找的是 non-key attribute：<ul>
+<li>找到第一个满足条件的 tuple 后，还要继续读包含所有匹配记录的 blocks</li>
+<li>根据使用条件，匹配的记录的存储是连续的</li>
+</ul>
+</li>
+</ol>
+<div class="arithmatex">\[
+\text{Block transfer}=\lceil \log_2(b_r) \rceil + \left\lceil \frac{sc(A,r)}{f_r} \right\rceil - 1
+\]</div>
+<h3 id="1032-selections-using-indices-and-equality">10.3.2 Selections Using Indices and Equality<a class="headerlink" href="#1032-selections-using-indices-and-equality" title="Permanent link">&para;</a></h3>
+<p><mark>Index scan</mark>：使用<strong>索引</strong>定位满足条件的记录</p>
+<ul>
+<li>selection condition 必须作用在该 index 的 search key 上</li>
+</ul>
+<h4 id="a3-primary-index-equality-on-key">A3 Primary Index, Equality on Key<a class="headerlink" href="#a3-primary-index-equality-on-key" title="Permanent link">&para;</a></h4>
+<p><strong>适用场景</strong>：primary index，equality condition，并且search key 是 key attribute</p>
+<div class="arithmatex">\[
+\text{Cost}=(h_i + 1)(t_T + t_S)
+\]</div>
+<p>其中：</p>
+<ul>
+<li><span class="arithmatex">\(h_i\)</span>：索引树高度</li>
+<li><span class="arithmatex">\(+1\)</span>：找到叶子后，还需要访问实际数据记录所在 block</li>
+</ul>
+<h4 id="a4-primary-index-equality-on-nonkey">A4 Primary Index, Equality on Nonkey<a class="headerlink" href="#a4-primary-index-equality-on-nonkey" title="Permanent link">&para;</a></h4>
+<p><strong>适用场景</strong>：primary index，equality condition，并且search key 不是 key attribute</p>
+<ul>
+<li>会返回多条记录，但因为是 primary / clustering index，匹配记录通常位于连续 blocks 中<br />
+若匹配记录占用 <span class="arithmatex">\(b\)</span> 个 blocks：<span class="arithmatex">\(b = \left\lceil \dfrac{sc(A,r)}{f_r} \right\rceil\)</span></li>
+<li>先沿索引树定位到第一个匹配记录，然后顺序扫描连续的数据 blocks</li>
+</ul>
+<div class="arithmatex">\[
+\text{Cost} = h_i(t_T + t_S) + t_S + b \cdot t_T
+\]</div>
+<h4 id="a5-secondary-index-equality-on-nonkey">A5 Secondary Index, Equality on Nonkey<a class="headerlink" href="#a5-secondary-index-equality-on-nonkey" title="Permanent link">&para;</a></h4>
+<p><strong>适用场景</strong>：secondary index 并且 equality condition</p>
+<ol>
+<li>如果 search key 是 candidate key：<ul>
+<li>最多返回一条记录，代价类似 A3</li>
+</ul>
+</li>
+</ol>
+<div class="arithmatex">\[
+\text{Cost}=(h_i + 1)(t_T + t_S)
+\]</div>
+<ol start="2">
+<li>如果 search key 不是 candidate key：<ul>
+<li>可能返回 <span class="arithmatex">\(n\)</span> 条匹配记录，这些记录可能散布在不同的数据 block 中</li>
+</ul>
+</li>
+</ol>
+<div class="arithmatex">\[
+\text{Cost}=(h_i + n)(t_T + t_S)
+\]</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Secondary index 在 non-key equality 上可能非常贵，因为每条匹配记录都可能触发一次随机 I/O。极端情况下甚至比 linear scan 更差。</p>
+</div>
+<h3 id="1033-selections-involving-comparisons">10.3.3 Selections Involving Comparisons<a class="headerlink" href="#1033-selections-involving-comparisons" title="Permanent link">&para;</a></h3>
+<p>比较查询包括：</p>
+<div class="arithmatex">\[
+&gt;,\quad \ge,\quad &lt;,\quad \le,\quad \ne
+\]</div>
+<p>与等值查询的不同点：返回结果通常是一个范围，结果数量可能很大</p>
+<h4 id="a6-primary-index-comparison">A6 Primary Index, Comparison<a class="headerlink" href="#a6-primary-index-comparison" title="Permanent link">&para;</a></h4>
+<p><strong>基于主索引的比较</strong>，主要分两种情况</p>
+<ul>
+<li>此时不一定要用 index，因为文件本身按 primary search key 排序<br />
+1. 对于 <span class="arithmatex">\(\sigma_{A \ge V}(r)\)</span>：<br />
+   使用 primary index 找到第一个满足 <span class="arithmatex">\(A \ge V\)</span> 的 tuple，然后从那里开始顺序扫描 relation<br />
+2. 对于 <span class="arithmatex">\(\sigma_{A \le V}(r)\)</span>：<br />
+   通常直接从 relation 开头顺序扫描，直到遇到第一个 <span class="arithmatex">\(A &gt; V\)</span> 的 tuple</li>
+</ul>
+<h4 id="a7-secondary-index-comparison">A7 Secondary Index, Comparison<a class="headerlink" href="#a7-secondary-index-comparison" title="Permanent link">&para;</a></h4>
+<p>基于辅助索引的比较，主要分两种情况</p>
+<ol>
+<li>对于 <span class="arithmatex">\(\sigma_{A \ge V}(r)\)</span>：<br />
+   使用 secondary index 找到第一个 <span class="arithmatex">\(A \ge V\)</span> 的 index entry，然后顺序扫描 index leaf pages，获得记录指针。</li>
+<li>对于 <span class="arithmatex">\(\sigma_{A \le V}(r)\)</span>：<br />
+   从 index leaf pages 开始扫描，直到遇到第一个 <span class="arithmatex">\(A &gt; V\)</span> 的 entry<br />
+- 然后根据指针取回实际 records。</li>
+</ol>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Secondary index 的 range query 可能需要对每条结果记录做一次随机 I/O。如果返回结果很多，linear file scan 可能更便宜。</p>
+</div>
+<h3 id="1034-complex-selections">10.3.4 Complex Selections<a class="headerlink" href="#1034-complex-selections" title="Permanent link">&para;</a></h3>
+<h4 id="conjunction">Conjunction<a class="headerlink" href="#conjunction" title="Permanent link">&para;</a></h4>
+<div class="arithmatex">\[
+\sigma_{\theta_1 \land \theta_2 \land \cdots \land \theta_n}(r)
+\]</div>
+<p><strong>A8 Conjunctive selection using one index</strong></p>
+<ol>
+<li>从 <span class="arithmatex">\(\theta_1,\dots,\theta_n\)</span> 中选择一个代价最低、可用索引处理的条件 <span class="arithmatex">\(\theta_i\)</span></li>
+<li>用 A1-A7 中合适算法取出满足 <span class="arithmatex">\(\theta_i\)</span> 的 tuples</li>
+<li>把结果读入内存后，再检查其他条件</li>
+</ol>
+<p><strong>A9 Conjunctive selection using composite index</strong></p>
+<ul>
+<li>如果存在合适的 composite index / multiple-key index，直接使用</li>
+<li>例如索引键为 <span class="arithmatex">\((A,B)\)</span>，查询条件为 <span class="arithmatex">\((A=a) \land (B=b)\)</span> 时很有效</li>
+</ul>
+<p><strong>A10 Conjunctive selection by intersection of identifiers</strong><br />
+<strong>前提</strong>：每个条件都有对应的 index，且 index entries 中包含 record pointers</p>
+<ul>
+<li>分别用索引得到每个条件对应的 record pointer set，对这些 pointer sets 取交集</li>
+<li>最后根据交集中的指针取回 records</li>
+<li>若某些条件没有索引，则取回后在内存中检查</li>
+</ul>
+<h4 id="disjunction">Disjunction<a class="headerlink" href="#disjunction" title="Permanent link">&para;</a></h4>
+<div class="arithmatex">\[
+\sigma_{\theta_1 \lor \theta_2 \lor \cdots \lor \theta_n}(r)
+\]</div>
+<p><strong>A10 disjunctive selection by union of identifiers</strong>：<br />
+<strong>前提</strong>：所有条件都有可用索引</p>
+<ul>
+<li>分别用索引得到各条件对应的 record pointer set，对这些 pointer sets 取并集，再根据指针取回 records</li>
+<li>如果某个条件没有索引：退化为 linear scan。</li>
+</ul>
+<h4 id="negation">Negation<a class="headerlink" href="#negation" title="Permanent link">&para;</a></h4>
+<div class="arithmatex">\[
+\sigma_{\neg \theta}(r)
+\]</div>
+<ul>
+<li>通常使用 linear scan</li>
+<li>如果满足 <span class="arithmatex">\(\neg \theta\)</span> 的记录非常少，并且 <span class="arithmatex">\(\theta\)</span> 可用索引：<ul>
+<li>可以先用索引找出满足目标的记录</li>
+</ul>
+</li>
+</ul>
+<hr />
+<h2 id="104-sorting">10.4 *Sorting<a class="headerlink" href="#104-sorting" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Why：Sorting 的两个主要用途：<ul>
+<li>用户显式要求排序输出</li>
+<li>某些 join 算法需要输入有序，例如 merge-join</li>
+</ul>
+</li>
+<li>可以通过索引按顺序读取 relation：<ul>
+<li>逻辑上是有序的，但物理上 relation 未必按该顺序连续存放</li>
+<li>如果用 secondary index 顺序访问，可能每个 tuple 都要访问一个新的 disk block，代价很高</li>
+</ul>
+</li>
+<li>How：<ul>
+<li>如果 relation 能全部放入内存：可使用 quicksort 等内存排序算法</li>
+<li>如果 relation 放不进内存：使用 external sort-merge（外部排序归并）</li>
+</ul>
+</li>
+</ul>
+<h3 id="1041-external-sort-merge">10.4.1 External Sort-Merge<a class="headerlink" href="#1041-external-sort-merge" title="Permanent link">&para;</a></h3>
+<ul>
+<li><span class="arithmatex">\(M\)</span>：可用内存大小，以 pages / blocks 为单位</li>
+<li><span class="arithmatex">\(b_b\)</span>：一次连续读/写的 block 数量</li>
+<li><span class="arithmatex">\(b_r\)</span>：relation <span class="arithmatex">\(r\)</span> 占用的 blocks 数</li>
+</ul>
+<div class="admonition info">
+<p class="admonition-title">Algorithm</p>
+<ul>
+<li>Step 1: Create Sorted Runs，令 <span class="arithmatex">\(i=0\)</span>，重复执行：<ol>
+<li>读入 relation 的 <span class="arithmatex">\(M\)</span> 个 blocks 到内存</li>
+<li>在内存中排序这些 blocks</li>
+<li>将排序后的数据写入 run <span class="arithmatex">\(R_i\)</span></li>
+<li><span class="arithmatex">\(i \leftarrow i+1\)</span><br />
+- 最终生成 <span class="arithmatex">\(N = \left\lceil \frac{b_r}{M} \right\rceil\)</span> 个初始 runs</li>
+</ol>
+</li>
+<li>Step 2: Merge Runs<ul>
+<li>如果 <span class="arithmatex">\(N &lt; M\)</span>：<ol>
+<li>使用 <span class="arithmatex">\(N\)</span> 个 input buffers</li>
+<li>使用 <span class="arithmatex">\(1\)</span> 个 output buffer</li>
+<li>对 <span class="arithmatex">\(N\)</span> 个 runs 做一次 <span class="arithmatex">\(N\)</span> -way merge</li>
+</ol>
+</li>
+<li>如果 <span class="arithmatex">\(N \ge M\)</span>：<ol>
+<li>一次最多合并 <span class="arithmatex">\(M-1\)</span> 个 runs，因为还需要 1 个 output buffer</li>
+<li>每一轮 merge pass 会把 runs 数量减少约 <span class="arithmatex">\(M-1\)</span> 倍</li>
+<li>重复 merge passes，直到所有 runs 合并为一个</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<h3 id="1042-cost-of-external-merge-sort">10.4.2 Cost of External Merge Sort<a class="headerlink" href="#1042-cost-of-external-merge-sort" title="Permanent link">&para;</a></h3>
+<p><mark>Block transfer</mark>:</p>
+<ul>
+<li>在 merge 阶段需要的轮数 <span class="arithmatex">\(P\)</span> 为：</li>
+</ul>
+<div class="arithmatex">\[
+P = \left\lceil \log_{M-1}\left(\frac{b_r}{M}\right) \right\rceil
+\]</div>
+<ul>
+<li>Initial run creation 和每一轮 merge pass 都需要<strong>完整读+写一遍数据</strong>：<ul>
+<li>因此每轮大约 <span class="arithmatex">\(2b_r\)</span> block transfers</li>
+<li>但 final pass 的输出通常不计写回磁盘的代价，因为可以直接传给父操作</li>
+</ul>
+</li>
+<li>因此 block transfers：</li>
+</ul>
+<div class="arithmatex">\[
+\text{Cost of block transfer}=b_r(2P + 1)
+\]</div>
+<p><mark>Seek cost</mark>：</p>
+<ul>
+<li>Run generation 阶段： <ul>
+<li>每次：seek → 连续读 <span class="arithmatex">\(M\)</span> blocks → 内部排序 → seek → 连续写 <span class="arithmatex">\(M\)</span> blocks</li>
+<li>一共 <span class="arithmatex">\(2 \lceil \dfrac{b_r}{M} \rceil\)</span> 个 run，每个 run 读写各一次 seek</li>
+</ul>
+</li>
+</ul>
+<div class="arithmatex">\[
+\text{Seek}_{\text{run}}=2\left\lceil \frac{b_r}{M} \right\rceil
+\]</div>
+<ul>
+<li>Merge 阶段，设一次连续读写 <span class="arithmatex">\(b_b\)</span> 个 blocks：<ul>
+<li>每轮 merge 需要读全部 <span class="arithmatex">\(b_r\)</span> 个 blocks + 写全部 <span class="arithmatex">\(b_r\)</span> 个 blocks</li>
+<li>每个轮读写各一次 seek，但最后一轮不用写，省掉一轮 seek</li>
+</ul>
+</li>
+</ul>
+<div class="arithmatex">\[
+\left\lceil \frac{b_r}{b_b} \right\rceil(2P - 1)
+\]</div>
+<ul>
+<li>总 seek 数：</li>
+</ul>
+<div class="arithmatex">\[
+\text{Cost of seek}=2\left\lceil \frac{b_r}{M} \right\rceil
++
+\left\lceil \frac{b_r}{b_b} \right\rceil(2P - 1)
+\]</div>
+<hr />
+<h2 id="105-join-operation">10.5 Join Operation<a class="headerlink" href="#105-join-operation" title="Permanent link">&para;</a></h2>
+<p>Join 是查询处理中<strong>代价最高、也最重要</strong>的操作之一</p>
+<div class="admonition note">
+<p class="admonition-title">符号定义</p>
+<ul>
+<li><span class="arithmatex">\(r\)</span>：outer relation</li>
+<li><span class="arithmatex">\(s\)</span>：inner relation</li>
+<li><span class="arithmatex">\(b_r,b_s\)</span>：两个 relation 的 block 数</li>
+<li><span class="arithmatex">\(n_r,n_s\)</span>：两个 relation 的 tuple 数</li>
+<li><span class="arithmatex">\(M\)</span>：可用内存 blocks 数</li>
+</ul>
+</div>
+<h3 id="1051-nested-loop-join">10.5.1 Nested-Loop Join<a class="headerlink" href="#1051-nested-loop-join" title="Permanent link">&para;</a></h3>
+<p>用于计算 theta join：<span class="arithmatex">\(r \bowtie_\theta s\)</span></p>
+<div class="language-text highlight"><pre><span></span><code>for each tuple tr in r:
+    for each tuple ts in s:
+        if (tr, ts) satisfy theta:
+            output tr concat ts
+</code></pre></div>
+<ul>
+<li>不需要索引，可以用于任意 join condition</li>
+<li>代价很高，因为要检查所有 tuple pairs  </li>
+</ul>
+<div class="admonition info">
+<p class="admonition-title">Worst case：</p>
+<ul>
+<li>假设：<ul>
+<li>内存<u>只能容纳每个 relation 的一个 block</u></li>
+<li>对 <span class="arithmatex">\(r\)</span> 中每个 tuple，都需要扫描一次 <span class="arithmatex">\(s\)</span></li>
+</ul>
+</li>
+<li>损失分析：<ul>
+<li>block transfers：<span class="arithmatex">\(n_r \cdot b_s + b_r\)</span><br />
+  外部自身需要 transfer <span class="arithmatex">\(b_r\)</span> 个 block，每个 tuple 去访问内部时进行 <span class="arithmatex">\(b_s\)</span> 次 tansfer</li>
+<li>seeks：<span class="arithmatex">\(n_r + b_r\)</span><ul>
+<li><span class="arithmatex">\(b_r\)</span>：读外层的每个 block 需要 1 次 seek（内存只能装 1 个 block，逐 block 读）</li>
+<li><span class="arithmatex">\(n_r\)</span>：对外层每条 tuple，要重新 seek 回的起始位置开始扫描</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<details class="info">
+<summary>关于 seek 的分析</summary>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>次数</th>
+<th>原因</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>内层扫描</td>
+<td><strong>每轮 1 次</strong> seek</td>
+<td>的 blocks <strong>连续存放</strong>，读完一个紧接着下一个，顺序 I/O</td>
+</tr>
+<tr>
+<td>外层读取</td>
+<td><strong>每个 block 1 次</strong> seek</td>
+<td>每次读的下一个 block 之前，磁头已经被扫描带到了远处，必须 seek 回来</td>
+</tr>
+</tbody>
+</table>
+<p><strong>本质</strong>：不是"读几个 block 就要几次 seek"，而是<strong>访问是否连续</strong>。连续读 100 个 block 也只要 1 次 seek；但如果中间被打断（比如去扫描了别的东西），每次回来都要重新 seek。</p>
+</details>
+<p><strong>Best case</strong>：如果较小 relation 能全部放入内存，并作为 inner relation：</p>
+<div class="arithmatex">\[
+(b_r + b_s) \text{ block transfers} + 2 \text{ seeks}
+\]</div>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Nested-loop join 的 <strong>worst case</strong> 中，通常让 tuple 数更少的 relation 作为 outer relation；<br />
+如果某个 relation 能完整放入内存，则更适合作为 inner relation</p>
+</div>
+<h3 id="1052-block-nested-loop-join">10.5.2 Block Nested-Loop Join<a class="headerlink" href="#1052-block-nested-loop-join" title="Permanent link">&para;</a></h3>
+<div style="text-align: center"><img src="images/image-95.png" width="60%"></div>
+
+<p>Block nested-loop join 是 nested-loop join 的改进： </p>
+<ul>
+<li>对 outer relation 的每个 <em>block</em> 扫描 inner relation</li>
+</ul>
+<div class="language-text highlight"><pre><span></span><code>for each block Br of r:
+    for each block Bs of s:
+        for each tuple tr in Br:
+            for each tuple ts in Bs:
+                if (tr, ts) satisfy theta:
+                    output tr concat ts
+</code></pre></div>
+<div class="admonition info">
+<p class="admonition-title">Cost Analysis</p>
+<ul>
+<li>Worst Case<ul>
+<li>block transfers: <span class="arithmatex">\(b_r \cdot b_s + b_r\)</span></li>
+<li>seeks：<span class="arithmatex">\(2b_r\)</span></li>
+</ul>
+</li>
+<li>Best Case (<span class="arithmatex">\(s\)</span> 始终在内存)<ul>
+<li>block transfers: <span class="arithmatex">\(b_r + b_s\)</span></li>
+<li>seeks：<span class="arithmatex">\(2\)</span></li>
+</ul>
+</li>
+</ul>
+<p>因此在 worst case 下，应让 block 数较小的 relation 作为 outer relation</p>
+</div>
+<h4 id="improvements">Improvements<a class="headerlink" href="#improvements" title="Permanent link">&para;</a></h4>
+<p>(1) when <span class="arithmatex">\(M &gt; 3\)</span>, but <span class="arithmatex">\(M &lt; b_s\)</span> and <span class="arithmatex">\(M &lt; b_r\)</span></p>
+<ul>
+<li>可以用 <span class="arithmatex">\(M-2\)</span> 个 blocks 存放 <mark>outer relation 的一批 blocks</mark></li>
+<li>剩下两个 block 分别作为 inner relation buffer 和 output buffer</li>
+</ul>
+<div style="text-align: center"><img src="images/image-96.png" width="50%"></div>
+
+<div class="admonition info">
+<p class="admonition-title">Cost Analysis</p>
+<ul>
+<li>block transfers：<span class="arithmatex">\(\left\lceil \frac{b_r}{M-2} \right\rceil b_s + b_r\)</span></li>
+<li>seeks：<span class="arithmatex">\(2\left\lceil \frac{b_r}{M-2} \right\rceil\)</span></li>
+</ul>
+<p>这种做法能把读取 inner relation 的次数大约减少 <span class="arithmatex">\(M-2\)</span> 倍</p>
+</div>
+<p>(2) 如果等值连接（equi-join）属性在内层关系上构成键（key），则在第一次匹配时停止内层循环<br />
+(3) 内层扫描可以交替正向/反向进行，同时可以采取 LRU 策略利用仍留在 buffer 中的 blocks<br />
+(4) 如果 inner relation 的 join attribute 上有 index，可以改用 indexed nested-loop join（下面会具体介绍）</p>
+<h3 id="1053-indexed-nested-loop-join">10.5.3 Indexed Nested-Loop Join<a class="headerlink" href="#1053-indexed-nested-loop-join" title="Permanent link">&para;</a></h3>
+<p><strong>适用条件</strong>：</p>
+<ul>
+<li>连接必须是等值连接（Equi-join）或自然连接</li>
+<li>内层表（Inner Relation）的 join attribute 上必须有<strong>索引</strong></li>
+</ul>
+<p>对 outer relation <span class="arithmatex">\(r\)</span> 的每个 tuple <span class="arithmatex">\(t_r\)</span>：</p>
+<ul>
+<li>使用 inner relation <span class="arithmatex">\(s\)</span> 上的 index，找出所有与 <span class="arithmatex">\(t_r\)</span> 满足 join condition 的 <span class="arithmatex">\(s\)</span> tuples</li>
+</ul>
+<div class="admonition info">
+<p class="admonition-title">Worst Case Cost Analysis</p>
+<ul>
+<li>假设：<ul>
+<li>buffer 只能容纳 outer relation 的一个 page</li>
+<li>每个 outer tuple 都要对 inner relation 做一次 index lookup</li>
+</ul>
+</li>
+<li>开销：</li>
+</ul>
+<div class="arithmatex">\[
+\text{Cost}=\underbrace{b_r(t_T + t_S)}_{\text{读取 outer relation }r} + \underbrace{n_r \cdot c}_{\text{对每个 tuple 做一次索引查找}}
+\]</div>
+<div class="language-text highlight"><pre><span></span><code>- 加号前的部分是针对 outer relation 的 tranfer 以及 seek 的开销
+    - ⚠️索引查找完之后，磁头已经移动到 $s$ 的位置，再 transfer $r$ 时需要 seek
+- 其中 $c$ 是对 $s$ 执行一次基于 join condition 的 indexed selection 的代价
+</code></pre></div>
+<ul>
+<li>如果 <span class="arithmatex">\(r\)</span> 和 <span class="arithmatex">\(s\)</span> 的 join attributes 上都有索引：选择 <strong>tuple 数较少的 relation</strong> 作为 outer relation</li>
+</ul>
+</div>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<p>若 outer relation 有 <span class="arithmatex">\(5000\)</span> 个 tuples，inner relation 的 B+ tree 查找一次需要访问 <span class="arithmatex">\(5\)</span> 个 blocks，则 indexed nested-loop join 大约需要 <span class="arithmatex">\(b_{\text{outer}} + 5000 \times 5\)</span> 次 block access。它通常比普通 nested-loop join 少很多 I/O。</p>
+</div>
+<h3 id="1054-merge-join">10.5.4 Merge-Join<a class="headerlink" href="#1054-merge-join" title="Permanent link">&para;</a></h3>
+<p><strong>Merge-join（排序归并连接）</strong> 适用于：<u>equi-join &amp; natural join</u></p>
+<ol>
+<li>如果两个 relation 尚未按 join attribute 排序，先排序</li>
+<li>对两个有序 relation 做类似 merge 的扫描</li>
+<li>对 join attribute 相同的 tuple group，输出所有匹配组合</li>
+</ol>
+<div style="text-align: center"><img src="images/image-97.png" width="30%"></div>
+
+<p>假设对于 join 属性的任何一个给定值，所有与之匹配的 tuple 都能放入内存：</p>
+<div class="arithmatex">\[
+\begin{align}
+\text{ block transfers}&amp;=b_r + b_s \\
+\text{seek} &amp;=
+\left\lceil \frac{b_r}{b_b} \right\rceil
++
+\left\lceil \frac{b_s}{b_b} \right\rceil \\
+\text{cost} &amp;= b_r + b_s+ \left\lceil \frac{b_r}{b_b} \right\rceil
++
+\left\lceil \frac{b_s}{b_b} \right\rceil
+\end{align}
+\]</div>
+<ul>
+<li>如果 relation 未排序，还要加上排序代价</li>
+</ul>
+<h4 id="hybrid-merge-join">Hybrid Merge-Join<a class="headerlink" href="#hybrid-merge-join" title="Permanent link">&para;</a></h4>
+<p>假设：一个 relation 已经排序，另一个 relation 在 join attribute 上有 secondary B+ tree index<br />
+思路：</p>
+<ol>
+<li>将已排序 relation 与 B+ tree 的 leaf entries 合并（按值匹配）</li>
+<li>将合并结果按物理地址排序</li>
+<li>按<strong>物理地址顺序</strong>扫描未排序 relation，将地址替换为实际 tuple<ul>
+<li>这样可以避免大量随机 lookup，尽量转化为顺序扫描</li>
+</ul>
+</li>
+</ol>
+<h3 id="1055-hash-join">10.5.5 Hash-Join<a class="headerlink" href="#1055-hash-join" title="Permanent link">&para;</a></h3>
+<p><strong>Hash-join（哈希连接）</strong> 适用于：equi-join &amp; natural join<br />
+<strong>核心思想</strong>：两个 relation 太大无法直接在内存中 join，那就<strong>先用 hash 分区</strong>，把大问题拆成多个小问题，每个小问题都能在内存中完成。</p>
+<ul>
+<li>使用 hash function <span class="arithmatex">\(h\)</span> 按 join attribute 将两个 relation 分成多个 partition<ul>
+<li>设：<span class="arithmatex">\(h: \text{JoinAttrs} \rightarrow \{0,1,\dots,n\}\)</span></li>
+<li>将 <span class="arithmatex">\(r\)</span> 分成：<span class="arithmatex">\(r_0,r_1,\dots,r_n\)</span>，将 <span class="arithmatex">\(s\)</span> 分成：<span class="arithmatex">\(s_0,s_1,\dots,s_n\)</span></li>
+<li>若 <span class="arithmatex">\(t_r\)</span> 与 <span class="arithmatex">\(t_s\)</span> 满足 join condition，则它们 join attribute 值相同，因此一定被 hash 到同一个 <span class="arithmatex">\(i\)</span>，只需比较 <span class="arithmatex">\(r_i\)</span> 与 <span class="arithmatex">\(s_i\)</span></li>
+</ul>
+</li>
+<li>只有落在同一个 partition 中的 tuples 才可能匹配</li>
+</ul>
+<h4 id="hash-join-algorithm">Hash-Join Algorithm<a class="headerlink" href="#hash-join-algorithm" title="Permanent link">&para;</a></h4>
+<div style="text-align: center"><img src="images/image-98.png" width="35%"></div>
+
+<p><span class="arithmatex">\(s\)</span> 被称为 <strong>build input</strong>，<span class="arithmatex">\(r\)</span> 被称为 <strong>probe input</strong></p>
+<ol>
+<li>使用 hash function <span class="arithmatex">\(h\)</span> 对 build relation <span class="arithmatex">\(s\)</span> 分区</li>
+<li>使用同一个 <span class="arithmatex">\(h\)</span> 对 probe relation <span class="arithmatex">\(r\)</span> 分区</li>
+<li>对每个 partition <span class="arithmatex">\(i\)</span>：<ul>
+<li>将 <span class="arithmatex">\(s_i\)</span> 读入内存，在 <span class="arithmatex">\(s_i\)</span> 上基于 join attribute 建立内存 hash index</li>
+<li>顺序读取 <span class="arithmatex">\(r_i\)</span>，对 <span class="arithmatex">\(r_i\)</span> 中每个 tuple，查刚刚建立的 hash index，输出匹配结果</li>
+</ul>
+</li>
+</ol>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>build input 的每个 partition <span class="arithmatex">\(s_i\)</span> 应该能够放入内存；<br />
+probe input 的 partition <span class="arithmatex">\(r_i\)</span> 不要求放入内存。</p>
+</div>
+<p>通常 partition 数选择为：</p>
+<div class="arithmatex">\[
+n = \left\lceil \frac{b_s}{M} \right\rceil \cdot f
+\]</div>
+<p>其中 <span class="arithmatex">\(f\)</span> 是 fudge factor，通常约为 <span class="arithmatex">\(1.2\)</span>，用来降低分区溢出的概率</p>
+<h4 id="recursive-partitioning">Recursive Partitioning<a class="headerlink" href="#recursive-partitioning" title="Permanent link">&para;</a></h4>
+<p>如果 partition 数 <span class="arithmatex">\(n\)</span> 大于内存页数 <span class="arithmatex">\(M\)</span>：不能一次性为每个 partition 分配 output buffer</p>
+<ul>
+<li>改为一次使用 <span class="arithmatex">\(M-1\)</span> 个 partitions</li>
+<li>对分区继续用新的 hash function 递归分区</li>
+<li>对 <span class="arithmatex">\(r\)</span> 和 <span class="arithmatex">\(s\)</span> 必须使用相同的分区方式</li>
+</ul>
+<h4 id="handling-of-overflows">*Handling of Overflows<a class="headerlink" href="#handling-of-overflows" title="Permanent link">&para;</a></h4>
+<p>Hash-table overflow 发生在 build partition <span class="arithmatex">\(s_i\)</span> 无法放入内存时，常见原因如下：</p>
+<ul>
+<li>join attribute 上大量 tuples 取相同值</li>
+<li>hash function 分布不好</li>
+<li>partitioning skewed，部分 partition 远大于其他 partition</li>
+</ul>
+<p>解决方法：</p>
+<ul>
+<li><strong>Overflow resolution</strong><ul>
+<li>对溢出的 partition 用另一个 hash function 继续分区</li>
+<li>对应的 probe partition 也必须相同方式分区</li>
+</ul>
+</li>
+<li><strong>Overflow avoidance</strong><ul>
+<li>在 build phase 更谨慎地分区，例如先分成更多 partitions，再合并合适的小 partitions</li>
+</ul>
+</li>
+<li>如果重复值极多，上述方法失败：<ul>
+<li>对溢出部分退化使用 block nested-loop join</li>
+</ul>
+</li>
+</ul>
+<h3 id="1056-cost-of-hash-join">10.5.6 Cost of Hash-Join<a class="headerlink" href="#1056-cost-of-hash-join" title="Permanent link">&para;</a></h3>
+<p>如果不需要 recursive partitioning：</p>
+<ul>
+<li>分区时读写 partition：<ul>
+<li>Transfer：读 + 写 =  <span class="arithmatex">\(2(b_r+b_s)\)</span></li>
+<li>Seek：每次连续读/写 <span class="arithmatex">\(b_b\)</span> 个 blocks 需要 <span class="arithmatex">\(1\)</span> 次 seek，读写各 <span class="arithmatex">\(\lceil \dfrac{b_r}{b_b} \rceil+ \lceil \dfrac{b_s}{b_b} \rceil\)</span> 次</li>
+</ul>
+</li>
+<li>建立 hash table：<span class="arithmatex">\(\text{Cost of transfer}= b_s\)</span></li>
+<li>Probe (寻找匹配的值)：<span class="arithmatex">\(\text{Cost of transfer}= b_r\)</span></li>
+</ul>
+<div class="arithmatex">\[
+[3(b_r + b_s) + 4n_h] \text{ block transfers}+
+2\left(
+\left\lceil \frac{b_r}{b_b} \right\rceil
++
+\left\lceil \frac{b_s}{b_b} \right\rceil
+\right)
+\text{ seeks}
+\]</div>
+<ul>
+<li>其中：<ul>
+<li><span class="arithmatex">\(n_h\)</span> 是 partition 数（修正项，partition 填不满的碎片 blocks）</li>
+<li><span class="arithmatex">\(4n_h\)</span> 近似表示 partially filled partition blocks 带来的额外 I/O</li>
+</ul>
+</li>
+</ul>
+<p>如果需要 recursive partitioning：</p>
+<ul>
+<li>build relation <span class="arithmatex">\(s\)</span> 的 partitioning passes 数为：<span class="arithmatex">\(\left\lceil \log_{M-1}(b_s) - 1 \right\rceil\)</span></li>
+<li>总 block transfers：</li>
+</ul>
+<div class="arithmatex">\[
+\text{Cost of transfer} =2(b_r+b_s)\left\lceil \log_{M-1}(b_s)-1 \right\rceil
++
+b_r+b_s
+\]</div>
+<ul>
+<li>seek 数：</li>
+</ul>
+<div class="arithmatex">\[
+\text{Cost of seek} = 2\left(
+\left\lceil \frac{b_r}{b_b} \right\rceil
++
+\left\lceil \frac{b_s}{b_b} \right\rceil
+\right)
+\left\lceil \log_{M-1}(b_s)-1 \right\rceil
+\]</div>
+<p>如果整个 build input 都能放入内存（best case）：</p>
+<div class="arithmatex">\[
+\text{Cost} = b_r+b_s
+\]</div>
+<h3 id="1057-hybrid-hash-join">10.5.7 *Hybrid Hash-Join<a class="headerlink" href="#1057-hybrid-hash-join" title="Permanent link">&para;</a></h3>
+<p>Hybrid hash-join 适用于：内存相对较大，build input 仍然大于内存<br />
+普通的 Hash Join：</p>
+<ol>
+<li><strong>分区阶段</strong>：把表 R 和 S 分成 N 个小包，全部<strong>写入磁盘</strong>。</li>
+<li><strong>构建/探测阶段</strong>：再把这 N 个小包从磁盘<strong>读回内存</strong>进行匹配</li>
+</ol>
+<p>Hybrid Hash-Join：</p>
+<ol>
+<li><strong>分区阶段</strong>（Partitioning Phase）<ul>
+<li>对于哈希值为 <strong>0</strong> 的那部分数据，<strong>直接留在内存里</strong>，不写磁盘</li>
+<li>对于哈希值为 1 到 N-1 的数据，因为内存装不下了，所以<strong>写入磁盘</strong></li>
+</ul>
+</li>
+<li>探测阶段（Probing Phase）<br />
+   这时内存以及存在一个现成的 <strong>Partition 0</strong> 的哈希表<ul>
+<li>开始扫描表 S（Probe Input）</li>
+<li>遇到属于 <strong>Partition 0</strong> 的元组：直接拿它跟内存里现成的表进行匹配（Probe）</li>
+<li>遇到属于 <strong>1 到 N-1</strong> 的元组：先<strong>写入磁盘</strong>，等后面再处理<br />
+因此可以减少一部分 partition 的写盘和读盘代价</li>
+</ul>
+</li>
+</ol>
+<h3 id="1058-complex-joins">10.5.8 Complex Joins<a class="headerlink" href="#1058-complex-joins" title="Permanent link">&para;</a></h3>
+<p>对于 conjunctive join：</p>
+<div class="arithmatex">\[
+r \bowtie_{\theta_1 \land \theta_2 \land \cdots \land \theta_n} s
+\]</div>
+<p>可以：</p>
+<ul>
+<li>使用 nested-loop / block nested-loop 直接检查完整条件</li>
+<li>或先计算其中一个简单 join：<span class="arithmatex">\(r \bowtie_{\theta_i} s\)</span>，再检查剩余条件： <span class="arithmatex">\(\theta_1 \land \dots \land \theta_{i-1} \land \theta_{i+1} \land \cdots \land \theta_n\)</span></li>
+</ul>
+<p>对于 disjunctive join：</p>
+<div class="arithmatex">\[
+r \bowtie_{\theta_1 \lor \theta_2 \lor \cdots \lor \theta_n} s
+\]</div>
+<p>可以：</p>
+<ul>
+<li>使用 nested-loop / block nested-loop 直接检查完整条件</li>
+<li>或分别计算：<span class="arithmatex">\((r \bowtie_{\theta_1} s)\cup(r \bowtie_{\theta_2} s)\cup\cdots\cup(r \bowtie_{\theta_n} s)\)</span></li>
+</ul>
+<hr />
+<h2 id="106-other-operations">10.6 *Other Operations<a class="headerlink" href="#106-other-operations" title="Permanent link">&para;</a></h2>
+<h3 id="1061-duplicate-elimination">10.6.1 Duplicate Elimination<a class="headerlink" href="#1061-duplicate-elimination" title="Permanent link">&para;</a></h3>
+<p>Duplicate elimination 可以通过 sorting 或 hashing 实现</p>
+<ul>
+<li>Sorting 方法：<ul>
+<li>排序后重复的 tuples 会相邻；保留一份，删除其余重复项</li>
+<li>优化：在 run generation 和 intermediate merge 阶段就可以提前删除重复项。</li>
+</ul>
+</li>
+<li>Hashing 方法：<ul>
+<li>重复 tuples 会进入同一个 bucket，在 bucket 内去重</li>
+</ul>
+</li>
+</ul>
+<h3 id="1062-projection">10.6.2 Projection<a class="headerlink" href="#1062-projection" title="Permanent link">&para;</a></h3>
+<p>Projection 的实现：</p>
+<ol>
+<li>对每个 tuple 执行投影</li>
+<li>如果关系代数语义要求集合结果，则执行 duplicate elimination</li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">SQL 中如果没有 <code>DISTINCT</code></p>
+<ul>
+<li><code>SELECT</code> 默认保留重复行</li>
+<li>不一定需要 duplicate elimination</li>
+</ul>
+</div>
+<h3 id="1063-aggregation">10.6.3 Aggregation<a class="headerlink" href="#1063-aggregation" title="Permanent link">&para;</a></h3>
+<p>Aggregation 与 duplicate elimination 类似：</p>
+<ul>
+<li>使用 sorting 或 hashing 将同组 tuples 放在一起</li>
+<li>对每个 group 应用 aggregate functions</li>
+</ul>
+<p>可在 run generation 和 intermediate merge 阶段做 partial aggregation：</p>
+<ul>
+<li>对 <code>count</code>：保存当前计数，合并时相加。</li>
+<li>对 <code>sum</code>：保存部分和，合并时相加。</li>
+<li>对 <code>min</code> / <code>max</code>：保存当前最小/最大值。</li>
+<li>对 <code>avg</code>：保存 <code>sum</code> 和 <code>count</code>，最后再计算：<span class="arithmatex">\(\text{avg} = \dfrac{\text{sum}}{\text{count}}\)</span></li>
+</ul>
+<h3 id="1064-set-operations">10.6.4 Set Operations<a class="headerlink" href="#1064-set-operations" title="Permanent link">&para;</a></h3>
+<p>集合操作包括：</p>
+<div class="arithmatex">\[
+\cup,\quad \cap,\quad -
+\]</div>
+<p>可以通过：</p>
+<ul>
+<li>sorting 后使用 merge-join 的变体</li>
+<li>hashing 后使用 hash-join 的变体</li>
+</ul>
+<p>Hashing 实现思路：</p>
+<ol>
+<li>用相同 hash function 分区两个 relation：<span class="arithmatex">\(r_0,\dots,r_n\)</span> 和 <span class="arithmatex">\(s_0,\dots,s_n\)</span></li>
+<li>对每个 partition <span class="arithmatex">\(i\)</span>：<ul>
+<li>将 <span class="arithmatex">\(r_i\)</span> 读入内存</li>
+<li>使用另一个 hash function 建立内存 hash index</li>
+<li>处理 <span class="arithmatex">\(s_i\)</span></li>
+</ul>
+</li>
+</ol>
+<p>对于 union：</p>
+<ul>
+<li>若 <span class="arithmatex">\(s_i\)</span> 中 tuple 不在 hash index 中，则加入</li>
+<li>最后输出 hash index 中所有 tuples</li>
+</ul>
+<p>对于 intersection：</p>
+<ul>
+<li>若 <span class="arithmatex">\(s_i\)</span> 中 tuple 已在 hash index 中，则输出</li>
+</ul>
+<p>对于 difference <span class="arithmatex">\(r-s\)</span>：</p>
+<ul>
+<li>对每个 <span class="arithmatex">\(s_i\)</span> 中 tuple，若其在 hash index 中，则删除</li>
+<li>最后输出 hash index 中剩余 tuples</li>
+</ul>
+<h3 id="1065-outer-join">10.6.5 Outer Join<a class="headerlink" href="#1065-outer-join" title="Permanent link">&para;</a></h3>
+<p>Outer join 可以通过两类方式计算：</p>
+<ul>
+<li>先做普通 join，再添加用 null padding 的未匹配 tuples</li>
+<li>修改 join algorithm，使其在 join 过程中输出未匹配 tuples</li>
+</ul>
+<p>以 left outer join 为例：</p>
+<div class="arithmatex">\[
+r \;\text{left outer join}\; s
+\]</div>
+<p>如果修改 merge-join：</p>
+<ul>
+<li>对每个来自 <span class="arithmatex">\(r\)</span>、没有匹配 <span class="arithmatex">\(s\)</span> tuple 的 tuple <span class="arithmatex">\(t_r\)</span>：输出 <span class="arithmatex">\(t_r\)</span> 并在 <span class="arithmatex">\(s\)</span> 的属性位置填充 null</li>
+</ul>
+<p>如果修改 hash-join：</p>
+<ul>
+<li>若 <span class="arithmatex">\(r\)</span> 是 probe relation：<ul>
+<li>probe 时发现没有匹配，就输出 null padded tuple</li>
+</ul>
+</li>
+<li>若 <span class="arithmatex">\(r\)</span> 是 build relation：<ul>
+<li>probing 时记录哪些 <span class="arithmatex">\(r\)</span> tuples 被匹配过</li>
+<li>最后输出未匹配的 <span class="arithmatex">\(r\)</span> tuples，并补 null</li>
+</ul>
+</li>
+</ul>
+<p>Right outer join 和 full outer join 可类似处理</p>
+<hr />
+<h2 id="107-evaluation-of-expressions">10.7 *Evaluation of Expressions<a class="headerlink" href="#107-evaluation-of-expressions" title="Permanent link">&para;</a></h2>
+<p>前面讨论的是单个关系代数操作的实现。实际查询通常是一棵 expression tree，例如：</p>
+<div class="arithmatex">\[
+\Pi_{\text{customer-name}}
+(
+\sigma_{\text{balance}&lt;2500}(\text{account})
+\bowtie
+\text{depositor}
+)
+\]</div>
+<p>完整表达式的执行方式主要有两类：</p>
+<ul>
+<li>Materialization</li>
+<li>Pipelining</li>
+</ul>
+<h3 id="1071-materialization">10.7.1 Materialization<a class="headerlink" href="#1071-materialization" title="Permanent link">&para;</a></h3>
+<p>Materialized evaluation（实体化执行）：</p>
+<ul>
+<li>从表达式树的最低层开始，一次执行一个操作；</li>
+<li>每个操作的中间结果都存储为临时 relation，上层操作再读取临时 relation 继续计算</li>
+</ul>
+<p>优点：总是适用，实现简单<br />
+缺点：中间结果需要写入磁盘，再读回，代价可能很高</p>
+<ul>
+<li>整体代价：<span class="arithmatex">\(\text{sum of individual operation costs}+\text{cost of writing intermediate results to disk}\)</span></li>
+</ul>
+<div class="admonition info">
+<p class="admonition-title">Improvement: Double Buffering</p>
+<ul>
+<li>每个操作使用两个 output buffers：<ul>
+<li>一个 buffer 满了就写磁盘</li>
+<li>另一个 buffer 继续接收输出</li>
+</ul>
+</li>
+<li>这样可以重叠磁盘写入与计算，减少执行时间</li>
+</ul>
+</div>
+<h3 id="1072-pipelining">10.7.2 Pipelining<a class="headerlink" href="#1072-pipelining" title="Permanent link">&para;</a></h3>
+<p>Pipelined evaluation（流水线执行）：</p>
+<ul>
+<li>多个操作<strong>同时执行</strong>，一个操作产生的 tuple 不写成临时 relation，而是直接传给父操作</li>
+</ul>
+<p>优点：避免中间结果写盘，通常比 materialization 便宜<br />
+限制：并非所有操作都能流水线化；依赖父操作类型、输出是否需要排序、算法能否边读边产生输出等</p>
+<p>流水线执行需要选择能逐步产生输出的算法：</p>
+<ul>
+<li>File scan 可以自然地产生 tuple stream</li>
+<li>Selection / projection 通常适合 pipeline</li>
+<li>Sort、merge join、hash join 等 blocking 操作则不总是适合</li>
+</ul>
+<h4 id="demand-driven-pipelining">Demand-Driven Pipelining<a class="headerlink" href="#demand-driven-pipelining" title="Permanent link">&para;</a></h4>
+<p><mark>Demand-driven / lazy evaluation（需求驱动 / 惰性执行）</mark>：</p>
+<ul>
+<li>系统从顶层 operator 反复请求 next tuple</li>
+<li>每个 operator 为了产生下一个 tuple，会向其 child operators 请求 tuple</li>
+<li>每个 operator 需要维护自己的执行状态</li>
+</ul>
+<p>通常用 iterator（迭代器） 模型实现：</p>
+<ul>
+<li><code>Open()</code>：初始化 operator 状态，例如 file scan 将文件指针放到开头</li>
+<li><code>Next()</code>：返回下一个输出 tuple，更新内部状态</li>
+<li><code>Close()</code>：释放资源</li>
+</ul>
+<h4 id="producer-driven-pipelining">Producer-Driven Pipelining<a class="headerlink" href="#producer-driven-pipelining" title="Permanent link">&para;</a></h4>
+<p><mark>Producer-driven / eager pipelining（生产者驱动 / 急切执行）</mark>：</p>
+<ul>
+<li>child operator 主动产生 tuples，并放入父操作的 buffer</li>
+<li>parent operator 从 buffer 中取 tuples</li>
+<li>如果 buffer 满，child operator 等待</li>
+<li>系统调度那些 output buffer 有空间、且仍可处理输入的 operators</li>
+</ul>
+<h4 id="evaluation-algorithms-for-pipelining">Evaluation Algorithms for Pipelining<a class="headerlink" href="#evaluation-algorithms-for-pipelining" title="Permanent link">&para;</a></h4>
+<p>有些算法不能一边接收输入一边输出结果：</p>
+<ul>
+<li>External sort 通常需要先读完并排序</li>
+<li>Merge join 通常需要有序输入</li>
+<li>Hash join 需要先构建 build input 的 hash table 或 partitions</li>
+</ul>
+<p>但可使用变体产生部分流水线效果：</p>
+<ul>
+<li>Hybrid hash join 可以对保留在内存中的 partition 立即输出匹配结果</li>
+<li>Double-pipelined join 可以同时缓存两个 relation 的 partition 0：<ul>
+<li>新的 <span class="arithmatex">\(r_0\)</span> tuple 到来时，与已有 <span class="arithmatex">\(s_0\)</span> tuples 匹配并输出</li>
+<li>新的 <span class="arithmatex">\(s_0\)</span> tuple 到来时，与已有 <span class="arithmatex">\(r_0\)</span> tuples 匹配并输出</li>
+</ul>
+</li>
+</ul>
+<h3 id="1073-multiway-join-and-example">10.7.3 Multiway Join and Example<a class="headerlink" href="#1073-multiway-join-and-example" title="Permanent link">&para;</a></h3>
+<h4 id="multiway-join">Multiway Join<a class="headerlink" href="#multiway-join" title="Permanent link">&para;</a></h4>
+<p>对于三个 relation 的 join：</p>
+<div class="arithmatex">\[
+\text{loan} \bowtie \text{depositor} \bowtie \text{customer}
+\]</div>
+<p>可能策略：</p>
+<ol>
+<li>先计算：</li>
+</ol>
+<div class="arithmatex">\[
+\text{depositor} \bowtie \text{customer}
+\]</div>
+<p>再与 <code>loan</code> join。</p>
+<ol start="2">
+<li>先计算：</li>
+</ol>
+<div class="arithmatex">\[
+\text{loan} \bowtie \text{depositor}
+\]</div>
+<p>再与 <code>customer</code> join。</p>
+<ol start="3">
+<li>将多个 join 合成一个 special-purpose operation：<ul>
+<li>在 <code>loan.loan-number</code> 上建索引。</li>
+<li>在 <code>customer.customer-name</code> 上建索引。</li>
+<li>对 <code>depositor</code> 中每个 tuple，分别查找对应的 <code>loan</code> 和 <code>customer</code> tuples。</li>
+<li>每个 <code>depositor</code> tuple 只检查一次。</li>
+</ul>
+</li>
+</ol>
+<p>第三种方法把两个二元 join 合并成一个更专用的操作，可能比逐个执行两个 join 更高效。</p>
+<h4 id="example">Example<a class="headerlink" href="#example" title="Permanent link">&para;</a></h4>
+<p>给定：</p>
+<div class="language-text highlight"><pre><span></span><code>T1(bno, type, title, press, year)
+T2(id, bno, date1, date2)
+</code></pre></div>
+<p>其中：</p>
+<ul>
+<li><code>T2.bno</code> 是引用 <code>T1.bno</code> 的 foreign key。</li>
+<li><span class="arithmatex">\(T1\)</span> 有 <span class="arithmatex">\(20,000\)</span> 个 tuples。</li>
+<li><span class="arithmatex">\(T2\)</span> 有 <span class="arithmatex">\(45,000\)</span> 个 tuples。</li>
+<li><span class="arithmatex">\(T1\)</span> 每 block 放 <span class="arithmatex">\(25\)</span> 个 tuples。</li>
+<li><span class="arithmatex">\(T2\)</span> 每 block 放 <span class="arithmatex">\(30\)</span> 个 tuples。</li>
+<li><span class="arithmatex">\(T1\)</span> 在 primary key <code>bno</code> 上有 primary B+ tree index。</li>
+<li>B+ tree 每个 index node 最多 <span class="arithmatex">\(60\)</span> 个 entries。</li>
+<li>使用 worst case memory assumption。</li>
+</ul>
+<p>先计算 block 数：</p>
+<div class="arithmatex">\[
+b_1 = \frac{20000}{25} = 800
+\]</div>
+<div class="arithmatex">\[
+b_2 = \frac{45000}{30} = 1500
+\]</div>
+<p>B+ tree 高度近似：</p>
+<div class="arithmatex">\[
+\log_{\lceil 60/2 \rceil}(20000) \approx 3
+\]</div>
+<h5 id="block-nested-loop-join">Block Nested-Loop Join<a class="headerlink" href="#block-nested-loop-join" title="Permanent link">&para;</a></h5>
+<p>让 <span class="arithmatex">\(T1\)</span> 作为 outer relation：</p>
+<div class="arithmatex">\[
+800 \times 1500 + 800 = 1,200,800
+\]</div>
+<p>block transfers。</p>
+<p>seeks：</p>
+<div class="arithmatex">\[
+2 \times 800 = 1600
+\]</div>
+<h5 id="indexed-nested-loop-join">Indexed Nested-Loop Join<a class="headerlink" href="#indexed-nested-loop-join" title="Permanent link">&para;</a></h5>
+<p>让 <span class="arithmatex">\(T2\)</span> 作为 outer relation，<span class="arithmatex">\(T1\)</span> 作为 inner relation：</p>
+<ul>
+<li>对 <span class="arithmatex">\(T2\)</span> 中每个 tuple，用 <code>bno</code> 查 <span class="arithmatex">\(T1\)</span> 的 primary B+ tree index。</li>
+<li>每次索引查找需要约 <span class="arithmatex">\(3+1\)</span> 次 block access。</li>
+</ul>
+<p>block transfers：</p>
+<div class="arithmatex">\[
+45000 \times (3+1) + 1500 = 181,500
+\]</div>
+<p>seeks 约为：</p>
+<div class="arithmatex">\[
+181,500
+\]</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>课件例子最后一行写作 <code>18150</code>，但按给定公式 <span class="arithmatex">\(45000 \times 4 + 1500\)</span> 应为 <span class="arithmatex">\(181500\)</span>。另外 block nested-loop join 若按 <span class="arithmatex">\(T1\)</span> 作 outer relation，seek 数应为 <span class="arithmatex">\(2 \times 800\)</span>。这里按公式保留正确数量级。</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="页脚" >
+        
+          
+          <a href="B%2BTree.html" class="md-footer__link md-footer__link--prev" aria-label="上一页: B+ 树">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256l137.3-137.4c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              <div class="md-ellipsis">
+                B+ 树
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="Lec11.html" class="md-footer__link md-footer__link--next" aria-label="下一页: Query Optimization">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              <div class="md-ellipsis">
+                Query Optimization
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M247.1 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L179.2 256 41.9 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["content.math", "content.action.edit", "content.action.view", "content.code.copy", "content.code.annotate", "content.tooltips", "navigation.footer", "navigation.indexes", "navigation.path", "navigation.prune", "navigation.tabs", "navigation.top", "navigation.tracking", "search.share", "search.suggest", "search.highlight", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+        <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+      
+    
+  </body>
+</html>

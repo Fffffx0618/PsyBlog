@@ -1,0 +1,176 @@
+/* 强制正文字体 */
+.md-typeset,
+.md-header,
+.md-footer,
+.md-tabs,
+body {
+  font-family: "LXGW WenKai Screen", "Microsoft YaHei", sans-serif !important;
+}
+
+/* 强制代码字体 */
+.md-typeset code,
+.md-typeset pre,
+.highlight code,
+code {
+  font-family: "Sarasa Mono SC", "JetBrains Mono", Consolas, monospace !important;
+}
+
+/* Obsidian PDF 的正文样式；在 blueTopaz.css 之后加载。 */
+.md-typeset h1,
+.md-typeset h2,
+.md-typeset h3 {
+  border: 0;
+  background: none;
+  padding-left: 0;
+  padding-bottom: 0;
+  display: block;
+}
+
+.md-typeset h2 { margin-top: 1.3em; }
+.md-typeset h3 { margin-top: 1.1em; }
+.md-typeset img { max-width: 100%; height: auto; }
+.md-typeset .text-red { color: #e32636; }
+[data-md-color-scheme="slate"] .md-typeset .text-red { color: #ff7b86; }
+
+/* 使用原生列表标记，保留有序列表起始值和嵌套层级。 */
+.md-typeset ul { list-style: disc !important; }
+.md-typeset ul ul { list-style: circle !important; }
+.md-typeset ul ul ul { list-style: square !important; }
+.md-typeset ol { list-style: decimal !important; }
+.md-typeset ul > li,
+.md-typeset ol > li { display: list-item; padding-left: 0; }
+.md-typeset li::after { content: none !important; }
+.md-typeset li::marker { color: var(--text-muted); }
+.md-typeset li p { display: block !important; margin: .4em 0 !important; }
+.md-typeset ul .task-list-item { list-style: none; }
+
+/* 每个框体独立设置颜色，避免嵌套的 callout 继承外层类型。 */
+.md-typeset :is(.admonition, details) {
+  --callout-rgb: 0 111 230;
+  --callout-tint: 10%;
+  font-size: 1em;
+  border-width: 0;
+  box-shadow: none;
+  background-color: rgb(var(--callout-rgb) / var(--callout-tint));
+}
+
+.md-typeset :is(.admonition, details):is(.abstract, .summary, .tldr) { --callout-rgb: 0 176 255; }
+.md-typeset :is(.admonition, details):is(.info, .todo) { --callout-rgb: 0 184 212; }
+.md-typeset :is(.admonition, details):is(.tip, .hint, .important) { --callout-rgb: 0 191 165; }
+.md-typeset :is(.admonition, details):is(.success, .check, .done) { --callout-rgb: 0 200 83; }
+.md-typeset :is(.admonition, details):is(.question, .help, .faq) { --callout-rgb: 100 180 30; }
+.md-typeset :is(.admonition, details):is(.warning, .caution, .attention) { --callout-rgb: 255 145 0; }
+.md-typeset :is(.admonition, details):is(.failure, .fail, .missing) { --callout-rgb: 255 82 82; }
+.md-typeset :is(.admonition, details):is(.danger, .error) { --callout-rgb: 255 23 68; }
+.md-typeset :is(.admonition, details).bug { --callout-rgb: 245 0 87; }
+.md-typeset :is(.admonition, details).example { --callout-rgb: 124 77 255; }
+.md-typeset :is(.admonition, details):is(.quote, .cite) { --callout-rgb: 128 128 128; }
+
+/* 标题透明，让标题和正文共享整块底色。 */
+.md-typeset :is(.admonition, details) > :is(.admonition-title, summary) {
+  color: rgb(var(--callout-rgb));
+  background: transparent;
+}
+.md-typeset :is(.admonition, details) > :is(.admonition-title, summary)::before {
+  background-color: currentColor;
+}
+
+[data-md-color-scheme="slate"] .md-typeset :is(.admonition, details) {
+  --callout-tint: 16%;
+}
+[data-md-color-scheme="slate"] .md-typeset :is(.admonition, details) > :is(.admonition-title, summary) {
+  color: color-mix(in srgb, rgb(var(--callout-rgb)) 65%, white);
+}
+
+[data-md-color-scheme="default"] .md-typeset mark { background: #ffdaa6; }
+[data-md-color-scheme="default"] .md-typeset :not(pre) > code {
+  color: #d85c00;
+}
+
+.md-typeset table:not([class]) {
+  width: 100%;
+  border: 0;
+  border-radius: 0;
+  border-collapse: collapse;
+  box-shadow: none;
+  font-size: .95em;
+}
+.md-typeset table:not([class]) th,
+.md-typeset table:not([class]) td {
+  padding: .4em .65em;
+  border-bottom: 0;
+}
+[data-md-color-scheme="default"] .md-typeset table:not([class]) th {
+  background: #e9f3fb;
+}
+[data-md-color-scheme="default"] .md-typeset table:not([class]) tr:nth-child(even) {
+  background: #f7f7f7;
+}
+
+/* 宽公式可独立横向滚动，不撑破手机上的页面。 */
+.md-typeset div.arithmatex { overflow-x: auto; overflow-y: hidden; }
+
+/* 桌面端：加宽页面，减少正文内部留白 */
+@media (min-width: 67.25em) {
+  .md-grid {
+    max-width: 67rem !important;
+  }
+
+  .md-content__inner {
+    padding: 1.5rem 1rem !important;
+  }
+}
+/* 有序列表、无序列表及其嵌套层级缩进 */
+.md-typeset {
+  --list-indent: 1rem;        /* 第一层列表缩进 */
+  --nested-list-indent: 0.8rem;  /* 每层嵌套额外缩进 */
+}
+
+/* 有序、无序列表 */
+.md-typeset :is(ul, ol) {
+  padding-left: var(--list-indent) !important;
+  margin-left: 0 !important;
+}
+
+/* 嵌套列表，包括有序和无序混合嵌套 */
+.md-typeset :is(ul, ol) :is(ul, ol) {
+  padding-left: var(--nested-list-indent) !important;
+  margin-left: 0 !important;
+}
+
+/* 去掉列表项自身的额外缩进 */
+.md-typeset li {
+  margin-left: 0;
+}
+
+/* 正文行距 */
+.md-typeset {
+  line-height: 1.6;
+}
+
+/* 段落间距 */
+.md-typeset p {
+  margin-block: 0.4em;
+}
+
+/* 列表项之间更紧凑 */
+.md-typeset li {
+  margin-bottom: 0.1em;
+}
+
+/* 列表项内部的段落 */
+.md-typeset li p {
+  margin: 0.15em 0 !important;
+}
+
+/* 嵌套列表与上下内容之间的距离 */
+.md-typeset :is(ul, ol) :is(ul, ol) {
+  margin-top: 0.15em !important;
+  margin-bottom: 0.15em !important;
+}
+
+/* 代码行距 */
+.md-typeset pre,
+.md-typeset pre > code {
+  line-height: 1.5;
+}

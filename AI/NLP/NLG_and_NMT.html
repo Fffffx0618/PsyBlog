@@ -1,0 +1,2608 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="可达鸭的笔记本，记录了 ZJU-CS 的一些课程笔记。">
+      
+      
+        <meta name="author" content="Fffffx">
+      
+      
+      
+        <link rel="prev" href="RNN.html">
+      
+      
+        <link rel="next" href="Transformers.html">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/icon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Natural Language Generation and Neural Machine Translation - Fffffx's Note</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+  
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+  
+  <style>:root{--md-admonition-icon--note:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22m14.06%209%20.94.94L5.92%2019H5v-.92zm3.6-6c-.25%200-.51.1-.7.29l-1.83%201.83%203.75%203.75%201.83-1.83c.39-.39.39-1.04%200-1.41l-2.34-2.34c-.2-.2-.45-.29-.71-.29m-3.6%203.19L3%2017.25V21h3.75L17.81%209.94z%22/%3E%3C/svg%3E');--md-admonition-icon--abstract:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M2.5%201.75v11.5c0%20.138.112.25.25.25h3.17a.75.75%200%200%201%200%201.5H2.75A1.75%201.75%200%200%201%201%2013.25V1.75C1%20.784%201.784%200%202.75%200h8.5C12.216%200%2013%20.784%2013%201.75v7.736a.75.75%200%200%201-1.5%200V1.75a.25.25%200%200%200-.25-.25h-8.5a.25.25%200%200%200-.25.25m13.274%209.537zl-4.557%204.45a.75.75%200%200%201-1.055-.008l-1.943-1.95a.75.75%200%200%201%201.062-1.058l1.419%201.425%204.026-3.932a.75.75%200%201%201%201.048%201.074M4.75%204h4.5a.75.75%200%200%201%200%201.5h-4.5a.75.75%200%200%201%200-1.5M4%207.75A.75.75%200%200%201%204.75%207h2a.75.75%200%200%201%200%201.5h-2A.75.75%200%200%201%204%207.75%22/%3E%3C/svg%3E');--md-admonition-icon--info:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M0%208a8%208%200%201%201%2016%200A8%208%200%200%201%200%208m8-6.5a6.5%206.5%200%201%200%200%2013%206.5%206.5%200%200%200%200-13M6.5%207.75A.75.75%200%200%201%207.25%207h1a.75.75%200%200%201%20.75.75v2.75h.25a.75.75%200%200%201%200%201.5h-2a.75.75%200%200%201%200-1.5h.25v-2h-.25a.75.75%200%200%201-.75-.75M8%206a1%201%200%201%201%200-2%201%201%200%200%201%200%202%22/%3E%3C/svg%3E');--md-admonition-icon--tip:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M3.499.75a.75.75%200%200%201%201.5%200v.996C5.9%202.903%206.793%203.65%207.662%204.376l.24.202c-.036-.694.055-1.422.426-2.163C9.1.873%2010.794-.045%2012.622.26%2014.408.558%2016%201.94%2016%204.25c0%201.278-.954%202.575-2.44%202.734l.146.508.065.22c.203.701.412%201.455.476%202.226.142%201.707-.4%203.03-1.487%203.898C11.714%2014.671%2010.27%2015%208.75%2015h-6a.75.75%200%200%201%200-1.5h1.376a4.5%204.5%200%200%201-.563-1.191%203.84%203.84%200%200%201-.05-2.063%204.65%204.65%200%200%201-2.025-.293.75.75%200%200%201%20.525-1.406c1.357.507%202.376-.006%202.698-.318l.009-.01a.747.747%200%200%201%201.06%200%20.75.75%200%200%201-.012%201.074c-.912.92-.992%201.835-.768%202.586.221.74.745%201.337%201.196%201.621H8.75c1.343%200%202.398-.296%203.074-.836.635-.507%201.036-1.31.928-2.602-.05-.603-.216-1.224-.422-1.93l-.064-.221c-.12-.407-.246-.84-.353-1.29a2.4%202.4%200%200%201-.507-.441%203.1%203.1%200%200%201-.633-1.248.75.75%200%200%201%201.455-.364c.046.185.144.436.31.627.146.168.353.305.712.305.738%200%201.25-.615%201.25-1.25%200-1.47-.95-2.315-2.123-2.51-1.172-.196-2.227.387-2.706%201.345-.46.92-.27%201.774.019%203.062l.042.19.01.05c.348.443.666.949.94%201.553a.75.75%200%201%201-1.365.62c-.553-1.217-1.32-1.94-2.3-2.768L6.7%205.527c-.814-.68-1.75-1.462-2.692-2.619a3.7%203.7%200%200%200-1.023.88c-.406.495-.663%201.036-.722%201.508.116.122.306.21.591.239.388.038.797-.06%201.032-.19a.75.75%200%200%201%20.728%201.31c-.515.287-1.23.439-1.906.373-.682-.067-1.473-.38-1.879-1.193L.75%205.677V5.5c0-.984.48-1.94%201.077-2.664.46-.559%201.05-1.055%201.673-1.353z%22/%3E%3C/svg%3E');--md-admonition-icon--success:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M13.78%204.22a.75.75%200%200%201%200%201.06l-7.25%207.25a.75.75%200%200%201-1.06%200L2.22%209.28a.75.75%200%200%201%20.018-1.042.75.75%200%200%201%201.042-.018L6%2010.94l6.72-6.72a.75.75%200%200%201%201.06%200%22/%3E%3C/svg%3E');--md-admonition-icon--question:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M0%208a8%208%200%201%201%2016%200A8%208%200%200%201%200%208m8-6.5a6.5%206.5%200%201%200%200%2013%206.5%206.5%200%200%200%200-13M6.92%206.085h.001a.749.749%200%201%201-1.342-.67c.169-.339.436-.701.849-.977C6.845%204.16%207.369%204%208%204a2.76%202.76%200%200%201%201.637.525c.503.377.863.965.863%201.725%200%20.448-.115.83-.329%201.15-.205.307-.47.513-.692.662-.109.072-.22.138-.313.195l-.006.004a6%206%200%200%200-.26.16%201%201%200%200%200-.276.245.75.75%200%200%201-1.248-.832c.184-.264.42-.489.692-.661q.154-.1.313-.195l.007-.004c.1-.061.182-.11.258-.161a1%201%200%200%200%20.277-.245C8.96%206.514%209%206.427%209%206.25a.61.61%200%200%200-.262-.525A1.27%201.27%200%200%200%208%205.5c-.369%200-.595.09-.74.187a1%201%200%200%200-.34.398M9%2011a1%201%200%201%201-2%200%201%201%200%200%201%202%200%22/%3E%3C/svg%3E');--md-admonition-icon--warning:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M6.457%201.047c.659-1.234%202.427-1.234%203.086%200l6.082%2011.378A1.75%201.75%200%200%201%2014.082%2015H1.918a1.75%201.75%200%200%201-1.543-2.575Zm1.763.707a.25.25%200%200%200-.44%200L1.698%2013.132a.25.25%200%200%200%20.22.368h12.164a.25.25%200%200%200%20.22-.368Zm.53%203.996v2.5a.75.75%200%200%201-1.5%200v-2.5a.75.75%200%200%201%201.5%200M9%2011a1%201%200%201%201-2%200%201%201%200%200%201%202%200%22/%3E%3C/svg%3E');--md-admonition-icon--failure:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M2.344%202.343za8%208%200%200%201%2011.314%2011.314A8.002%208.002%200%200%201%20.234%2010.089a8%208%200%200%201%202.11-7.746m1.06%2010.253a6.5%206.5%200%201%200%209.108-9.275%206.5%206.5%200%200%200-9.108%209.275M6.03%204.97%208%206.94l1.97-1.97a.749.749%200%200%201%201.275.326.75.75%200%200%201-.215.734L9.06%208l1.97%201.97a.749.749%200%200%201-.326%201.275.75.75%200%200%201-.734-.215L8%209.06l-1.97%201.97a.749.749%200%200%201-1.275-.326.75.75%200%200%201%20.215-.734L6.94%208%204.97%206.03a.75.75%200%200%201%20.018-1.042.75.75%200%200%201%201.042-.018%22/%3E%3C/svg%3E');--md-admonition-icon--danger:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M9.504.43a1.516%201.516%200%200%201%202.437%201.713L10.415%205.5h2.123c1.57%200%202.346%201.909%201.22%203.004l-7.34%207.142a1.25%201.25%200%200%201-.871.354h-.302a1.25%201.25%200%200%201-1.157-1.723L5.633%2010.5H3.462c-1.57%200-2.346-1.909-1.22-3.004zm1.047%201.074L3.286%208.571A.25.25%200%200%200%203.462%209H6.75a.75.75%200%200%201%20.694%201.034l-1.713%204.188%206.982-6.793A.25.25%200%200%200%2012.538%207H9.25a.75.75%200%200%201-.683-1.06l2.008-4.418.003-.006-.004-.009-.006-.006-.008-.001q-.005%200-.009.004%22/%3E%3C/svg%3E');--md-admonition-icon--bug:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M4.72.22a.75.75%200%200%201%201.06%200l1%20.999a3.5%203.5%200%200%201%202.441%200l.999-1a.748.748%200%200%201%201.265.332.75.75%200%200%201-.205.729l-.775.776c.616.63.995%201.493.995%202.444v.327q0%20.15-.025.292c.408.14.764.392%201.029.722l1.968-.787a.75.75%200%200%201%20.556%201.392L13%207.258V9h2.25a.75.75%200%200%201%200%201.5H13v.5q-.002.615-.141%201.186l2.17.868a.75.75%200%200%201-.557%201.392l-2.184-.873A5%205%200%200%201%208%2016a5%205%200%200%201-4.288-2.427l-2.183.873a.75.75%200%200%201-.558-1.392l2.17-.868A5%205%200%200%201%203%2011v-.5H.75a.75.75%200%200%201%200-1.5H3V7.258L.971%206.446a.75.75%200%200%201%20.558-1.392l1.967.787c.265-.33.62-.583%201.03-.722a1.7%201.7%200%200%201-.026-.292V4.5c0-.951.38-1.814.995-2.444L4.72%201.28a.75.75%200%200%201%200-1.06m.53%206.28a.75.75%200%200%200-.75.75V11a3.5%203.5%200%201%200%207%200V7.25a.75.75%200%200%200-.75-.75ZM6.173%205h3.654A.17.17%200%200%200%2010%204.827V4.5a2%202%200%201%200-4%200v.327c0%20.096.077.173.173.173%22/%3E%3C/svg%3E');--md-admonition-icon--example:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M5%205.782V2.5h-.25a.75.75%200%200%201%200-1.5h6.5a.75.75%200%200%201%200%201.5H11v3.282l3.666%205.76C15.619%2013.04%2014.543%2015%2012.767%2015H3.233c-1.776%200-2.852-1.96-1.899-3.458Zm-2.4%206.565a.75.75%200%200%200%20.633%201.153h9.534a.75.75%200%200%200%20.633-1.153L12.225%2010.5h-8.45ZM9.5%202.5h-3V6c0%20.143-.04.283-.117.403L4.73%209h6.54L9.617%206.403A.75.75%200%200%201%209.5%206Z%22/%3E%3C/svg%3E');--md-admonition-icon--quote:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M1.75%202.5h10.5a.75.75%200%200%201%200%201.5H1.75a.75.75%200%200%201%200-1.5m4%205h8.5a.75.75%200%200%201%200%201.5h-8.5a.75.75%200%200%201%200-1.5m0%205h8.5a.75.75%200%200%201%200%201.5h-8.5a.75.75%200%200%201%200-1.5M2.5%207.75v6a.75.75%200%200%201-1.5%200v-6a.75.75%200%200%201%201.5%200%22/%3E%3C/svg%3E');}</style>
+
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=LXGW+WenKai+Screen,+Microsoft+YaHei,+sans-serif:300,300i,400,400i,700,700i%7CJetBrains+Mono,+Sarasa+Mono+SC,+Consolas,+monospace:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"LXGW WenKai Screen, Microsoft YaHei, sans-serif";--md-code-font:"JetBrains Mono, Sarasa Mono SC, Consolas, monospace"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="https://fonts.loli.net/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap">
+    
+      <link rel="stylesheet" href="https://gcore.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.1.0/style.css">
+    
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap">
+    
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sarasa-gothic@0.43.0/css/sarasa-mono-sc.css">
+    
+      <link rel="stylesheet" href="../../stylesheets/blueTopaz.css">
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue-grey" data-md-color-accent="blue-grey">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#natural-language-generation-and-neural-machine-translation" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="Fffffx&#39;s Note" class="md-header__button md-logo" aria-label="Fffffx's Note" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m19.07 14.88 2.05 2.05L15.06 23H13v-2.06zm1.97-1.75c.14 0 .27.06.38.17l1.28 1.28c.22.21.22.56 0 .77l-1 1-2.05-2.05 1-1c.11-.11.25-.17.39-.17M17 4v6l-2-2-2 2V4H9v16h2v2H7c-1.05 0-2-.95-2-2v-1H3v-2h2v-4H3v-2h2V7H3V5h2V4a2 2 0 0 1 2-2h12c1.05 0 2 .95 2 2v6l-2 2V4zM5 5v2h2V5zm0 6v2h2v-2zm0 6v2h2v-2z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Fffffx's Note
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Natural Language Generation and Neural Machine Translation
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="blue-grey" data-md-color-accent="blue-grey"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4M7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="blue-grey" data-md-color-accent="teal"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256l137.3-137.4c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="分享" aria-label="分享" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Fffffx0618/PsyBlog" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Fffffx
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  首页
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Language/index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  编程语言
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Algorithm/index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  程序算法
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../System/index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  体系结构
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Math/index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  数学基础
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  人工智能
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Fffffx&#39;s Note" class="md-nav__button md-logo" aria-label="Fffffx's Note" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m19.07 14.88 2.05 2.05L15.06 23H13v-2.06zm1.97-1.75c.14 0 .27.06.38.17l1.28 1.28c.22.21.22.56 0 .77l-1 1-2.05-2.05 1-1c.11-.11.25-.17.39-.17M17 4v6l-2-2-2 2V4H9v16h2v2H7c-1.05 0-2-.95-2-2v-1H3v-2h2v-4H3v-2h2V7H3V5h2V4a2 2 0 0 1 2-2h12c1.05 0 2 .95 2 2v6l-2 2V4zM5 5v2h2V5zm0 6v2h2v-2zm0 6v2h2v-2z"/></svg>
+
+    </a>
+    Fffffx's Note
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Fffffx0618/PsyBlog" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Fffffx
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../index.html" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    首页
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../Language/index.html" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    编程语言
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../Algorithm/index.html" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    程序算法
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../System/index.html" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    体系结构
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../Math/index.html" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    数学基础
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../index.html" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    人工智能
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6" id="__nav_6_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    人工智能
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../DeepLearning/info.html" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    深度学习
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_6_3" id="__nav_6_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    自然语言处理
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    自然语言处理
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="info.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    课程信息
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="WordEmbedding.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Word Embedding
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="RNN.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Recurrent Neural Networks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Natural Language Generation and Neural Machine Translation
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="NLG_and_NMT.html" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Natural Language Generation and Neural Machine Translation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-natural-language-generation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Natural Language Generation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-language-modeling-fundamentals" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Language Modeling Fundamentals
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Language Modeling Fundamentals">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-rnn-lm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 RNN-LM
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#training-a-conditional-rnn-lm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Training a (conditional) RNN-LM
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-how-to-pass-hidden-state" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 How to Pass Hidden State
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-the-generation-problem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. The Generation Problem
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. The Generation Problem">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-decoding" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Decoding
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.1 Decoding">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#311-sampling-based-decoding" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1.1 Sampling-based decoding
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#312-greedy-decoding" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1.2 Greedy decoding
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#313-beam-search-decoding" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1.3 Beam search decoding
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#314-softmax-temperature" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1.4 Softmax Temperature
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-ensembling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Ensembling
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-evaluation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Evaluation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Evaluation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41human-evaluation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1Human Evaluation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-bleu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 BLEU
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-meteor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 METEOR
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44-perplexity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4 Perplexity
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-neural-machine-translation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Neural Machine Translation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Neural Machine Translation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-brief-history-of-mt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 Brief History of MT
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-smt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 SMT
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5.2 SMT">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#learning-alignment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Learning alignment
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-nmt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 NMT
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5.3 NMT">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#v1-encoder-decoder" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        V1: Encoder-decoder
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#v2-attention-based-encoder-decoder" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        V2: Attention based encoder-decoder
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#v3-bi-directional-encoder-layer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        V3: Bi-directional encoder layer
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#v4-the-deep-is-for-deep-learning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        V4: "The deep is for deep learning"
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#v5-parallelization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        V5: Parallelization
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#v6-residuals-are-the-new-hotness" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        V6: Residuals are the new hotness
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Transformers.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Transformers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="TrainLLM.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    How to train your LLM
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Model_Compression.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Model Compression and Data-Efficient Fine-tuning
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Reinforcement_Learning.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deep Reinforcement Learning
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="GPTs.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GPTs: ChatGPT, GPT-4, and etc
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-natural-language-generation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Natural Language Generation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-language-modeling-fundamentals" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Language Modeling Fundamentals
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Language Modeling Fundamentals">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-rnn-lm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 RNN-LM
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#training-a-conditional-rnn-lm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Training a (conditional) RNN-LM
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-how-to-pass-hidden-state" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 How to Pass Hidden State
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-the-generation-problem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. The Generation Problem
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. The Generation Problem">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-decoding" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Decoding
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.1 Decoding">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#311-sampling-based-decoding" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1.1 Sampling-based decoding
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#312-greedy-decoding" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1.2 Greedy decoding
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#313-beam-search-decoding" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1.3 Beam search decoding
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#314-softmax-temperature" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1.4 Softmax Temperature
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-ensembling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Ensembling
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-evaluation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Evaluation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Evaluation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41human-evaluation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1Human Evaluation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-bleu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 BLEU
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-meteor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 METEOR
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44-perplexity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4 Perplexity
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-neural-machine-translation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Neural Machine Translation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Neural Machine Translation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-brief-history-of-mt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 Brief History of MT
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-smt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 SMT
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5.2 SMT">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#learning-alignment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Learning alignment
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-nmt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 NMT
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5.3 NMT">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#v1-encoder-decoder" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        V1: Encoder-decoder
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#v2-attention-based-encoder-decoder" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        V2: Attention based encoder-decoder
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#v3-bi-directional-encoder-layer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        V3: Bi-directional encoder layer
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#v4-the-deep-is-for-deep-learning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        V4: "The deep is for deep learning"
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#v5-parallelization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        V5: Parallelization
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#v6-residuals-are-the-new-hotness" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        V6: Residuals are the new hotness
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+
+  <nav class="md-path" aria-label="导航栏" >
+    <ol class="md-path__list">
+      
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../index.html" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    人工智能
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="info.html" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    自然语言处理
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/Fffffx0618/PsyBlog/edit/master/docs/AI/NLP/NLG_and_NMT.md" title="编辑此页" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+    
+      
+    
+    <a href="https://github.com/Fffffx0618/PsyBlog/raw/master/docs/AI/NLP/NLG_and_NMT.md" title="查看本页的源代码" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.2 8.2 0 0 1-1.23-2"/></svg>
+    </a>
+  
+
+
+<h1 id="natural-language-generation-and-neural-machine-translation">Natural Language Generation and Neural Machine Translation<a class="headerlink" href="#natural-language-generation-and-neural-machine-translation" title="Permanent link">&para;</a></h1>
+<h2 id="1-natural-language-generation">1. Natural Language Generation<a class="headerlink" href="#1-natural-language-generation" title="Permanent link">&para;</a></h2>
+<p>Natural Language Generation refers to any setting in which we generate (i.e. write) <em>new text</em>.</p>
+<div class="admonition info">
+<p class="admonition-title">NLG 的主要子领域与应用</p>
+<ul>
+<li><strong>Machine Translation</strong>：<br />
+  根据源语言的意思，用目标语言“重新写出”一句话</li>
+<li><strong>(Abstractive) Summarization：</strong><ul>
+<li><strong>Extractive</strong>：像用荧光笔画重点，直接摘抄原句</li>
+<li><strong>Abstractive</strong>：机器先读懂全文，然后用<strong>自己的话</strong>概括。这是典型的 NLG 过程</li>
+</ul>
+</li>
+<li><strong>Dialogue：</strong><ul>
+<li><strong>Chit-chat</strong>：像 Siri 或陪伴型机器人</li>
+<li><strong>Task-based</strong>：为了完成特定目标（如“订一张去杭州的机票”）而生成回复。</li>
+</ul>
+</li>
+<li><strong>Creative Writing</strong>：包括写故事、写诗、写歌词</li>
+<li><strong>Freeform Question Answering</strong>：<br />
+  机器在理解问题后，<strong>组织语言生成</strong>完整回答，而不是简单地从知识库里“抠”出一个片段</li>
+<li><strong>Image Captioning</strong>：<br />
+  跨模态的应用。机器观察一张图片，然后生成一段文字来描述图中的内容</li>
+</ul>
+</div>
+<hr />
+<h2 id="2-language-modeling-fundamentals">2. Language Modeling Fundamentals<a class="headerlink" href="#2-language-modeling-fundamentals" title="Permanent link">&para;</a></h2>
+<h3 id="21-rnn-lm">2.1 RNN-LM<a class="headerlink" href="#21-rnn-lm" title="Permanent link">&para;</a></h3>
+<p><mark>Language Modeling</mark>: the task of <u>predicting the next word</u>, given the words so far </p>
+<div class="arithmatex">\[
+P (y_t​∣y_1​,\dots, y_{t−1}​)
+\]</div>
+<ul>
+<li>A system that produces this probability distribution is called a <strong>Language Model</strong></li>
+</ul>
+<div style="text-align: center"><img src="images/image-25.png" width="55%"></div>
+
+<ul>
+<li>If that system is an RNN, it’s called a <mark>RNN-LM</mark></li>
+</ul>
+<p><mark>Conditional Language Modeling</mark>: the task of predicting the next word, given the words so far, and also <u>some other input x</u></p>
+<div class="arithmatex">\[
+P (y_t​∣y_1​,\dots, y_{t−1}​|x)
+\]</div>
+<div style="text-align: center"><img src="images/image-26.png" width="55%"></div>
+
+<p><strong>Examples of conditional language modeling tasks</strong>: </p>
+<ul>
+<li>Machine Translation (x=source sentence, y=target sentence) </li>
+<li>Summarization (x=input text, y=summarized text) </li>
+<li>Dialogue (x=dialogue history, y=next utterance)</li>
+</ul>
+<h3 id="training-a-conditional-rnn-lm">Training a (conditional) RNN-LM<a class="headerlink" href="#training-a-conditional-rnn-lm" title="Permanent link">&para;</a></h3>
+<p>Example: Neural Machine Translation</p>
+<div style="text-align: center"><img src="images/image-27.png" width="70%"></div>
+
+<ol>
+<li>编码器-解码器结构<ul>
+<li>模型由两部分组成：<strong>Encoder RNN</strong> 和 <strong>Decoder RNN</strong></li>
+<li>encoder 首先接收并处理来自语料库的源语言句子（图中的法语 "il m' a entarté"）</li>
+<li>随后 decoder 根据编码器的信息逐步处理目标语言句子<br />
+  在每一个时间步 <span class="arithmatex">\(t\)</span>，解码器都会输出下一个词的<strong>概率分布（Probability dist of next word）</strong>，表示为 <span class="arithmatex">\(y^{​t}​\)</span></li>
+</ul>
+</li>
+<li>损失函数<ul>
+<li>在解码器的每一步，模型会计算预测结果与真实情况之间的误差</li>
+<li>具体来说，第 <span class="arithmatex">\(t\)</span> 步的损失 <span class="arithmatex">\(J_t\)</span> ​ 是真实的那个词（如 "he", "with"）的<strong>负对数概率（negative log prob）</strong></li>
+</ul>
+</li>
+</ol>
+<div class="arithmatex">\[
+J = \frac{1}{T} \sum_{t=1}^T J_t
+\]</div>
+<ol start="3">
+<li>核心训练技巧：<mark>Teacher Forcing</mark>（教师强制） <ul>
+<li>实际测试或使用时，解码器必须将上一步预测出来的词作为下一步的输入</li>
+<li>但是在训练阶段，无论解码器实际上预测出了什么内容，我们都会将语料库中真实的目标句子（gold / reference target sentence）喂给解码器作为下一步的输入</li>
+<li>这样做可以防止早期的预测错误导致后续所有的训练都偏离正轨</li>
+</ul>
+</li>
+</ol>
+<h3 id="22-how-to-pass-hidden-state">2.2 How to Pass Hidden State<a class="headerlink" href="#22-how-to-pass-hidden-state" title="Permanent link">&para;</a></h3>
+<p>如何将 Encoder 对源句子理解后压缩成的全局信息（即最终的隐藏状态），有效地交接给 Decoder，以便指导解码器生成目标文本</p>
+<div style="text-align: center"><img src="images/image-29.png" width="50%"></div>
+
+<ol>
+<li><strong>Initialize decoder w/ encoder</strong>：<ul>
+<li>将编码器最后一步输出的隐藏状态，直接“<strong>复制</strong>”过来，作为解码器第一步的初始隐藏状态</li>
+</ul>
+</li>
+<li><strong>Transform</strong>：<ul>
+<li>有时编码器和解码器的网络容量或结构不一致（比如两者的隐藏状态维度不同）</li>
+<li>在两者之间加入一个“转换操作”（通常是一个线性映射/矩阵乘法），将编码器的隐藏状态转换成解码器需要的维度，然后再传递过去</li>
+</ul>
+</li>
+<li><strong>Input at every time step</strong>：<ul>
+<li>上述的第一种方法仅在解码最开始时传递一次信息，随着解码句子变长，早期传递的信息可能会被遗忘</li>
+<li>将编码器的最终隐藏状态<strong>强制喂给解码器的每一个时间步</strong>。这样可以确保解码器在生成每一个词时，都能看到源句子的完整上下文</li>
+</ul>
+</li>
+</ol>
+<hr />
+<h2 id="3-the-generation-problem">3. The Generation Problem<a class="headerlink" href="#3-the-generation-problem" title="Permanent link">&para;</a></h2>
+<p><strong>The Generation Problem</strong>：We have a model of <span class="arithmatex">\(P (Y|X)\)</span>, how do we use it to generate a sentence?</p>
+<ol>
+<li>Argmax（最大化概率）：试图生成具有最高总概率的句子</li>
+<li>Sampling（采样）：根据模型给出的概率分布，随机生成一个句子</li>
+</ol>
+<h3 id="31-decoding">3.1 Decoding<a class="headerlink" href="#31-decoding" title="Permanent link">&para;</a></h3>
+<h4 id="311-sampling-based-decoding">3.1.1 Sampling-based decoding<a class="headerlink" href="#311-sampling-based-decoding" title="Permanent link">&para;</a></h4>
+<p><mark>Pure sampling</mark>: </p>
+<ul>
+<li>On each step t, <u>randomly sample</u> from the probability distribution <span class="arithmatex">\(P_t\)</span> To obtain your next word. <br />
+<mark>Top-n sampling*</mark>: </li>
+<li>On each step t, randomly sample from <span class="arithmatex">\(P_t\)</span>, restricted to <u>just the top-n most probable words </u> (truncate the probability distribution)</li>
+<li><span class="arithmatex">\(n=1\)</span> is greedy search, <span class="arithmatex">\(n=V\)</span> is pure sampling <ul>
+<li>Increase <span class="arithmatex">\(n\)</span> to get more diverse/risky output </li>
+<li>Decrease <span class="arithmatex">\(n\)</span> to get more generic/safe output</li>
+</ul>
+</li>
+</ul>
+<h4 id="312-greedy-decoding">3.1.2 Greedy decoding<a class="headerlink" href="#312-greedy-decoding" title="Permanent link">&para;</a></h4>
+<ul>
+<li>On each step, take the <u>most probable word</u> (i.e. argmax). Use that as the next word, and feed it as input on the next step. Keep going until you produce \&lt;END&gt;(or reach some max length) </li>
+<li>Due to lack of backtracking, output can be <em>poor</em></li>
+</ul>
+<h4 id="313-beam-search-decoding">3.1.3 Beam search decoding<a class="headerlink" href="#313-beam-search-decoding" title="Permanent link">&para;</a></h4>
+<ul>
+<li>A search algorithm which aims to <u>find a high-probability sequence</u> (not necessarily the optimal sequence, though) by tracking multiple possible sequences at once.</li>
+</ul>
+<div class="admonition tip">
+<p class="admonition-title">Core idea</p>
+<p><div style="text-align: center"><img src="images/image-30.png" width="40%"></div></p>
+<ul>
+<li>在解码的每一步，同时<strong>跟踪</strong>前 <span class="arithmatex">\(k\)</span> 个概率最高的局部序列，这里的 <span class="arithmatex">\(k\)</span> 被称为<mark>束大小（Beam Size）</mark>。</li>
+<li>束大小 <span class="arithmatex">\(k\)</span> 的设置非常关键：<ul>
+<li><span class="arithmatex">\(k\)</span> 如果太小，会遇到和贪心解码一样的语法和逻辑错误问题；</li>
+<li><span class="arithmatex">\(k\)</span> 如果太大，会增加计算成本，并且在机器翻译任务中容易生成过短的翻译，而在对话系统中则容易生成过于平庸、泛泛的回复。</li>
+</ul>
+</li>
+</ul>
+</div>
+<h4 id="314-softmax-temperature">3.1.4 Softmax Temperature<a class="headerlink" href="#314-softmax-temperature" title="Permanent link">&para;</a></h4>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>softmax temperature is <strong>not a decoding algorithm</strong>! <br />
+It’s a technique you can apply at test time, in conjunction with a decoding algorithm (such as beam search or sampling)</p>
+</div>
+<ul>
+<li>On timestep <span class="arithmatex">\(t\)</span>, the LM computes a probability distribution <span class="arithmatex">\(P_t\)</span> by applying the softmax function to a vector of scores <span class="arithmatex">\(𝑠 \in 𝑅^{|V|}\)</span></li>
+</ul>
+<div class="arithmatex">\[
+P_t(w)=\frac{\exp{(s_w)}}{\sum_{w' \in V}\exp{(s_{w'})}}
+\]</div>
+<ul>
+<li>在 softmax 中引入温度参数 <span class="arithmatex">\(\tau\)</span></li>
+</ul>
+<div class="arithmatex">\[
+P_t(w)=\frac{\exp{(s_w/\tau)}}{\sum_{w' \in V}\exp{(s_{w'}/\tau)}}
+\]</div>
+<ul>
+<li>调整 <span class="arithmatex">\(\tau\)</span> 可以改变模型输出的概率分布：<ul>
+<li>提高温度会让分布变得<em>更均匀（uniform）</em>，从而使输出<strong>更多样化</strong></li>
+<li>降低温度则会让分布变得<em>更尖锐（spiky）</em>，使得输出<strong>更少样化</strong></li>
+</ul>
+</li>
+</ul>
+<h3 id="32-ensembling">3.2 Ensembling<a class="headerlink" href="#32-ensembling" title="Permanent link">&para;</a></h3>
+<div style="text-align: center"><img src="images/image-34.png" width="50%"></div>
+
+<p>Benefits：</p>
+<ol>
+<li><strong>错误互补（Multiple models make somewhat uncorrelated errors）</strong><br />
+   由于初始化或训练数据的微小差异，不同的模型在预测时往往会犯彼此不相关的错误。通过将它们结合起来，模型之间可以相互纠正，从而减少整体的错误率。</li>
+<li><strong>缓解预测的不确定性（Models tend to be more uncertain when they are about to make errors）</strong><br />
+   当一个单独的模型即将做出错误预测时，它往往表现出较高的不确定性。集成多个模型可以有效对齐和中和这种不确定性，提高预测的信心和准确度。</li>
+<li><strong>平滑个体特质（Smooths over idiosyncrasies of the model）</strong><br />
+   每个训练出来的模型可能会带有一些它特有的偏差或局限性。集成操作可以平滑掉单一模型的特殊性质，使最终的生成结果更加稳定和鲁棒。</li>
+</ol>
+<hr />
+<h2 id="4-evaluation">4. Evaluation<a class="headerlink" href="#4-evaluation" title="Permanent link">&para;</a></h2>
+<h3 id="41human-evaluation">4.1Human Evaluation<a class="headerlink" href="#41human-evaluation" title="Permanent link">&para;</a></h3>
+<p>Ask a human to do evaluation</p>
+<div style="text-align: center"><img src="images/image-35.png" width="65%"></div>
+
+<ul>
+<li>Final goal, but slow, expensive, and sometimes inconsistent</li>
+</ul>
+<h3 id="42-bleu">4.2 BLEU<a class="headerlink" href="#42-bleu" title="Permanent link">&para;</a></h3>
+<p>机器翻译中最常用的自动评估指标</p>
+<ul>
+<li>通过计算生成的序列与参考答案（Reference）之间的 <strong>n-gram（连续的 n 个词）重叠度</strong>来打分</li>
+<li>包含<strong>长度惩罚项（Brevity penalty）</strong>，防止模型通过生成过短的句子来获得高分</li>
+</ul>
+<div style="text-align: center"><img src="images/image-31.png" width="70%"></div>
+
+<ul>
+<li>Pros: Easy to use, good for measuring system improvement </li>
+<li>Cons: Often doesn’t match human eval, bad for comparing very different systems</li>
+</ul>
+<h3 id="43-meteor">4.3 METEOR<a class="headerlink" href="#43-meteor" title="Permanent link">&para;</a></h3>
+<p>Like BLEU in overall principle, with many other tricks: </p>
+<ul>
+<li>consider paraphrases(同义词替换)</li>
+<li>reordering(词序的重排), </li>
+<li>function word/content word difference(功能词与实词的差异)<br />
+Pros: Generally <strong>significantly better</strong> than BLEU, esp. for high-resource languages <br />
+Cons: Requires <strong>extra resources</strong> for new languages (although these can be made automatically), and more complicated</li>
+</ul>
+<h3 id="44-perplexity">4.4 Perplexity<a class="headerlink" href="#44-perplexity" title="Permanent link">&para;</a></h3>
+<p>在不进行实际文本生成（即不运行解码算法）的情况下，直接计算模型在<strong>留出测试集（held-out set）</strong> 上预测真实词汇的困惑度</p>
+<ul>
+<li>Pros: Naturally solves multiple-reference problem! </li>
+<li>Cons: Doesn’t consider <u>decoding or actually generating output</u>. </li>
+<li>May be reasonable for problems with lots of ambiguity</li>
+</ul>
+<hr />
+<h2 id="5-neural-machine-translation">5. Neural Machine Translation<a class="headerlink" href="#5-neural-machine-translation" title="Permanent link">&para;</a></h2>
+<p>Machine Translation (MT) is the task of translating a sentence 𝑥 from one language (<font color="#ff0000">the source language</font>) to a sentence 𝑦 in another language (<font color="#ff0000">the target language</font>).</p>
+<h3 id="51-brief-history-of-mt">5.1 Brief History of MT<a class="headerlink" href="#51-brief-history-of-mt" title="Permanent link">&para;</a></h3>
+<div style="text-align: center"><img src="images/image-32.png" width="80%"></div>
+
+<p><strong>Ruled Based Machine Translation</strong>, 1950 年代起</p>
+<ul>
+<li>早期的机器翻译在很大程度上受到冷战的驱动，主要任务例如将俄语翻译成英语。</li>
+<li>几乎完全是基于规则，依赖于庞大的双语词典，通过查字典的方式将源语言的单词生硬地映射和替换为目标语言的对应词汇。</li>
+</ul>
+<p><strong>Example-Based Machine Translation</strong>, 1980 年代起</p>
+<ul>
+<li>到了 1980 年代，领域内引入了基于实例的翻译方法（Example-Based Machine Translation），通过寻找和套用语料库中已有的相似翻译实例来进行翻译。</li>
+</ul>
+<h3 id="52-smt">5.2 SMT<a class="headerlink" href="#52-smt" title="Permanent link">&para;</a></h3>
+<p>1990s-2010s: <mark>Statistical Machine Translation</mark>:</p>
+<div class="arithmatex">\[
+argmax_yP(x|y)P(y)
+\]</div>
+<ol>
+<li><span class="arithmatex">\(P (y)\)</span> ：目标句子 <span class="arithmatex">\(y\)</span> 在目标语言中出现的概率<ul>
+<li>判断一句话 <span class="arithmatex">\(y\)</span> 长得像不像一句通顺、地道的目标语言</li>
+<li>它的主要任务是<strong>保证翻译结果的流畅度</strong></li>
+</ul>
+</li>
+<li><span class="arithmatex">\(P(x|y)\)</span>：如果要表达 <span class="arithmatex">\(y\)</span> 这个意思，那么有多大可能性会说出 <span class="arithmatex">\(x\)</span> 这句话？<ul>
+<li><span class="arithmatex">\(P(x|y)\)</span> 越高，说明目标句子 <span class="arithmatex">\(y\)</span> 包含的词汇和语义能够覆盖并解释源句子 <span class="arithmatex">\(x\)</span> </li>
+<li>它负责确了翻译的<strong>准确性</strong></li>
+</ul>
+</li>
+</ol>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>在翻译过程中，通常已知源句子 <span class="arithmatex">\(x\)</span> 求目标句子 <span class="arithmatex">\(y\)</span>（即：<span class="arithmatex">\(P(y|x)\)</span>，已知原文 <span class="arithmatex">\(x\)</span>，译文是 <span class="arithmatex">\(y\)</span> 的概率）</p>
+<p>但直接计算 <span class="arithmatex">\(P(y|x)\)</span> 非常困难，因为对于同一个 <span class="arithmatex">\(x\)</span>，可能的 <span class="arithmatex">\(y\)</span> 有无穷多种组合。</p>
+<p>于是，利用<strong>贝叶斯公式</strong>将其转换：</p>
+<div class="arithmatex">\[
+P(y|x) = \frac{P(x|y)P(y)}{P(x)}
+\]</div>
+<p>当我们寻找最好的 <span class="arithmatex">\(y\)</span> 时（即 <span class="arithmatex">\(\arg\max\)</span>），分母 <span class="arithmatex">\(P(x)\)</span> 是常数（原文已经固定了），所以可以忽略。于是问题变成了最大化分子：</p>
+<div class="arithmatex">\[
+\arg\max_y P(x|y)P(y)
+\]</div>
+</div>
+<h4 id="learning-alignment">Learning alignment<a class="headerlink" href="#learning-alignment" title="Permanent link">&para;</a></h4>
+<p>Question: How to learn translation model <span class="arithmatex">\(P(x|y)\)</span> from the parallel corpus? </p>
+<ul>
+<li>Break it down further: we actually want to consider <span class="arithmatex">\(P (x, a|y)\)</span></li>
+<li>Where 𝑎 is the <mark>alignment</mark>, <u>alignment is the correspondence between particular words in the translated sentence pair</u>.</li>
+</ul>
+<div style="text-align: center"><img src="images/image-36.png" width="60%"></div>
+
+<p><strong>Alignment is complex</strong> </p>
+<ol>
+<li>一对多对齐（One-to-many）</li>
+<li>多对一对齐（Many-to-one)</li>
+<li>多对多对齐 / 短语对齐（Many-to-many）</li>
+</ol>
+<h3 id="53-nmt">5.3 NMT<a class="headerlink" href="#53-nmt" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Neutral Machine Translation (NMT) is a way to do Machine Translation with <em>a single neural network</em> </li>
+<li>The neural network architecture is called <strong>sequence-to-sequence</strong> and it involves <strong>two RNNS</strong>.</li>
+</ul>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>Neural Recurrent Sequence Models</p>
+<ul>
+<li>最基础的语言模型，核心任务是预测下一个词（Token）</li>
+<li>核心公式：<span class="arithmatex">\(P(Y) = P(Y_1) \cdot P(Y_2|Y_1) \cdot P(Y_3|Y_1, Y_2) \dots\)</span></li>
+</ul>
+<p>Sequence to Sequence</p>
+<p><div style="text-align: center"><img src="images/image-37.png" width="55%"></div></p>
+<ul>
+<li>学习将一个输入序列映射到一个输出序列：<span class="arithmatex">\(X_1, X_2, \text{EOS} \rightarrow Y_1, Y_2, Y_3, \text{EOS}\)</span></li>
+<li>Encoder/Decoder framework (decoder by itself just neural LM) </li>
+<li>Theoretically <strong>any sequence length</strong> for input/output works</li>
+</ul>
+</div>
+<h4 id="v1-encoder-decoder">V1: Encoder-decoder<a class="headerlink" href="#v1-encoder-decoder" title="Permanent link">&para;</a></h4>
+<div style="text-align: center"><img src="images/image-38.png" width="60%"></div>
+
+<ul>
+<li>The encoder spits out a hidden state. </li>
+<li>This hidden state is then supplied to the decoder, which generates the sentence in language B</li>
+</ul>
+<h4 id="v2-attention-based-encoder-decoder">V2: Attention based encoder-decoder<a class="headerlink" href="#v2-attention-based-encoder-decoder" title="Permanent link">&para;</a></h4>
+<div style="text-align: center"><img src="images/image-39.png" width="60%"></div>
+
+<ul>
+<li>The encoder query each output asking how relevant they are to the current computation on the decoder side</li>
+</ul>
+<h3 id="v3-bi-directional-encoder-layer">V3: Bi-directional encoder layer<a class="headerlink" href="#v3-bi-directional-encoder-layer" title="Permanent link">&para;</a></h3>
+<p>引入双向 LSTM + Attention，解码器（Decoder）准备生成下一个单词时，它会去评估生成的<strong>包含了全局上下文的双向状态向量</strong></p>
+<div style="text-align: center"><img src="images/image-40.png" width="60%"></div>
+
+<ul>
+<li>We would like the annotation of each word to summarize not only the preceding words, but also the following words</li>
+</ul>
+<h3 id="v4-the-deep-is-for-deep-learning">V4: "The deep is for deep learning"<a class="headerlink" href="#v4-the-deep-is-for-deep-learning" title="Permanent link">&para;</a></h3>
+<ul>
+<li>就像 CNN 能从像素边缘逐步提取到人脸轮廓一样，深层 RNN 能够提取<strong>层次化的语义特征（Hierarchical Features）</strong>。底层网络可能只关注词法和短语搭配，而越往高层，网络提取的信息就越抽象，能够理解复杂的句法结构和深层语义逻辑。</li>
+<li>右侧的 Decoder 同样进行了深度堆叠，以匹配编码器的复杂度</li>
+</ul>
+<div style="text-align: center"><img src="images/image-41.png" width="50%"></div>
+
+<h3 id="v5-parallelization">V5: Parallelization<a class="headerlink" href="#v5-parallelization" title="Permanent link">&para;</a></h3>
+<ul>
+<li>To begin computation at one of the nodes, all of the nodes pointing toward you must already have been computed. </li>
+<li>A layer <span class="arithmatex">\(i + 1\)</span> can start its computation before layer <span class="arithmatex">\(i\)</span> is fully finished.</li>
+</ul>
+<div style="text-align: center"><img src="images/image-42.png" width="30%"></div>
+
+<h3 id="v6-residuals-are-the-new-hotness">V6: Residuals are the new hotness<a class="headerlink" href="#v6-residuals-are-the-new-hotness" title="Permanent link">&para;</a></h3>
+<div style="text-align: center"><img src="images/image-43.png" width="45%"></div>
+
+<div class="admonition bug">
+<p class="admonition-title">Vanishing Gradients</p>
+<p>网络一旦变得极深，在反向传播更新参数时，误差信号（梯度）在经过层层传递后会呈指数级衰减，最终趋近于零。这就是经典的<strong>梯度消失</strong>问题。</p>
+<ul>
+<li>One solution for vanishing gradients is residual networks. </li>
+<li>The idea of a layer computing an identity function</li>
+</ul>
+</div>
+<p>用数学公式表达就是： </p>
+<div class="arithmatex">\[
+\text{输出} = \text{Encoder}(x) + x
+\]</div>
+<ul>
+<li>在反向传播求导时，即使 Encoder 内部的梯度衰减为 <span class="arithmatex">\(0\)</span>，梯度依然可以“无损”地传导回上一层（因为 <span class="arithmatex">\(x\)</span> 对 <span class="arithmatex">\(x\)</span> 的导数是 <span class="arithmatex">\(1\)</span>）</li>
+<li>如果模型在训练中发现某一层是“多余”的，这层最好是不对数据做任何改变（即输出等于输入）。对于传统的神经网络，要精确学出一个“什么都不做”的变换矩阵是非常困难的，但让残差部分为 <span class="arithmatex">\(0\)</span> 很容易做到</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="页脚" >
+        
+          
+          <a href="RNN.html" class="md-footer__link md-footer__link--prev" aria-label="上一页: Recurrent Neural Networks">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256l137.3-137.4c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              <div class="md-ellipsis">
+                Recurrent Neural Networks
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="Transformers.html" class="md-footer__link md-footer__link--next" aria-label="下一页: Transformers">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              <div class="md-ellipsis">
+                Transformers
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M247.1 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L179.2 256 41.9 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["content.math", "content.action.edit", "content.action.view", "content.code.copy", "content.code.annotate", "content.tooltips", "navigation.footer", "navigation.indexes", "navigation.path", "navigation.prune", "navigation.tabs", "navigation.top", "navigation.tracking", "search.share", "search.suggest", "search.highlight", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+        <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,3609 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="可达鸭的笔记本，记录了 ZJU-CS 的一些课程笔记。">
+      
+      
+        <meta name="author" content="Fffffx">
+      
+      
+      
+        <link rel="prev" href="Lec8.html">
+      
+      
+        <link rel="next" href="B%2BTree.html">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/icon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Indexing and Hashing - Fffffx's Note</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+  
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+  
+  <style>:root{--md-admonition-icon--note:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22m14.06%209%20.94.94L5.92%2019H5v-.92zm3.6-6c-.25%200-.51.1-.7.29l-1.83%201.83%203.75%203.75%201.83-1.83c.39-.39.39-1.04%200-1.41l-2.34-2.34c-.2-.2-.45-.29-.71-.29m-3.6%203.19L3%2017.25V21h3.75L17.81%209.94z%22/%3E%3C/svg%3E');--md-admonition-icon--abstract:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M2.5%201.75v11.5c0%20.138.112.25.25.25h3.17a.75.75%200%200%201%200%201.5H2.75A1.75%201.75%200%200%201%201%2013.25V1.75C1%20.784%201.784%200%202.75%200h8.5C12.216%200%2013%20.784%2013%201.75v7.736a.75.75%200%200%201-1.5%200V1.75a.25.25%200%200%200-.25-.25h-8.5a.25.25%200%200%200-.25.25m13.274%209.537zl-4.557%204.45a.75.75%200%200%201-1.055-.008l-1.943-1.95a.75.75%200%200%201%201.062-1.058l1.419%201.425%204.026-3.932a.75.75%200%201%201%201.048%201.074M4.75%204h4.5a.75.75%200%200%201%200%201.5h-4.5a.75.75%200%200%201%200-1.5M4%207.75A.75.75%200%200%201%204.75%207h2a.75.75%200%200%201%200%201.5h-2A.75.75%200%200%201%204%207.75%22/%3E%3C/svg%3E');--md-admonition-icon--info:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M0%208a8%208%200%201%201%2016%200A8%208%200%200%201%200%208m8-6.5a6.5%206.5%200%201%200%200%2013%206.5%206.5%200%200%200%200-13M6.5%207.75A.75.75%200%200%201%207.25%207h1a.75.75%200%200%201%20.75.75v2.75h.25a.75.75%200%200%201%200%201.5h-2a.75.75%200%200%201%200-1.5h.25v-2h-.25a.75.75%200%200%201-.75-.75M8%206a1%201%200%201%201%200-2%201%201%200%200%201%200%202%22/%3E%3C/svg%3E');--md-admonition-icon--tip:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M3.499.75a.75.75%200%200%201%201.5%200v.996C5.9%202.903%206.793%203.65%207.662%204.376l.24.202c-.036-.694.055-1.422.426-2.163C9.1.873%2010.794-.045%2012.622.26%2014.408.558%2016%201.94%2016%204.25c0%201.278-.954%202.575-2.44%202.734l.146.508.065.22c.203.701.412%201.455.476%202.226.142%201.707-.4%203.03-1.487%203.898C11.714%2014.671%2010.27%2015%208.75%2015h-6a.75.75%200%200%201%200-1.5h1.376a4.5%204.5%200%200%201-.563-1.191%203.84%203.84%200%200%201-.05-2.063%204.65%204.65%200%200%201-2.025-.293.75.75%200%200%201%20.525-1.406c1.357.507%202.376-.006%202.698-.318l.009-.01a.747.747%200%200%201%201.06%200%20.75.75%200%200%201-.012%201.074c-.912.92-.992%201.835-.768%202.586.221.74.745%201.337%201.196%201.621H8.75c1.343%200%202.398-.296%203.074-.836.635-.507%201.036-1.31.928-2.602-.05-.603-.216-1.224-.422-1.93l-.064-.221c-.12-.407-.246-.84-.353-1.29a2.4%202.4%200%200%201-.507-.441%203.1%203.1%200%200%201-.633-1.248.75.75%200%200%201%201.455-.364c.046.185.144.436.31.627.146.168.353.305.712.305.738%200%201.25-.615%201.25-1.25%200-1.47-.95-2.315-2.123-2.51-1.172-.196-2.227.387-2.706%201.345-.46.92-.27%201.774.019%203.062l.042.19.01.05c.348.443.666.949.94%201.553a.75.75%200%201%201-1.365.62c-.553-1.217-1.32-1.94-2.3-2.768L6.7%205.527c-.814-.68-1.75-1.462-2.692-2.619a3.7%203.7%200%200%200-1.023.88c-.406.495-.663%201.036-.722%201.508.116.122.306.21.591.239.388.038.797-.06%201.032-.19a.75.75%200%200%201%20.728%201.31c-.515.287-1.23.439-1.906.373-.682-.067-1.473-.38-1.879-1.193L.75%205.677V5.5c0-.984.48-1.94%201.077-2.664.46-.559%201.05-1.055%201.673-1.353z%22/%3E%3C/svg%3E');--md-admonition-icon--success:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M13.78%204.22a.75.75%200%200%201%200%201.06l-7.25%207.25a.75.75%200%200%201-1.06%200L2.22%209.28a.75.75%200%200%201%20.018-1.042.75.75%200%200%201%201.042-.018L6%2010.94l6.72-6.72a.75.75%200%200%201%201.06%200%22/%3E%3C/svg%3E');--md-admonition-icon--question:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M0%208a8%208%200%201%201%2016%200A8%208%200%200%201%200%208m8-6.5a6.5%206.5%200%201%200%200%2013%206.5%206.5%200%200%200%200-13M6.92%206.085h.001a.749.749%200%201%201-1.342-.67c.169-.339.436-.701.849-.977C6.845%204.16%207.369%204%208%204a2.76%202.76%200%200%201%201.637.525c.503.377.863.965.863%201.725%200%20.448-.115.83-.329%201.15-.205.307-.47.513-.692.662-.109.072-.22.138-.313.195l-.006.004a6%206%200%200%200-.26.16%201%201%200%200%200-.276.245.75.75%200%200%201-1.248-.832c.184-.264.42-.489.692-.661q.154-.1.313-.195l.007-.004c.1-.061.182-.11.258-.161a1%201%200%200%200%20.277-.245C8.96%206.514%209%206.427%209%206.25a.61.61%200%200%200-.262-.525A1.27%201.27%200%200%200%208%205.5c-.369%200-.595.09-.74.187a1%201%200%200%200-.34.398M9%2011a1%201%200%201%201-2%200%201%201%200%200%201%202%200%22/%3E%3C/svg%3E');--md-admonition-icon--warning:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M6.457%201.047c.659-1.234%202.427-1.234%203.086%200l6.082%2011.378A1.75%201.75%200%200%201%2014.082%2015H1.918a1.75%201.75%200%200%201-1.543-2.575Zm1.763.707a.25.25%200%200%200-.44%200L1.698%2013.132a.25.25%200%200%200%20.22.368h12.164a.25.25%200%200%200%20.22-.368Zm.53%203.996v2.5a.75.75%200%200%201-1.5%200v-2.5a.75.75%200%200%201%201.5%200M9%2011a1%201%200%201%201-2%200%201%201%200%200%201%202%200%22/%3E%3C/svg%3E');--md-admonition-icon--failure:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M2.344%202.343za8%208%200%200%201%2011.314%2011.314A8.002%208.002%200%200%201%20.234%2010.089a8%208%200%200%201%202.11-7.746m1.06%2010.253a6.5%206.5%200%201%200%209.108-9.275%206.5%206.5%200%200%200-9.108%209.275M6.03%204.97%208%206.94l1.97-1.97a.749.749%200%200%201%201.275.326.75.75%200%200%201-.215.734L9.06%208l1.97%201.97a.749.749%200%200%201-.326%201.275.75.75%200%200%201-.734-.215L8%209.06l-1.97%201.97a.749.749%200%200%201-1.275-.326.75.75%200%200%201%20.215-.734L6.94%208%204.97%206.03a.75.75%200%200%201%20.018-1.042.75.75%200%200%201%201.042-.018%22/%3E%3C/svg%3E');--md-admonition-icon--danger:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M9.504.43a1.516%201.516%200%200%201%202.437%201.713L10.415%205.5h2.123c1.57%200%202.346%201.909%201.22%203.004l-7.34%207.142a1.25%201.25%200%200%201-.871.354h-.302a1.25%201.25%200%200%201-1.157-1.723L5.633%2010.5H3.462c-1.57%200-2.346-1.909-1.22-3.004zm1.047%201.074L3.286%208.571A.25.25%200%200%200%203.462%209H6.75a.75.75%200%200%201%20.694%201.034l-1.713%204.188%206.982-6.793A.25.25%200%200%200%2012.538%207H9.25a.75.75%200%200%201-.683-1.06l2.008-4.418.003-.006-.004-.009-.006-.006-.008-.001q-.005%200-.009.004%22/%3E%3C/svg%3E');--md-admonition-icon--bug:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M4.72.22a.75.75%200%200%201%201.06%200l1%20.999a3.5%203.5%200%200%201%202.441%200l.999-1a.748.748%200%200%201%201.265.332.75.75%200%200%201-.205.729l-.775.776c.616.63.995%201.493.995%202.444v.327q0%20.15-.025.292c.408.14.764.392%201.029.722l1.968-.787a.75.75%200%200%201%20.556%201.392L13%207.258V9h2.25a.75.75%200%200%201%200%201.5H13v.5q-.002.615-.141%201.186l2.17.868a.75.75%200%200%201-.557%201.392l-2.184-.873A5%205%200%200%201%208%2016a5%205%200%200%201-4.288-2.427l-2.183.873a.75.75%200%200%201-.558-1.392l2.17-.868A5%205%200%200%201%203%2011v-.5H.75a.75.75%200%200%201%200-1.5H3V7.258L.971%206.446a.75.75%200%200%201%20.558-1.392l1.967.787c.265-.33.62-.583%201.03-.722a1.7%201.7%200%200%201-.026-.292V4.5c0-.951.38-1.814.995-2.444L4.72%201.28a.75.75%200%200%201%200-1.06m.53%206.28a.75.75%200%200%200-.75.75V11a3.5%203.5%200%201%200%207%200V7.25a.75.75%200%200%200-.75-.75ZM6.173%205h3.654A.17.17%200%200%200%2010%204.827V4.5a2%202%200%201%200-4%200v.327c0%20.096.077.173.173.173%22/%3E%3C/svg%3E');--md-admonition-icon--example:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M5%205.782V2.5h-.25a.75.75%200%200%201%200-1.5h6.5a.75.75%200%200%201%200%201.5H11v3.282l3.666%205.76C15.619%2013.04%2014.543%2015%2012.767%2015H3.233c-1.776%200-2.852-1.96-1.899-3.458Zm-2.4%206.565a.75.75%200%200%200%20.633%201.153h9.534a.75.75%200%200%200%20.633-1.153L12.225%2010.5h-8.45ZM9.5%202.5h-3V6c0%20.143-.04.283-.117.403L4.73%209h6.54L9.617%206.403A.75.75%200%200%201%209.5%206Z%22/%3E%3C/svg%3E');--md-admonition-icon--quote:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M1.75%202.5h10.5a.75.75%200%200%201%200%201.5H1.75a.75.75%200%200%201%200-1.5m4%205h8.5a.75.75%200%200%201%200%201.5h-8.5a.75.75%200%200%201%200-1.5m0%205h8.5a.75.75%200%200%201%200%201.5h-8.5a.75.75%200%200%201%200-1.5M2.5%207.75v6a.75.75%200%200%201-1.5%200v-6a.75.75%200%200%201%201.5%200%22/%3E%3C/svg%3E');}</style>
+
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=LXGW+WenKai+Screen,+Microsoft+YaHei,+sans-serif:300,300i,400,400i,700,700i%7CJetBrains+Mono,+Sarasa+Mono+SC,+Consolas,+monospace:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"LXGW WenKai Screen, Microsoft YaHei, sans-serif";--md-code-font:"JetBrains Mono, Sarasa Mono SC, Consolas, monospace"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="https://fonts.loli.net/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap">
+    
+      <link rel="stylesheet" href="https://gcore.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.1.0/style.css">
+    
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap">
+    
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sarasa-gothic@0.43.0/css/sarasa-mono-sc.css">
+    
+      <link rel="stylesheet" href="../../stylesheets/blueTopaz.css">
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue-grey" data-md-color-accent="blue-grey">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#indexing-and-hashing" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="Fffffx&#39;s Note" class="md-header__button md-logo" aria-label="Fffffx's Note" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m19.07 14.88 2.05 2.05L15.06 23H13v-2.06zm1.97-1.75c.14 0 .27.06.38.17l1.28 1.28c.22.21.22.56 0 .77l-1 1-2.05-2.05 1-1c.11-.11.25-.17.39-.17M17 4v6l-2-2-2 2V4H9v16h2v2H7c-1.05 0-2-.95-2-2v-1H3v-2h2v-4H3v-2h2V7H3V5h2V4a2 2 0 0 1 2-2h12c1.05 0 2 .95 2 2v6l-2 2V4zM5 5v2h2V5zm0 6v2h2v-2zm0 6v2h2v-2z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Fffffx's Note
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Indexing and Hashing
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="blue-grey" data-md-color-accent="blue-grey"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4M7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="blue-grey" data-md-color-accent="teal"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256l137.3-137.4c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="分享" aria-label="分享" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Fffffx0618/PsyBlog" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Fffffx
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  首页
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Language/index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  编程语言
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Algorithm/index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  程序算法
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  体系结构
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Math/index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  数学基础
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../AI/index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  人工智能
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Fffffx&#39;s Note" class="md-nav__button md-logo" aria-label="Fffffx's Note" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m19.07 14.88 2.05 2.05L15.06 23H13v-2.06zm1.97-1.75c.14 0 .27.06.38.17l1.28 1.28c.22.21.22.56 0 .77l-1 1-2.05-2.05 1-1c.11-.11.25-.17.39-.17M17 4v6l-2-2-2 2V4H9v16h2v2H7c-1.05 0-2-.95-2-2v-1H3v-2h2v-4H3v-2h2V7H3V5h2V4a2 2 0 0 1 2-2h12c1.05 0 2 .95 2 2v6l-2 2V4zM5 5v2h2V5zm0 6v2h2v-2zm0 6v2h2v-2z"/></svg>
+
+    </a>
+    Fffffx's Note
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Fffffx0618/PsyBlog" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Fffffx
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../index.html" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    首页
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../Language/index.html" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    编程语言
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../Algorithm/index.html" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    程序算法
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../index.html" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    体系结构
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    体系结构
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../CO/index.html" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    计算机组成
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../CA/info.html" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    计算机体系结构
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4_4" id="__nav_4_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    数据库系统
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    数据库系统
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="info.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    课程信息
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Lec1.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Lec2.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Relational Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Lec3.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Lec4.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Advanced SQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Lec5.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Entity-Relationship Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Lec6.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Relational Database Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Lec8.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Storage and File Structure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Indexing and Hashing
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="Lec9.html" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Indexing and Hashing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#91-basic-concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.1 Basic Concepts
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9.1 Basic Concepts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#index-evaluation-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Index Evaluation Metrics
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#92-ordered-indices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.2 Ordered Indices
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9.2 Ordered Indices">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Basic Concepts
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#921-dense-index-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.2.1 Dense Index Files
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#922-sparse-index-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.2.2 Sparse Index Files
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#923-secondary-indices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.2.3 Secondary Indices
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#924-multilevel-index" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.2.4 Multilevel Index
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#925-index-update-deletion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.2.5 Index Update: Deletion
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#926-index-update-insertion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.2.6 Index Update: Insertion
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#927-secondary-indices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.2.7 Secondary Indices
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#928-primary-and-secondary-indices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.2.8 Primary and Secondary Indices
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#93-b-tree-index-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.3 B+ Tree Index Files
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9.3 B+ Tree Index Files">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#931-definition" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.3.1 Definition
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#932-node-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.3.2 Node Structure
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9.3.2 Node Structure">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#leaf-nodes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Leaf Nodes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#non-leaf-nodes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Non-Leaf Nodes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#933-queries" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.3.3 Queries
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#934-handling-duplicates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.3.4 Handling Duplicates
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#935-insertion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.3.5 Insertion
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#936-deletion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.3.6 Deletion
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#937-file-organization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.3.7 File Organization
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#94-b-tree-index-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.4 *B Tree Index Files
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#95-static-hashing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.5 *Static Hashing
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9.5 *Static Hashing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#951-hash-function" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.5.1 Hash Function
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#952-handling-of-bucket-overflows" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.5.2 Handling of Bucket Overflows
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#953-hash-indices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.5.3 Hash Indices
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#954-deficiencies-of-static-hashing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.5.4 Deficiencies of Static Hashing
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#96-dynamic-hashing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.6 *Dynamic Hashing
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9.6 *Dynamic Hashing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#961-extendable-hashing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.6.1 Extendable Hashing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#find" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Find
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#insert" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Insert
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#delete" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Delete
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#97-comparison-of-ordered-indexing-and-hashing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.7 *Comparison of Ordered Indexing and Hashing
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#98-write-optimized-indices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.8 Write-optimized indices
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9.8 Write-optimized indices">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#981-lsm-tree" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.8.1 LSM Tree
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#982-buffer-tree" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.8.2 Buffer Tree
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#99-index-definition-in-sql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.9 Index Definition in SQL
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#910-multiple-key-access" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.10 *Multiple-Key Access
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9.10 *Multiple-Key Access">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#9101-indices-on-multiple-attributes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.10.1 Indices on Multiple Attributes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#9102-grid-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.10.2 Grid Files
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#9103-bitmap-indices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.10.3 Bitmap Indices
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="B%2BTree.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    B+ 树
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Lec10.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Query Processing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Lec11.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Query Optimization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Lec12.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Transactions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Lec13.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Concurrency Control
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Lec14.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Recovery System
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../Math/index.html" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    数学基础
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../AI/index.html" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    人工智能
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#91-basic-concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.1 Basic Concepts
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9.1 Basic Concepts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#index-evaluation-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Index Evaluation Metrics
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#92-ordered-indices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.2 Ordered Indices
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9.2 Ordered Indices">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Basic Concepts
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#921-dense-index-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.2.1 Dense Index Files
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#922-sparse-index-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.2.2 Sparse Index Files
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#923-secondary-indices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.2.3 Secondary Indices
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#924-multilevel-index" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.2.4 Multilevel Index
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#925-index-update-deletion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.2.5 Index Update: Deletion
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#926-index-update-insertion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.2.6 Index Update: Insertion
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#927-secondary-indices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.2.7 Secondary Indices
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#928-primary-and-secondary-indices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.2.8 Primary and Secondary Indices
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#93-b-tree-index-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.3 B+ Tree Index Files
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9.3 B+ Tree Index Files">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#931-definition" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.3.1 Definition
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#932-node-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.3.2 Node Structure
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9.3.2 Node Structure">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#leaf-nodes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Leaf Nodes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#non-leaf-nodes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Non-Leaf Nodes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#933-queries" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.3.3 Queries
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#934-handling-duplicates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.3.4 Handling Duplicates
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#935-insertion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.3.5 Insertion
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#936-deletion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.3.6 Deletion
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#937-file-organization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.3.7 File Organization
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#94-b-tree-index-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.4 *B Tree Index Files
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#95-static-hashing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.5 *Static Hashing
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9.5 *Static Hashing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#951-hash-function" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.5.1 Hash Function
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#952-handling-of-bucket-overflows" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.5.2 Handling of Bucket Overflows
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#953-hash-indices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.5.3 Hash Indices
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#954-deficiencies-of-static-hashing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.5.4 Deficiencies of Static Hashing
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#96-dynamic-hashing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.6 *Dynamic Hashing
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9.6 *Dynamic Hashing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#961-extendable-hashing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.6.1 Extendable Hashing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#find" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Find
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#insert" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Insert
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#delete" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Delete
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#97-comparison-of-ordered-indexing-and-hashing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.7 *Comparison of Ordered Indexing and Hashing
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#98-write-optimized-indices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.8 Write-optimized indices
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9.8 Write-optimized indices">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#981-lsm-tree" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.8.1 LSM Tree
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#982-buffer-tree" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.8.2 Buffer Tree
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#99-index-definition-in-sql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.9 Index Definition in SQL
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#910-multiple-key-access" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.10 *Multiple-Key Access
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9.10 *Multiple-Key Access">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#9101-indices-on-multiple-attributes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.10.1 Indices on Multiple Attributes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#9102-grid-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.10.2 Grid Files
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#9103-bitmap-indices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.10.3 Bitmap Indices
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+
+  <nav class="md-path" aria-label="导航栏" >
+    <ol class="md-path__list">
+      
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../index.html" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    体系结构
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="info.html" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    数据库系统
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/Fffffx0618/PsyBlog/edit/master/docs/System/DB/Lec9.md" title="编辑此页" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+    
+      
+    
+    <a href="https://github.com/Fffffx0618/PsyBlog/raw/master/docs/System/DB/Lec9.md" title="查看本页的源代码" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.2 8.2 0 0 1-1.23-2"/></svg>
+    </a>
+  
+
+
+<h1 id="indexing-and-hashing">Indexing and Hashing<a class="headerlink" href="#indexing-and-hashing" title="Permanent link">&para;</a></h1>
+<h2 id="91-basic-concepts">9.1 Basic Concepts<a class="headerlink" href="#91-basic-concepts" title="Permanent link">&para;</a></h2>
+<p><strong>索引机制</strong>是为了加快访问所需数据的速度<br />
+An <strong>index file索引文件</strong> consists of records(called <strong>index entries索引项</strong>), of the form:</p>
+<div class="arithmatex">\[
+(\text{search-key},\ \text{pointer})
+\]</div>
+<ul>
+<li><strong>Search key</strong>: attribute or set of attributes used to look up records in a file.</li>
+<li>Index files are typically much smaller than the original data file.<br />
+两种基本的索引方式:</li>
+<li><strong>Ordered indices</strong>(顺序索引): <br />
+  search keys are stored in sorted order.</li>
+<li><strong>Hash indices</strong>(散列索引): <br />
+  search keys are distributed uniformly across "buckets" by a "hash function".</li>
+</ul>
+<h3 id="index-evaluation-metrics">Index Evaluation Metrics<a class="headerlink" href="#index-evaluation-metrics" title="Permanent link">&para;</a></h3>
+<p>衡量索引技术时，主要关注时间效率和空间效率：</p>
+<ul>
+<li><strong>Access types</strong> supported efficiently<ul>
+<li>精确匹配查询：例如 <code>WHERE Col = v</code>，查找某个属性值等于特定值的记录。</li>
+<li>范围查询：例如 <code>WHERE Col BETWEEN v1 AND v2</code>，查找某个属性值落在指定区间的记录</li>
+<li>对比：Hash index 对精确匹配非常高效，但对范围查询支持很差；而 Ordered index 对范围查询非常友好</li>
+</ul>
+</li>
+<li><strong>Access time</strong></li>
+<li><strong>Insertion time</strong></li>
+<li><strong>Deletion time</strong></li>
+<li><strong>Space overhead</strong></li>
+</ul>
+<hr />
+<h2 id="92-ordered-indices">9.2 Ordered Indices<a class="headerlink" href="#92-ordered-indices" title="Permanent link">&para;</a></h2>
+<p>In an ordered index, index entries are stored sorted on the search-key value.</p>
+<h3 id="basic-concepts">Basic Concepts<a class="headerlink" href="#basic-concepts" title="Permanent link">&para;</a></h3>
+<p><strong>Sequentially ordered file(顺序排序文件)</strong></p>
+<ul>
+<li>The records in the data file are ordered by a search-key.<br />
+<mark>Primary index(主索引)</mark></li>
+<li>与对应的数据文件本身的排列顺序相同的索引称为<strong>主索引</strong>，也称为<strong>clustering index(聚集索引)</strong><ul>
+<li>主索引的搜索键通常是但并非一定是主码</li>
+<li>非顺序排序文件没有 primary index，但 relation 可以有 primary index</li>
+</ul>
+</li>
+<li><strong>index-sequential file(索引顺序文件)</strong>：Sequentially ordered file with a primary index.<br />
+<mark>Secondary index(辅助索引)</mark></li>
+<li>搜索键的指定顺序与文件记录的物理顺序不同的索引，也称为<strong>non-clustering index(非聚集索引)</strong></li>
+</ul>
+<p>Two types of ordered indices:</p>
+<ul>
+<li>Dense index(稠密索引)</li>
+<li>Sparse index(稀疏索引)</li>
+</ul>
+<h3 id="921-dense-index-files">9.2.1 Dense Index Files<a class="headerlink" href="#921-dense-index-files" title="Permanent link">&para;</a></h3>
+<p><strong>Dense index（稠密索引）</strong>：文件中的每一个搜索键值，都会在索引中出现对应的条目</p>
+<div style="text-align: center"><img src="images/image-82.png" width="60%"></div>
+
+<ul>
+<li><strong>如果搜索键是唯一的</strong>（例如主键）<br />
+  那么每个索引条目会直接指向一条具体的数据记录</li>
+<li><strong>如果搜索键不是唯一的</strong>（例如有重复值的列）<br />
+  一个索引条目可能会指向一个“桶”，桶里包含了所有具有该搜索键值的记录的指针</li>
+<li><strong>稠密索引既适用于顺序文件，也适用于非顺序文件。</strong></li>
+</ul>
+<h3 id="922-sparse-index-files">9.2.2 Sparse Index Files<a class="headerlink" href="#922-sparse-index-files" title="Permanent link">&para;</a></h3>
+<p><strong>Sparse index（稀疏索引）</strong>: contains index entries for only some search-key values.</p>
+<ul>
+<li>通常是<strong>一个数据块对应一个索引条目</strong>，仅当数据文件中的记录是按照搜索键<strong>顺序排列</strong>时才适用</li>
+<li>要查找搜索键值为 <span class="arithmatex">\(K\)</span> 的记录，步骤如下：<ol>
+<li>在索引中找到那个小于 <span class="arithmatex">\(K\)</span> 的最大搜索键值对应的索引记录</li>
+<li>从该索引条目指向的记录开始，在数据文件中进行顺序查找<br />
+Compared to dense indices:</li>
+</ol>
+</li>
+<li>Less space overhead.</li>
+<li>Less maintenance overhead for insertions and deletions.</li>
+<li>Generally slower for locating records.</li>
+</ul>
+<h3 id="923-secondary-indices">9.2.3 Secondary Indices<a class="headerlink" href="#923-secondary-indices" title="Permanent link">&para;</a></h3>
+<p>实际应用中常有多种属性作为查询条件，因此需要在非主排序属性上建立辅助索引。</p>
+<div style="text-align: center"><img src="images/image-83.png" width="65%"></div>
+
+<p>Secondary index:</p>
+<ul>
+<li>为每一个搜索键值都设有一个索引记录。</li>
+<li>该索引记录指向一个“桶”。</li>
+<li>桶中包含了指向所有具有该特定搜索键值的实际记录的指针。</li>
+</ul>
+<div class="admonition tip">
+<p class="admonition-title">Secondary index must be dense</p>
+<p>辅助索引不能使用稀疏索引，因为数据文件本身不是按照该 search key 排序的。每条满足条件的记录都必须能够被指针找到。<strong>最终还是需要主键来访问具体条目。</strong></p>
+</div>
+<h3 id="924-multilevel-index">9.2.4 Multilevel Index<a class="headerlink" href="#924-multilevel-index" title="Permanent link">&para;</a></h3>
+<p>If a primary index is too large to fit in memory, access becomes expensive.</p>
+<ul>
+<li><strong>为了减少磁盘访问次数</strong>：<br />
+  将保存在磁盘上的主索引视为一个顺序文件，在此基础上构建一个稀疏索引。</li>
+<li><strong>Outer index</strong>: 主索引的稀疏索引；<strong>Inner index</strong>: 主索引文件本身<br />
+如果外层索引仍然太大，可以创建另一个层级。</li>
+</ul>
+<div style="text-align: center"><img src="images/image-84.png" width="60%"></div>
+
+<ul>
+<li>这种技术既适用于聚簇索引，也适用于非聚簇索引。</li>
+<li>在进行插入或删除操作时，所有层级的索引都必须进行更新。</li>
+</ul>
+<h3 id="925-index-update-deletion">9.2.5 Index Update: Deletion<a class="headerlink" href="#925-index-update-deletion" title="Permanent link">&para;</a></h3>
+<p>General procedure:</p>
+<ol>
+<li>Find and delete the record in the data file.</li>
+<li>Update the index file.</li>
+</ol>
+<p><strong>Dense index deletion</strong></p>
+<ul>
+<li>如果被删除的记录是其搜索键值的<strong>唯一</strong>记录，则删除对应的索引条目（单记录, 即 search-key 有唯一性）</li>
+<li>如果还有其他记录拥有相同的键值 (多条记录，即 search-key 无唯一性)：<ul>
+<li>如果该索引条目包含多个指针，仅删除指向那条已删除记录的指针（对应辅助索引的情况）</li>
+<li>如果是<strong>主索引</strong>，且被删除的记录正是该条目指向的第一条记录，则将指针修改为指向下一条记录</li>
+<li>其他情况下，无需更改</li>
+</ul>
+</li>
+</ul>
+<p><strong>Sparse index deletion</strong></p>
+<ul>
+<li>如果被删除记录的搜索键值没有出现在索引中，则无需执行任何操作</li>
+<li>如果存在对应的索引条目：<ul>
+<li>用数据文件中下一个搜索键值来替换该条目</li>
+<li>如果这个“下一个”搜索键值已经有了自己的索引条目，直接删除原来的条目即可</li>
+</ul>
+</li>
+</ul>
+<p><strong>For multilevel indices</strong>: 由底层逐级向上层扩展，每一层的处理过程与上述单层索引情况下类似</p>
+<h3 id="926-index-update-insertion">9.2.6 Index Update: Insertion<a class="headerlink" href="#926-index-update-insertion" title="Permanent link">&para;</a></h3>
+<ol>
+<li>使用待插入记录中的搜索键值进行查找</li>
+<li>将记录插入数据文件</li>
+<li>根据索引类型更新索引</li>
+</ol>
+<p><strong>Dense index insertion</strong></p>
+<ul>
+<li>如果搜索键值在索引中<strong>不存在</strong>，则插入一条新的索引项</li>
+<li>如果搜索键值在索引中<strong>已经存在</strong>：<ul>
+<li>如果该索引项维护了多个指针，则添加一个指向新记录的指针</li>
+<li>其他情况下，无需更改</li>
+</ul>
+</li>
+</ul>
+<p><strong>Sparse index insertion</strong><br />
+（假设每个数据块对应一条索引项）</p>
+<ul>
+<li>如果创建了新块，则将新块中的第一个搜索键值插入索引</li>
+<li>如果新记录是其所在块中搜索键值最小的记录，则更新对应的索引项</li>
+<li>否则无需更改</li>
+</ul>
+<h3 id="927-secondary-indices">9.2.7 Secondary Indices<a class="headerlink" href="#927-secondary-indices" title="Permanent link">&para;</a></h3>
+<ul>
+<li>有时候需要筛选出所有数据中符合特定条件的数据，这个时候可以使用secondary index<ul>
+<li>We can have a secondary index with an index record for each search-key value</li>
+</ul>
+</li>
+</ul>
+<div style="text-align: center"><img src="images/image-89.png" width="60%"></div>
+
+<ul>
+<li>索引记录指向一个桶（bucket），该桶包含了指向所有具有该特定搜索键值的实际记录的指针</li>
+<li>辅助索引（secondary Indices）必须是<strong>稠密的</strong></li>
+</ul>
+<h3 id="928-primary-and-secondary-indices">9.2.8 Primary and Secondary Indices<a class="headerlink" href="#928-primary-and-secondary-indices" title="Permanent link">&para;</a></h3>
+<p>索引能显著提升查询效率，但每个索引都会带来更新开销</p>
+<ul>
+<li>当文件被修改时，该文件上的每一个索引都必须更新</li>
+<li>使用主索引进行顺序扫描是高效的</li>
+<li>使用辅助索引进行顺序扫描代价高昂：<ul>
+<li>每次记录访问都可能需要从磁盘读取一个新的数据块</li>
+<li>磁盘块读取可能耗时数毫秒，远慢于内存访问</li>
+</ul>
+</li>
+</ul>
+<hr />
+<h2 id="93-b-tree-index-files">9.3 B+ Tree Index Files<a class="headerlink" href="#93-b-tree-index-files" title="Permanent link">&para;</a></h2>
+<p>B+树索引是索引顺序文件的一种替代方案</p>
+<ul>
+<li>Disadvantage of indexed-sequential files：<ul>
+<li>随着文件增长，性能会下降，因为可能产生大量溢出块</li>
+<li>需要定期对整个文件进行重组</li>
+</ul>
+</li>
+<li>Advantage of <span class="arithmatex">\(B^+\)</span>-tree index files：<ul>
+<li>在插入和删除过程中，通过较小的局部调整自动重组自身</li>
+<li>无需对整个文件进行重组即可维持性能</li>
+</ul>
+</li>
+<li>(Minor) disadvantage of <span class="arithmatex">\(B^+\)</span>-trees：额外的插入和删除开销，以及空间开销</li>
+</ul>
+<h3 id="931-definition">9.3.1 Definition<a class="headerlink" href="#931-definition" title="Permanent link">&para;</a></h3>
+<p>A <span class="arithmatex">\(B^+\)</span>-tree is a rooted tree satisfying the following properties:</p>
+<ul>
+<li>从根到叶的所有路径长度相同，即 B+ 树是<strong>平衡的</strong></li>
+<li>除根节点和叶节点外，每个节点有 <span class="arithmatex">\(\lceil n/2 \rceil\)</span> 到 <span class="arithmatex">\(n\)</span> 个子节点</li>
+<li>叶节点有 <span class="arithmatex">\(\lceil (n-1)/2 \rceil\)</span> 到 <span class="arithmatex">\(n-1\)</span> 个值</li>
+<li>特殊情况：<ul>
+<li>如果根不是叶节点，则至少有 2 个子节点</li>
+<li>如果根是叶节点，则可以有 <span class="arithmatex">\(0\)</span> 到 <span class="arithmatex">\(n-1\)</span> 个值</li>
+</ul>
+</li>
+</ul>
+<h3 id="932-node-structure">9.3.2 Node Structure<a class="headerlink" href="#932-node-structure" title="Permanent link">&para;</a></h3>
+<div style="text-align: center"><img src="images/image-85.png" width="70%"></div>
+
+<ul>
+<li><span class="arithmatex">\(K_i\)</span> 是搜索键值，节点中的搜索键有序排列：</li>
+</ul>
+<div class="arithmatex">\[
+K_1 &lt; K_2 &lt; \dots &lt; K_{n-1}
+\]</div>
+<ul>
+<li><span class="arithmatex">\(P_i\)</span> 是指针<ul>
+<li>在非叶节点中：指向子节点的指针。</li>
+<li>在叶节点中：指向记录或记录桶的指针。</li>
+</ul>
+</li>
+<li>通常一个节点对应一个 block</li>
+</ul>
+<h4 id="leaf-nodes">Leaf Nodes<a class="headerlink" href="#leaf-nodes" title="Permanent link">&para;</a></h4>
+<p>对于 <span class="arithmatex">\(i = 1,2,\dots,n-1\)</span>：</p>
+<ul>
+<li>指针 <span class="arithmatex">\(P_i\)</span> 指向搜索键值为 <span class="arithmatex">\(K_i\)</span> 的文件记录，或指向一个包含文件记录指针的桶</li>
+<li>仅当搜索键不是主键时才需要桶</li>
+<li>每个搜索键都出现在叶节点中，类似于稠密索引</li>
+</ul>
+<p>性质：</p>
+<ul>
+<li>若 <span class="arithmatex">\(L_i, L_j\)</span> 是叶节点且 <span class="arithmatex">\(i &lt; j\)</span>，则 <span class="arithmatex">\(L_i\)</span> 中的所有搜索键值均小于 <span class="arithmatex">\(L_j\)</span> 中的值</li>
+<li>每个叶节点包含 <span class="arithmatex">\(\lceil (n-1)/2 \rceil\)</span> 到 <span class="arithmatex">\(n-1\)</span> 个搜索键</li>
+<li><span class="arithmatex">\(P_n\)</span> 指向按搜索键顺序排列的下一个叶节点，这便于顺序处理和范围查询</li>
+</ul>
+<h4 id="non-leaf-nodes">Non-Leaf Nodes<a class="headerlink" href="#non-leaf-nodes" title="Permanent link">&para;</a></h4>
+<p>非叶节点构成叶节点之上的多层稀疏索引</p>
+<p>对于具有指针 <span class="arithmatex">\(P_1,\dots,P_n\)</span> 和键 <span class="arithmatex">\(K_1,\dots,K_{n-1}\)</span> 的非叶节点：</p>
+<ul>
+<li>子树 <span class="arithmatex">\(P_1\)</span> 中的所有搜索键均小于 <span class="arithmatex">\(K_1\)</span></li>
+<li>对于 <span class="arithmatex">\(2 \leq i \leq n-1\)</span>，子树 <span class="arithmatex">\(P_i\)</span> 中的所有搜索键满足：</li>
+</ul>
+<div class="arithmatex">\[
+K_{i-1} \leq \text{key} &lt; K_i
+\]</div>
+<ul>
+<li>子树 <span class="arithmatex">\(P_n\)</span> 中的所有搜索键大于或等于 <span class="arithmatex">\(K_{n-1}\)</span></li>
+</ul>
+<div class="admonition abstract">
+<p class="admonition-title">B+-树总结</p>
+<ul>
+<li>非叶层级构成了一个稀疏索引的层级结构。</li>
+<li>树的高度很小，与主文件大小成对数关系。</li>
+<li>插入和删除可通过局部重构在对数时间内完成。</li>
+<li>逻辑上相邻的节点在物理上不必相邻，因为节点之间通过指针连接。</li>
+</ul>
+</div>
+<h3 id="933-queries">9.3.3 Queries<a class="headerlink" href="#933-queries" title="Permanent link">&para;</a></h3>
+<p>高度上界：</p>
+<ul>
+<li>如果文件中有 <span class="arithmatex">\(K\)</span> 个搜索键值，树的高度不超过：</li>
+</ul>
+<div class="arithmatex">\[
+\left\lceil \log_{\lceil n/2 \rceil}(K) \right\rceil
+\]</div>
+<ul>
+<li>一个 node 通常和一个 block 的大小相同，例如 4KB。<ul>
+<li><span class="arithmatex">\(n\)</span> 通常在 100 左右。</li>
+</ul>
+</li>
+<li>当有 <span class="arithmatex">\(1,000,000\)</span> 个搜索键值且 <span class="arithmatex">\(n=100\)</span> 时，一次查找最多访问：</li>
+</ul>
+<div class="arithmatex">\[
+\log_{50}(1,000,000) \approx 4 \text{ 个节点}
+\]</div>
+<h3 id="934-handling-duplicates">9.3.4 Handling Duplicates<a class="headerlink" href="#934-handling-duplicates" title="Permanent link">&para;</a></h3>
+<p>当存在重复搜索键时：无法保证 <span class="arithmatex">\(K_1 &lt; K_2 &lt; \dots &lt; K_{n-1}\)</span></p>
+<ul>
+<li>只能保证 <span class="arithmatex">\(K_1 \leq K_2 \leq \dots \leq K_{n-1}\)</span><br />
+修改后的查找思路：</li>
+<li>即使 <span class="arithmatex">\(V = K_i\)</span>，也遍历 <span class="arithmatex">\(P_i\)</span></li>
+<li>到达叶节点后，如果该叶节点只包含小于 <span class="arithmatex">\(V\)</span> 的值，则移动到右兄弟节点</li>
+<li>要打印所有值为 <span class="arithmatex">\(V\)</span> 的记录，先找到第一个出现位置，然后遍历连续的叶节点</li>
+</ul>
+<div class="admonition info">
+<p class="admonition-title">Non-Unique Search Keys</p>
+<p>处理非唯一搜索键的替代方案：</p>
+<ol>
+<li>将桶放在单独的块上：不是好主意，因为会增加额外的块访问</li>
+<li>每个键附带一个元组指针列表<ul>
+<li>空间开销低，简单查询无额外开销</li>
+<li>如果存在大量重复，删除操作可能代价较高</li>
+</ul>
+</li>
+<li>通过添加记录标识符使搜索键唯一<ul>
+<li>额外的存储开销，插入和删除更简单，被广泛采用</li>
+</ul>
+</li>
+</ol>
+</div>
+<h3 id="935-insertion">9.3.5 Insertion<a class="headerlink" href="#935-insertion" title="Permanent link">&para;</a></h3>
+<ol>
+<li>找到搜索键值应出现的叶节点</li>
+<li>如果搜索键值已存在于叶节点中：<ul>
+<li>将记录添加到文件中；</li>
+<li>如有必要，向桶中添加指针</li>
+</ul>
+</li>
+<li>如果搜索键值不存在：<ul>
+<li>将记录添加到主文件中（如有必要，创建桶）</li>
+<li>如果叶节点中有空间，插入 <code>(key, pointer)</code> 对；</li>
+<li>否则分裂该节点</li>
+</ul>
+</li>
+</ol>
+<p><strong>叶节点的分裂</strong>：</p>
+<ul>
+<li>取 <span class="arithmatex">\(n\)</span> 个 <code>(search-key, pointer)</code> 对（包括新插入的），按顺序排列</li>
+<li>将前 <span class="arithmatex">\(\lceil n/2 \rceil\)</span> 个对放入原节点，将剩余的对放入新节点</li>
+<li>令新节点为 <span class="arithmatex">\(p\)</span>，将 <span class="arithmatex">\((k, p)\)</span> 插入父节点，其中<span class="arithmatex">\(k\)</span> 为 <span class="arithmatex">\(p\)</span> 中最小的键值</li>
+<li>如果父节点已满，则分裂父节点并向上传播分裂</li>
+</ul>
+<div style="text-align: center"><img src="images/image-87.png" width="60%"></div>
+
+<p><strong>非叶节点的分裂</strong>：</p>
+<ul>
+<li>将新的 <code>(key, pointer)</code> 插入一个临时的内存节点中</li>
+<li>将前半部分保留在原节点，后半部分移入新节点，中间的分离键推入父节点</li>
+</ul>
+<div style="text-align: center"><img src="images/image-86.png" width="60%"></div>
+
+<h3 id="936-deletion">9.3.6 Deletion<a class="headerlink" href="#936-deletion" title="Permanent link">&para;</a></h3>
+<ol>
+<li>找到待删除的记录，将其从主文件和桶（如果存在）中将其移除</li>
+<li>从叶节点中移除 <code>(search-key, pointer)</code></li>
+</ol>
+<p>如果节点中的条目过少：</p>
+<ul>
+<li><strong>合并兄弟节点</strong>：如果该节点和兄弟节点的条目可以放入同一节点中<ul>
+<li>将所有搜索键值放入左节点，并删除另一个节点</li>
+<li>从父节点中删除对应的指针对 <span class="arithmatex">\((K_{i-1},P_i)\)</span>，然后递归地改变上层结构</li>
+</ul>
+</li>
+<li><strong>重新分配指针</strong>：如果合并后放不下<ul>
+<li>在该节点和兄弟节点之间重新分配条目</li>
+<li>更新父节点中对应的搜索键值<br />
+如果删除后根节点只有一个指针：</li>
+</ul>
+</li>
+<li>删除根节点，其唯一子节点成为新的根</li>
+</ul>
+<div style="text-align: center"><img src="images/image-90.png" width="60%"></div>
+
+<h3 id="937-file-organization">9.3.7 File Organization<a class="headerlink" href="#937-file-organization" title="Permanent link">&para;</a></h3>
+<p>B+-树也可以直接组织数据记录，而不仅仅组织索引项。</p>
+<div style="text-align: center"><img src="images/image-91.png" width="60%"></div>
+
+<ul>
+<li>良好的空间利用率很重要，因为数据记录比指针占用更多空间。</li>
+<li>为提高利用率，分裂/合并时的重分配可以涉及更多兄弟节点。</li>
+<li>涉及更多兄弟节点可以减少不必要的分裂/合并操作。</li>
+</ul>
+<hr />
+<h2 id="94-b-tree-index-files">9.4 *B Tree Index Files<a class="headerlink" href="#94-b-tree-index-files" title="Permanent link">&para;</a></h2>
+<p><span class="arithmatex">\(B-\text{Tree}\)</span> 与 <span class="arithmatex">\(B^+ - \text{Tree}\)</span> 类似，但有一个重要区别：</p>
+<ul>
+<li><span class="arithmatex">\(B-\text{Tree}\)</span> 中搜索键值只出现一次，非叶节点中的搜索键不会在叶节点中再次出现</li>
+<li>因此，非叶节点中的每个搜索键需要一个额外的指针字段，指向对应的桶或文件记录。</li>
+<li><strong>所有节点都是广义的叶节点</strong></li>
+</ul>
+<p><span class="arithmatex">\(B-\text{Tree}\)</span> 索引的优点：</p>
+<ul>
+<li>可能比对应的 B+-树使用更少的节点</li>
+<li>有时在到达叶节点之前就能找到搜索键值<br />
+<span class="arithmatex">\(B-\text{Tree}\)</span> 的缺点：</li>
+<li>只有一小部分搜索键值能被提前找到</li>
+<li>非叶节点更大，因此扇出减少</li>
+<li>B-树通常比对应的 B+-树更深</li>
+<li>插入和删除更复杂，实现更困难</li>
+</ul>
+<hr />
+<h2 id="95-static-hashing">9.5 *Static Hashing<a class="headerlink" href="#95-static-hashing" title="Permanent link">&para;</a></h2>
+<p>==Bucket（桶）==是一个包含一条或多条记录的存储单元（一个桶通常是一个磁盘块）<br />
+在散列文件组织中：</p>
+<ul>
+<li>记录的桶通过散列函数直接从其搜索键值获得</li>
+<li>散列函数 <span class="arithmatex">\(h\)</span> 将搜索键值映射到桶地址：</li>
+</ul>
+<div class="arithmatex">\[
+h: K \rightarrow B
+\]</div>
+<p>其中 <span class="arithmatex">\(K\)</span> 是所有搜索键值的集合，<span class="arithmatex">\(B\)</span> 是所有桶地址的集合</p>
+<h3 id="951-hash-function">9.5.1 Hash Function<a class="headerlink" href="#951-hash-function" title="Permanent link">&para;</a></h3>
+<p><mark>Hash Function</mark>用于：访问、插入、删除</p>
+<ul>
+<li>具有不同搜索键值的记录可能被映射到同一个桶，因此可能需要顺序搜索整个桶</li>
+</ul>
+<p><strong>Worst hash function</strong>：</p>
+<ul>
+<li>将所有搜索键值映射到同一个桶，访问时间与文件中搜索键值的数量成正比</li>
+</ul>
+<p><strong>Ideal hash function</strong>：</p>
+<ul>
+<li>将搜索键值均匀分布到各个桶中。</li>
+<li>每个桶接收的记录数大致相同。</li>
+<li>分布应与搜索键值的实际分布无关。</li>
+</ul>
+<p><strong>Typical hash function</strong>：</p>
+<ul>
+<li>基于搜索键的内部二进制表示进行计算。</li>
+<li>示例：对于字符串，将各字符的二进制表示相加，然后对桶数取模。</li>
+</ul>
+<h3 id="952-handling-of-bucket-overflows">9.5.2 Handling of Bucket Overflows<a class="headerlink" href="#952-handling-of-bucket-overflows" title="Permanent link">&para;</a></h3>
+<p>桶溢出可能由以下原因导致：</p>
+<ul>
+<li>桶的数量不足</li>
+<li>记录分布不均：多条记录具有相同的搜索键值；所选散列函数不够均匀<br />
+虽然溢出概率可以降低，但无法完全消除</li>
+</ul>
+<p>溢出链（Overflow chaining）</p>
+<ul>
+<li>将某个桶的溢出桶通过链表链接在一起。</li>
+<li>这种方案称为<mark>闭散列（closed hashing）</mark></li>
+<li>开散列不使用溢出桶，但不适用于数据库应用</li>
+</ul>
+<h3 id="953-hash-indices">9.5.3 Hash Indices<a class="headerlink" href="#953-hash-indices" title="Permanent link">&para;</a></h3>
+<p>Hash 可用于文件组织、索引结构创建<br />
+<mark>散列索引（Hash index）</mark>：将搜索键及其关联的记录指针组织成散列文件结构</p>
+<ul>
+<li>严格来说，散列索引始终是辅助索引，如果文件本身使用散列组织，则不需要使用相同搜索键的单独主散列索引</li>
+<li>但在实践中 hash index 一词可能既指辅助散列索引结构，也指散列组织的文件</li>
+</ul>
+<h3 id="954-deficiencies-of-static-hashing">9.5.4 Deficiencies of Static Hashing<a class="headerlink" href="#954-deficiencies-of-static-hashing" title="Permanent link">&para;</a></h3>
+<p>在静态散列中，<span class="arithmatex">\(h\)</span> 将搜索键值映射到一组固定的桶地址。</p>
+<div class="admonition bug">
+<p class="admonition-title">Bug</p>
+<ul>
+<li>数据库随时间增长。<ul>
+<li>如果初始桶数太少，会产生大量溢出，性能下降。</li>
+</ul>
+</li>
+<li>如果预先分配大量桶以应对未来文件大小，初期会浪费空间。</li>
+<li>如果数据库缩小，同样浪费空间。</li>
+<li>使用新散列函数进行定期重组的代价高昂。</li>
+</ul>
+<p>解决方向：使用动态散列，桶的数量可以动态调整。</p>
+</div>
+<hr />
+<h2 id="96-dynamic-hashing">9.6 *Dynamic Hashing<a class="headerlink" href="#96-dynamic-hashing" title="Permanent link">&para;</a></h2>
+<p>动态散列适用于大小会增长和收缩的数据库,它允许动态修改散列函数。</p>
+<h3 id="961-extendable-hashing">9.6.1 Extendable Hashing<a class="headerlink" href="#961-extendable-hashing" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Hash function 生成大范围内的值，通常是 <span class="arithmatex">\(b\)</span> 位整数，例如 <span class="arithmatex">\(b=32\)</span></li>
+<li>使用散列值的前缀（前 <span class="arithmatex">\(i\)</span> 位，其中 <span class="arithmatex">\(0 \leq i \leq 32\)</span>）来索引桶地址表</li>
+<li>桶地址表大小：<span class="arithmatex">\(2^i\)</span>，最初 <span class="arithmatex">\(i=0\)</span> 且 <span class="arithmatex">\(i\)</span> 随数据库的增长和收缩而增减。</li>
+<li>桶地址表中的多个条目可能指向同一个桶</li>
+<li>因此，实际桶数可以小于 <span class="arithmatex">\(2^i\)</span>。</li>
+</ul>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>每个桶 <span class="arithmatex">\(j\)</span> 存储一个值 <span class="arithmatex">\(i_j\)</span>：指向同一个桶的所有表条目具有相同的前 <span class="arithmatex">\(i_j\)</span> 位</p>
+<ul>
+<li><span class="arithmatex">\(i\)</span> 是<strong>全局深度（global depth）</strong>，表示桶的地址有 <span class="arithmatex">\(i\)</span> 位</li>
+<li><span class="arithmatex">\(i_j\)</span> 是桶 <span class="arithmatex">\(j\)</span> 的<strong>局部深度（local depth）</strong>，表示 bucket 中每个 entry 的前 <span class="arithmatex">\(i_j\)</span> 位（前缀）相同<br />
+假设 <span class="arithmatex">\(i=3\)</span>，有三个桶：</li>
+</ul>
+<div class="language-text highlight"><pre><span></span><code>桶A：i_j = 2，前缀 "10"
+桶B：i_j = 3，前缀 "011"
+桶C：i_j = 1，前缀 "0"
+</code></pre></div>
+<p>映射关系：</p>
+<div class="language-text highlight"><pre><span></span><code>桶地址表（i=3，共 2^3=8 个格子）：
+
+索引    前缀匹配逻辑              指向
+─────────────────────────────────────
+000     前1位是0 ✓ → 匹配桶C      → 桶C
+001     前1位是0 ✓ → 匹配桶C      → 桶C
+010     前1位是0 ✓ → 匹配桶C      → 桶C
+011     前3位是011 ✓ → 匹配桶B    → 桶B
+100     前2位是10 ✓ → 匹配桶A     → 桶A
+101     前2位是10 ✓ → 匹配桶A     → 桶A
+110     前1位是1 ✗, 前2位是10 ✗   → 无匹配（如果存在其他桶）
+111     ...                       
+</code></pre></div>
+</div>
+<h3 id="find">Find<a class="headerlink" href="#find" title="Permanent link">&para;</a></h3>
+<p>定位包含搜索键 <span class="arithmatex">\(K_j\)</span> 的桶：</p>
+<ol>
+<li>计算 <span class="arithmatex">\(h(K_j) = X\)</span>，得到 32 位的整数</li>
+<li>使用 <span class="arithmatex">\(X\)</span> 的前 <span class="arithmatex">\(i\)</span> 个位，作为桶地址表的索引</li>
+<li>顺着该索引找到对应的桶。</li>
+</ol>
+<h3 id="insert">Insert<a class="headerlink" href="#insert" title="Permanent link">&para;</a></h3>
+<p>插入搜索键值为 <span class="arithmatex">\(K_j\)</span> 的记录：</p>
+<ol>
+<li>使用查找过程定位其桶</li>
+<li>如果桶中有空间，插入记录</li>
+<li>否则，分裂桶并重试插入</li>
+</ol>
+<p>分裂桶 <span class="arithmatex">\(j\)</span>：</p>
+<p><strong>情况 1：<span class="arithmatex">\(i &gt; i_j\)</span></strong>（有多个表指针指向桶 <span class="arithmatex">\(j\)</span>）</p>
+<ol>
+<li>分配一个新桶 <span class="arithmatex">\(z\)</span></li>
+<li>将 <span class="arithmatex">\(i_j\)</span> 和 <span class="arithmatex">\(i_z\)</span> 设为旧的 <span class="arithmatex">\(i_j + 1\)</span> </li>
+<li>将指向 <span class="arithmatex">\(j\)</span> 的表条目的后一半改为指向 <span class="arithmatex">\(z\)</span><ul>
+<li>原本可能 01 指向桶 X，现在 010 指向桶 X，011 指向桶 Y</li>
+</ul>
+</li>
+<li>移除并重新插入桶 <span class="arithmatex">\(j\)</span> 中的每条记录<ul>
+<li>根据前 <span class="arithmatex">\(i_j+1\)</span> 位区分放置的位置</li>
+</ul>
+</li>
+<li>重新计算 <span class="arithmatex">\(K_j\)</span> 的新桶并插入记录，如果桶仍满，可能需要进一步分裂</li>
+</ol>
+<p><strong>情况 2：<span class="arithmatex">\(i = i_j\)</span></strong>（只有一个表指针指向桶 <span class="arithmatex">\(j\)</span>）</p>
+<ol>
+<li>增加 <span class="arithmatex">\(i\)</span> 并将桶地址表大小翻倍</li>
+<li>将每个旧表条目替换为指向相同桶的两个条目</li>
+<li>重新计算 <span class="arithmatex">\(K_j\)</span> 的表条目</li>
+<li>此时 <span class="arithmatex">\(i &gt; i_j\)</span>，故应用情况 1</li>
+</ol>
+<p>如果桶分裂达到最大散列前缀长度 <span class="arithmatex">\(b\)</span>：创建溢出桶，而不是继续分裂</p>
+<h3 id="delete">Delete<a class="headerlink" href="#delete" title="Permanent link">&para;</a></h3>
+<p>删除键值：</p>
+<ol>
+<li>在其桶中定位</li>
+<li>将其移除</li>
+<li>如果桶变为空，可将其移除并做相应表更新</li>
+<li>可以合并桶<ul>
+<li>只能与伙伴桶（buddy bucket）合并</li>
+<li>伙伴桶必须具有相同的局部深度 <span class="arithmatex">\(i_j\)</span> 和相同的 <span class="arithmatex">\((i_j - 1)\)</span> 位前缀</li>
+</ul>
+</li>
+<li>桶地址表大小可以减少<ul>
+<li>这代价较高，仅当桶数远小于表大小时才应进行</li>
+</ul>
+</li>
+</ol>
+<hr />
+<h2 id="97-comparison-of-ordered-indexing-and-hashing">9.7 *Comparison of Ordered Indexing and Hashing<a class="headerlink" href="#97-comparison-of-ordered-indexing-and-hashing" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>查询 / 需求</th>
+<th>顺序索引</th>
+<th>散列索引</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>等值查询</td>
+<td>良好</td>
+<td>通常更好</td>
+</tr>
+<tr>
+<td>范围查询</td>
+<td>良好</td>
+<td>差</td>
+</tr>
+<tr>
+<td>顺序处理</td>
+<td>良好</td>
+<td>不适合</td>
+</tr>
+<tr>
+<td>动态增长</td>
+<td>B+-树处理良好</td>
+<td>动态散列处理良好</td>
+</tr>
+<tr>
+<td>最坏情况保证</td>
+<td>更好</td>
+<td>可能受溢出/不均影响</td>
+</tr>
+<tr>
+<td>需考虑的因素：</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>定期重组的代价。</li>
+<li>插入和删除的相对频率。</li>
+<li>是否应以最坏情况访问时间为代价来优化平均访问时间。</li>
+<li>预期的查询类型。</li>
+</ul>
+<hr />
+<h2 id="98-write-optimized-indices">9.8 Write-optimized indices<a class="headerlink" href="#98-write-optimized-indices" title="Permanent link">&para;</a></h2>
+<h3 id="981-lsm-tree">9.8.1 LSM Tree<a class="headerlink" href="#981-lsm-tree" title="Permanent link">&para;</a></h3>
+<p>==Log Structured Merge Tree（日志结构合并树）==旨在优化写密集型工作负载<br />
+仅考虑插入和查询：</p>
+<ul>
+<li>记录首先插入内存中的树 <span class="arithmatex">\(L_0\)</span>。</li>
+<li>当内存中的树满时，记录被移动到磁盘，成为 <span class="arithmatex">\(L_1\)</span><ul>
+<li><span class="arithmatex">\(L_1\)</span> 可以通过将现有 <span class="arithmatex">\(L_1\)</span> 树与 <span class="arithmatex">\(L_0\)</span> 中的记录合并，自底向上构建</li>
+<li>当 <span class="arithmatex">\(L_1\)</span> 超过某个阈值时，将其合并到 <span class="arithmatex">\(L_2\)</span></li>
+</ul>
+</li>
+<li>
+<p>以此类推到更多层级， <span class="arithmatex">\(L_{i+1}\)</span> 的大小阈值是 <span class="arithmatex">\(L_i\)</span> 阈值的 <span class="arithmatex">\(k\)</span> 倍</p>
+</li>
+<li>
+<p>优点：</p>
+<ul>
+<li>插入操作主要使用顺序 I/O</li>
+<li>叶节点是满的，避免空间浪费</li>
+<li>与普通 B+ 树相比，减少了每条插入记录的 I/O 操作次数（在一定规模内）</li>
+</ul>
+</li>
+<li>缺点：<ul>
+<li>查询需要搜索多棵树</li>
+<li>每层的内容可能被整体复制多次</li>
+</ul>
+</li>
+</ul>
+<p><mark>步进合并索引（Stepped-merge index）</mark></p>
+<ul>
+<li>LSM 树的变体，每层有多棵树</li>
+<li>相比 LSM 树降低了写代价</li>
+<li>查询代价更高</li>
+<li>布隆过滤器可以避免在大多数树中查找</li>
+</ul>
+<p>LSM 中的删除：</p>
+<ul>
+<li>通过添加特殊的删除条目来处理。</li>
+<li>查找可能同时找到原始条目和删除条目；只应返回没有匹配删除条目的条目。</li>
+<li>合并时，如果删除条目与原始条目匹配，二者都会被丢弃。</li>
+<li>更新可以通过插入 + 删除来实现。</li>
+</ul>
+<p>LSM 树适用于：</p>
+<ul>
+<li>基于磁盘的索引</li>
+<li>基于闪存的索引，因为减少了擦除操作</li>
+<li>大数据存储系统，如 BigTable、Cassandra、MongoDB、LevelDB、MyRocks</li>
+</ul>
+<h3 id="982-buffer-tree">9.8.2 Buffer Tree<a class="headerlink" href="#982-buffer-tree" title="Permanent link">&para;</a></h3>
+<p>核心思想：</p>
+<ul>
+<li>B+ 树的每个内部节点都有一个缓冲区用于存储插入，当缓冲区满时，插入被移动到下层</li>
+<li>
+<p>有了大缓冲区，每次可以将大量记录移动到下层，每条记录的 I/O 相应减少</p>
+</li>
+<li>
+<p>优点：</p>
+<ul>
+<li>查询开销比 LSM 树小</li>
+<li>可用于任何树索引结构</li>
+<li>在 PostgreSQL 的 GiST 索引中使用</li>
+</ul>
+</li>
+<li>缺点：比 LSM 树有更多的随机 I/O</li>
+</ul>
+<div style="text-align: center"><img src="images/image-134.png" width="80%"></div>
+
+<hr />
+<h2 id="99-index-definition-in-sql">9.9 Index Definition in SQL<a class="headerlink" href="#99-index-definition-in-sql" title="Permanent link">&para;</a></h2>
+<p>创建索引：</p>
+<div class="language-sql highlight"><pre><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="o">&lt;</span><span class="k">index</span><span class="o">-</span><span class="n">name</span><span class="o">&gt;</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="o">&lt;</span><span class="k">table</span><span class="o">-</span><span class="n">name</span><span class="o">&gt;</span><span class="w"> </span><span class="p">(</span><span class="o">&lt;</span><span class="n">attribute</span><span class="o">-</span><span class="n">list</span><span class="o">&gt;</span><span class="p">);</span>
+<span class="o">#</span><span class="w"> </span><span class="n">example</span>
+<span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">b_index</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">branch</span><span class="p">(</span><span class="n">branch_name</span><span class="p">);</span>
+<span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">cust_strt_city_index</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">customer</span><span class="p">(</span><span class="n">customer_city</span><span class="p">,</span><span class="w"> </span><span class="n">customer_street</span><span class="p">);</span>
+</code></pre></div>
+<p>创建唯一索引：</p>
+<div class="language-sql highlight"><pre><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="k">UNIQUE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">uni_acnt_index</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">account</span><span class="p">(</span><span class="n">account_number</span><span class="p">);</span>
+</code></pre></div>
+<ul>
+<li><code>CREATE UNIQUE INDEX</code> 间接指定并强制搜索键为候选键。</li>
+<li>如果数据库支持 SQL 唯一完整性约束，这并非总是必要。<br />
+删除索引：</li>
+</ul>
+<div class="language-sql highlight"><pre><span></span><code><span class="k">DROP</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="o">&lt;</span><span class="k">index</span><span class="o">-</span><span class="n">name</span><span class="o">&gt;</span><span class="p">;</span>
+</code></pre></div>
+<hr />
+<h2 id="910-multiple-key-access">9.10 *Multiple-Key Access<a class="headerlink" href="#910-multiple-key-access" title="Permanent link">&para;</a></h2>
+<p>有时查询包含多个搜索条件</p>
+<div class="language-sql highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">account_number</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">account</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">branch_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'Perryridge'</span>
+<span class="w">  </span><span class="k">AND</span><span class="w"> </span><span class="n">balance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1000</span><span class="p">;</span>
+</code></pre></div>
+<p>使用单属性索引的可能策略：</p>
+<ol>
+<li>使用 <code>branch_name</code> 上的索引，找出 <code>Perryridge</code> 分行的账户，然后检查 <code>balance = 1000</code> 是否成立。</li>
+<li>使用 <code>balance</code> 上的索引，找出余额为 <code>1000</code> 的账户，然后检查 <code>branch_name = 'Perryridge'</code> 是否成立。</li>
+<li>使用两个索引分别获取两组记录指针，然后取交集</li>
+</ol>
+<h3 id="9101-indices-on-multiple-attributes">9.10.1 Indices on Multiple Attributes<a class="headerlink" href="#9101-indices-on-multiple-attributes" title="Permanent link">&para;</a></h3>
+<p>假设在组合搜索键上建有索引：</p>
+<div class="arithmatex">\[
+(\text{branch-name},\ \text{balance})
+\]</div>
+<p>对于：</p>
+<div class="language-sql highlight"><pre><span></span><code><span class="k">WHERE</span><span class="w"> </span><span class="n">branch_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'Perryridge'</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">balance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1000</span>
+</code></pre></div>
+<p>组合索引可以直接获取同时满足两个条件的记录</p>
+<p>它也可以高效处理：</p>
+<div class="language-sql highlight"><pre><span></span><code><span class="k">WHERE</span><span class="w"> </span><span class="n">branch_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'Perryridge'</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">balance</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">1000</span>
+</code></pre></div>
+<p>但不能高效处理：</p>
+<div class="language-sql highlight"><pre><span></span><code><span class="k">WHERE</span><span class="w"> </span><span class="n">branch_name</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="s1">'Perryridge'</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">balance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1000</span>
+</code></pre></div>
+<div class="admonition tip">
+<p class="admonition-title">复合索引的前缀性质</p>
+<p>联合索引通常对”从左到右的前缀条件”最有效。前面的属性如果不能有效缩小范围，后面的属性就难以被充分利用。</p>
+<ul>
+<li>组合键中的第一个属性决定了主排序。</li>
+<li>如果第一个条件是范围条件，可能会获取大量只满足第一个条件的记录。</li>
+</ul>
+</div>
+<h3 id="9102-grid-files">9.10.2 Grid Files<a class="headerlink" href="#9102-grid-files" title="Permanent link">&para;</a></h3>
+<p>网格文件用于加速<strong>涉及比较运算符</strong>的通用多搜索键查询</p>
+<ul>
+<li>一个单一的网格数组</li>
+<li>每个搜索键属性有一个线性刻度</li>
+<li>维度数等于搜索键属性的数量</li>
+<li>网格数组的多个单元格可以指向同一个桶</li>
+</ul>
+<div style="text-align: center"><img src="images/image-92.png" width="60%"></div>
+
+<p>查找：</p>
+<ul>
+<li>使用线性刻度定位单元格的行和列</li>
+<li>沿指针找到对应桶</li>
+</ul>
+<p>插入：</p>
+<ul>
+<li>如果桶满了且有多个单元格指向它，则创建新桶</li>
+<li>这一思想类似于可扩展散列，但在多个维度上工作</li>
+<li>如果只有一个单元格指向该桶：创建溢出桶，或增大网格大小</li>
+</ul>
+<p>问题：</p>
+<ul>
+<li>线性刻度必须选择得当，使记录均匀分布在各个单元格中。</li>
+<li>否则可能出现过多溢出桶。</li>
+<li>定期重组可能有帮助，但代价非常高。</li>
+<li>网格数组的空间开销可能很大。</li>
+<li>R-树是一种替代方案。</li>
+</ul>
+<h3 id="9103-bitmap-indices">9.10.3 Bitmap Indices<a class="headerlink" href="#9103-bitmap-indices" title="Permanent link">&para;</a></h3>
+<p>位图索引是专为多键高效查询而设计的特殊索引</p>
+<ul>
+<li>假设：<ul>
+<li>关系中的记录从 0 开始顺序编号</li>
+<li>给定记录号 <span class="arithmatex">\(n\)</span>，应能轻松获取记录 <span class="arithmatex">\(n\)</span></li>
+<li>当记录为定长时尤其容易实现</li>
+</ul>
+</li>
+<li>适用属性：具有相对较少不同值的属性</li>
+<li>==位图（Bitmap）==是一个位数组</li>
+<li>对于属性值 <span class="arithmatex">\(v\)</span>：<ul>
+<li>每个 <span class="arithmatex">\(v\)</span> 有一个位图，位图的位数与记录数相同</li>
+<li>如果记录在该属性上取值为 <span class="arithmatex">\(v\)</span>，则对应位为 1，否则为 0</li>
+</ul>
+</li>
+<li>位图索引适用于多属性查询，对单属性查询作用不大</li>
+<li>查询通过位图操作来回答：<ul>
+<li>交集：AND</li>
+<li>并集：OR</li>
+<li>取反：NOT</li>
+</ul>
+</li>
+</ul>
+<div class="arithmatex">\[
+100110\ \text{AND}\ 110011 = 100010
+\]</div>
+<div class="arithmatex">\[
+100110\ \text{OR}\ 110011 = 110111
+\]</div>
+<div class="arithmatex">\[
+\text{NOT}\ 100110 = 011001
+\]</div>
+<p>如果：</p>
+<ul>
+<li>男性的位图为 <code>10010</code></li>
+<li>收入水平 <span class="arithmatex">\(L_1\)</span> 的位图为 <code>10100</code><br />
+则收入水平为 <span class="arithmatex">\(L_1\)</span> 的男性：</li>
+</ul>
+<div class="arithmatex">\[
+10010\ \text{AND}\ 10100 = 10000
+\]</div>
+<p>优点：</p>
+<ul>
+<li>位图索引通常远小于关系本身。</li>
+<li>计数匹配元组非常快。</li>
+<li>位图可以打包成机器字，一条 CPU 指令可处理 32 或 64 位。</li>
+</ul>
+<p>删除与空值处理：</p>
+<ul>
+<li>需要一个存在位图来指示有效的记录位置。</li>
+<li>对于取反操作：</li>
+</ul>
+<div class="arithmatex">\[
+\text{not}(A=v) = (\text{NOT bitmap-}A\text{-}v) \ \text{AND}\ \text{ExistenceBitmap}
+\]</div>
+<ul>
+<li>为正确处理 <code>NOT(A = v)</code> 的 SQL 空值语义，还需与以下位图取交集：</li>
+</ul>
+<div class="arithmatex">\[
+\text{NOT bitmap-}A\text{-Null}
+\]</div>
+<div class="admonition abstract">
+<p class="admonition-title">位图索引的适用场景</p>
+<p>位图索引适合低基数属性、多条件组合查询和统计计数；不适合高基数属性上的普通单点查询。</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="页脚" >
+        
+          
+          <a href="Lec8.html" class="md-footer__link md-footer__link--prev" aria-label="上一页: Storage and File Structure">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256l137.3-137.4c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              <div class="md-ellipsis">
+                Storage and File Structure
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="B%2BTree.html" class="md-footer__link md-footer__link--next" aria-label="下一页: B+ 树">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              <div class="md-ellipsis">
+                B+ 树
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M247.1 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L179.2 256 41.9 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["content.math", "content.action.edit", "content.action.view", "content.code.copy", "content.code.annotate", "content.tooltips", "navigation.footer", "navigation.indexes", "navigation.path", "navigation.prune", "navigation.tabs", "navigation.top", "navigation.tracking", "search.share", "search.suggest", "search.highlight", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+        <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+      
+    
+  </body>
+</html>
