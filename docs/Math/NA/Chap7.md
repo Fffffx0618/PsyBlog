@@ -1,4 +1,4 @@
-# Chap 7: Iterative Techniques in Matrix Algebra
+# Chap7.Iterative Techniques in Matrix Algebra
 
 !!! note "Target"
 
@@ -28,7 +28,7 @@
 2. $\| \vec{x} \|_2 = \sqrt{\sum\limits_{i=1}^n |x_i|^2}$（**欧几里得范数**，即我们熟知的**模长**）
 3. $\| \vec{x} \|_p = \Big( \sum\limits_{i=1}^n |x_i|^p \Big)^{\frac{1}{p}}$（**$p$ 范数**）
 4. $\| \vec{x} \|_\infty = \max\limits_{1 \le i \le n} |x_i|$（**无穷范数**）
-Note：$\lim\limits_{p \rightarrow \infty} \| \vec{x} \|_p = \| \vec{x} \|_{\infty}$
+   Note：$\lim\limits_{p \rightarrow \infty} \| \vec{x} \|_p = \| \vec{x} \|_{\infty}$
 
 #### 一些定义和定理
 
@@ -36,14 +36,13 @@ Note：$\lim\limits_{p \rightarrow \infty} \| \vec{x} \|_p = \| \vec{x} \|_{\inf
 Definition：
 
 - 若 $\forall \varepsilon > 0$，$\exists N(\varepsilon) \in N$，对于所有 $k \geq N(\varepsilon)$，能使 $\|\vec{x}^{(k)} - \vec{x}\| < \varepsilon$ 恒成立，那么在 $R^n$ 上的向量序列 $\{ \vec{x}^{(k)} \}_{k=1}^{\infty}$ 关于范数 $\| \cdot \|$ 收敛到 $\vec{x}$
-Theorem:
+  Theorem:
 - 当且仅当 $\lim\limits_{k \rightarrow \infty} x_i^{(k)} = x_i\ (i = 1, 2, \dots, n)$ 时，在 $R^n$ 上的向量序列 $\{\vec{x}\}_{k=1}^{\infty}$ 关于范数 $\| \cdot \|_{\infty}$ 收敛到 $\vec{x}$
 
-**范数的等价性**    
-Definition:
+**范数的等价性**Definition:
 
 - 若存在正常数 $C_1, C_2$，使得 $C_1 \|\vec{x}\|_B \le \|\vec{x}\|_A \le C_2 \| \vec{x} \|_B$，那么 $\| \cdot \|_A$ 和 $\| \cdot \|_B$ 是等价(equivalent)的
-Theorem:
+  Theorem:
 - 所有在 $R^n$ 上的向量范数都是等价(equivalent)的
 
 ### 2. Matrix Norms
@@ -59,15 +58,15 @@ Theorem:
 
 1. **弗罗贝尼乌斯范数**(Frobenius norm)：$\| A \|_F = \sqrt{\sum\limits_{i=1}^n \sum\limits_{j=1}^n |a_{ij}|^2}$
 2. **自然范数**(natural norm)
-    - **算子范数**(operator norm)（和向量范数 $\| \cdot \|$ 关联，所以也可称为 **$p$ 范数**）
+   - **算子范数**(operator norm)（和向量范数 $\| \cdot \|$ 关联，所以也可称为 **$p$ 范数**）
 
-        $$
-        \| A \|_p = \max\limits_{\vec{x} \ne \vec{0}} \dfrac{\| A \vec{x} \|_p}{\| \vec{x} \|_p} = \max\limits_{\| \vec{x} \|_p = 1} \| A\vec{x} \|_p
-        $$
+     $$
+     | A \|_p = \max\limits_{\vec{x} \ne \vec{0}} \dfrac{\| A \vec{x} \|_p}{\| \vec{x} \|_p} = \max\limits_{\| \vec{x} \|_p = 1} \| A\vec{x} \|_p
+     $$
+   - **无穷范数**：$\| A \|_{\infty} = \max\limits_{1 \le i \le n} \sum\limits_{j=1}^n |a_{ij}|$（最大行）
 
-    - **无穷范数**：$\| A \|_{\infty} = \max\limits_{1 \le i \le n} \sum\limits_{j=1}^n |a_{ij}|$（最大行）
-        - **1-范数**：$\| A \|_1 = \max\limits_{1 \le j \le n} \sum\limits_{i=1}^n |a_{ij}|$ （最大列）
-        - **2-范数**（又称**谱范数**(spectral norm)）：$\| A \|_2 = \sqrt{\lambda_{\max} (A^T A)}$
+     - **1-范数**：$\| A \|_1 = \max\limits_{1 \le j \le n} \sum\limits_{i=1}^n |a_{ij}|$ （最大列）
+     - **2-范数**（又称**谱范数**(spectral norm)）：$\| A \|_2 = \sqrt{\lambda_{\max} (A^T A)}$
 
 !!! note "Proof"
 
@@ -75,25 +74,28 @@ Theorem:
 
     1. 证明 $\| A \|_{\infty} = \max\limits_{\| \vec{x} \|_{\infty} = 1} \| A \vec{x} \|_{\infty} \le \max\limits_{1 \le i \le n} \sum\limits_{j=1}^n |a_{ij}|$
 
-    $$
-    \| A \vec{x} \|_{\infty} = \max\limits_{1 \le i \le n} |(A \vec{x})_i| = \max\limits_{1 \le i \le n} |\sum\limits_{j=1}^n a_{ij} x_j| \le \max\limits_{1 \le i \le n} \sum\limits_{j=1}^n |a_{ij}| \cdot \max\limits_{1 \le i \le n} |x_j|
-    $$
+
+$$
+\| A \vec{x} \|_{\infty} = \max\limits_{1 \le i \le n} |(A \vec{x})_i| = \max\limits_{1 \le i \le n} |\sum\limits_{j=1}^n a_{ij} x_j| \le \max\limits_{1 \le i \le n} \sum\limits_{j=1}^n |a_{ij}| \cdot \max\limits_{1 \le i \le n} |x_j|
+$$
 
     2. 证明 $\| A \|_{\infty} = \max\limits_{\| \vec{x} \|_{\infty} = 1} \| A\vec{x} \|_{\infty} \ge \max\limits_{1 \le i \le n} \sum\limits_{j=1}^n |a_{ij}|$
     - 令第 $p$ 行为最大行，即满足 $\sum\limits_{j=1}^n |a_{pj}| = \max\limits_{1 \le i \le n} \sum\limits_{j=1}^n |a_{ij}|$
     - 取一个特殊的单位向量 $\vec{x}$ 使得 $x_j = \begin{cases} 1, & \text{if } a_{pj} \ge 0 \\ -1, & \text{if } a_{pj} < 0 \end{cases}$
 
-    $$
-    \| A \vec{x} \|_{\infty} = \max\limits_{1 \le i \le n} \Big| \sum\limits_{j=1}^n a_{ij} x_j\Big| \ge \Big| \sum\limits_{j=1}^n a_{pj} x_j \Big| = \Big| \sum\limits_{j=1}^n |a_{pj}| \Big| = \max\limits_{1 \le i \le n} \sum\limits_{j=1}^n |a_{ij}|
-    $$
+
+$$
+\| A \vec{x} \|_{\infty} = \max\limits_{1 \le i \le n} \Big| \sum\limits_{j=1}^n a_{ij} x_j\Big| \ge \Big| \sum\limits_{j=1}^n a_{pj} x_j \Big| = \Big| \sum\limits_{j=1}^n |a_{pj}| \Big| = \max\limits_{1 \le i \le n} \sum\limits_{j=1}^n |a_{ij}|
+$$
 
 !!! note "推论"
 
     对于任意向量 $\vec{z} \ne 0$，矩阵 $A$ 以及任意自然范数 $\| \cdot \|$，我们有：
 
-    $$
-    \| A \vec{z} \| \le \| A \| \cdot \| \vec{z} \|
-    $$
+
+$$
+\| A \vec{z} \| \le \| A \| \cdot \| \vec{z} \|
+$$
 
     成立。
 
@@ -117,9 +119,10 @@ Theorem:
 
         对于 $A$ 的任何特征值 $\lambda$ 以及特征向量 $\| \vec{x} \|$，且 $\| \vec{x} \| = 1$，有：
 
-        $$
-        |\lambda| \cdot \| \vec{x} \| = \| \lambda \vec{x} \| = \| A\vec{x} \| \le \| A \| \cdot \| \vec{x} \|
-        $$
+
+$$
+|\lambda| \cdot \| \vec{x} \| = \| \lambda \vec{x} \| = \| A\vec{x} \| \le \| A \| \cdot \| \vec{x} \|
+$$
 
 若 $\forall i, j = 1, 2, \dots, n$，有 $\lim\limits_{k \rightarrow \infty} (A^k)_{ij} = 0$，那么称规模为 $n \times n$ 的矩阵 $A$ 是**收敛**的
 
@@ -136,7 +139,7 @@ x_1 = \dfrac{1}{a_{11}}(-a_{12}x_2 - \dots - a_{1n}x_n + b_1) \\ x_2 = \dfrac{1}
 $$
 
 用矩阵形式表示上述线形方程组，并转化为以下形式：
-<img src="images/image-11.png" alt="image-11" width="149" height="114">
+
 那么：
 
 $$
@@ -156,20 +159,9 @@ $$
     - 输入：方程和未知数的个数 $n$，矩阵元素 $a[\space][\space]$，常数项 $b[\space]$，初始近似解 $X0[\space]$，容忍值 $TOL$，最大迭代次数 $N_{max}$
     - 输出：近似解 $X[\space]$ 或错误信息
 
-    ```c
-    Step 1  Set k = 1;
-    Step 2  while (k <= N_max) do step 3-6
-            Step 3  for i = 1, ..., n
-                        Set X[i] = (b[i] - sum(j=1, j!=i, j<=n, a[i][j] * X[0][j])) / a[i][i];  // compute x^k
-            Step 4  if norm(X - X0)_infty = max(1<=i<=n, X[i] - X0[i]) < TOL then Output(X[]);
-                    STOP;    // successful
-            Step 5  for i = 1, ..., n  Set X0[] = X[];  // update X0
-            Step 6  Set k++;
-    Step 7  Output (Maximum number of iterations exceeded);
-            STOP.    // unsuccessful
-    ```
+    ``c     Step 1  Set k = 1;     Step 2  while (k <= N_max) do step 3-6             Step 3  for i = 1, ..., n                         Set X[i] = (b[i] - sum(j=1, j!=i, j<=n, a[i][j] * X[0][j])) / a[i][i];  // compute x^k             Step 4  if norm(X - X0)_infty = max(1<=i<=n, X[i] - X0[i]) < TOL then Output(X[]);                     STOP;    // successful             Step 5  for i = 1, ..., n  Set X0[] = X[];  // update X0             Step 6  Set k++;     Step 7  Output (Maximum number of iterations exceeded);             STOP.    // unsuccessful     ``
 
-    - 第 4 行：`a[i][i]` 可能为 0，可以在计算前为矩阵元素**重新排序**，以保证 `a[i][i] != 0`，如果无法通过重排避免这一问题，那么矩阵 $A$ 就是**奇异的** 
+    - 第 4 行：`a[i][i]` 可能为 0，可以在计算前为矩阵元素**重新排序**，以保证 `a[i][i] != 0`，如果无法通过重排避免这一问题，那么矩阵 $A$ 就是**奇异的**
     - 第 7 行：$X^{(k+1)}$ 必须等到 $X^{(k)}$ 的项全部算出来，因此要用两个向量来存储结果。但这样会浪费空间了，因为最后只会用到一个向量
 
 ### 2. Gauss-Seidel Iterative Method
@@ -202,18 +194,7 @@ $$
     - 输入：方程和未知数的个数 $n$，矩阵元素 $a[\quad][\quad]$，常数项 $b[\quad]$，初始近似解 $X0[\quad]$，容忍值 $TOL$，最大迭代次数 $N_{max}$
     - 输出：近似解 $X[\quad]$ 或错误信息
 
-    ```c
-    Step 1  Set k = 1;
-    Step 2  while (k <= N_max) do step 3-6
-            Step 3  for i = 1, ..., n
-                        Set X[i] = (-sum(j=1, i-1, a[i][j] * x[j]) - sum(j=i+1, n, a[i][j] * X0[j]) + b[i]) / a[i][i];  // compute x^k
-            Step 4  if norm(X - X0)_infty = max(1<=i<=n, X[i] - X0[i]) < TOL then Output(X[]);
-                    STOP;    // successful
-            Step 5  for i = 1, ..., n  Set X0[] = X[];  // update X0
-            Step 6  Set k++;
-    Step 7  Output (Maximum number of iterations exceeded);
-            STOP.    // unsuccessful
-    ```
+    ``c     Step 1  Set k = 1;     Step 2  while (k <= N_max) do step 3-6             Step 3  for i = 1, ..., n                         Set X[i] = (-sum(j=1, i-1, a[i][j] * x[j]) - sum(j=i+1, n, a[i][j] * X0[j]) + b[i]) / a[i][i];  // compute x^k             Step 4  if norm(X - X0)_infty = max(1<=i<=n, X[i] - X0[i]) < TOL then Output(X[]);                     STOP;    // successful             Step 5  for i = 1, ..., n  Set X0[] = X[];  // update X0             Step 6  Set k++;     Step 7  Output (Maximum number of iterations exceeded);             STOP.    // unsuccessful     ``
 
 - 上述两种迭代方法**不总是收敛的**。并且存在雅可比迭代法失败，但高斯-塞德尔迭代法成功的情况，反之亦然。
 
@@ -237,18 +218,20 @@ $$
 
         - 假如 $\rho(T) < 1$，那么
 
-           $$
-           \begin{align}
+
+$$
+\begin{align}
            \vec{x}^{(k)} & = T\vec{x}^{(k-1)} + \vec{c} = T(T\vec{x}^{(k-2)} + \vec{c}) + \vec{c} = T^2 \vec{x^{(k-2)}} + (T + I)\vec{c} \notag \\
            & = \dots = \cancel{T^k\vec{x^{(0)}}} + (\textcolor{red}{T^{k-1} + \dots + T + I})\vec{c} \notag
            \end{align}
-           $$
+$$
 
            又因为 $\rho(T) < 1 \Rightarrow (I - T)^{-1} = \sum\limits_{j=0}^{\infty} T^j$，所以：
 
-           $$
-           \lim\limits_{k \rightarrow \infty} \vec{x}^{(k)} = \lim\limits_{k \rightarrow \infty} T^k\vec{x^{(0)}} + \lim\limits_{k \rightarrow \infty} (T^{k-1} + \dots + T + I)\vec{c} = (I - T)^{-1} \vec{c}
-           $$
+
+$$
+\lim\limits_{k \rightarrow \infty} \vec{x}^{(k)} = \lim\limits_{k \rightarrow \infty} T^k\vec{x^{(0)}} + \lim\limits_{k \rightarrow \infty} (T^{k-1} + \dots + T + I)\vec{c} = (I - T)^{-1} \vec{c}
+$$
 
         - $\lim\limits_{k \rightarrow \infty} \vec{e}^{(k)} \rightarrow \vec{0}\ \Rightarrow\ \lim\limits_{k \rightarrow \infty} T^k \vec{e^{(0)}} = \vec{0} \text{ for any } \vec{e^{0}}$，所以 $\rho(T) < 1$
 
@@ -283,7 +266,7 @@ $$
 - $0 < \omega < 1$：**欠松弛法**(under-relaxation methods)
 - $\omega = 1$：**高斯-塞德尔方法**
 - $\omega > 1$：**逐次超松弛法**(successive over-relaxation methods, **SOR**)
-    - 通常能加速收敛，“超前”地调整了更新方向，使得迭代步长更大，更快地逼近真实解
+  - 通常能加速收敛，“超前”地调整了更新方向，使得迭代步长更大，更快地逼近真实解
 
 用矩阵形式可以表述为：
 
@@ -356,9 +339,10 @@ $$
 
     假设 $A$ 是非奇异的，且 $\| \delta A \| < \dfrac{1}{\| A^{-1} \|}$。那么 $(A + \delta A) (\vec{x} + \delta \vec{x}) = \vec{b} + \delta \vec{b}$ 的解 $\vec{x} + \delta \vec{x}$ 近似于 $A \vec{x} = \vec{b}$ 的解 $\vec{x}$，（相对）误差为：
 
-    $$
-    \dfrac{\| \delta \vec{x} \|}{\| \vec{x} \|} \le \dfrac{K(A)}{1 - K(A) \frac{\| \delta A\|}{\| A \|}} \Big(\dfrac{\| \delta A \|}{\| A \|} + \dfrac{\| \delta \vec{b} \|}{\| \vec{b} \|} \Big)
-    $$
+
+$$
+\dfrac{\| \delta \vec{x} \|}{\| \vec{x} \|} \le \dfrac{K(A)}{1 - K(A) \frac{\| \delta A\|}{\| A \|}} \Big(\dfrac{\| \delta A \|}{\| A \|} + \dfrac{\| \delta \vec{b} \|}{\| \vec{b} \|} \Big)
+$$
 
 !!! note "注"
 
@@ -385,6 +369,6 @@ $$
 1. $A \vec{x} = \vec{b} \Rightarrow$ 近似解 $\vec{x}_1$
 2. $\vec{r}_1 = \vec{b} - A \vec{x}_1$
 3. $A \vec{d}_1 = \vec{r}_1 \Rightarrow \vec{d}_1$
-    - 如果 $\vec{d}_1$ 是精确的，那么 $\vec{x}_2 = \vec{x}_1 + A^{-1} (\vec{b} - A\vec{x}_1) = A^{-1} \vec{b}$，$\vec{x}_2$ 也是精确的。
+   - 如果 $\vec{d}_1$ 是精确的，那么 $\vec{x}_2 = \vec{x}_1 + A^{-1} (\vec{b} - A\vec{x}_1) = A^{-1} \vec{b}$，$\vec{x}_2$ 也是精确的。
 4. $\vec{x}_2 = \vec{x}_1 + \vec{d}_1$
-之后重复 2-4 步。
+   之后重复 2-4 步。

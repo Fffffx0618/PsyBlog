@@ -1,4 +1,4 @@
-# Chapter 4: Numerical Differentiation and Integration
+# Chap4.Numerical Differentiation and Integration
 
 ## 4.1 Numerical Differentiation
 
@@ -23,7 +23,7 @@ $$
 
 ---
 
-### 一般方法 
+### 一般方法
 
 - 用 $n+1$ 个点来构造 $n$ 次的拉格朗日多项式，来近似表示 $f(x)$
 
@@ -248,15 +248,17 @@ $$
 
     对于使用 $n+1$ 个点的牛顿-科茨公式，$\exists \xi \in (a, b)$，使得：
 
-    $$
-    \int_a^b f(x) dx = \sum\limits_{k=0}^n A_k f(x_k) + \dfrac{h^{n+3}f^{(n+2)}(\xi)}{(n+2)!} \int_0^n t^2(t - 1) \dots (t - n) dt 
-    $$
 
-    - 如果 $n$ 为**偶数**，那么 $f \in C^{n+2}[a, b]$ ，精度为 $n+1$ 且 
+$$
+\int_a^b f(x) dx = \sum\limits_{k=0}^n A_k f(x_k) + \dfrac{h^{n+3}f^{(n+2)}(\xi)}{(n+2)!} \int_0^n t^2(t - 1) \dots (t - n) dt
+$$
 
-    $$
-    \int_a^b f(x) dx = \sum\limits_{k=0}^n A_k f(x_k) + \dfrac{h^{n+2}f^{(n+1)}(\xi)}{(n+1)!} \int_0^n t(t - 1) \dots (t - n) dt
-    $$
+    - 如果 $n$ 为**偶数**，那么 $f \in C^{n+2}[a, b]$ ，精度为 $n+1$ 且
+
+
+$$
+\int_a^b f(x) dx = \sum\limits_{k=0}^n A_k f(x_k) + \dfrac{h^{n+2}f^{(n+1)}(\xi)}{(n+1)!} \int_0^n t(t - 1) \dots (t - n) dt
+$$
 
     - 如果 $n$ 为**奇数**，那么  $f \in C^{n+1}[a, b]$，精度为 $n$
 
@@ -317,7 +319,7 @@ $$
 > \begin{align}
 > T_8 & = \dfrac{1}{16}[f(0) + 2\sum\limits_{k=1}^7 f(x_k) + f(1)] \quad \text{where } x_k = \dfrac{k}{8} \notag \\
 > & = \textcolor{green}{3.1}\textcolor{red}{383988494} \notag
-> \end{align} 
+> \end{align}
 > $$
 >
 > $$
@@ -338,15 +340,17 @@ $$
 
     考虑在 $[a, b]$ 上有 $n$ 个子区间的辛普森法则。假设 $f(x_i)$ 由 $f^*(x_i)$ 近似，满足 $f(x_i) = f^*(x_i) + \varepsilon_i\ (i = 0, \dots, n)$，那么累积误差为：
 
-    $$
-    e(h) = \Big|\dfrac{h}{3}[\varepsilon_0 + 4 \sum\limits_{odd\ k} \varepsilon_k + 2 \sum\limits_{even\ k} \varepsilon_k + \varepsilon_n]\Big|
-    $$
+
+$$
+e(h) = \Big|\dfrac{h}{3}[\varepsilon_0 + 4 \sum\limits_{odd\ k} \varepsilon_k + 2 \sum\limits_{even\ k} \varepsilon_k + \varepsilon_n]\Big|
+$$
 
     若 $|\varepsilon_i| < \varepsilon\ (i = 0, \dots, n)$，那么：
 
-    $$
-    e(h) < \dfrac{h}{3} [\varepsilon + 4(n/2)\varepsilon + 2(n/2-1)\varepsilon + \varepsilon] = nh\varepsilon = (b-a)\varepsilon
-    $$
+
+$$
+e(h) < \dfrac{h}{3} [\varepsilon + 4(n/2)\varepsilon + 2(n/2-1)\varepsilon + \varepsilon] = nh\varepsilon = (b-a)\varepsilon
+$$
 
 可以看到，误差界与 $h$ 和 $n$ 无关。这说明即使将一个区间分成更多子区间，也不会增加舍入误差。
 
@@ -356,12 +360,12 @@ $$
 
 !!! info
 
-    |符号|含义|精度（误差阶）|对应数值方法|
-|---|---|---|---|
-|$T_n$|梯形法则（Trapezoidal）|$O(h^2)$|基础近似|
-|$S_n$|Simpson 法则（Simpson's Rule）|$O(h^4)$|第一次外推结果|
-|$C_n$|Cotes 法则（Newton-Cotes 高阶）|$O(h^6)$|第二次外推|
-|$R_n$|Romberg 积分（Romberg Integration）|$O(h^8)$ 或更高|第三次及以后外推|
+| 符号                                                          | 含义             | 精度（误差阶） | 对应数值方法 |
+| ------------------------------------------------------------- | ---------------- | -------------- | ------------ |
+| $T_n$|梯形法则（Trapezoidal）|$O(h^2)$                    | 基础近似         |                |              |
+| $S_n$|Simpson 法则（Simpson's Rule）|$O(h^4)$             | 第一次外推结果   |                |              |
+| $C_n$|Cotes 法则（Newton-Cotes 高阶）|$O(h^6)$            | 第二次外推       |                |              |
+| $R_n$|Romberg 积分（Romberg Integration）|$O(h^8)$ 或更高 | 第三次及以后外推 |                |              |
 
 对于梯形法则，有
 
@@ -428,21 +432,7 @@ $$
     - 输入：端点 $a, b$；整数 $n$
     - 输出：数组 $R$（按行计算 $R$；只保留2行（节省空间））
 
-    ```c
-    Step 1  Set h = b - a;
-    	R[1][1] = h / 2 * (f(a) + f(b));
-    Step 2  Output(R[1][1]);
-    Step 3  for i = 2, ..., n do steps 4-8:
-    // approximation from Trapezoidal method
-    Step 4  Set R[2][1] = 1/2 * [R[1][1] + h * sum(k=1, pow(2, i-2), f(a + (k - 0.5) * h))];
-    Step 5  for j = 2, ..., i:
-    // extrapolation
-    set R[2][j] = R[2][j-1] + (R[2][j-1] - R[1][j-1]) / (pow(4, j-1) - 1);
-    Step 6  Output(R[2][j] for j = 1, 2, ..., i);
-    Step 7  Set h /= 2;
-    Step 8  for j = 1, 2, ..., i set R[1][j] = R[2][j];    // update row 1 of R
-    Step 9  STOP.
-    ```
+    ``c     Step 1  Set h = b - a;     	R[1][1] = h / 2 * (f(a) + f(b));     Step 2  Output(R[1][1]);     Step 3  for i = 2, ..., n do steps 4-8:     // approximation from Trapezoidal method     Step 4  Set R[2][1] = 1/2 * [R[1][1] + h * sum(k=1, pow(2, i-2), f(a + (k - 0.5) * h))];     Step 5  for j = 2, ..., i:     // extrapolation     set R[2][j] = R[2][j-1] + (R[2][j-1] - R[1][j-1]) / (pow(4, j-1) - 1);     Step 6  Output(R[2][j] for j = 1, 2, ..., i);     Step 7  Set h /= 2;     Step 8  for j = 1, 2, ..., i set R[1][j] = R[2][j];    // update row 1 of R     Step 9  STOP.     ``
 
 ## 4.2 Richardson's Extrapolation
 
@@ -549,9 +539,10 @@ $$
 
     A: 公式必须在 $f(x) = 1, x, x^2, x^3$ 上精确表示，假设 $\int_0^1 \sqrt{x} f(x) dx \approx A_0 f(x_0) + A_1 f(x_1)$，则
 
-    $$
-    \begin{cases}\int_0^1 \sqrt{x}  dx = A_0 + A_1 \\ \int_0^1 \sqrt{x} x dx = A_0 x_0 + A_1 x_1 \\ \int_0^1 \sqrt{x} x^2 dx = A_0 x_0^2 + A_1 x_1^2 \\ \int_0^1 \sqrt{x} x^3 dx = A_0x_0^3 + A_1 x_1^3\end{cases}\text{  ，解得}\begin{cases}x_0 \approx 0.8212 \\ x_1 \approx 0.2899 \\ A_0 \approx 0.3891 \\ A_1 \approx 0.2776\end{cases}
-    $$
+
+$$
+\begin{cases}\int_0^1 \sqrt{x}  dx = A_0 + A_1 \\ \int_0^1 \sqrt{x} x dx = A_0 x_0 + A_1 x_1 \\ \int_0^1 \sqrt{x} x^2 dx = A_0 x_0^2 + A_1 x_1^2 \\ \int_0^1 \sqrt{x} x^3 dx = A_0x_0^3 + A_1 x_1^3\end{cases}\text{  ，解得}\begin{cases}x_0 \approx 0.8212 \\ x_1 \approx 0.2899 \\ A_0 \approx 0.3891 \\ A_1 \approx 0.2776\end{cases}
+$$
 
 !!! note "theorem"
 
@@ -562,17 +553,19 @@ $$
     - 若 $x_0, \dots, x_n$ 是高斯点，
     则公式 $\int_a^b w(x) f(x) dx \approx \sum\limits_{k=0}^nA_kf(x_k)$ 的精度至少为 $2n+1$。那么对于任意多项式 $P_m(x)\ (m \le n)$，$P_m(x) W(x)$ 的阶数不超过 $2n+1$。因此上述公式对于 $P_m(x) W(x)$ 而言是精确的，也就是说：
 
-    $$
-    \int_a^b w(x) P_m(x) W(x) dx = \sum\limits_{k=0}^n A_k P_m(x_k) W(x_k) = 0
-    $$
+
+$$
+\int_a^b w(x) P_m(x) W(x) dx = \sum\limits_{k=0}^n A_k P_m(x_k) W(x_k) = 0
+$$
 
     - 要证明 $x_0, \dots, x_n$ 是高斯点，
     我们需要证明公式对任意多项式 $P_m(x)\ (m \le 2n + 1)$ 是精确的。
-    令 $P_m(x) = W(x) q(x) + r(x)$，那么 
+    令 $P_m(x) = W(x) q(x) + r(x)$，那么
 
-    $$
-    \begin{align}\int_a^n w(x) P_m(x) dx & = \int_a^n w(x) W(x) q(x) dx + \int_a^n w(x) r(x) dx = \sum\limits_{k=0}^n A_k r(x_k) \notag \\& = \sum\limits_{k=0}^n A_k P_m(x_k) \notag\end{align}
-    $$
+
+$$
+\begin{align}\int_a^n w(x) P_m(x) dx & = \int_a^n w(x) W(x) q(x) dx + \int_a^n w(x) r(x) dx = \sum\limits_{k=0}^n A_k r(x_k) \notag \\& = \sum\limits_{k=0}^n A_k P_m(x_k) \notag\end{align}
+$$
 
     正交多项式的集合 $\{\varphi_0, \varphi_1, \dots, \varphi_n, \dots\}$ 是线性独立的，且 $\varphi_{n+1}$ 和任何多项式 $P_m(x)\ (m \le n)$ 正交。所以，如果我们拿 $\varphi_{n+1}$ 作为 $W(x)$，那么 **$\varphi_{n+1}$ 的根**就是高斯点了。
 
@@ -593,29 +586,29 @@ $$
 
     现在使用上述结果来近似计算 $\int_0^1 \sqrt{x} e^x dx$
 
-    $$
-    \int_0^1 \sqrt{x} e^x dx \approx A_0 e^{x_0} + A_1 e^{x_1} = 0.3891 \times e^{0.8212} + 0.2776 \times e^{0.2899} \approx 1.2555
-    $$
+
+$$
+\int_0^1 \sqrt{x} e^x dx \approx A_0 e^{x_0} + A_1 e^{x_1} = 0.3891 \times e^{0.8212} + 0.2776 \times e^{0.2899} \approx 1.2555
+$$
 
     而 $\int_0^1 \sqrt{x} (2x-1) dx = \dfrac{2}{15}$ 是精确的。
 
-### Gauss-Legendre  
+### Gauss-Legendre
 
 - **勒让德多项式**(Legendre polynomials)：定义在 $[-1, 1]$ 上且 $w(x) \equiv 1
 
-    $$
-    $
-    P_k(x) = \dfrac{1}{2^k k!} \dfrac{d^k}{dx^k}(x^2 - 1)^k \quad \quad 
-    $$
+  $$
+  P_k(x) = \dfrac{1}{2^k k!} \dfrac{d^k}{dx^k}(x^2 - 1)^k \quad \quad
+  $$
 
-    其内积关系为：$(P_k, P_l) = \begin{cases}0 & k \ne l \\ \dfrac{2}{2k+1} & k = l\end{cases}$
-    有如下递推关系：
+  其内积关系为：$(P_k, P_l) = \begin{cases}0 & k \ne l \\ \dfrac{2}{2k+1} & k = l\end{cases}$
+  有如下递推关系：
 
-    $$
-    P_0 = 1, P_1 = x, (k + 1)P_{k+1} = (2k + 1)xP_k - kP_{k-1}
-    $$
+  $$
+  _0 = 1, P_1 = x, (k + 1)P_{k+1} = (2k + 1)xP_k - kP_{k-1}
+  $$
 
-    使用 $P_{n+1}$ 的根的公式称为**高斯-勒让德求积公式**。
+  使用 $P_{n+1}$ 的根的公式称为**高斯-勒让德求积公式**。
 
 ### Gauss-Chebyshev
 

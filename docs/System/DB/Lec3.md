@@ -1,4 +1,4 @@
-# SQL
+# Lec3.SQL
 
 !!! info "SQL includes several parts:"
 
@@ -23,39 +23,39 @@ CREATE TABLE branch
 ### Domain Types in SQL
 
 1. 字符串类型
-    - `char(n)`: **定长**字符串
-        - 用户指定长度 $n$
-        - 如果存储的内容不足 $n$ 个字符，系统通常会用空格填充至 $n$ 位  
-        - 适用于长度非常固定的数据（如：身份证号、邮编）
-    - `varchar(n)`: **变长**字符串
-        - 用户指定最大长度 $n$
-        - 实际存储多少个字符就占用多少空间（外加少量开销记录长度）
-        - 更具灵活性，是存储姓名、地址等最常用的类型
+   - `char(n)`: **定长**字符串
+     - 用户指定长度 $n$
+     - 如果存储的内容不足 $n$ 个字符，系统通常会用空格填充至 $n$ 位
+     - 适用于长度非常固定的数据（如：身份证号、邮编）
+   - `varchar(n)`: **变长**字符串
+     - 用户指定最大长度 $n$
+     - 实际存储多少个字符就占用多少空间（外加少量开销记录长度）
+     - 更具灵活性，是存储姓名、地址等最常用的类型
 2. 整数类型
-    - **`int`**: 整数
-        - 机器相关的（machine-dependent），通常指 32 位整数
-        - 数学整数集的一个**有限子集**
-    - **`smallint`**: 短整数
-        - 比 `int` 占用的存储空间更小，范围也更窄（通常为 16 位）。
-        - 当确定数值范围很小时，使用它可以节省内存。
+   - **`int`**: 整数
+     - 机器相关的（machine-dependent），通常指 32 位整数
+     - 数学整数集的一个**有限子集**
+   - **`smallint`**: 短整数
+     - 比 `int` 占用的存储空间更小，范围也更窄（通常为 16 位）。
+     - 当确定数值范围很小时，使用它可以节省内存。
 3. 精确数值类型
-    - **`numeric(p, d)`**: 定点数
-        - 用于需要**绝对精确**的场景（如：财务数据、货币）
-        - $p$ (precision): 总位数（精度）
-        - $d$ (scale): 小数点后的位数
+   - **`numeric(p, d)`**: 定点数
+     - 用于需要**绝对精确**的场景（如：财务数据、货币）
+     - $p$ (precision): 总位数（精度）
+     - $d$ (scale): 小数点后的位数
 4. 近似数值类型
-    - **`real`, `double precision`**: 浮点数
-        - 精度取决于机器的具体实现
-        - `double precision`（双精度）比 `real` 提供更高的精度
-    - **`float(n)`**: 指定精度的浮点数
-        - 参数 $n$ 指定了至少要保留的精度位数（二进制位）
+   - **`real`, `double precision`**: 浮点数
+     - 精度取决于机器的具体实现
+     - `double precision`（双精度）比 `real` 提供更高的精度
+   - **`float(n)`**: 指定精度的浮点数
+     - 参数 $n$ 指定了至少要保留的精度位数（二进制位）
 5. 日期与时间类型
-    - **`date`**: 仅包含日期（年、月、日）
-        - **格式**：`YYYY-MM-DD`（4位年-2位月-2位日）（`date '2007-02-27'`）
-    - **`time`**: 仅包含时间（时、分、秒）
-        - 格式：`HH:MM:SS`，秒可以包含小数（`time '11:18:16'` 或 `time '11:18:16.28'`）
-    - **`timestamp`**: 日期 **+** 时间的结合体。
-        - 包含：年、月、日、时、分、秒（`timestamp '2011-03-17 11:18:16.28'`）
+   - **`date`**: 仅包含日期（年、月、日）
+     - **格式**：`YYYY-MM-DD`（4位年-2位月-2位日）（`date '2007-02-27'`）
+   - **`time`**: 仅包含时间（时、分、秒）
+     - 格式：`HH:MM:SS`，秒可以包含小数（`time '11:18:16'` 或 `time '11:18:16.28'`）
+   - **`timestamp`**: 日期 **+** 时间的结合体。
+     - 包含：年、月、日、时、分、秒（`timestamp '2011-03-17 11:18:16.28'`）
 
 ### Create Table
 
@@ -71,15 +71,15 @@ CREATE TABLE r (A_1 D_1, A_2 D_2, ..., A_n D_n,
 - **$D_i$**：数据类型（即该列存放什么样的数据，如 `int`, `varchar` 等）。
 - **完整性约束**：用于确保数据库中的数据是准确、可靠的
 
-### Integrity Constraints 
+### Integrity Constraints
 
 - Not null：强制该列不允许出现空值（NULL）。
 - Primary key ($A_1, \dots, A_n$)：**主键**
-    - 唯一标识表中的每一行
-    - 主键列的值必须唯一，且自动包含 `not null` 属性（SQL-92 标准及以后）
+  - 唯一标识表中的每一行
+  - 主键列的值必须唯一，且自动包含 `not null` 属性（SQL-92 标准及以后）
 - Check ($P$)：自定义检查
-    - $P$ 是一个谓词，只有满足条件的记录才能被存入表中
-    - `check (assets >= 0)` 确保银行分行的资产不能为负数
+  - $P$ 是一个谓词，只有满足条件的记录才能被存入表中
+  - `check (assets >= 0)` 确保银行分行的资产不能为负数
 
 !!! example
 
@@ -151,7 +151,7 @@ CREATE INDEX cust_strt_city_index ON customer (customer_city, customer_street);
 
 **创建唯一索引的语法**：`CREATE UNIQUE INDEX <i-name> ON <table-name> (<attribute-list>)`
 
-- **功能**：加速查询, 并要求索引列的值**不能重复**    
+- **功能**：加速查询, 并要求索引列的值**不能重复**
 - **用途**：用于指定**候选键**（Candidate Key）
 
 ```sql
@@ -181,7 +181,7 @@ SELECT all branch_name FROM loan; --保留重复
 SELECT * FROM loan;
 ```
 
-An asterisk `*` in the select clause denotes <u>all attributes</u>. 
+An asterisk `*` in the select clause denotes <u>all attributes</u>.
 
 `SELECT` 不仅仅能读取原始数据，还能在读取的过程中进行实时计算
 
@@ -209,7 +209,7 @@ WHERE branch_name = 'Perryridge' AND mount >1200;
 ### The From Clause
 
 - The `FROM` clause lists the ralations involved in the query.
-Find the Cartesian product: $\text{borrower}\times\text{loan}$
+  Find the Cartesian product: $\text{borrower}\times\text{loan}$
 
 ```sql
 SELECT * FROM borrower, loan;
@@ -229,8 +229,8 @@ WHERE borrower.loan_number = loan.loan_number
 ### The Rename Operation
 
 - Tuple variables are defined in the `FROM` clause via the use of the `as` clause
-    - For simplification
-    - For discrimination
+  - For simplification
+  - For discrimination
 
 ```sql
 SELECT customer_name, T.loan_number, S.amount
@@ -241,17 +241,17 @@ WHERE T.loan_number = S.loan_number;
 ### String Operations
 
 - 字符串匹配（string matching）
-    - `%` : 匹配**任意长度**的字符串
-        - 查找名字中包含“泽”字的客户：`WHERE customer_name LIKE '%泽%'`
-        - 查找名字正好就是 "Main%" 的用户：`LIKE 'Main\%' escape '\'`
-    - `_` : 匹配**单个**任意字符
+  - `%` : 匹配**任意长度**的字符串
+    - 查找名字中包含“泽”字的客户：`WHERE customer_name LIKE '%泽%'`
+    - 查找名字正好就是 "Main%" 的用户：`LIKE 'Main\%' escape '\'`
+  - `_` : 匹配**单个**任意字符
 - 字符串拼接 (Concatenation)
-    - 双竖线 `||`，将多个字符串“粘”在一起形成新的字符串    
-    - `SELECT '客户名=' || customer_name FROM customer`
+  - 双竖线 `||`，将多个字符串“粘”在一起形成新的字符串
+  - `SELECT '客户名=' || customer_name FROM customer`
 - 大小写转换 (Case Conversion)
-    - `lower(s)`：将字符串 `s` 中的所有字母转为**小写**。
-    - `upper(s)`：将字符串 `s` 中的所有字母转为**大写**。
-    - 用于“大小写不敏感”的搜索，例如 `WHERE upper(name) = 'APPLE'`
+  - `lower(s)`：将字符串 `s` 中的所有字母转为**小写**。
+  - `upper(s)`：将字符串 `s` 中的所有字母转为**大写**。
+  - 用于“大小写不敏感”的搜索，例如 `WHERE upper(name) = 'APPLE'`
 - 计算字符串长度 (String Length)
 - 提取子串 (Extracting Substrings)
 
@@ -313,10 +313,10 @@ ORDER BY customer_city, customer_street desc, customer_name;
 
 ## 3.4 Aggregate Functions
 
-- `avg(col) `: average value 
-- `min(col)`: minimum value 	
-- `max(col)`: maximum value 	
-- `sum(col)`: sum of values 
+- `avg(col) `: average value
+- `min(col)`: minimum value
+- `max(col)`: maximum value
+- `sum(col)`: sum of values
 - `count(col)`: number of values
 
 ### Example1
@@ -339,7 +339,7 @@ FROM account
 WHERE branch_name = 'Perryridge'
 ```
 
-- `avg(balance)` 返回的是**一个数值**（符合条件的所有行的平均值）        
+- `avg(balance)` 返回的是**一个数值**（符合条件的所有行的平均值）
 - `branch_name` 在这里是一个**属性列**，它包含多行数据
 - 数据库无法在一行结果里既显示一个单一的平均值，又显示多行原始的支行名称
 
@@ -411,13 +411,13 @@ The execution order of SELECT:
 The predicate `is null`, `is not null` can be used to check for null values.
 
 - **错误示范**：`WHERE amount = null`
-    - **原因**：任何值与 NULL 进行比较，结果都是 unknown。根据三值逻辑，WHERE 会过滤掉 unknown，所以该语句**查不到任何结果**
-Null values and Aggregates
+  - **原因**：任何值与 NULL 进行比较，结果都是 unknown。根据三值逻辑，WHERE 会过滤掉 unknown，所以该语句**查不到任何结果**
+    Null values and Aggregates
 - **基本规则：直接忽略**
-    - `SUM(amount)` 会自动跳过那些 `amount` 为 `NULL` 的行
-    - 如果表里所有的 `amount` 都是 `NULL`，那么结果是 **`NULL`**
+  - `SUM(amount)` 会自动跳过那些 `amount` 为 `NULL` 的行
+  - 如果表里所有的 `amount` 都是 `NULL`，那么结果是 **`NULL`**
 - **例外：`COUNT(*)`**
-    - `COUNT(*)` 统计的是**行数**。即使某一行全是 `NULL`，它也会被算作一行
+  - `COUNT(*)` 统计的是**行数**。即使某一行全是 `NULL`，它也会被算作一行
 
 ---
 
@@ -467,7 +467,7 @@ WHERE B.loan_number = L.loan_number and
 	  	(SELECT customer_name
 	  	 FROM depositor D, account A
 	     WHERE D.account_number = A.account_number and branch_name = "Perryridge");
-	     
+	   
 -- Query3
 SELECT distinct customer_name
 FROM borrower B, loan as t
@@ -519,7 +519,7 @@ SELECT branch_name
 FROM branch
 WHERE assets > all
 		(SELECT assets FROM branch WHERE branch_city = "Brooklyn");
-		
+	
 -- Query2
 SELECT branch_name
 FROM branch
@@ -534,7 +534,7 @@ WHERE assets >
 **Example**: Find all customers who have accounts <font color="#ff0000">at all</font> branches located in city Brooklyn.
 
 $$
-\Pi _ { \text {customer-name,branch-name} } ( \text {depositor} \bowtie \text{account} ) \div \Pi _ { \text {branch-name}} ( \sigma _ { \text {branch-city} = \text {'Brooklyn'} } ( \text {branch} ) ) 
+\Pi _ { \text {customer-name,branch-name} } ( \text {depositor} \bowtie \text{account} ) \div \Pi _ { \text {branch-name}} ( \sigma _ { \text {branch-city} = \text {'Brooklyn'} } ( \text {branch} ) )
 $$
 
 ```sql
@@ -554,7 +554,7 @@ WHERE not exists (
 #### Test for Absence of Duplicate Tuples
 
 - The ==unique== construct tests whether a subquery has any duplicate tuples in its result.
-Find all customers who have **at most one** account at the Perryridge branch.
+  Find all customers who have **at most one** account at the Perryridge branch.
 
 ```sql
 SELECT customer_name
@@ -591,16 +591,7 @@ DROP VIEW <V_NAME>
 
 !!! example
 
-    ```sql
-    CREAT view all_customer as 
-    	((SELECT branch_name, customer_name 
-    	FROM depositor, account 
-    	WHERE depositor.account_number = account.account_number) 
-    	union 
-    	(SELECT branch_name, customer_name 
-    	FROM borrower, loan 
-    	WHERE borrower.loan_number = loan.loan_number))
-    ```
+    ``sql     CREAT view all_customer as      	((SELECT branch_name, customer_name      	FROM depositor, account      	WHERE depositor.account_number = account.account_number)      	union      	(SELECT branch_name, customer_name      	FROM borrower, loan      	WHERE borrower.loan_number = loan.loan_number))     ``
 
     - Then we get view: `all_customer (branch_name, customer_name)`
 
@@ -649,31 +640,22 @@ WHERE TT.sno = S.sno and c_num >10;
 
     Find all accounts with the maximum balance.
 
-    ```sql
-    -- Define a local view
-    WITH max_balance(value) as
-    	 SELECT max(balance)
-    	 FROM account
-    -- Use the local view
-    SELECT account_number
-    FROM account, max_balance
-    WHERE account.balance = max_balance.value
-    ```
+    ``sql     -- Define a local view     WITH max_balance(value) as     	 SELECT max(balance)     	 FROM account     -- Use the local view     SELECT account_number     FROM account, max_balance     WHERE account.balance = max_balance.value     ``
 
     Find all branches where the total account deposit is greater than the average of the total account deposits at all branches.
 
     ```sql
-    WITH branch_total(branch_name, a_bra_total) as 
-    	SELECT branch_name, sum(balance) 
-    	FROM account 
-    	GROUP BY branch_name 
-    	
-    WITH total_avg(value) as 
-    	SELECT avg(a_bra_total) 
-    	FROM branch_total 
-    	
-    SELECT branch_name, a_bra_total 
-    FROM branch_total A, total_avg B 
+    WITH branch_total(branch_name, a_bra_total) as
+    	SELECT branch_name, sum(balance)
+    	FROM account
+    	GROUP BY branch_name
+
+    WITH total_avg(value) as
+    	SELECT avg(a_bra_total)
+    	FROM branch_total
+
+    SELECT branch_name, a_bra_total
+    FROM branch_total A, total_avg B
     WHERE A.a_bra_total >= B.value
     ```
 
@@ -715,29 +697,23 @@ FROM …
 
     **Example 1**: Add a new tuple to account with balance set to null.
 
-    ```sql
-    INSERT INTO account 
-    VALUES (‘A_777’, ‘Perryridge’, null) 
-    -- or equivalently 
-    INSERT INTO account (account_number, branch_name) 
-    VALUES (‘A_777’, ‘Perryridge’)
-    ```
+    ``sql     INSERT INTO account      VALUES (‘A_777’, ‘Perryridge’, null)      -- or equivalently      INSERT INTO account (account_number, branch_name)      VALUES (‘A_777’, ‘Perryridge’)     ``
 
     **Example 2**: Provide as a gift for all loan customers of the Perryridge branch, a $200 savings account. Let the loan number serve as the account number for the new savings account.
 
     - Add one record to account and depositor.
 
     ```sql
-    -- Step 1: insert into account 
+    -- Step 1: insert into account
     INSERT INTO account
-    SELECT loan_number, branch_name, 200 
-    FROM loan 
-    WHERE branch_name = ‘Perryridge’ 
+    SELECT loan_number, branch_name, 200
+    FROM loan
+    WHERE branch_name = ‘Perryridge’
 
-    -- Step 2: insert into depositor 
+    -- Step 2: insert into depositor
     INSERT INTO depositor
-    SELECT customer_name, A.loan_number 
-    FROM loan A, borrower B 
+    SELECT customer_name, A.loan_number
+    FROM loan A, borrower B
     WHERE A.branch_name = ‘Perryridge’ and A.loan_number = B.loan_number
     ```
 
@@ -745,10 +721,10 @@ FROM …
 
 Format of update statement:
 
- ```sql
+```sql
  UPDATE <table | view>
  SET <c1 = e1 [, c2 = e2, …]> [WHERE <condition>]
- ```
+```
 
 #### Case Statement for Conditional Updates
 
@@ -765,7 +741,7 @@ SET balance = case
 
 #### Update of a View
 
-Create a view of all loan data in loan relation, hiding the amount attribute. 
+Create a view of all loan data in loan relation, hiding the amount attribute.
 
 ```sql
 CREATE VIEW branch_loan as 
@@ -775,7 +751,7 @@ CREATE VIEW branch_loan as
 
 - 建立在单个基本表上的视图，且视图的列对应表的列，称为“==行列视图==”
 
-Add a new tuple to branch_loan. 
+Add a new tuple to branch_loan.
 
 ```sql
 INSERT INTO branch_loan 
@@ -792,42 +768,42 @@ VALUES (‘L-307’, ‘Perryridge’, null)
 
 A transaction is a sequence of queries and data update statements executed as <u>a single logical unit</u>.
 
-- Transactions are started implicitly and terminated by one of 
-    - *COMMIT WORK*: makes all updates of the transaction permanent in the database. 
-    - *ROLLBACK WORK*: undoes all updates performed by the transaction.
-The four properties of transaction are required: *atomicity, isolation, consistency, durability*
+- Transactions are started implicitly and terminated by one of
+  - *COMMIT WORK*: makes all updates of the transaction permanent in the database.
+  - *ROLLBACK WORK*: undoes all updates performed by the transaction.
+    The four properties of transaction are required: *atomicity, isolation, consistency, durability*
 
 ---
 
 ## 3.10 Joined Relations
 
-- Join operations take as input two relations and return as a result another relation. 
-- **Join condition** – defines <u>which tuples</u> in the two relations <font color="#ff0000">match</font>, and what attributes are present in the result of the join. 
-    - natural : 查找两张表中**所有同名的列**，并用这些列进行等值匹配
-    - on \<predicate\>
-    - using (A1, A2, ..., An) : 用这些同名列来进行等值匹配
+- Join operations take as input two relations and return as a result another relation.
+- **Join condition** – defines <u>which tuples</u> in the two relations <font color="#ff0000">match</font>, and what attributes are present in the result of the join.
+  - natural : 查找两张表中**所有同名的列**，并用这些列进行等值匹配
+  - on \<predicate\>
+  - using (A1, A2, ..., An) : 用这些同名列来进行等值匹配
 - **Join type** – defines how tuples in each relation that <font color="#ff0000">do not match any tuple</font> in the other relation (based on the join condition) are treated.
-    - inner join ($\bowtie$):
-      只保留那些在两张表中都能找到匹配的行，没有匹配项的行会被完全丢弃。
-    - left outer join :
-      保留左表的所有行。如果左表的某一行没有找到匹配，那么结果中该行的右表部分用NULL填充。
-    - right outer join :
-      与左外连接相反，保留右表的所有行。如果右表的某一行在左表中没有匹配，那么结果中这一行的左表部分就用NULL填充。
-    - full outer join :
-      保留两张表的所有行，没有匹配的部分用NULL填充。
+  - inner join ($\bowtie$):
+    只保留那些在两张表中都能找到匹配的行，没有匹配项的行会被完全丢弃。
+  - left outer join :
+    保留左表的所有行。如果左表的某一行没有找到匹配，那么结果中该行的右表部分用NULL填充。
+  - right outer join :
+    与左外连接相反，保留右表的所有行。如果右表的某一行在左表中没有匹配，那么结果中这一行的左表部分就用NULL填充。
+  - full outer join :
+    保留两张表的所有行，没有匹配的部分用NULL填充。
 
 ### Format
 
-自然连接：R <font color="#ff0000">natural</font> {inner join, left join, right join, full join} S 
+自然连接：R <font color="#ff0000">natural</font> {inner join, left join, right join, full join} S
 非自然连接：
 
-1. R {inner join, left join, right join, full join} S <font color="#ff0000">on</font> <连接条件判别式> 
+1. R {inner join, left join, right join, full join} S <font color="#ff0000">on</font> <连接条件判别式>
 2. R {inner join, left join, right join, full join} S <font color="#ff0000">using</font> (<同名的等值连接 属性名>)
 
 Key word `inner, outer` is optional.
 
-- Natural join: 以同名属性相等作为连接条件 
-- Inner join：只输出匹配成功的元组 
+- Natural join: 以同名属性相等作为连接条件
+- Inner join：只输出匹配成功的元组
 - Outer join：还要考虑不能匹配的元组
 
 ### Joined Relations in SQL
@@ -848,7 +824,7 @@ WHERE account_number is null or loan_number is null
 
 #### Example1
 
-Consider the following relational schema: `part (id, name, color, weight, sub_part) `, transfer the following SQL query into the relational algebra expression: 
+Consider the following relational schema: `part (id, name, color, weight, sub_part) `, transfer the following SQL query into the relational algebra expression:
 
 ```sql
 SELECT part2.id 
@@ -862,7 +838,7 @@ $$
 
 #### Example2
 
-Consider the student database below: 
+Consider the student database below:
 
 ```
 student (student-no, student-name, sex, age, dept-name) 
@@ -870,8 +846,8 @@ course (course-no, course-name, credit)
 study (student-no, course-no, score) 
 ```
 
-Please give the SQL statements for each of the following requirements: 
-(1) Find the names of students who have studied course ‘Database System’ and sort results by ascending score. 
+Please give the SQL statements for each of the following requirements:
+(1) Find the names of students who have studied course ‘Database System’ and sort results by ascending score.
 
 ```sql
 SELECT student_name 
@@ -882,7 +858,7 @@ WHERE S.student_no = T.student_no and
 ORDER BY score
 ```
 
-(2) Find the names of students who get the best score in course ‘Database System’. 
+(2) Find the names of students who get the best score in course ‘Database System’.
 
 ```sql
 SELECT student_name 

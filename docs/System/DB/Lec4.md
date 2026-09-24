@@ -1,4 +1,4 @@
-# Advanced SQL
+# Lec4.Advanced SQL
 
 ## 4.1 SQL Data Types and Schemas
 
@@ -7,10 +7,10 @@
 **Type**
 
 1. **内置数据类型 (Built-in data types)**
-    - SQL 预定义好的类型，比如 `int`, `char(n)`, `varchar(n)`, `date`, `numeric(p, d)` 等
+   - SQL 预定义好的类型，比如 `int`, `char(n)`, `varchar(n)`, `date`, `numeric(p, d)` 等
 2. **用户自定义类型 (User-defined types)**
-    - 结构化数据类型 (Structured data types)： 类似“结构体”，可以包含多个属性
-    - 特殊类型 (Distinct types)： 基于已有的内置类型创建一个新类型
+   - 结构化数据类型 (Structured data types)： 类似“结构体”，可以包含多个属性
+   - 特殊类型 (Distinct types)： 基于已有的内置类型创建一个新类型
 
 ```sql
 -- 新建type
@@ -40,25 +40,25 @@ Create table employee (
 	comm Pounds);
 ```
 
-| **特性**    | **自定义类型 (Distinct Type)** | **域 (Domain)**              |
-| --------- | ------------------------- | --------------------------- |
-| **底层基础**  | 基于内置类型                    | 基于内置类型                      |
-| **主要目的**  | 创建逻辑上独立的新类型，强调安全性         | 封装“类型+约束”，方便重复使用            |
-| **约束支持**  | 不支持直接在定义时加复杂约束            | 支持（如 `NOT NULL`, `CHECK` 等） |
-| **检查严格度** | **强类型**（不同类型间不可直接操作）      | **弱类型**（底层类型相同时可操作）         |
+| **特性**       | **自定义类型 (Distinct Type)**       | **域 (Domain)**                    |
+| -------------------- | ------------------------------------------ | ---------------------------------------- |
+| **底层基础**   | 基于内置类型                               | 基于内置类型                             |
+| **主要目的**   | 创建逻辑上独立的新类型，强调安全性         | 封装“类型+约束”，方便重复使用          |
+| **约束支持**   | 不支持直接在定义时加复杂约束               | 支持（如`NOT NULL`, `CHECK` 等）     |
+| **检查严格度** | **强类型**（不同类型间不可直接操作） | **弱类型**（底层类型相同时可操作） |
 
 ### 2. Large-object types
 
 - Large objects (e.g., photos, videos, CAD files, etc.) are stored as a **large object**:
-    - **BLOB (Binary Large Object)：**
-        - 存储二进制位流
-        - 数据库只负责存取，解析工作交给外部应用程序
-    - **CLOB (Character Large Object)：**
-        - 存储字符数据
-        - 专门用于存储超长文本，比如整本书的内容、长篇论文或 XML/JSON 文档。
-- When a query returns a large object, ==a pointer== is returned rather than the large object itself. 
-    - 执行 `SELECT` 时，数据库只返回一个**指针**
-    - 防止程序和网络崩溃
+  - **BLOB (Binary Large Object)：**
+    - 存储二进制位流
+    - 数据库只负责存取，解析工作交给外部应用程序
+  - **CLOB (Character Large Object)：**
+    - 存储字符数据
+    - 专门用于存储超长文本，比如整本书的内容、长篇论文或 XML/JSON 文档。
+- When a query returns a large object, ==a pointer== is returned rather than the large object itself.
+  - 执行 `SELECT` 时，数据库只返回一个**指针**
+  - 防止程序和网络崩溃
 
 ```sql
 Create table students (
@@ -81,20 +81,20 @@ Create table students (
 ==完整性约束（Integrity Constraints）==是为了防止对数据库的“误伤”（accidental damage）。即使是拥有权限的用户，也可能因为操作失误录入错误数据。它具有三大基本类型：
 
 1. **实体完整性 (Entity Integrity)：**
-    - 保证每一行（每一个实体）都是唯一的
-    - 通常通过主键 (Primary Key)来实现，要求主键不能为空且不能重复
-2. **参照完整性 (Referential Integrity)：** 
-    - 保证表与表之间的关系是有效的，通常通过外键 (Foreign Key) 实现
-    - 比如“学生表”里的“班级编号”必须在“班级表”里真实存在
-3. **用户定义的完整性 (User-defined Integrity)：** 
-    - 针对具体业务的需求，比如“年龄必须在 0 到 150 之间”，“性别只能是男或女”
-完整性约束是数据库实例 (Instance) 必须遵循的，由 **DBMS** 自动维护
+   - 保证每一行（每一个实体）都是唯一的
+   - 通常通过主键 (Primary Key)来实现，要求主键不能为空且不能重复
+2. **参照完整性 (Referential Integrity)：**
+   - 保证表与表之间的关系是有效的，通常通过外键 (Foreign Key) 实现
+   - 比如“学生表”里的“班级编号”必须在“班级表”里真实存在
+3. **用户定义的完整性 (User-defined Integrity)：**
+   - 针对具体业务的需求，比如“年龄必须在 0 到 150 之间”，“性别只能是男或女”
+     完整性约束是数据库实例 (Instance) 必须遵循的，由 **DBMS** 自动维护
 
 **针对单个 relation 的约束**：
 
-- Not null 
-- Primary key 
-- Unique 
+- Not null
+- Primary key
+- Unique
 - Check (P), where P is a predicate
 
 ```sql
@@ -106,7 +106,7 @@ Create table branch2 (
 )
 ```
 
-### 1. Domain Constraints 
+### 1. Domain Constraints
 
 SQL-92 允许通过 `check` 子句来限制域的取值范围
 
@@ -119,20 +119,20 @@ Constraint value-test check(value >= 4.00)
 
 - 子句 `constraint value-test` 是可选的；用于指示更新违反了哪个约束
 
-### 2. Referential Integrity 
+### 2. Referential Integrity
 
 #### Formal Definition
 
-Let $r_1 (R_1)$ and $r_2 (R_2)$ be the relations with primary keys $K_1$ and $K_2$, respectively. 
+Let $r_1 (R_1)$ and $r_2 (R_2)$ be the relations with primary keys $K_1$ and $K_2$, respectively.
 
-- The subset $\alpha$ of $R_2$ is a ==foreign key== referencing $K_1$ in relation $r_1$, if for every $t_2$ in $r_2$ there must be a tuple $t_1$ in $r_1$ such that $t_1[K_1] = t_2[\alpha]$. 
-- Referential integrity constraint also called <font color="#ff0000">subset dependency</font>, since its can be written as 
+- The subset $\alpha$ of $R_2$ is a ==foreign key== referencing $K_1$ in relation $r_1$, if for every $t_2$ in $r_2$ there must be a tuple $t_1$ in $r_1$ such that $t_1[K_1] = t_2[\alpha]$.
+- Referential integrity constraint also called <font color="#ff0000">subset dependency</font>, since its can be written as
 
 $$
 \Pi_\alpha(r_2) \subseteq \Pi_{K_1}(r_1)
 $$
 
-Assume there exists relations $r$ and $s$: $r (\underline{A}, B, C)$, $s (\underline{B}, D)$, we say attribute $B$ in $r$ is a ==foreign key== from relation $r$, and $r$ is called <font color="#ff0000">referencing relation (参照关系)</font>, and $s$ is called <font color="#ff0000">referenced relation (被参照关系)</font>. 
+Assume there exists relations $r$ and $s$: $r (\underline{A}, B, C)$, $s (\underline{B}, D)$, we say attribute $B$ in $r$ is a ==foreign key== from relation $r$, and $r$ is called <font color="#ff0000">referencing relation (参照关系)</font>, and $s$ is called <font color="#ff0000">referenced relation (被参照关系)</font>.
 
 ```sql
 Account(account-number, branch-name, balance) 
@@ -160,8 +160,8 @@ Branch(branch-name, branch-city, assets)
 
 - 系统会搜索子表中是否有元组匹配要删除的主码，即执行 $\sigma_{\alpha=t_1[K]}(r_2)$
 - 处理方式（如果发现匹配项）：
-    1. Reject：最常见的做法，报错并禁止删除
-    2. Cascading Delete：系统不仅删掉父表的那一行，还会**自动**把子表中所有引用这一行的记录全都删掉
+  1. Reject：最常见的做法，报错并禁止删除
+  2. Cascading Delete：系统不仅删掉父表的那一行，还会**自动**把子表中所有引用这一行的记录全都删掉
 
 ##### Update
 
@@ -177,8 +177,8 @@ Branch(branch-name, branch-city, assets)
 - **primary key (主键)**： 用于唯一标识表中的每一行。一个表只能有一个主键，且主键列不能为空（NOT NULL）
 - **unique (唯一键/候选键)**： 用于确保某一列（或多列组合）的值是唯一的。它与主键类似，但一个表可以有多个 `unique` 约束，且允许存在 null
 - **foreign key (外键)**： 它指明了本表中的某些属性是引用自另一个表的。它必须包含两个要素：
-    1. 本表的属性列表（哪些列是外键）
-    2. 被参照表的名称（引用了哪个表）
+  1. 本表的属性列表（哪些列是外键）
+  2. 被参照表的名称（引用了哪个表）
 
 !!! tip
 
@@ -194,30 +194,30 @@ Branch(branch-name, branch-city, assets)
 !!! example
 
     ```sql
-    Create table customer 
-    	(customer-name char(20), 
-    	customer-street varchar(30), 
-    	customer-city varchar(30), 
-    	primary key (customer-name)); 
-    	
-    Create table branch 
-    	(branch-name varchar(15), 
-    	branch-city varchar(30), 
-    	assets integer, 
+    Create table customer
+    	(customer-name char(20),
+    	customer-street varchar(30),
+    	customer-city varchar(30),
+    	primary key (customer-name));
+
+    Create table branch
+    	(branch-name varchar(15),
+    	branch-city varchar(30),
+    	assets integer,
     	primary key (branch-name));
-    	
-    Create table account 
-    	(account-number char(10), 
-    	branch-name char(15), 
-    	balance integer, 
-    	primary key (account-number), 
-    	foreign key (branch-name) references branch); 
-    	
-    Create table depositor 
-    	(customer-name char(20), 
-    	account-number char(10), 
-    	primary key (customer-name, account-number), 
-    	foreign key (account-number) references account, 
+
+    Create table account
+    	(account-number char(10),
+    	branch-name char(15),
+    	balance integer,
+    	primary key (account-number),
+    	foreign key (branch-name) references branch);
+
+    Create table depositor
+    	(customer-name char(20),
+    	account-number char(10),
+    	primary key (customer-name, account-number),
+    	foreign key (account-number) references account,
     	foreign key (customer-name) references customer);
     ```
 
@@ -241,17 +241,17 @@ Create table account (
 
 ##### Propagation and Aborts
 
-- **级联链** (Chain of dependencies)： 
-    - 如果 A 表引用 B 表，B 表引用 C 表，且都设置了 `cascade`。那么删除 C 表的一条记录，这个操作会像多米诺骨牌一样一直传递到 A 表。
+- **级联链** (Chain of dependencies)：
+  - 如果 A 表引用 B 表，B 表引用 C 表，且都设置了 `cascade`。那么删除 C 表的一条记录，这个操作会像多米诺骨牌一样一直传递到 A 表。
 - **事务中止** (Abort)：如果在级联过程中，某个操作违反了数据库的其他约束，那么**整个事务会中止**
-    - 数据库会回滚（Undo）到操作之前的状态
-    - 数据库的原子性原则：<u>要么全做，要么全不做</u>
+  - 数据库会回滚（Undo）到操作之前的状态
+  - 数据库的原子性原则：<u>要么全做，要么全不做</u>
 
 ##### Alternatives to Cascading
 
 - **`on delete set null`：** 父条目删了，子条目的外键字段设为 `NULL`
 - **`on delete set default`：** 设为预定义的默认值
-如果外键允许为 NULL，那么这条记录就自动“满足”了约束，即使它不指向任何实际存在的父项。
+  如果外键允许为 NULL，那么这条记录就自动“满足”了约束，即使它不指向任何实际存在的父项。
 - 除非有特殊需求，否则通常对外键使用 `NOT NULL`
 
 !!! note "Referential integrity is only checked at the end of a transaction!"
@@ -263,7 +263,7 @@ Create table account (
         - 例子： “已婚人士”表，丈夫的 spouse 列指向妻子，妻子的 spouse 列指向丈夫。如果实时检查，先插入丈夫时，妻子还没存进去，就会报错
     - **中间态：** 事务执行过程中，允许出现暂时的“违规”。只要在点击 `commit`（提交）之前，你把所有缺失的数据都补齐，数据库就会允许这一组操作成功
 
-### 3. Assertions 
+### 3. Assertions
 
 ==Assertion==是一个谓词（即返回真或假的逻辑表达式），数据库必须始终满足它。
 
@@ -286,16 +286,7 @@ $$
 
     The sum of all loan amounts for each branch must be less than the sum of all account balances at the branch.
 
-    ```sql
-    CREATE ASSERTION sum-constraint CHECK
-      (not exists (select * from branch B  -- 寻找是否存在这样的支行 B
-        where (select sum(amount) from loan 
-               where loan.branch-name = B.branch-name) -- 支行 B 的总贷款
-               > 
-              (select sum(balance) from account 
-               where account.branch-name = B.branch-name) -- 支行 B 的总存款
-      ))
-    ```
+    ``sql     CREATE ASSERTION sum-constraint CHECK       (not exists (select * from branch B  -- 寻找是否存在这样的支行 B         where (select sum(amount) from loan                 where loan.branch-name = B.branch-name) -- 支行 B 的总贷款                >                (select sum(balance) from account                 where account.branch-name = B.branch-name) -- 支行 B 的总存款       ))     ``
 
     - **内部查询：** 针对每一个支行 B，分别计算它的贷款总和和存款总和。
 
@@ -305,40 +296,32 @@ $$
 
     Every loan has at least one borrower who maintains an account with a minimum balance of $1000.
 
-    ```sql
-    CREATE ASSERTION balance-constraint CHECK 
-    	(not exists (select * from loan L 
-    		where not exists (select * from borrower B, depositor D, account A 
-    						where L.loan-number = B.loan-number 
-    						and B.customer-name = D.customer-name 
-    						and D.account-number = A.account-number 
-    						and A.balance >= 1000)))
-    ```
+    ``sql     CREATE ASSERTION balance-constraint CHECK      	(not exists (select * from loan L      		where not exists (select * from borrower B, depositor D, account A      						where L.loan-number = B.loan-number      						and B.customer-name = D.customer-name      						and D.account-number = A.account-number      						and A.balance >= 1000)))     ``
 
 ### 4. Triggers
 
 - A trigger is a statement that is executed **automatically** by the system **as a side-effect of a modification** to the database.
 - 设计触发器的机制需要考虑两点：
-    1. Conditions：必须明确指定在什么情况下触发器会被触发
-    2. Actions：必须指定当触发器被激活时，系统需要执行的具体操作
+  1. Conditions：必须明确指定在什么情况下触发器会被触发
+  2. Actions：必须指定当触发器被激活时，系统需要执行的具体操作
 
 !!! example
 
-    Suppose that instead of allowing negative account balances, the bank <font color="#ff0000">deals with overdrafts</font> by (the **actions**): 
+    Suppose that instead of allowing negative account balances, the bank <font color="#ff0000">deals with overdrafts</font> by (the **actions**):
 
-    - Setting the account balance to zero 
-    - Creating a loan in the amount of the overdraft, giving this loan a loan number identical to the account number of the overdrawn account 
+    - Setting the account balance to zero
+    - Creating a loan in the amount of the overdraft, giving this loan a loan number identical to the account number of the overdrawn account
 
     The **condition** for executing the trigger is an **update** to the account relation that results in a **negative balance** value.
 
 #### Trigger Example in SQL
 
-- Triggering event can be <u>insert, delete or update</u>. 
-- Triggers on update can be restricted to **specific attributes**： 
-    - E.g., `Create trigger overdraft-trigger after update of balance on account`
-- Values of attributes *before* and *after* an update can be referenced: 
-    - `referencing old row as`: for deletes and updates 
-    - `referencing new row as`: for inserts and update
+- Triggering event can be <u>insert, delete or update</u>.
+- Triggers on update can be restricted to **specific attributes**：
+  - E.g., `Create trigger overdraft-trigger after update of balance on account`
+- Values of attributes *before* and *after* an update can be referenced:
+  - `referencing old row as`: for deletes and updates
+  - `referencing new row as`: for inserts and update
 
 ```sql
 CREATE TRIGGER overdraft-trigger after update on account 
@@ -355,12 +338,12 @@ CREATE TRIGGER overdraft-trigger after update on account
 		end
 ```
 
-#### Statement Level Triggers 
+#### Statement Level Triggers
 
 语句级触发器不是为每一行受影响的数据执行一次操作，而是针对整个事务或语句**只执行一次**操作
 
 - Use **for each statement** instead of **for each row**
-- Use **referencing old table** or **referencing new table** to refer to temporary tables (called transition tables) containing the affected rows 
+- Use **referencing old table** or **referencing new table** to refer to temporary tables (called transition tables) containing the affected rows
 - Can be more efficient when dealing with SQL statements that update a large number of rows
 
 #### External World Actions
@@ -372,48 +355,32 @@ CREATE TRIGGER overdraft-trigger after update on account
 
 !!! example
 
-    Suppose a warehouse has the following tables 
+    Suppose a warehouse has the following tables
 
-    - inventory(item, level): How much of each item is in the warehouse presently 
-    - minlevel(item, level): What is the minimum desired level of each item 
-    - reorder(item, amount): What quantity should we re-order at a time 
+    - inventory(item, level): How much of each item is in the warehouse presently
+    - minlevel(item, level): What is the minimum desired level of each item
+    - reorder(item, amount): What quantity should we re-order at a time
     - orders(item, quantity): Orders to be placed (to be read by external process)
 
-    ```sql
-    CREATE TRIGGER reorder-trigger after update of level ON inventory 
-    referencing old row as orow, new row as nrow
-    for each row 
-    	when nrow.level <= (SELECT level 
-    					    FROM minlevel 
-    					    WHERE minlevel.item = nrow.item) 
-    	and orow.level > (SELECT level 
-    					  FROM minlevel 
-    					  WHERE minlevel.item = orow.item) 
-    begin
-    	INSERT INTO orders 
-    	(SELECT item, amount 
-    	  FROM reorder 
-    	  WHERE reorder.item = orow.item); 
-    end;
-    ```
+    ``sql     CREATE TRIGGER reorder-trigger after update of level ON inventory      referencing old row as orow, new row as nrow     for each row      	when nrow.level <= (SELECT level      					    FROM minlevel      					    WHERE minlevel.item = nrow.item)      	and orow.level > (SELECT level      					  FROM minlevel      					  WHERE minlevel.item = orow.item)      begin     	INSERT INTO orders      	(SELECT item, amount      	  FROM reorder      	  WHERE reorder.item = orow.item);      end;     ``
 
-#### When Not To Use Triggers 
+#### When Not To Use Triggers
 
 过去，开发人员经常使用触发器来处理以下两类任务：
 
 - 维护汇总数据：
-    - 例如，为了实时知道每个部门的工资总额，开发人员可能会写一个触发器：每当员工表中插入或更新工资时，触发器自动更新“部门总工资表”
-    - 方式可行，但代码复杂且容易出错
+  - 例如，为了实时知道每个部门的工资总额，开发人员可能会写一个触发器：每当员工表中插入或更新工资时，触发器自动更新“部门总工资表”
+  - 方式可行，但代码复杂且容易出错
 - 数据库复制：
-    - 将数据变更记录到特殊的表中（“变更表”或“增量表”），然后由另一个进程读取这些表并将变更应用到副本数据库
-    - 早期实现主从同步或数据仓库 ETL 的一种手段
-现代更好的替代方案
+  - 将数据变更记录到特殊的表中（“变更表”或“增量表”），然后由另一个进程读取这些表并将变更应用到副本数据库
+  - 早期实现主从同步或数据仓库 ETL 的一种手段
+    现代更好的替代方案
 - 物化视图(built in materialized view)：
-    - 现在的数据库提供了内置的物化视图功能
-    - 自动维护汇总数据，无需手动编写触发器代码
+  - 现在的数据库提供了内置的物化视图功能
+  - 自动维护汇总数据，无需手动编写触发器代码
 - 内置复制支持(built-in support for replication)：
-    - 现代数据库系统都提供了原生的复制支持。
-    - 直接支持主从复制、集群同步等功能，不再需要开发者手动去写触发器记录变更日志
+  - 现代数据库系统都提供了原生的复制支持。
+  - 直接支持主从复制、集群同步等功能，不再需要开发者手动去写触发器记录变更日志
 
 ---
 
@@ -426,56 +393,48 @@ Authorization & Authentication
 
 !!! info "Security"
 
-    Security - protection from malicious attempts to steal or modify data. 
+    Security - protection from malicious attempts to steal or modify data.
 
-    - Database system level 
-        - <u>Authentication and authorization mechanisms</u> allow specific users access only to <font color="#ff0000">required data</font>. 
-        - We concentrate on authorization in the rest of this chapter. 
+    - Database system level
+        - <u>Authentication and authorization mechanisms</u> allow specific users access only to <font color="#ff0000">required data</font>.
+        - We concentrate on authorization in the rest of this chapter.
     - Operating system level
-        - Operating system super-users can do anything they want to the database! 
+        - Operating system super-users can do anything they want to the database!
         - Good operating system level security is required.
-    - Network level: must use encryption to prevent 
-        - Eavesdropping (unauthorized reading of messages) 
-        - Masquerading (pretending to be an authorized user or sending messages supposedly from authorized users) 
-    - Physical level 
-        - Physical access to computers allows destruction of data by intruders; traditional lock-and key security is needed 
-        - Computers must also be protected from floods, fire, etc. -- (Recovery) 
-    - Human level 
-        - Users must be screened to ensure that an authorized users do not give access to intruders 
+    - Network level: must use encryption to prevent
+        - Eavesdropping (unauthorized reading of messages)
+        - Masquerading (pretending to be an authorized user or sending messages supposedly from authorized users)
+    - Physical level
+        - Physical access to computers allows destruction of data by intruders; traditional lock-and key security is needed
+        - Computers must also be protected from floods, fire, etc. -- (Recovery)
+    - Human level
+        - Users must be screened to ensure that an authorized users do not give access to intruders
         - Users should be trained on password selection and secrecy
 
-|授权类型|说明|
-|:--|:--|
-|读取授权 (Read authorization)|允许读取数据，但不允许修改数据。|
-|插入授权 (Insert authorization)|允许插入新数据，但不允许修改现有数据。|
-|更新授权 (Update authorization)|允许修改数据，但不允许删除数据。|
-|删除授权 (Delete authorization)|允许删除数据。|
-| 索引授权 (Index authorization)      | 允许创建和删除索引。           |
-| 资源授权 (Resources authorization)  | 允许创建新的关系（表）。         |
+| 授权类型                            | 说明                                     |
+| :---------------------------------- | :--------------------------------------- |
+| 读取授权 (Read authorization)       | 允许读取数据，但不允许修改数据。         |
+| 插入授权 (Insert authorization)     | 允许插入新数据，但不允许修改现有数据。   |
+| 更新授权 (Update authorization)     | 允许修改数据，但不允许删除数据。         |
+| 删除授权 (Delete authorization)     | 允许删除数据。                           |
+| 索引授权 (Index authorization)      | 允许创建和删除索引。                     |
+| 资源授权 (Resources authorization)  | 允许创建新的关系（表）。                 |
 | 修改授权 (Alteration authorization) | 允许在关系（表）中添加或修改属性（列）。 |
-| 删除授权 (Drop authorization)       | 允许删除关系（表）。           |
+| 删除授权 (Drop authorization)       | 允许删除关系（表）。                     |
 
 ### Authorization and Views
 
-- Users can be given <u>authorization on views</u>, without being given any authorization on the relations used in the view definition. 
-- Ability of views to **hide data** serves both to <u>simplify usage</u> of the system and to <u>enhance security</u> by allowing users access only to data they need for their job. 
+- Users can be given <u>authorization on views</u>, without being given any authorization on the relations used in the view definition.
+- Ability of views to **hide data** serves both to <u>simplify usage</u> of the system and to <u>enhance security</u> by allowing users access only to data they need for their job.
 - A combination of relational-level security and view-level security can be used to limit a user's access to precisely the data that user needs.
 
 !!! example
 
-    ```sql
-    CREATE VIEW cust-loan as 
-    SELECT branchname, customer-name 
-    FROM borrower, loan 
-    WHERE borrower.loan-number = loan.loan-number
-    ```
+    ``sql     CREATE VIEW cust-loan as      SELECT branchname, customer-name      FROM borrower, loan      WHERE borrower.loan-number = loan.loan-number     ``
 
     **职员的查询**：只需要执行简单的查询
 
-    ```sql
-    SELECT *
-    FROM cust-loan
-    ```
+    ``sql     SELECT *     FROM cust-loan     ``
 
     - 因为他被授权访问 `cust-loan`，所以这个查询是被允许的
 
@@ -506,17 +465,17 @@ Authorization & Authentication
 GRANT <privilege list> ON <table | view> TO <user list>
 ```
 
-- \<user list\> is: 
-    - user-ids  
-    - public, which allows all valid users the privilege granted 
-    - A role (more details about this later)  
-- Granting a privilege on a view **does not** imply granting any privileges on the underlying relations. 
+- \<user list\> is:
+  - user-ids
+  - public, which allows all valid users the privilege granted
+  - A role (more details about this later)
+- Granting a privilege on a view **does not** imply granting any privileges on the underlying relations.
 - The grantor of the privilege **must already hold** the privilege on the specified item (or be the database administrator).
 
 #### Privileges in SQL
 
 - **Select**：对关系（表）进行读取访问，或者使用视图进行查询
-    - `GRANT select, insert ON branch TO U1, U2, U3;` 授予用户 U1、U2、U3 对 `branch` 表的查询和插入权限
+  - `GRANT select, insert ON branch TO U1, U2, U3;` 授予用户 U1、U2、U3 对 `branch` 表的查询和插入权限
 - **Insert**：向表中插入元组（数据行）
 - **Update**：使用 SQL 的 UPDATE 语句更新数据
 - **Delete**：删除表中元组（数据行）
@@ -531,7 +490,7 @@ grant select on branch to U1 with grant option;
 
 #### Roles
 
-- Roles permiting **common privileges** for a class of users can be specified just once, by creating a corresponding “==role==”. 
+- Roles permiting **common privileges** for a class of users can be specified just once, by creating a corresponding “==role==”.
 - Privileges can be granted to or revoked from roles, just like user; roles can be assigned to users, and even to other roles.
 
 ```sql
@@ -569,32 +528,32 @@ Revoke select on branch from U1, U3 restrict;
 
 - 为了防止意外的级联删除，SQL 提供了 `restrict` 选项：
 - 行为逻辑：
-    - 系统在执行撤销操作前会先检查：U1 或 U3 是否已经把这个权限转授给了别人
-    - **如果他们已经把权限给了别人**（即发生级联是必须的），那么这条 `REVOKE` 命令就会**失败**（执行不成功）
-    - 只有当他们没有把权限转授给任何人时，撤销操作才会成功。
+  - 系统在执行撤销操作前会先检查：U1 或 U3 是否已经把这个权限转授给了别人
+  - **如果他们已经把权限给了别人**（即发生级联是必须的），那么这条 `REVOKE` 命令就会**失败**（执行不成功）
+  - 只有当他们没有把权限转授给任何人时，撤销操作才会成功。
 
 ##### All & Public
 
 1. \<privilege-list\> may be **ALL**, to revoke all privileges the revokee may hold.
-    - 这表示一次性收回被撤销者（revokee）在该对象上拥有的所有权限，而不需要逐个列出
-    - `REVOKE ALL ON branch FROM U1;` （收回 U1 对 branch 表的所有权限）
+   - 这表示一次性收回被撤销者（revokee）在该对象上拥有的所有权限，而不需要逐个列出
+   - `REVOKE ALL ON branch FROM U1;` （收回 U1 对 branch 表的所有权限）
 2. If \<revokee-list\> includes **PUBLIC**, all users lose the privilege except those granted it explicitly. `
-    - `PUBLIC` 代表数据库中的所有用户。当你从 `PUBLIC` 收回权限时，意味着所有用户都会失去该权限。
-    - 如果某个特定用户之前被<u>显式地（explicitly）单独授予过该权限</u>，那么即使从 `PUBLIC` 收回了，该特定用户仍然保留权限
+   - `PUBLIC` 代表数据库中的所有用户。当你从 `PUBLIC` 收回权限时，意味着所有用户都会失去该权限。
+   - 如果某个特定用户之前被<u>显式地（explicitly）单独授予过该权限</u>，那么即使从 `PUBLIC` 收回了，该特定用户仍然保留权限
 3. If the same privilege was granted twice to the same user by different grantees, the user may retain the privilege after the revocation.
-    - 假设用户 U1 从管理员 A 那里获得了 SELECT 权限，同时也从用户 B 那里获得了 SELECT 权限
-    - 如果只撤销了 B 授予的权限，U1 仍然保留着来自 A 的权限，因此 U1 依然可以进行 SELECT 操作。只有当所有来源的权限都被切断时，用户才会真正失去权限
+   - 假设用户 U1 从管理员 A 那里获得了 SELECT 权限，同时也从用户 B 那里获得了 SELECT 权限
+   - 如果只撤销了 B 授予的权限，U1 仍然保留着来自 A 的权限，因此 U1 依然可以进行 SELECT 操作。只有当所有来源的权限都被切断时，用户才会真正失去权限
 4. All privileges that depend on the privilege being revoked are also revoked. `
-    - 如果用户 A 把权限给了 B，B 又基于这个权限做了其他授权或操作。当 A 收回给 B 的权限时，所有依赖于这个权限的后续授权也会随之失效。
+   - 如果用户 A 把权限给了 B，B 又基于这个权限做了其他授权或操作。当 A 收回给 B 的权限时，所有依赖于这个权限的后续授权也会随之失效。
 
-#### Limitations of SQL Authorization 
+#### Limitations of SQL Authorization
 
 - SQL 标准不支持直接在 **元组（Tuple，即行）** 级别上进行权限控制。
-    - GRANT 只能在 **关系（表）** 级别或**属性（列）** 级别上授予权限
-    - 不能简单地用 SQL 语句说：“允许用户 A 查询 `Grades` 表，但只能看 `StudentID` 等于 A 的那一行”
+  - GRANT 只能在 **关系（表）** 级别或**属性（列）** 级别上授予权限
+  - 不能简单地用 SQL 语句说：“允许用户 A 查询 `Grades` 表，但只能看 `StudentID` 等于 A 的那一行”
 - 随着 Web 访问 的增长，对数据库的访问主要来自**应用服务器**
-    - 在 Web 应用中，用户通过浏览器与 Web 服务器交互，Web 服务器再通过连接池与数据库交互
-    - 终端用户通常没有独立的数据库用户 ID
+  - 在 Web 应用中，用户通过浏览器与 Web 服务器交互，Web 服务器再通过连接池与数据库交互
+  - 终端用户通常没有独立的数据库用户 ID
 - 一个应用程序（如 Web 应用）的所有终端用户，可能被映射到**单个数据库用户**
 
 在上述情况下，授权的任务完全落在了应用程序身上，而无法得到 SQL 的支持
@@ -605,17 +564,17 @@ Revoke select on branch from U1, U3 restrict;
 
 ### Audit Trails
 
-An ==audit trail(审计追踪)== is a log of all changes (inserts/deletes/updates) to the database along with information such as <u>which user</u> performed the change, and <u>when</u> the change was performed. 
+An ==audit trail(审计追踪)== is a log of all changes (inserts/deletes/updates) to the database along with information such as <u>which user</u> performed the change, and <u>when</u> the change was performed.
 
-- Used to track **erroneous/fraudulent updates(错误或欺诈性更新)**. 
+- Used to track **erroneous/fraudulent updates(错误或欺诈性更新)**.
 - Can be implemented using triggers, but many database systems provide direct support.
 
 #### Example: Audit in Oracle
 
-**语句审计**: 
+**语句审计**:
 
-- E.g., `audit table by scott by access whenever successful` 
-  -- 审计用户 scott 每次成功地执行有关 table 的语句 (create table, drop table, alter table)。 
+- E.g., `audit table by scott by access whenever successful`
+  -- 审计用户 scott 每次成功地执行有关 table 的语句 (create table, drop table, alter table)。
 
 ```sql
 AUDIT <st-opt> [BY <users>] [BY SESSION | ACCESS] [WHENEVER SUCCESSFUL | WHENEVER NOT SUCCESSFUL]
@@ -629,22 +588,22 @@ AUDIT <st-opt> [BY <users>] [BY SESSION | ACCESS] [WHENEVER SUCCESSFUL | WHENEVE
 
 **对象 (实体) 审计**：
 
-- E.g., `audit delete, update on student` 
+- E.g., `audit delete, update on student`
   -- 审计所有用户对 student 表的 delete 和 update 操作
 
 ```sql
 AUDIT <obj-opt> ON <obj> | DEFAULT [BY SESSION | BY ACCESS] [WHENEVER SUCCESSFUL | WHENEVER NOT SUCCESSFUL]
 ```
 
-- \<obj-opt\>: insert, delete, update, select, grant, … 
+- \<obj-opt\>: insert, delete, update, select, grant, …
 - 实体审计对所有的用户起作用
-- ON \<obj\> 指出审计对象表、视图名。 
+- ON \<obj\> 指出审计对象表、视图名。
 - ON DEFAULT 对其后创建的所有对象起作用
-- 取消审计：NOAUDIT … 
+- 取消审计：NOAUDIT …
 
- **怎样看审计结果**： 
+ **怎样看审计结果**：
 
-- 审计结果记录在数据字典表: sys.aud$ 中，也可从 dba_audit_trail, dba_audit_statement, dba_audit_object 中获得有关情况。 
+- 审计结果记录在数据字典表: sys.aud$ 中，也可从 dba_audit_trail, dba_audit_statement, dba_audit_object 中获得有关情况。
 - 上述数据字典表需在 DBA 用户（system）下才可见。
 
 #### Examples
@@ -663,7 +622,7 @@ Create table Person
 Check(gender in {‘f’, ‘m’});
 ```
 
-Write a constraint on Person to carry out the following action: 
+Write a constraint on Person to carry out the following action:
 
 - <u>After set the spouse attribute of a person to NULL, set the spouse attribute of the person’s spouse to NULL accordingly.</u>
 
@@ -679,14 +638,14 @@ Begin
 End
 ```
 
-Example 2: Define a constraint over the relation Person (as given in Example 1) to indicate that the spouse relationship is <font color="#ff0000">one to one</font> between two <font color="#ff0000">heterosexual</font> persons. 
+Example 2: Define a constraint over the relation Person (as given in Example 1) to indicate that the spouse relationship is <font color="#ff0000">one to one</font> between two <font color="#ff0000">heterosexual</font> persons.
 
 ```sql
 -- version1
 Create assertion spouse_assert1 check 
 (not exists (select * from Person as p1, Person as p2 
 	where p1.spouse = p2.id and (p1.id != p2.spouse or p1.gender = p2.gender)))
-	
+
 -- version2
 Create assertion spouse_asserts2 check
 (not exists (select * from Person as p1, Person as p2 where p1.spouse = p2.id and p1.gender = p2.gender)
@@ -700,8 +659,8 @@ not exists (select count(*) from Person group by spouse having count(*) > 1))
 
 通常将 SQL 语句“嵌入”到一种通用的编程语言（如 C、Java 等）中，利用该语言强大的逻辑处理能力来辅助 SQL 完成复杂任务
 
-- A language in which SQL queries are embedded is referred to as a ==Host language (宿主语言)==, and the SQL structures permitted in the host language comprise ==embedded SQL==. 
-- EXEC SQL statement is used to identify embedded SQL request to the preprocessor: 
+- A language in which SQL queries are embedded is referred to as a ==Host language (宿主语言)==, and the SQL structures permitted in the host language comprise ==embedded SQL==.
+- EXEC SQL statement is used to identify embedded SQL request to the preprocessor:
 
 ```sql
 EXEC SQL <embedded SQL statement> END_EXEC
@@ -729,7 +688,7 @@ printf(“%s, %s, %s”, V_an, bn, bal);
 ```
 
 - **宿主变量 (Host Variables)**：在 `BEGIN DECLARE SECTION` 中定义的变量（如 `V_an`, `bn`, `bal`）
-    - 在 SQL 语句中，宿主变量前面需要加冒号（如 `:V_an`）        
+  - 在 SQL 语句中，宿主变量前面需要加冒号（如 `:V_an`）
 - **`INTO` 子句**：把查询到的结果存入程序定义的变量里
 
 #### 多行查询
@@ -784,7 +743,7 @@ END_EXEC
 
 ### Updates
 
-单行的修改 
+单行的修改
 
 ```sql
 Exec SQL BEGIN DECLARE SECTION; 
@@ -798,9 +757,9 @@ EXEC SQL update account set balance = balance + :bal
 ...
 ```
 
-多行的修改: 
+多行的修改:
 
-- Can update tuples fetched by cursor by declaring that the cursor is for update. 
+- Can update tuples fetched by cursor by declaring that the cursor is for update.
 
 ```sql
 Exec SQL BEGIN DECLARE SECTION; 
@@ -831,8 +790,8 @@ EXEC SQL CLOSE csr;
 
 ## 4.5 Dynamic SQL
 
-- Allows programs to construct and submit SQL queries <u>at run time</u>. 
-Example: use dynamic SQL from within a C program. 
+- Allows programs to construct and submit SQL queries <u>at run time</u>.
+  Example: use dynamic SQL from within a C program.
 
 ```sql
 char *sqlprog = "update account set balance = balance * 1.05 where account_number = ?" 
@@ -856,10 +815,10 @@ EXEC SQL EXECUTE dynprog USING :v_account;
 ==Open DataBase Connectivity (ODBC, 开放数据库互连) ==
 
 - A standard for application program to communicate with a database server.
-- By application program interface (API) to 
-    - Open a connection with a database, 
-    - Send queries and updates, 
-    - Get back results.
+- By application program interface (API) to
+  - Open a connection with a database,
+  - Send queries and updates,
+  - Get back results.
 
 !!! info
 
@@ -879,14 +838,14 @@ ODBC 编程基本流程:
 3. 获取结果数据
 4. 释放空间
 
-- ODBC program first allocates an SQL environment, then a database connection <font color="#ff0000">handle</font>. 
-- Opens database connection using SQLConnect (). Parameters for SQLConnect are as follows: 
-    - Connection handle 
-    - The server to which to connect 
-    - The user identifier 
-    - Password 
-- Must also specify types of arguments: 
-    - SQL_NTS denotes previous argument is a null_terminated string.
+- ODBC program first allocates an SQL environment, then a database connection <font color="#ff0000">handle</font>.
+- Opens database connection using SQLConnect (). Parameters for SQLConnect are as follows:
+  - Connection handle
+  - The server to which to connect
+  - The user identifier
+  - Password
+- Must also specify types of arguments:
+  - SQL_NTS denotes previous argument is a null_terminated string.
 
 ```c
 int ODBCexample() // 程序结构 
@@ -931,31 +890,31 @@ Main body of program
 SQLFreeStmt(stmt, SQL_DROP); /* 释放数据区*/
 ```
 
-- Program sends SQL commands to the database by using SQLExecDirect. 
-- Result tuples are fetched using SQLFetch (). 
-- SQLBindCol () binds C language variables to attributes of the query result. 
-    - When a tuple is fetched, its attribute values are automatically stored in corresponding C variables. 
-    - Arguments to SQLBindCol() 
-        - ODBC stmt variable, attribute position in query result. 
-        - The type conversion from SQL to C. 
-        - The address of the variable. 
-        - For variable_length types like character arrays 
-            - The maximum length of the variable. 
-            - Location to store actual length when a tuple is fetched. 
-            - Note: A negative value returned for the length field indicates null value. 
+- Program sends SQL commands to the database by using SQLExecDirect.
+- Result tuples are fetched using SQLFetch ().
+- SQLBindCol () binds C language variables to attributes of the query result.
+  - When a tuple is fetched, its attribute values are automatically stored in corresponding C variables.
+  - Arguments to SQLBindCol()
+    - ODBC stmt variable, attribute position in query result.
+    - The type conversion from SQL to C.
+    - The address of the variable.
+    - For variable_length types like character arrays
+      - The maximum length of the variable.
+      - Location to store actual length when a tuple is fetched.
+      - Note: A negative value returned for the length field indicates null value.
 - Good programming requires checking results of every function call for errors; we have omitted most checks for brevity.
 
 ### JDBC
 
-JDBC is a **Java API** for communicating with database systems supporting SQL. 
+JDBC is a **Java API** for communicating with database systems supporting SQL.
 
-- **数据操作**：supports a variety of features for querying and updating data, and for retrieving query results. 
-- **元数据支持**：also supports **metadata retrieval**, such as querying about <u>relations</u> present in the database and the names and types of <u>relation attributes</u>. 
-- **数据库通信模型**: 
-    1. **建立连接**（Open a connection）
-    2. **创建语句对象**（Create a “statement” object）
-    3. **执行查询**（Execute queries using the Statement object to send queries and fetch results）
-    4. **异常处理**（Exception mechanism to handle errors）
+- **数据操作**：supports a variety of features for querying and updating data, and for retrieving query results.
+- **元数据支持**：also supports **metadata retrieval**, such as querying about <u>relations</u> present in the database and the names and types of <u>relation attributes</u>.
+- **数据库通信模型**:
+  1. **建立连接**（Open a connection）
+  2. **创建语句对象**（Create a “statement” object）
+  3. **执行查询**（Execute queries using the Statement object to send queries and fetch results）
+  4. **异常处理**（Exception mechanism to handle errors）
 
 #### JDBC Code
 
@@ -977,7 +936,7 @@ public static void JDBCexample(String dbid, String userid, String passwd)
 }
 ```
 
-- Update to database: 
+- Update to database:
 
 ```java
 try{ 
@@ -988,7 +947,7 @@ catch (SQLException sqle){
 }
 ```
 
-- Execute query and fetch and print results: 
+- Execute query and fetch and print results:
 
 ```Java
 ResultSet rset = stmt.ExecuteQuery ("select branch_name, avg (balance) from account group by branch_name"); 
@@ -1012,7 +971,7 @@ int a = rs.getInt("a");
 
 #### Prepared Statement
 
-- Prepared statement 允许 SQL 语句被**预编译**，然后可以**多次执行**，每次只需传入不同的参数 
+- Prepared statement 允许 SQL 语句被**预编译**，然后可以**多次执行**，每次只需传入不同的参数
 
 ```java
 PreparedStatement pStmt = conn.prepareStatement( 

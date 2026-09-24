@@ -1,4 +1,4 @@
-# Transactions
+# Lec12.Transactions
 
 ## 12.1 Transaction Concept
 
@@ -26,14 +26,7 @@
 
     考虑从账户 $A$ 向账户 $B$ 转账 $50$：
 
-    ```text
-    1. read(A)
-    2. A := A - 50
-    3. write(A)
-    4. read(B)
-    5. B := B + 50
-    6. write(B)
-    ```
+    ``text     1. read(A)     2. A := A - 50     3. write(A)     4. read(B)     5. B := B + 50     6. write(B)     ``
 
     这个例子贯穿事务的四个重要性质：
 
@@ -44,11 +37,11 @@
 
 事务必须满足 **ACID properties**：
 
-| 性质          | 含义                        |
-| ----------- | ------------------------- |
-| Atomicity   | 事务的所有操作要么全部生效，要么全部不生效     |
+| 性质        | 含义                                               |
+| ----------- | -------------------------------------------------- |
+| Atomicity   | 事务的所有操作要么全部生效，要么全部不生效         |
 | Consistency | 事务从一个一致的状态出发，提交后仍应保持数据库一致 |
-| Isolation   | 并发执行时，每个事务应感觉自己像是在独占数据库   |
+| Isolation   | 并发执行时，每个事务应感觉自己像是在独占数据库     |
 | Durability  | 事务一旦提交，其结果必须永久保存，即使之后发生故障 |
 
 #### 12.2.1 Atomicity
@@ -59,7 +52,7 @@
 - 如果执行到 `write(A)` 之后、`write(B)` 之前系统崩溃。
 - 账户 $A$ 已经减少 $50$，账户 $B$ 还没有增加 $50$。
 - 此时数据库处于不一致状态。
-系统必须保证：部分执行的事务不能留下可见结果，如果事务未能完成，应撤销已经执行的更新。
+  系统必须保证：部分执行的事务不能留下可见结果，如果事务未能完成，应撤销已经执行的更新。
 
 #### 12.2.2 Consistency
 
@@ -67,11 +60,11 @@
 转账例子中，一致性要求 $A + B$ 在事务执行前后保持不变。
 
 - 更一般地，一致性约束包括：
-    - 显式指定的 integrity constraints：
-        - primary key
-        - foreign key
-        - `CHECK` constraints
-    - 隐式业务约束：例如所有账户余额总和、贷款总额与现金余额之间的关系
+  - 显式指定的 integrity constraints：
+    - primary key
+    - foreign key
+    - `CHECK` constraints
+  - 隐式业务约束：例如所有账户余额总和、贷款总额与现金余额之间的关系
 
 !!! warning
 
@@ -127,9 +120,9 @@ print(A+B)
 2. **Partially Committed**：事务的最后一条语句已经执行完成，但系统还需要完成提交相关工作。
 3. **Failed**：系统发现事务不能继续正常执行。
 4. **Aborted**：事务已经回滚，数据库被恢复到该事务开始之前的状态。
-    - 事务 abort 后有两个选择：
-        1. Restart the transaction：仅当失败不是事务内部逻辑错误时才适用
-        2. Kill the transaction：如果事务本身逻辑错误，就不应重启
+   - 事务 abort 后有两个选择：
+     1. Restart the transaction：仅当失败不是事务内部逻辑错误时才适用
+     2. Kill the transaction：如果事务本身逻辑错误，就不应重启
 5. **Committed**：事务成功完成，对数据库的更新已经被确认并持久保存。
 
 ---
@@ -144,15 +137,15 @@ DBMS 中的 ==recovery-management component== 负责支持：Atomicity 以及 Du
 
 - 系统维护一个指针 `db_pointer`，指针始终指向当前一致的数据库副本
 - 所有更新都写入新创建的数据库副本，原来的数据库副本称为 **shadow copy**，保持不变
-    - 如果事务 abort：直接删除新副本，`db_pointer` 仍然指向原来的 shadow copy
-    - 如果事务 commit：
-        1. 将新副本中所有内存页写入磁盘（在 Unix 中可用类似 `flush` 的操作确保写盘）
-        2. 将 `db_pointer` 改为指向新副本，新副本成为当前数据库并删除旧副本
+  - 如果事务 abort：直接删除新副本，`db_pointer` 仍然指向原来的 shadow copy
+  - 如果事务 commit：
+    1. 将新副本中所有内存页写入磁盘（在 Unix 中可用类似 `flush` 的操作确保写盘）
+    2. 将 `db_pointer` 改为指向新副本，新副本成为当前数据库并删除旧副本
 
 <div style="text-align: center"><img src="images/image-102.png" width="60%"></div>
 
 - 指针切换必须是**原子**的
-    - 如果指针切换前崩溃，系统仍使用旧副本；如果指针切换后崩溃，系统使用新副本
+  - 如果指针切换前崩溃，系统仍使用旧副本；如果指针切换后崩溃，系统使用新副本
 - 每次事务都复制整个数据库，开销极大；难以支持多个事务并发更新。
 - 实际系统更常用**日志恢复技术**（后续会介绍）
 
@@ -163,13 +156,13 @@ DBMS 中的 ==recovery-management component== 负责支持：Atomicity 以及 Du
 多个事务可以在数据库系统中并发执行。
 
 - **并发执行的优点**：
-    1. **提高处理器和磁盘利用率**
-        - 一个事务等待磁盘 I/O 时，另一个事务可以使用 CPU
-        - 一个事务使用 CPU 时，另一个事务可以读写磁盘
-    2. **提高事务吞吐量**：单位时间内完成更多事务
-    3. **降低平均响应时间**：短事务不必一直排在长事务后面等待
+  1. **提高处理器和磁盘利用率**
+     - 一个事务等待磁盘 I/O 时，另一个事务可以使用 CPU
+     - 一个事务使用 CPU 时，另一个事务可以读写磁盘
+  2. **提高事务吞吐量**：单位时间内完成更多事务
+  3. **降低平均响应时间**：短事务不必一直排在长事务后面等待
 - **并发执行的问题**：
-    - 即使每个事务单独执行都能保持 consistency，它们交错执行时仍可能破坏 consistency
+  - 即使每个事务单独执行都能保持 consistency，它们交错执行时仍可能破坏 consistency
 - 因此 DBMS 需要 ==concurrency control schemes（并发控制方案）==，控制并发事务之间的交互，实现 isolation，防止并发执行破坏数据库一致性。
 
 !!! tip
@@ -206,8 +199,8 @@ DBMS 中的 ==recovery-management component== 负责支持：Atomicity 以及 Du
 **Serializability（可串行化）** 是判断并发调度正确性的核心标准
 
 - 一个 schedule 如果与某个 serial schedule 等价，则称为 ==serializable==，不同的等价定义会产生不同的可串行化概念：
-    1. Conflict serializability
-    2. View serializability
+  1. Conflict serializability
+  2. View serializability
 
 !!! tip "Simplified View of Transactions"
 
@@ -225,14 +218,15 @@ DBMS 中的 ==recovery-management component== 负责支持：Atomicity 以及 Du
 #### Conflict Equivalent
 
 - 如果 schedule $S$ 可以通过一系列交换变成 schedule $S'$，并且每次交换的都是 non-conflicting instructions，则称：$S \equiv_c S'$
-    - 即 $S$ 和 $S'$ ==conflict equivalent==
+  - 即 $S$ 和 $S'$ ==conflict equivalent==
 - 如果一个 schedule 与某个**串行调度**是 conflict equivalent 的，则称该 schedule 是 ==conflict serializable==
 
 !!! example
 
-    <div style="text-align: center"><img src="images/image-105.png" width="70%"></div>
+    
 
-    - Schedule 3 can be transformed into Schedule 6, a serial schedule where $T_2$ follows $T_1$, by series of swaps of non-conflicting instructions. 
+
+    - Schedule 3 can be transformed into Schedule 6, a serial schedule where $T_2$ follows $T_1$, by series of swaps of non-conflicting instructions.
     - Therefore Schedule 3 is <font color="#ff0000">conflict serializable</font>.
 
 ### 12.5.2 \*View Serializability
@@ -244,14 +238,14 @@ View serializability 比 conflict serializability 更宽松
 两个 schedule $S$ 和 $S'$ 对同一组事务是 ==view equivalent==，当且仅当对每个数据项 $Q$ 都满足以下三个条件：
 
 1. **Initial read 相同**
-    - 如果在 $S$ 中，事务 $T_i$ 读取的是 $Q$ 的初始值；
-    - 那么在 $S'$ 中，$T_i$ 也必须读取 $Q$ 的初始值。
+   - 如果在 $S$ 中，事务 $T_i$ 读取的是 $Q$ 的初始值；
+   - 那么在 $S'$ 中，$T_i$ 也必须读取 $Q$ 的初始值。
 2. **Reads-from 关系相同**
-    - 如果在 $S$ 中，事务 $T_i$ 执行 `read(Q)` 时，读到的是事务 $T_j$ 写入的值；
-    - 那么在 $S'$ 中，$T_i$ 也必须读到同一个 $T_j$ 写入的值。
+   - 如果在 $S$ 中，事务 $T_i$ 执行 `read(Q)` 时，读到的是事务 $T_j$ 写入的值；
+   - 那么在 $S'$ 中，$T_i$ 也必须读到同一个 $T_j$ 写入的值。
 3. **Final write 相同**
-    - 如果在 $S$ 中，最终写入 $Q$ 的事务是 $T_i$；
-    - 那么在 $S'$ 中，最终写入 $Q$ 的事务也必须是 $T_i$。
+   - 如果在 $S$ 中，最终写入 $Q$ 的事务是 $T_i$；
+   - 那么在 $S'$ 中，最终写入 $Q$ 的事务也必须是 $T_i$。
 
 #### View Serializable
 
@@ -281,7 +275,8 @@ Serializability 主要关注并发执行是否等价于串行执行，但还需�
 
 !!! bug
 
-    <div style="text-align: center"><img src="images/image-106.png" width="75%"></div>
+    
+
 
     - 如果 $T_8$ 需要撤销，那么它关于 $A$ 的修改会无效，但是 $T_9$ 读取的是 $T_8$ 修改后的数值，因此它使用了一个**从未真正存在过**（或者说是错误的）的数据值完成了它的任务。
 
@@ -335,13 +330,13 @@ $$
 ## 12.8 Transaction Definition in SQL
 
 - 数据操作语言（DML）必须包含一种用于指定构成事务的一组操作的构造
-    - 即可以让多个指令（例如 `SELECT`、`INSERT`、`UPDATA`）同属于一个事务
+  - 即可以让多个指令（例如 `SELECT`、`INSERT`、`UPDATA`）同属于一个事务
 - 在 SQL 中，事务隐式开始：执行某条 SQL 语句时，如果当前没有事务，就自动开始新事务
 - 事务结束方式：
-    1. `COMMIT`：当前事务成功结束，所有更新永久写入数据库，事务进入 committed 状态
-    2. `ROLLBACK`：当前事务失败或被用户撤销，更新被撤销，数据库恢复到事务开始前的状态
+  1. `COMMIT`：当前事务成功结束，所有更新永久写入数据库，事务进入 committed 状态
+  2. `ROLLBACK`：当前事务失败或被用户撤销，更新被撤销，数据库恢复到事务开始前的状态
 - 在几乎所有的数据库系统中，默认情况下，如果每条 SQL 语句执行成功，它也会隐式地自动提交。
-    - 隐式提交可以通过数据库指令关闭，例如在 JDBC 中使用 `connection.setAutoCommit(false)`
+  - 隐式提交可以通过数据库指令关闭，例如在 JDBC 中使用 `connection.setAutoCommit(false)`
 
 ---
 
@@ -362,11 +357,11 @@ $$
 <div style="text-align: center"><img src="images/image-107.png" width="30%"></div>
 
 - 如果 precedence graph 有环：
-    - 不存在与之 conflict equivalent 的 serial schedule。
-    - 因此 schedule 不是 conflict serializable。
+  - 不存在与之 conflict equivalent 的 serial schedule。
+  - 因此 schedule 不是 conflict serializable。
 - 如果 precedence graph 无环：
-    - schedule 是 conflict serializable。
-    - 可以对图做 topological sorting，得到一个等价的 serial order。
+  - schedule 是 conflict serializable。
+  - 可以对图做 topological sorting，得到一个等价的 serial order。
 
 ### 12.9.3 \*Test for View Serializability
 
@@ -385,7 +380,7 @@ View serializability 的测试比 conflict serializability 更复杂, 这是个 
 
 - 并发控制协议允许并发调度，但能确保这些调度是冲突可串行化（或视图可串行化）的，并且是可恢复且无级联的。
 - 并发控制协议通常不会在优先图（precedence graph）生成时去检查它。
-    - 相反，协议会强制施加一种规则（纪律），从而避免产生非可串行化的调度。
-    - 我们将在第15章学习这些协议。
+  - 相反，协议会强制施加一种规则（纪律），从而避免产生非可串行化的调度。
+  - 我们将在第15章学习这些协议。
 - 不同的并发控制协议在“允许的并发程度”和“产生的开销”之间提供了不同的权衡。
 - 可串行化测试（判定方法）有助于我们理解为什么一个并发控制协议是正确的。

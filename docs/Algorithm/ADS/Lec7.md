@@ -1,9 +1,9 @@
-# Divide and Conquer
+# Lec7.Divide and Conquer
 
 - 将问题分成(divide)一系列的子问题
 - **递归**解决(conquer)这些子问题
-- 将子问题的解合并起来(combine)，构成原问题的解 
-General recurrence: 
+- 将子问题的解合并起来(combine)，构成原问题的解
+  General recurrence:
 
 $$
 T(N) = aT(\dfrac{N}{b}) + f(N)
@@ -24,40 +24,36 @@ $$
 - 首先将整个区域一分为二，划分时确保两边的点的数目大致相等
 - 这里三根两点间的连线对应三种情况：**左半边、中间和右半边**
 - 其中左半边和右半边这两种情况可以递归解决，关键是如何处理**中间**的情况
-    - 如果计算中间部分的时间复杂度是**线性**的，那么整个算法的时间复杂度为 $O(N \log N)$
+  - 如果计算中间部分的时间复杂度是**线性**的，那么整个算法的时间复杂度为 $O(N \log N)$
 
 !!! note "解释"
 
     对于时间复杂度的递推公式 $T(N) = aT(\dfrac{N}{b}) + f(N)$，$a = b = 2$，令 $f(N) = cN$，那么：
 
-    $$
-    \begin{align}T(N) & = 2T(\dfrac{N}{2}) + cN \notag \\& = 2[2T(\dfrac{N}{2^2}) + c\dfrac{N}{2}] + cN \notag \\& = 2^2 T(\dfrac{N}{2^2}) + 2cN \notag \\& = \dots \notag \\& = 2^k T(\dfrac{N}{2^k}) + kcN \notag \\& = N + cN \log N = O(N \log N) \notag \end{align}
-    $$
+
+$$
+\begin{align}T(N) & = 2T(\dfrac{N}{2}) + cN \notag \\& = 2[2T(\dfrac{N}{2^2}) + c\dfrac{N}{2}] + cN \notag \\& = 2^2 T(\dfrac{N}{2^2}) + 2cN \notag \\& = \dots \notag \\& = 2^k T(\dfrac{N}{2^k}) + kcN \notag \\& = N + cN \log N = O(N \log N) \notag \end{align}
+$$
 
     此时整个算法的时间复杂度为 $O(N \log N)$
 
-    如果 $f(N) = cN^2$，那么：            
+    如果 $f(N) = cN^2$，那么：
 
-    $$
-    \begin{align}T(N) & = 2T(\dfrac{N}{2}) + cN^2 \notag \\& = 2[2T(\dfrac{N}{2^2}) + c\dfrac{N^2}{2^2}] + cN^2 \notag \\& = 2^2 T(\dfrac{N}{2^2}) + cN^2(1 + \dfrac{1}{2}) \notag \\ & = \dots \notag \\& = 2^k T(\dfrac{N}{2^k}) + cN^2(1 + \dfrac{1}{2} + \dots + \dfrac{1}{2^{k-1}}) \notag \\ & = O(N^2) \notag\end{align}
-    $$
+
+$$
+\begin{align}T(N) & = 2T(\dfrac{N}{2}) + cN^2 \notag \\& = 2[2T(\dfrac{N}{2^2}) + c\dfrac{N^2}{2^2}] + cN^2 \notag \\& = 2^2 T(\dfrac{N}{2^2}) + cN^2(1 + \dfrac{1}{2}) \notag \\ & = \dots \notag \\& = 2^k T(\dfrac{N}{2^k}) + cN^2(1 + \dfrac{1}{2} + \dots + \dfrac{1}{2^{k-1}}) \notag \\ & = O(N^2) \notag\end{align}
+$$
 
 这里用到的分析方法是**代换法**(substitution)
 
 - 如果考虑分隔线两边所有的点，那么时间复杂度就会来到了$O(N^2)$
 - 一种可行的改进方法是：仅考虑距分隔线水平距离为 $\delta$ 内的点，其中 $\delta$ 为选定的常数。现在得到了一个位于中间部分，且宽度为 $2\delta$ 的区域，称为 $\delta$ 带($\delta$ -strip)。这个区域之外的点显然不会是最近点对的可能点
 
-<div style="text-align: center"><img src="images/lec7/2.png" width="40%"></div>  
+<div style="text-align: center"><img src="images/lec7/2.png" width="40%"></div>
 
 !!! note "代码实现"
 
-    ```cpp
-    // points are in the strip
-    for (i = 0; i < NumPointsInStrip; i++)
-    	for (j = i + 1; j < NumPointsInStrip; j++)
-    		if (Dist(Pi, Pj) < delta)
-    			delta = Dist(Pi, Pj);
-    ```
+    ``cpp     // points are in the strip     for (i = 0; i < NumPointsInStrip; i++)     	for (j = i + 1; j < NumPointsInStrip; j++)     		if (Dist(Pi, Pj) < delta)     			delta = Dist(Pi, Pj);     ``
 
 - 如果确保$\delta$带内的点数为$O(\sqrt{N})$，那么计算中间情况的时间复杂度就是$O(\sqrt{N} \times \sqrt{N}) = O(N)$
 - 最坏情况下 $\delta$ 带内包含了所有点，算法退回到 $O(N^2)$
@@ -68,7 +64,7 @@ $$
 - 对于y坐标相同的点，它们将会被一起处理
 - 对于正在被处理的点$p$，一定位于$2\delta \times \delta$的矩形区域内，如图所示：
 
-<div style="text-align: center"><img src="images/lec7/3_light.png" width="40%"></div>  
+<div style="text-align: center"><img src="images/lec7/3_light.png" width="40%"></div>
 
 - 分隔线正好将矩形划分为2个方形L和R
 - 在最坏情况下，每个点只需要考虑与其他 6 个点的距离
@@ -76,16 +72,7 @@ $$
 
 !!! note "代码实现"
 
-    ```cpp
-    // points are in the strip
-    // and sorted by y coordinates
-    for (i = 0; i < NumPointsInStrip; i++)
-    	for (j = i + 1; j < NumPointsInStrip; j++)
-    		if (Dist_y(Pi, Pj) > delta)
-    	        break;
-            else if (Dist(Pi, Pj) < delta)
-    	        delta = Dist(Pi, Pj);       
-    ```
+    ``cpp     // points are in the strip     // and sorted by y coordinates     for (i = 0; i < NumPointsInStrip; i++)     	for (j = i + 1; j < NumPointsInStrip; j++)     		if (Dist_y(Pi, Pj) > delta)     	        break;             else if (Dist(Pi, Pj) < delta)     	        delta = Dist(Pi, Pj);            ``
 
 本题分治算法的时间复杂度为$T(N) = 2T(\dfrac{N}{2}) + O(N) = O(N \log N)$
 
@@ -121,20 +108,23 @@ $$
         - 假设对于 $m < N$，该结论成立
             - 取 $m = \lfloor \dfrac{N}{2} \rfloor$，那么存在一个常数 $c > 0$，使得
 
-        $$
-        T(\lfloor \dfrac{N}{2} \rfloor) \le c \lfloor \dfrac{N}{2} \rfloor \log \lfloor \dfrac{N}{2} \rfloor
-        $$
+
+$$
+T(\lfloor \dfrac{N}{2} \rfloor) \le c \lfloor \dfrac{N}{2} \rfloor \log \lfloor \dfrac{N}{2} \rfloor
+$$
 
         - 将这个式子带入递推公式，得：
 
-        $$
-        \begin{align}
+
+$$
+\begin{align}
         T(N) & = 2T(\lfloor \dfrac{N}{2} \rfloor) + N \notag \\
         & \le 2c \lfloor \dfrac{N}{2} \rfloor \log \lfloor \dfrac{N}{2} \rfloor + N \notag \\
         & \le cN(\log N - \log 2) + N \notag \\
         & \le cN \log N \quad \text{for}\ c \ge 1 \notag
         \end{align}
-        $$
+$$
+
 
     - 不必在意$N = 1$的情况：前面的假设2已经“忽略”这种trivial case；或者也可以将$N = 2$作为base case，只要$c$足够大式子一定成立
 
@@ -145,15 +135,19 @@ $$
     - 假设对于 $m < N$，该结论成立
     - 取 $m = \lfloor \dfrac{N}{2} \rfloor$，那么存在一个常数 $c > 0$，使得
 
-    $$
-    T(\lfloor \dfrac{N}{2} \rfloor) \le c \lfloor \dfrac{N}{2} \rfloor
-    $$
+
+$$
+T(\lfloor \dfrac{N}{2} \rfloor) \le c \lfloor \dfrac{N}{2} \rfloor
+$$
+
 
     - 将这个式子带入递推公式，得：
 
-    $$
-    \begin{align}T(N) & = 2T(\lfloor \dfrac{N}{2} \rfloor) + N \notag \\& \le 2c \lfloor \dfrac{N}{2} \rfloor + N \notag \\& \le cN + N = O(N) \notag\end{align}
-    $$
+
+$$
+\begin{align}T(N) & = 2T(\lfloor \dfrac{N}{2} \rfloor) + N \notag \\& \le 2c \lfloor \dfrac{N}{2} \rfloor + N \notag \\& \le cN + N = O(N) \notag\end{align}
+$$
+
 
     错误发生在最后一个不等式：我们得到了$cN + N = (c + 1)N$，在形式上它是错误的，因为预先假设正确的结论是$T(m) \le cm$。换句话说，必须证明出**精确的形式**(exact form)，**系数**也必须保持一致。
 
@@ -173,7 +167,8 @@ $$
     已知$T(N) = 3T(\dfrac{N}{4}) + \Theta(N^2)$，求$T(N)$。
     根据这个递推关系和递归树的特征，可以一层层地画出这棵树：
 
-    <div style="text-align: center"><img src="images/image-11.png" width="70%"></div>  
+    
+
 
     对于这棵递归树，可以获得的信息有：
 
@@ -182,19 +177,22 @@ $$
     - 由以上两条信息，可以推得最后一层的节点（全是$T(1)$）之和为$3^{\log_4 N} = N^{\log_4 3} = \Theta(N^{\log_4 3})$
     根据以上信息可以计算出 $T(N)$：
 
-    $$
-    \begin{align}
+
+$$
+\begin{align}
     T(N) & = \sum\limits_{i=0}^{\log_4 N - 1}(\dfrac{3}{16})^i cN^2 + \Theta(N^{\log_4 3}) \notag \\
     & < \sum\limits_{i=0}^{\infty}(\dfrac{3}{16})^i cN^2 + \Theta(N^{\log_4 3}) \notag \\
     & = \dfrac{cN^2}{1 - \frac{3}{16}} + \Theta(N^{\log_4 3}) = O(N^2) \notag
     \end{align}
-    $$
+$$
+
 
 !!! example
 
     已知 $T(N) = T(\dfrac{N}{3}) + T(\dfrac{2N}{3}) + cN$，求 $T(N)$。
 
-    <div style="text-align: center"><img src="images/lec7/10.png" width="70%"></div>
+    
+
 
     - 这不是一个标准形式下的递推关系，因此画出来的递归树并不是一棵完全树（即不平衡），而且显然最右侧路径是最深的
     - 但可以确定以下信息：
@@ -203,9 +201,11 @@ $$
 
     - 根据这些信息，可以猜测：$T(N) = O(N \log N)$，并用**代换法**来证明
 
-    $$
-    \begin{align}T(N) & = T(\dfrac{N}{3}) + T(\dfrac{2N}{3}) + cN \notag \\& \le d(\dfrac{N}{3}) \log (\dfrac{N}{3}) + d(\dfrac{2N}{3}) \log (\dfrac{2N}{3}) + cN \notag \\& = dN \log N - dN (\log_2 3 - \dfrac{2}{3}) + cN \notag \\& \le dN \log N \quad \text{for}\ d \ge \dfrac{c}{\log_2 3 - \frac{2}{3}} \notag\end{align}
-    $$
+
+$$
+\begin{align}T(N) & = T(\dfrac{N}{3}) + T(\dfrac{2N}{3}) + cN \notag \\& \le d(\dfrac{N}{3}) \log (\dfrac{N}{3}) + d(\dfrac{2N}{3}) \log (\dfrac{2N}{3}) + cN \notag \\& = dN \log N - dN (\log_2 3 - \dfrac{2}{3}) + cN \notag \\& \le dN \log N \quad \text{for}\ d \ge \dfrac{c}{\log_2 3 - \frac{2}{3}} \notag\end{align}
+$$
+
 
 ### 3. Master Method
 
@@ -236,7 +236,8 @@ $$
 
     先令 $N = b^k$，其中 $k$ 为整数
 
-    <div style="text-align: center"><img src="images/lec7/11.png" width="80%"></div>
+    
+
 
     那么这棵树的节点之和为：$T(N) = \Theta(N^{log_b a}) + \sum\limits_{j = 0}^{\log_b N - 1}a^j f(\dfrac{N}{b^j})$
     关键在于求和公式：
@@ -244,9 +245,11 @@ $$
 
     - 此时 $f(N) = O(N^{\log_b a - \varepsilon})$，那么：
 
-    $$
-    \begin{align}\sum\limits_{j = 0}^{\log_b N - 1}a^j f(\dfrac{N}{b^j}) & = O(N^{\log_b a - \varepsilon} \sum\limits_{j = 0}^{\log_b N - 1} (b^{\varepsilon})^j) \notag \\ & = O(N^{\log_b a - \varepsilon} \dfrac{b^{\varepsilon \log_b N} - 1}{b^{\varepsilon} - 1}) \notag \\& = O(N^{\log_b a - \varepsilon } N^{\varepsilon}) \notag \\& = O(N^{\log_b a}) \notag\end{align}
-    $$
+
+$$
+\begin{align}\sum\limits_{j = 0}^{\log_b N - 1}a^j f(\dfrac{N}{b^j}) & = O(N^{\log_b a - \varepsilon} \sum\limits_{j = 0}^{\log_b N - 1} (b^{\varepsilon})^j) \notag \\ & = O(N^{\log_b a - \varepsilon} \dfrac{b^{\varepsilon \log_b N} - 1}{b^{\varepsilon} - 1}) \notag \\& = O(N^{\log_b a - \varepsilon } N^{\varepsilon}) \notag \\& = O(N^{\log_b a}) \notag\end{align}
+$$
+
 
     所以$T(N) = T(N) = \Theta(N^{log_b a}) + O(N^{log_b a}) = \Theta(N^{log_b a})$
 

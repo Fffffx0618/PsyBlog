@@ -1,4 +1,4 @@
-# Storage and File Structure
+# Lec8.Storage and File Structure
 
 ## Review : Database System Internals
 
@@ -23,8 +23,8 @@ Storage media can be classified by:
 - **Speed** with which data can be accessed.
 - **Cost** per unit of data.
 - **Reliability**
-    - Data loss on power failure or system crash.
-    - Physical failure of storage device.
+  - Data loss on power failure or system crash.
+  - Physical failure of storage device.
 
 !!! info "<u>Reliability Classification</u>"
 
@@ -37,31 +37,31 @@ Storage media can be classified by:
 
 ### 8.1.2 Physical Storage Media
 
-1. Cache    
-    - Fastest and most costly form of storage, but volatile
-    - Managed by computer system hardware.
+1. Cache
+   - Fastest and most costly form of storage, but volatile
+   - Managed by computer system hardware.
 2. Main Memory
-    - Fast access, but Volatile
-    - Usually too small or too expensive to store the entire database.
+   - Fast access, but Volatile
+   - Usually too small or too expensive to store the entire database.
 3. Flash Memory(快闪存储器)
-    - also known as EEPROM (Electrically Erasable Programmable Read-Only Memory)
-    - Data survives power failure.
-    - A location can be written only once before being erased.
-        - A memory bank must be erased as a whole.
-    - Reads are roughly as fast as main memory, writes are slower, erase is even slower.
-    - Widely used in embedded devices, phones, cameras, USB keys.
+   - also known as EEPROM (Electrically Erasable Programmable Read-Only Memory)
+   - Data survives power failure.
+   - A location can be written only once before being erased.
+     - A memory bank must be erased as a whole.
+   - Reads are roughly as fast as main memory, writes are slower, erase is even slower.
+   - Widely used in embedded devices, phones, cameras, USB keys.
 4. Magnetic Disk
-    - Data is stored on spinning disk and read/written magnetically.
-    - Primary medium for long-term storage of data, typically stores the entire database.
-    - Data must be moved from disk to main memory for access.
-    - Direct-access: data can be read in any order.
+   - Data is stored on spinning disk and read/written magnetically.
+   - Primary medium for long-term storage of data, typically stores the entire database.
+   - Data must be moved from disk to main memory for access.
+   - Direct-access: data can be read in any order.
 5. Optical Storage
-    - Non-volatile, data is read optically from a spinning disk using a laser.
-    - Reads and writes are slower than magnetic disk.
+   - Non-volatile, data is read optically from a spinning disk using a laser.
+   - Reads and writes are slower than magnetic disk.
 6. Tape Storage
-    - Non-volatile, used mainly for backup and archival data.
-    - Sequential-access, much slower than disk,  but very high capacity.
-    - Tape can be removed from drive, so storage cost is cheap, but drives are expensive.
+   - Non-volatile, used mainly for backup and archival data.
+   - Sequential-access, much slower than disk,  but very high capacity.
+   - Tape can be removed from drive, so storage cost is cheap, but drives are expensive.
 
 !!! quote
 
@@ -76,13 +76,13 @@ Storage media can be classified by:
 Storage hierarchy:
 
 - **Primary storage**: Fastest, but volatile.
-    - E.g., cache, main memory.
+  - E.g., cache, main memory.
 - **Secondary storage**(辅助存储器 / 联机存储器): Non-volatile, moderately fast access time.
-    - Also called on-line storage.
-    - E.g., flash memory, magnetic disks.
+  - Also called on-line storage.
+  - E.g., flash memory, magnetic disks.
 - **Tertiary storage**(三级存储器 / 脱机存储器): Non-volatile, slow access time.
-    - Also called off-line storage.
-    - E.g., magnetic tape, optical storage.
+  - Also called off-line storage.
+  - E.g., magnetic tape, optical storage.
 
 ---
 
@@ -100,7 +100,8 @@ To read/write a sector:
 
 !!! info "Disk Subsystem"
 
-    <div style="text-align: center"><img src="images/image-74.png" width="50%"></div>
+    
+
 
     Multiple disks can be connected to a computer system through a **controller**.
 
@@ -113,12 +114,12 @@ $$
 $$
 
 - Seek time(寻道时间)
-    - Time to reposition the arm over the correct track
+  - Time to reposition the arm over the correct track
 - Rotational latency(旋转等待时间)
-    - Time waiting for the desired sector to appear under the head.
-    - Average latency is <u>half of the worst-case latency</u>. 即旋转半周需要的时间
+  - Time waiting for the desired sector to appear under the head.
+  - Average latency is <u>half of the worst-case latency</u>. 即旋转半周需要的时间
 - Data-transfer rate
-    - Rate at which data can <u>be retrieved from or stored to disk</u>. 即数据传输速率
+  - Rate at which data can <u>be retrieved from or stored to disk</u>. 即数据传输速率
 
 **Mean time to failure** (MTTF, 平均故障时间)
 
@@ -141,7 +142,7 @@ $$
 将相关数据尽量存放在同一或相邻磁道（柱面），以减少寻道时间
 
 - 随着插入、删除或空闲空间分散，**会产生碎片化**
-- 文件碎片化后，顺序读取时需要**频繁移动磁头** 
+- 文件碎片化后，顺序读取时需要**频繁移动磁头**
 - 可通过**磁盘碎片整理（defragmentation）** 提高访问速度，但执行期间系统通常较慢或不可用
 
 #### Nonvolatile Write Buffers
@@ -153,12 +154,12 @@ $$
 
 #### Log Disk
 
-**日志磁盘（Log Disk）**：专门用于顺序记录数据块更新日志的磁盘 
+**日志磁盘（Log Disk）**：专门用于顺序记录数据块更新日志的磁盘
 
 - 类似**非易失性内存（NV-RAM）**，因为是顺序写入，无需寻道，速度很快
 - 不需要专门的 NV-RAM 硬件
-文件系统为了性能，可能会重排写入操作
-- 日志文件系统（Journaling）会按安全顺序写入日志（先写日志再写数据），保证一致性 
+  文件系统为了性能，可能会重排写入操作
+- 日志文件系统（Journaling）会按安全顺序写入日志（先写日志再写数据），保证一致性
 - 如果没有日志而进行重排，**可能导致文件系统损坏
 
 ---
@@ -208,15 +209,15 @@ where $n$ is the number of disks.
 
 RAID levels combine striping and redundancy in different ways.
 
-| RAID 级别 | 核心方式              | 冗余/容错   | 主要特点                   |
-| ------- | ----------------- | ------- | ---------------------- |
-| RAID 0  | 条带化               | 无冗余     | 性能高，但磁盘坏了就容易丢数据        |
-| RAID 1  | 镜像                | 有冗余     | 数据安全，写性能较好，但空间利用率低     |
-| RAID 2  | 位条带 + ECC         | 有纠错     | 已基本被 RAID 3 取代         |
-| RAID 3  | 位级条带 + 独立校验盘      | 可容忍单盘故障 | 传输快，但每次 I/O 都要用到所有磁盘   |
-| RAID 4  | 块级条带 + 独立校验盘      | 可容忍单盘故障 | 读性能好，但校验盘写入瓶颈明显        |
-| RAID 5  | 块级条带 + 分布式校验      | 可容忍单盘故障 | 比 RAID 4 更均衡，避免单一校验盘瓶颈 |
-| RAID 6  | RAID 5 + P+Q/双重校验 | 可容忍多盘故障 | 可靠性更高，但成本和写入开销更大       |
+| RAID 级别 | 核心方式              | 冗余/容错      | 主要特点                             |
+| --------- | --------------------- | -------------- | ------------------------------------ |
+| RAID 0    | 条带化                | 无冗余         | 性能高，但磁盘坏了就容易丢数据       |
+| RAID 1    | 镜像                  | 有冗余         | 数据安全，写性能较好，但空间利用率低 |
+| RAID 2    | 位条带 + ECC          | 有纠错         | 已基本被 RAID 3 取代                 |
+| RAID 3    | 位级条带 + 独立校验盘 | 可容忍单盘故障 | 传输快，但每次 I/O 都要用到所有磁盘  |
+| RAID 4    | 块级条带 + 独立校验盘 | 可容忍单盘故障 | 读性能好，但校验盘写入瓶颈明显       |
+| RAID 5    | 块级条带 + 分布式校验 | 可容忍单盘故障 | 比 RAID 4 更均衡，避免单一校验盘瓶颈 |
+| RAID 6    | RAID 5 + P+Q/双重校验 | 可容忍多盘故障 | 可靠性更高，但成本和写入开销更大     |
 
 ### 8.3.3 Choice of RAID Level
 
@@ -224,8 +225,8 @@ Factors:
 
 - Monetary cost.
 - Performance in normal operation:
-    - number of I/O operations per second,
-    - bandwidth.
+  - number of I/O operations per second,
+  - bandwidth.
 - Performance during failure.
 - Performance during rebuild of failed disk.
 - Time taken to rebuild failed disk.
@@ -233,11 +234,11 @@ Factors:
 其他方案基本已经不被采用，主要考虑 RAID1 和 RAID5
 
 - **RAID 1（镜像）**
-    - 写性能更好（只需写副本）
-    - 适合高频更新场景（如日志）
+  - 写性能更好（只需写副本）
+  - 适合高频更新场景（如日志）
 - **RAID 5（分布式校验）**
-    - 写入开销大（需读-改-写，多次 I/O）
-    - 适合数据量大、更新少的场景
+  - 写入开销大（需读-改-写，多次 I/O）
+  - 适合数据量大、更新少的场景
 
 ### 8.3.4 Hardware Issues
 
@@ -245,7 +246,7 @@ Software RAID
 
 - Implemented entirely in software.
 - No special hardware support.
-Hardware RAID
+  Hardware RAID
 - Uses special hardware.
 - May use non-volatile RAM to record writes being executed.
 
@@ -303,9 +304,9 @@ Magnetic tapes:
 - Very slow access time compared with magnetic and optical disks.
 - Limited to sequential access.
 - Used mainly for:
-    - backup,
-    - infrequently used information,
-    - off-line data transfer between systems.
+  - backup,
+  - infrequently used information,
+  - off-line data transfer between systems.
 
 Tape jukeboxes can provide very large capacity, even multiple petabytes.
 
@@ -324,7 +325,9 @@ Buffer 是 **主存（RAM）中的一块区域**，用来存放磁盘块的副�
 
 !!! note "Page / Block / Frame"
 
-    <div style="text-align: center"><img src="images/image-76.png" width="60%"></div>
+    
+
+
 
     - Page: a unit of data.
     - Block: a unit of disk space.
@@ -390,7 +393,7 @@ Buffer manager can use statistical information.
 
 - Example: data dictionary is frequently accessed.
 - Heuristic: keep data-dictionary blocks in main memory buffer.
-Query optimizer may provide hints about replacement strategy.
+  Query optimizer may provide hints about replacement strategy.
 
 ---
 
@@ -416,8 +419,9 @@ $$
 
 - Advantage: record access is simple.
 - Problem: records may cross block boundaries.
-    - Modification: do not allow records to cross block boundaries.
-删除 record $i$ 有多种方法:
+  - Modification: do not allow records to cross block boundaries.
+    删除 record $i$ 有多种方法:
+
 1. Move records $i+1,\dots,n$ to $i,\dots,n-1$.
 2. Move record $n$ to position $i$.
 3. Do not move records, but **link** all free records on a **free list**.
@@ -447,11 +451,11 @@ Variable-length records arise because of:
 
 - **顺序存储**：属性（字段）按照定义顺序存放
 - **(offset, length)**：为了处理变长数据，采用混合布局
-    - <u>固定部</u>分：头部不直接存数据，而是存一个固定大小的“指针”，包含两个信息：**偏移量**（数据从哪里开始）和**长度**（数据有多长）
-    - <u>变动部分</u>：真正的数据（比如具体的字符串内容），通常被统一存放在记录尾部，也就是所有固定长度字段之后
-    - _好处_：这样既保证了记录头部的结构是可控的，又能灵活容纳任意长度的数据。
+  - <u>固定部</u>分：头部不直接存数据，而是存一个固定大小的“指针”，包含两个信息：**偏移量**（数据从哪里开始）和**长度**（数据有多长）
+  - <u>变动部分</u>：真正的数据（比如具体的字符串内容），通常被统一存放在记录尾部，也就是所有固定长度字段之后
+  - _好处_：这样既保证了记录头部的结构是可控的，又能灵活容纳任意长度的数据。
 - **空值的处理**：使用 **空值位图**。
-    - 如果某个字段是 NULL，系统会用一个二进制位（0 或 1）来标记
+  - 如果某个字段是 NULL，系统会用一个二进制位（0 或 1）来标记
 
 <div style="text-align: center"><img src="images/image-78.png" width="70%"></div>
 
@@ -468,11 +472,11 @@ Variable-length records arise because of:
 
 - **槽数组（Slot Array）**：Block Header包含一个数组，数组中的每一项被称为一个“槽”
 - **槽的内容**：存储实际数据的**元数据**，通常包括：
-    - 记录指针（Location/Offset）：指向实际记录在页内的起始位置
-    - 记录长度（Size）：占用了多少字节
+  - 记录指针（Location/Offset）：指向实际记录在页内的起始位置
+  - 记录长度（Size）：占用了多少字节
 - **生长方向**：
-    - 当插入新记录时，实际数据被放入空闲空间的**最右端**，并向左扩展
-    - 同时，在块头中分配一个新的槽（从左向右），填入该记录的地址和长度
+  - 当插入新记录时，实际数据被放入空闲空间的**最右端**，并向左扩展
+  - 同时，在块头中分配一个新的槽（从左向右），填入该记录的地址和长度
 
 ### 8.6.3 Fixed-Length Representation
 
@@ -517,7 +521,7 @@ Four common file organizations:
 2. If there is free space, insert there.
 3. If no free space exists, insert into an overflow block.
 4. Update pointer chains.
-Need to reorganize the file from time to time to restore sequential order. (需要定期对文件重新排序)
+   Need to reorganize the file from time to time to restore sequential order. (需要定期对文件重新排序)
 
 ### Hashing File
 
@@ -527,14 +531,14 @@ Need to reorganize the file from time to time to restore sequential order. (需�
 ### Clustering File Organization
 
 - Records of several different relations can be stored in the same file.
-Motivation:
+  Motivation:
 - Store related records from different relations on the same block to minimize I/O.
-Example:
+  Example:
 - Store `department` and its related `instructor` records together.
-Benefits:
+  Benefits:
 - Good for queries involving `department` and `instructor`.
 - Good for queries involving one single department and its instructors.
-Drawbacks:
+  Drawbacks:
 - Bad for queries involving only `department`.
 - Results in variable-size records.
 - May need pointer chains to link records of a particular relation.
@@ -546,17 +550,17 @@ Drawbacks:
 Data dictionary (also called system catalog) stores **metadata**
 
 - Metadata means <u>data about data</u>.
-Data dictionary stores:
+  Data dictionary stores:
 - **Information about relations**
-    - Names of relations.
-    - Names and types of attributes of each relation.
-    - Names and definitions of views.
-    - Integrity constraints.
+  - Names of relations.
+  - Names and types of attributes of each relation.
+  - Names and definitions of views.
+  - Integrity constraints.
 - **User and accounting information**, including passwords.
 - **Statistical and descriptive data**
-    - Number of tuples in each relation.
+  - Number of tuples in each relation.
 - **Physical file organization information**
-    - How relation is stored: sequential, hash, etc.
-    - Physical location of relation.
-    - Operating system file name, or disk addresses of blocks containing records.
+  - How relation is stored: sequential, hash, etc.
+  - Physical location of relation.
+  - Operating system file name, or disk addresses of blocks containing records.
 - **Information about indices**.

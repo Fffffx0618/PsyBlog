@@ -1,16 +1,18 @@
-# Parallel Algorithms
+# Lec14.Parallel Algorithms
 
 ## 14.1 Introduction
 
 **并行**(parallelism)：<u>每一步能够同时完成多个操作</u>。有以下几类并行方式：
 
 - ##### Machine Parallelism
-    - Pipelining：将一条指令的执行过程分解为多个阶段，每个阶段由不同的硬件单元负责
-    - Very-Long Instruction Word, VLIW：每条指令包含多个操作，在同一周期内并行执行
-    - Processor parallelism：使用多个处理器核心（或多个CPU）协同工作来完成任务
+
+  - Pipelining：将一条指令的执行过程分解为多个阶段，每个阶段由不同的硬件单元负责
+  - Very-Long Instruction Word, VLIW：每条指令包含多个操作，在同一周期内并行执行
+  - Processor parallelism：使用多个处理器核心（或多个CPU）协同工作来完成任务
 - ##### Parallel Algorithm
-    - 从**软件/算法设计**角度研究如何利用并行性解决问题的方法
-为了描述 parallel algorithm，引入==Parallel Random Access Machine（PRAM, 并行随机存取机）==
+
+  - 从**软件/算法设计**角度研究如何利用并行性解决问题的方法
+    为了描述 parallel algorithm，引入==Parallel Random Access Machine（PRAM, 并行随机存取机）==
 
 ### 1. Parallel Random Access Machine
 
@@ -20,7 +22,7 @@
 
 - $P_1, \dots, P_n$表示$n$个处理器，它们同时访问一块共享内存
 - 处理器与共享内存间的双向箭头表示**单位时间内对内存的访问**（包括读、写、计算等操作）
-    - 向上的箭头表示读取，向下的箭头表示写入
+  - 向上的箭头表示读取，向下的箭头表示写入
 
 !!! example
 
@@ -28,60 +30,48 @@
 
     - 读取 $a$ 和 $b$ 的值，计算 $a+b$ 后写入 $c$
 
-     <div style="text-align: center"><img src="images/lec14/2.png" width="40%"></div>
+     
+
 
      Example 2：将每个处理器的结果写入到内存对应位置上
 
-    ```c
-     for P_i, 1 <= i <= n pardo
-    	 A(i) := B(i)
-    // pardo: do parallelly，即并行执行循环；因此实际上执行这个循环所需时间为 O(1)
-    ```
+    ``c      for P_i, 1 <= i <= n pardo     	 A(i) := B(i)     // pardo: do parallelly，即并行执行循环；因此实际上执行这个循环所需时间为 O(1)     ``
 
-     <div style="text-align: center"><img src="images/lec14/3.png" width="40%"></div> 
+     
+
 
 **To slove access conflicts**:
 
 1. <u>Exclusive-Read Exclusive-Write</u>（EREW，专一读取-专一写入）
-    - 同一时间内不允许多个处理器访问（读/写）同一块内存
+   - 同一时间内不允许多个处理器访问（读/写）同一块内存
 2. <u>Concurrent-Read Exclusive-Write</u>（CREW，并发读取-专一写入）
 3. <u>Concurrent-Read Concurrent-Write</u>（CRCW，并发读取--并发写入），有三种写入规则：
-    - Arbitrary rule：**任意选择**一个处理器进行写入操作
-    - Priority rule：选择**编号最小**的处理器（规定编号越小优先级越高）进行写入操作
-    - Common rule：只有当所有处理器的写入数据是**一致**的时候，才会执行写入操作
+   - Arbitrary rule：**任意选择**一个处理器进行写入操作
+   - Priority rule：选择**编号最小**的处理器（规定编号越小优先级越高）进行写入操作
+   - Common rule：只有当所有处理器的写入数据是**一致**的时候，才会执行写入操作
 
 !!! example "The summation problem"
 
     - Input：$A(1), A(2), \dots, A(n)$
     - Output：$A(1) + A(2) + \dots + A(n)$
 
-      <div style="text-align: center"><img src="images/lec14/4.png" width="75%"></div>
+      
+
 
     - 最底层表示初始情况，每层表示并行算法的每个步骤；每层都有8个处理器，空白圆圈表示空闲的处理器；整个过程中所有工作的处理器构成了一棵**满二叉树**
         - 因此层数为 $\log n$，即算法在 $\log n$ 时间内完成
     - $B(h, i)$表示第$h$步中第$i$个处理器的计算结果
         - 有以下关系式成立：$B(h, i) = B(h - 1, 2i - 1) + B(h - 1, 2i)$
 
-    ```c
-    for P_i, 1 <= i <= n pardo
-        B(0, i) := A(i)
-        for h = 1 to log(n) do
-            if i <= n / 2^h:
-                B(h, i) := B(h - 1, 2 * i - 1) + B(h - 1, 2 * i)
-            else
-                stay idle
-        if i = 1:
-            output B(log(n), 1)
-        else:
-            stay idle
-    ```
+    ``c     for P_i, 1 <= i <= n pardo         B(0, i) := A(i)         for h = 1 to log(n) do             if i <= n / 2^h:                 B(h, i) := B(h - 1, 2 * i - 1) + B(h - 1, 2 * i)             else                 stay idle         if i = 1:             output B(log(n), 1)         else:             stay idle     ``
 
-    - 上层的节点需要知道下层的两个节点值才能计算。由于外层循环是并行计算的，说明这棵树上<u>同一层的节点是**同时**算出来的</u>
+    - 上层的节点需要知道下层的两个节点值才能计算。由于外层循环是并行计算的，说明这棵树上<u>同一层的节点是算出来的</u>
     - 时间复杂度：$T(n) = \log n + 2$
 
     **操作数量和时间**之间的关系如下图：
 
-    <div style="text-align: center"><img src="images/lec14/5.png" width="35%"></div> 
+    
+
 
     - 横轴上的最大值为$p$，等于用到过的处理器的最大数量
     - 纵轴上的最大值为$t$，表示总的运行时间
@@ -99,7 +89,7 @@
 //A Parallel Algorithm for the Summation Problem
 For i, i<=i<=n pardo
 	B(0,i) := A(i)
-	
+
 for h = 1 to log(n)
 	for i, i<=i<=n/2^h pardo
 		B(h, i) := B(h-1, 2i-1) + B(h-1, 2i)
@@ -113,36 +103,44 @@ output B(log(n), 1)
 
 !!! question "What about $T_p$ for arbitrary $p$?"
 
-    - An accurate analysis can be tedious. (should specify the allocation of instructions to processors) 
+    - An accurate analysis can be tedious. (should specify the allocation of instructions to processors)
     - Unrealistic to go through all possible $p$
 
-!!! info "Bounding $T_p$ ​ using work and depth"
+!!! info "Bounding $T_p$  using work and depth"
 
     For a parallel algorithm,
 
     - Its *work* $W$ is the total amount of unit-time operations required to complete this algorithm
 
-    $$
-    W=T_1
-    $$
+
+$$
+W=T_1
+$$
+
 
     - Its *depth* $D$ is the length of the longest chain of sequential dependencies. (Intuitively, depth measures how parallel this algorithm is)
 
-     $$
-     D=T_{\infty}
-     $$
+
+$$
+D=T_{\infty}
+$$
+
 
      代入到上述算法，得到 $W=\Theta (n)$, $D=\Theta(\log n)$，因此
 
-     $$
-     \Theta(\frac{n}{p})\leq T_p \leq \Theta(\frac{n}{p}+\log n)
-     $$
+
+$$
+\Theta(\frac{n}{p})\leq T_p \leq \Theta(\frac{n}{p}+\log n)
+$$
+
 
 !!! tip "Brent’s Theorem"
 
-     $$
-     \dfrac{W}{p} \leq T_p \leq \dfrac{W}{p}+D
-     $$
+
+$$
+\dfrac{W}{p} \leq T_p \leq \dfrac{W}{p}+D
+$$
+
 
 #### Work-Depth (WD) Presentation
 
@@ -162,13 +160,13 @@ for i = 1 pardo
 
 <div style="text-align: center">
     <img src="images/lec14/6.png" width="30%">
-</div> 
+</div>
 
 由于没有了那些灰色区域（不工作的处理器），因此这张图更清楚地反映了真实情况下各个时间段内的用到的处理器数量。对于更一般的情况，如下所示：
 
 <div style="text-align: center">
     <img src="images/lec14/7.png" width="30%">
-</div> 
+</div>
 
 - 每个时间段处于工作状态的处理器数量，即工作量是不一样的，且没有任何规律可言。
 
@@ -181,7 +179,7 @@ for i = 1 pardo
 - $P(n)=\dfrac{W(n)}{T(n)}$：所需处理器的数量
 - 当所需处理器数量 $p≤\frac{W(n)}{T(n)}$ 时，所需时间为 $\dfrac{W(n)}{p}$
 - 使用任意数量为 $p$ 的处理器时，所需时间为 $\dfrac{W(n)}{p}+T(n)$
-后面那三个指标是**渐进等价的**(asymptotically equivalent)，即对于任意大的 $n$，这三者位于同一复杂度下
+  后面那三个指标是**渐进等价的**(asymptotically equivalent)，即对于任意大的 $n$，这三者位于同一复杂度下
 
 ---
 
@@ -194,7 +192,7 @@ for i = 1 pardo
 
 <div style="text-align: center">
     <img src="images/lec14/8.png" width="50%">
-</div> 
+</div>
 
 规定**前缀和**$C(h, i) = \sum\limits_{k=1}^\alpha A(k)$，其中$(0, \alpha)$表示二叉树的节点$(h, i)$最右侧路径上的叶子节点的位置
 
@@ -202,7 +200,7 @@ for i = 1 pardo
 
 <div style="text-align: center">
     <img src="images/lec14/10.png" width="50%">
-</div> 
+</div>
 
 计算**最左边路径**上的节点：
 
@@ -312,11 +310,13 @@ for P_i, 1 <= i <= n pardo
 
     - 对以下两个数组，先分别给出它们的排行，然后合并这两个数组。
 
-    <div style="text-align: center"><img src="images/lec14/13.png" width="50%"></div>
+    
+
 
     - 答案
 
-    <div style="text-align: center"><img src="images/lec14/14.png" width="50%"></div>
+    
+
 
 ### Ranking Problem
 
@@ -352,30 +352,34 @@ while (i <= n || j <= m){
 
 - 假设 $n = m$，且确保 $A(n + 1), B(n + 1)$ 比 $A(n), B(n)$ 都要大
 - Stage1: **Partitioning**，令处理器数量 $p = \dfrac{n}{\log n}$，对 $1 \le i \le p$，有：
-    - $A_{\text{Select}}(i) = A(1 + (i - 1)\log n)$
-    - $B_{\text{Select}}(i) = B(1 + (i - 1)\log n)$
-    - 计算被选中的元素的 RANK
+  - $A_{\text{Select}}(i) = A(1 + (i - 1)\log n)$
+  - $B_{\text{Select}}(i) = B(1 + (i - 1)\log n)$
+  - 计算被选中的元素的 RANK
 - Stage2: **Actual Ranking**
-    - 划分以后，整个问题被分为**至多**有 $2p$ 个规模为 $O(\log n)$ 的子问题
-    - $T=O (\log{n}),W=O(n)$
+  - 划分以后，整个问题被分为**至多**有 $2p$ 个规模为 $O(\log n)$ 的子问题
+  - $T=O (\log{n}),W=O(n)$
 
 ??? example
 
     原数组
 
-    <div style="text-align: center"><img src="images/lec14/15.png" width="60%"></div>
+    
+
 
     选中元素
 
-    <div style="text-align: center"><img src="images/lec14/16.png" width="60%"></div>
+    
+
 
     对这些元素进行排行
 
-    <div style="text-align: center"><img src="images/lec14/17.png" width="60%"></div>
+    
+
 
     得到子问题
 
-    <div style="text-align: center"><img src="images/lec14/18.png" width="60%"></div>
+    
+
 
     绿色部分表示一个个的子问题
 
@@ -406,7 +410,7 @@ while (i <= n || j <= m){
 - 时间：$T(n) = O(\log n)$
 - 工作量：$W(n) = O(n)$
 
-#### Compare all pairs    
+#### Compare all pairs
 
 ```c
 for P_i, 1 <=i<= n pardo
@@ -474,36 +478,46 @@ $$
     令 $n = 2^k$ ，那么 $\sqrt{n} = n^{1/2} = (2^k)^{1/2} = 2^{k/2}$
     设 $S(k) = W(2^k) = W(n)$，递推式 $W(n) = \sqrt{n} W(\sqrt{n}) + n$ 代入新变量得：
 
-    $$
-    S(k) = 2^{k/2} S(k/2) + 2^k 
-    $$
+
+$$
+S(k) = 2^{k/2} S(k/2) + 2^k
+$$
+
 
     2. 简化方程
 
-    $$
-    \frac{S(k)}{2^k} = \frac{S(k/2)}{2^{k/2}} + 1 
-    $$
+
+$$
+\frac{S(k)}{2^k} = \frac{S(k/2)}{2^{k/2}} + 1
+$$
+
 
     3. 再次换元
     令 $A(k) = \frac{S(k)}{2^k}$，上式变为：$A(k) = A(k/2) + 1$
 
     4. 求解递推
 
-    $$
-    A(k) = A(k/2) + 1 = A(k/4) + 1 + 1 = \dots = O(\log k) 
-    $$
+
+$$
+A(k) = A(k/2) + 1 = A(k/4) + 1 + 1 = \dots = O(\log k)
+$$
+
 
     因为 $A(k) = \frac{S(k)}{2^k}$，所以：
 
-    $$
-    \frac{S(k)}{2^k} = O(\log k) \implies S(k) = O(2^k \log k) 
-    $$
+
+$$
+\frac{S(k)}{2^k} = O(\log k) \implies S(k) = O(2^k \log k)
+$$
+
 
     将 $k = \log n$ 和 $2^k = n$ 代回：
 
-    $$
-    W(n) = S(k) = O(n \log {\log{ n}}) 
-    $$
+
+$$
+W(n) = S(k) = O(n \log {\log{ n}})
+$$
+
 
 **双对数范式**(doubly-logarithmic paradigm)
 假设 $h = \log \log n$ 为整数，此时 $n = 2^{2^h}$。现在将问题划分为 $\dfrac{n}{h}$ 个规模为 $h$ 的子问题：
@@ -539,26 +553,32 @@ $$
         - 采用上述的方法进行 $\sqrt(M)$ 划分，所需时间为 $O(\log \log M)$，即 $T_2 = O(\log \log \dfrac{n}{h})$
     - Step 3：总时间合并
 
-    $$
-    T(n) = T_1 + T_2 = O(h + \log \log \frac{n}{h}) 
-    $$
+
+$$
+T(n) = T_1 + T_2 = O(h + \log \log \frac{n}{h})
+$$
+
 
     将 $h = \log \log n$ 代入公式：
 
         1.  第一项：$O(\log \log n)$
         2.  第二项：
 
-        $$
-        \begin{aligned} \log \log (\frac{n}{h}) &= \log \log (\frac{n}{\log \log n}) \\ &= \log (\log n - \log (\log \log n)) \end{aligned} 
-        $$
+
+$$
+\begin{aligned} \log \log (\frac{n}{h}) &= \log \log (\frac{n}{\log \log n}) \\ &= \log (\log n - \log (\log \log n)) \end{aligned}
+$$
+
 
         当 $n$ 很大时，$\log \log \log n$ 远小于 $\log n$，因此 $O(\log \log \dfrac{n}{h}) \approx O(\log \log n)$
 
     **最终结果：**
 
-    $$
-    T(n) = O(\log \log n) + O(\log \log n) = \mathbf{O(\log \log n)} 
-    $$
+
+$$
+T(n) = O(\log \log n) + O(\log \log n) = \mathbf{O(\log \log n)}
+$$
+
 
     ---
 
@@ -569,36 +589,46 @@ $$
     - 每个组的工作量是 $O(h)$（顺序扫描）
     - 一共有 $\dfrac{n}{h}$ 个组
 
-    $$
-    W_1 = (\text{组数}) \times (\text{单组工作量}) = \frac{n}{h} \times h = O(n) 
-    $$
+
+$$
+W_1 = (\text{组数}) \times (\text{单组工作量}) = \frac{n}{h} \times h = O(n)
+$$
+
 
     Step 2：代表元素归约工作量
 
     - 输入规模为 $M = \frac{n}{h}$。
     - 根据上述结论，规模为 $M$ 时的总工作量是 $O(M \log \log M)$。
 
-    $$
-    W_2 = O\left( \frac{n}{h} \log \log \frac{n}{h} \right) 
-    $$
+
+$$
+W_2 = O\left( \frac{n}{h} \log \log \frac{n}{h} \right)
+$$
+
 
     Step 3： 总工作量合并与化简
 
-    $$
-    W(n) = W_1 + W_2 = O(n) + O\left( \frac{n}{h} \log \log \frac{n}{h} \right) 
-    $$
+
+$$
+W(n) = W_1 + W_2 = O(n) + O\left( \frac{n}{h} \log \log \frac{n}{h} \right)
+$$
+
 
     我们将 $h = \log \log n$ 代入第二项进行验证：
 
-    $$
-    \begin{aligned} W_2 &= \frac{n}{\log \log n} \times \log \log \left( \frac{n}{\log \log n} \right) \\ &\approx \frac{n}{\log \log n} \times \log \log n \quad (\text{因为 } \log\log\frac{n}{h} \approx \log\log n) \\ &= O(n) \end{aligned} 
-    $$
+
+$$
+\begin{aligned} W_2 &= \frac{n}{\log \log n} \times \log \log \left( \frac{n}{\log \log n} \right) \\ &\approx \frac{n}{\log \log n} \times \log \log n \quad (\text{因为 } \log\log\frac{n}{h} \approx \log\log n) \\ &= O(n) \end{aligned}
+$$
+
 
     **最终结果：**
 
-    $$
-    W(n) = O(n) + O(n) = \mathbf{O(n)} 
-    $$
+
+$$
+W(n) = O(n) + O(n) = \mathbf{O(n)}
+$$
+
 
 ## 14.5 Random Sampling
 
@@ -612,7 +642,7 @@ $$
     <img src="images/lec14/19.png" width="50%">
 </div>
 
-- 时间：$T=O(1)$    
+- 时间：$T=O(1)$
 - 工作量：$W=O(n^{7/8})$
 
 2. 将数组 $B$ 划分成大小为 $n^{\frac{1}{8}}$ 的小块，因此这样的小块有 $n^{\frac{3}{4}}$ 个。然后对每个小块求出最大值，通过两两比较的方式得到了 $n^{\frac{3}{4}}$ 个局部最大值

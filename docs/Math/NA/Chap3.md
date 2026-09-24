@@ -1,4 +1,4 @@
-# Chapter 3: Interpolation and Polynomial Approximation
+# Chap3.Interpolation and Polynomial Approximation
 
 如果函数 $y = f(x)$ 的计算过于复杂，一种近似求解的办法是：首先在一组点序列 $x_0, \dots, x_n$ 上获取一组函数值 $y_0 = f(x_0), \dots, y_n = f(x_n)$，然后根据这些值构造一个相对简单的近似函数 $g(x) \approx f(x)$。
 
@@ -61,7 +61,7 @@ $$
 
       同理，$\varphi(x_0) = \dots = \varphi(x_n) = 0 \Rightarrow \exists \xi \in (a, b)$，使得 $\xi^{(n)}(\xi) = 0$
 
-$R_n(x)$ 至少有 $n + 1$ 个根 $\Rightarrow R_n(x) = K(x) \prod\limits_{i=0}^n (x - x_i)$ 
+$R_n(x)$ 至少有 $n + 1$ 个根 $\Rightarrow R_n(x) = K(x) \prod\limits_{i=0}^n (x - x_i)$
 接下来计算 $K (x$):
 
 1. 对任意一个 $x \ne x_i\ (i = 0, \dots, n)$，引入修正函数为 $g(t)$, $t \in [a, b]$：
@@ -100,9 +100,10 @@ $$
 
     令 $f$ 是关于 $x_0, x_1, \dots, x_k$ 的函数，并令 $x_i, x_j$ 为其中两个不相等的数，那么：
 
-    $$
-    P(x) = \dfrac{(x - x_j)P_{0, 1, \dots, j-1, j+1, \dots, k}(x) - (x - x_i)P_{0, 1, \dots, i-1, i+1, \dots, k}(x)}{x_i - x_j} 
-    $$
+
+$$
+P(x) = \dfrac{(x - x_j)P_{0, 1, \dots, j-1, j+1, \dots, k}(x) - (x - x_i)P_{0, 1, \dots, i-1, i+1, \dots, k}(x)}{x_i - x_j}
+$$
 
     描述了在 $k+1$ 个点 $x_0, x_1, \dots, x_k$ 上向 $f$ 插值的 $k$ 次拉格朗日多项式。
 
@@ -154,13 +155,7 @@ $$
         - 分别作为 $Q$ 的第1列 $Q_{0, 0}, Q_{1, 0}, \dots, Q_{n, 0}$ 上的值
     - 输出：表 $Q$，其中 $P(x) = Q_{n, n}$
 
-        ```c
-        Step 1  for i = 1, 2, ..., n:
-                    for j = 1, 2, ..., i:
-                      set Q[i][j] = ((x - x[i-j]) * Q[i][j-1] - (x - x[i]) * Q[i-1][j-1]) / (x[i] - x[i-j]);
-        Step 2  Output(Q);
-                STOP;
-        ```
+        ``c         Step 1  for i = 1, 2, ..., n:                     for j = 1, 2, ..., i:                       set Q[i][j] = ((x - x[i-j]) * Q[i][j-1] - (x - x[i]) * Q[i-1][j-1]) / (x[i] - x[i-j]);         Step 2  Output(Q);                 STOP;         ``
 
 ---
 
@@ -177,7 +172,7 @@ f[x_0, \dots, x_{k+1}] & = \dfrac{f[\textcolor{cornflowerblue}{x_0}, x_1, \dots,
 \end{align}
 $$
 
-差商的**对称性**：无论怎么排列节点 $x_0,x_1,\dots,x_k$ ​，结果不变
+差商的**对称性**：无论怎么排列节点 $x_0,x_1,\dots,x_k$ ，结果不变
 
 **差商的显式表达式**：
 
@@ -222,30 +217,26 @@ $$
     - 输入：数 $x_0, x_1, \dots, x_n$；值 $f(x_0), f(x_1), \dots, f(x_n)$，分别记作 $F_{0, 0}, F_{1, 0}, \dots, F_{n,0}$。
     - 输出：数 $F_{0, 0}, F_{1, 1}, F_{n, n}$，其中 $P(x) = \sum\limits_{i=0}^n F_{i, i} \prod_{j=0}^{i-1} (x - x_j)$
 
-        ```c
-        Step 1  for i = 1, 2, ..., n:
-                  for j = 1, 2, ..., i:
-                      set F[i][j] = (F[i][j-1] - F[i-1][j-1]) / (x[i] - x[i-j]);
-         Step 2  Output(F[0][0], F[1][1], ..., F[n][n]);  // F[i][i] is f[x[0], x[1], ..., x[i]]
-                STOP;
-        ```
+        ``c         Step 1  for i = 1, 2, ..., n:                   for j = 1, 2, ..., i:                       set F[i][j] = (F[i][j-1] - F[i-1][j-1]) / (x[i] - x[i-j]);          Step 2  Output(F[0][0], F[1][1], ..., F[n][n]);  // F[i][i] is f[x[0], x[1], ..., x[i]]                 STOP;         ``
 
 !!! note "注"
 
     - 因为第 n 个插值多项式是唯一的，所以 $N_n(x) \equiv P_n(x)$
     - 它们必须有相同的截断误差，即：
 
-        $$
-        \begin{align}
+
+$$
+\begin{align}
         & f[x, x_0, \dots, x_n] \omega_{k+1} (x) = \dfrac{f^{(n+1)}(\xi_x)}{(n+1)!} \omega_{k+1}(x) \notag \\
         & \Rightarrow f[x_0, \dots, x_k] = \dfrac{f^{(k)}(\xi)}{k!}, \xi \in (x_{\text{min}}, x_{\text{max}}) \notag
         \end{align}
-        $$
+$$
 
     - 牛顿插值法的求解过程和 Neville 法类似：
 
-        $$
-        \begin{matrix}
+
+$$
+\begin{matrix}
         f(x_0) & & & & & \notag \\
         f(x_1) & f[x_0, x_1] & & & & \notag \\
         f(x_2) & f[x_1, x_2] & f[x_0, x_1, x_2] & & & \notag \\
@@ -254,7 +245,7 @@ $$
         f(x_n) & f[x_{n-1}, x_n] & f[x_{n-2}, x_{n-1}, x_n] & & f[x_0, \dots, x_n] \notag \\
         f(x_{n+1}) & f[x_n, x_{n+1}] & f[x_{n-1}, x_n ,x_{n+1}] & \dots & f[x_1, \dots, x_{n+1}] & f[x_0, \dots, x_{n+1}] \notag 
         \end{matrix}
-        $$
+$$
 
 ### 2. Formulae with Equal Spacing
 
@@ -262,34 +253,33 @@ $$
 
 - **前向差分**(forward difference)：
 
-    $$
-    \begin{align}\Delta f_i &= f_{i+1} - f_i\\  \Delta^2f_i&=\Delta f_{i+1}-\Delta f_i \\ &\dots \\ \Delta^k f_i  &= \Delta^{k-1} f_{i+1} - \Delta^{k-1} f_i\end{align}
-    $$
+  $$
+  begin{align}\Delta f_i &= f_{i+1} - f_i\\  \Delta^2f_i&=\Delta f_{i+1}-\Delta f_i \\ &\dots \\ \Delta^k f_i  &= \Delta^{k-1} f_{i+1} - \Delta^{k-1} f_i\end{align}
+  $$
 
-    **后向差分**(backward difference):
+  **后向差分**(backward difference):
 
-    $$
-    \begin{align}\nabla f_i &= f_{i} - f_{i-1}\\  \nabla^2f_i&=\nabla f_{i}-\nabla f_{i-1} \\ &\dots \\ \nabla^k f_i  &= \nabla^{k-1} f_{i} - \nabla^{k-1} f_{i-1}\end{align}
-    $$
-
+  $$
+  begin{align}\nabla f_i &= f_{i} - f_{i-1}\\  \nabla^2f_i&=\nabla f_{i}-\nabla f_{i-1} \\ &\dots \\ \nabla^k f_i  &= \nabla^{k-1} f_{i} - \nabla^{k-1} f_{i-1}\end{align}
+  $$
 - **中心差分**(centered difference)：
 
-    $$
-    \delta^k f_i = \delta^{k-1} f_{i+\frac{1}{2}} - \delta^{k-1} f_{i - \frac{1}{2}}
-    $$
+  $$
+  delta^k f_i = \delta^{k-1} f_{i+\frac{1}{2}} - \delta^{k-1} f_{i - \frac{1}{2}}
+  $$
 
-    其中
+  其中
 
-    $$
-    f_{i \pm \frac{1}{2}} = f(x_i \pm \dfrac{h}{2})
-    $$
+  $$
+  _{i \pm \frac{1}{2}} = f(x_i \pm \dfrac{h}{2})
+  $$
 
 ### 3. Some Important Properties
 
 - 如果 $f(x)$ 是一个 $m$ 阶多项式，那么 $\Delta^k f(x)\ (0 \le k \le m)$ 是一个 $m - k$ 阶多项式且 $\Delta^k f(x) = 0\ (k > m)$
 - 差值还能从以下函数中得到：
-    - $\Delta^n f_k = \sum\limits_{j=0}^n (-1)^j \left( \begin{array}{cccc}n \\ j\end{array}\right) f_{n+k-j}$
-    - $\nabla^n f_k = \sum\limits_{j=0}^n (-1)^{n-j} \left( \begin{array}{cccc}n \\ j\end{array}\right) f_{k+j-n}$
+  - $\Delta^n f_k = \sum\limits_{j=0}^n (-1)^j \left( \begin{array}{cccc}n \\ j\end{array}\right) f_{n+k-j}$
+  - $\nabla^n f_k = \sum\limits_{j=0}^n (-1)^{n-j} \left( \begin{array}{cccc}n \\ j\end{array}\right) f_{k+j-n}$
 - 反之亦然：$f_{n+k} = \sum\limits_{j=0}^n \left( \begin{array}{cccc}n \\ j\end{array}\right) \Delta^j f_k$
 - $f[x_0, \dots, x_k] = \dfrac{\Delta^k f_0}{k! h^k}, f[x_n, x_{n-1}, \dots, x_{n-k}] = \dfrac{\nabla^k f_n}{k!h^k}$。从 $R_n$ 可以得到：$f^{(k)}(\xi) = \dfrac{\Delta^k f_0}{h^k}$
 
@@ -310,17 +300,17 @@ $$
 **牛顿后向差公式**(Newton backward-difference formula)：
 
 - 重排插值节点，有 $P_n(x) = f(x_n) + f[x_n, x_{n-1}](x - x_n) + \dots + f[x_n, \dots, x_0](x - x_n) \dots (x - x_1)$
-- 令 $x_t = x_n + th$，易得 $f[x_n, x_{n-1}, \dots, x_{n-k}] = \dfrac{\nabla^k f_n}{k!h^k}$， 
+- 令 $x_t = x_n + th$，易得 $f[x_n, x_{n-1}, \dots, x_{n-k}] = \dfrac{\nabla^k f_n}{k!h^k}$，
 - 因此可以计算 $P_n$：
 
-    $$
-    \begin{align}
-    P_n(x_t) & = P_n(x_n + th) 
-    \\&=f[x_n]+thf[x_n,x_{n-1}]+t(t+1)h^2f[x_n,x_{n-1},x_{n-2}]+\dots+t(t+1)\dots(t+n-1)h^n f[x_n,\dots,x_0]
-    \\&=\sum\limits_{k=0}^n (-1)^k \left( \begin{array}{cccc}-t \\ k\end{array}\right) k!h^k f[x_n,\dots,x_0] \notag 
-    \\&= \sum\limits_{k=0}^n \underbrace{(-1)^k \left( \begin{array}{cccc}-t \\ k\end{array}\right)}_{C_{t+k-1}^k} \nabla^k f(x_n) \notag \\
-    \end{align}
-    $$
+  $$
+  begin{align}
+  P_n(x_t) & = P_n(x_n + th) 
+  \\&=f[x_n]+thf[x_n,x_{n-1}]+t(t+1)h^2f[x_n,x_{n-1},x_{n-2}]+\dots+t(t+1)\dots(t+n-1)h^n f[x_n,\dots,x_0]
+  \\&=\sum\limits_{k=0}^n (-1)^k \left( \begin{array}{cccc}-t \\ k\end{array}\right) k!h^k f[x_n,\dots,x_0] \notag 
+  \\&= \sum\limits_{k=0}^n \underbrace{(-1)^k \left( \begin{array}{cccc}-t \\ k\end{array}\right)}_{C_{t+k-1}^k} \nabla^k f(x_n) \notag \\
+  \end{align}
+  $$
 
 ---
 
@@ -330,9 +320,10 @@ $$
 
     令 $x_0, x_1, \dots, x_n$ 为在 $[a, b]$ 上的 $n+1$ 个不同的数，$m_0,m_1,\dots,m_n$ 是 $n+1$ 个非负整数，假设 $f \in C^m[a, b]$，其中 $m = \max\limits_{0 \le i \le n}m_i$，那么逼近 $f$ 的**密切多项式**(osculating polynomial) $P_n(x)$ 为满足以下条件的阶数最小的多项式 ：
 
-    $$
-    \dfrac{d^k }{dx^k} P_n(x_i)= \dfrac{d^k }{dx^k}f(x_i),\ \text{for each } i = 0, \dots, n \text{ and } k = 0, \dots, m 
-    $$
+
+$$
+\dfrac{d^k }{dx^k} P_n(x_i)= \dfrac{d^k }{dx^k}f(x_i),\ \text{for each } i = 0, \dots, n \text{ and } k = 0, \dots, m
+$$
 
     - 相比前面的插值多项式，密切多项式还要求**k阶导数相等**，因而得到了更准确、更光滑的插值曲线
 
@@ -343,9 +334,10 @@ $$
     - 给定 $N$ 个条件（即有 $N$ 个方程），$N - 1$ 阶多项式就能确定下来
     - 与 $f$ 以及所有在**一个点** $x_0$ 上的 $\le m_0$ 阶的导数吻合的密切多项式是**泰勒多项式**：
 
-    $$
-    P(x) = f(x_0) + f'(x_0)(x - x_0) + \dots + \dfrac{f^{(m_0)}(x_0)}{m_0!}(x - x_0)^{m_0}      
-    $$
+
+$$
+P(x) = f(x_0) + f'(x_0)(x - x_0) + \dots + \dfrac{f^{(m_0)}(x_0)}{m_0!}(x - x_0)^{m_0}
+$$
 
     且余项 $R(x) = f(x) - \varphi(x) = \dfrac{f^{(m_0 + 1)}(\xi)}{(m_0 + 1)!}(x - x_0)^{(m_0 + 1)}$
 
@@ -365,7 +357,7 @@ $$
         - 除了 $x_i$ 外，所有的根 $x_0, \dots, x_n$ 的重数均为 2，得到：
         - $\begin{cases}\widehat{h_i}(x) = C_i(x - x_i) L_{n, i}^2(x) \\ \widehat{h_i}'(x_i) = 1 \Rightarrow C_i = 1\end{cases} \quad \Rightarrow \quad \widehat{h_i}(x) = (x - x_i) L_{n, i}^2(x)$
 
-    如果 $a = x_0 < x_1 < \dots < x_n = b, f \in C^{2n}[a, b]$，那么 $R_n(x) = \dfrac{f^{(2n+2)}(\xi_x)}{(2n+2)!}\Big[\prod\limits_{i=0}^n (x - x_i) \Big]^2$ 
+    如果 $a = x_0 < x_1 < \dots < x_n = b, f \in C^{2n}[a, b]$，那么 $R_n(x) = \dfrac{f^{(2n+2)}(\xi_x)}{(2n+2)!}\Big[\prod\limits_{i=0}^n (x - x_i) \Big]^2$
 
 !!! example
 
@@ -373,9 +365,10 @@ $$
 
     - 首先，其次数为3次，猜想其形式为
 
-    $$
-    P(x)=\sum\limits_{i=0}^2f(x_i)h_i(x)+f'(x_1)\hat{h}_1(x)
-    $$
+
+$$
+P(x)=\sum\limits_{i=0}^2f(x_i)h_i(x)+f'(x_1)\hat{h}_1(x)
+$$
 
     其中$h_i(x_j)=\delta_i(x_j),h'_i(x_1)=0,\hat{h}_1(x_i)=0,\hat{h}'_1(x_1)=1$。
 
@@ -385,35 +378,40 @@ $$
 
       对于 $h_0(x)$，有根 $x_1,x_2$，且因为 $h'_0(x_1)=0$ 所以 $x_1$ 是 $h_0(x)$ 的二重根，所以其形式为
 
-    $$
-    h_0(x)=C_0(x-x_1)^2(x-x_2)
-    $$
+
+$$
+h_0(x)=C_0(x-x_1)^2(x-x_2)
+$$
 
       又因为 $h'_0(x_0)=1$，所以
 
-    $$
-    h_0(x)=\frac{(x-x_1)^2(x-x_2)}{(x_0-x_1)^2(x_0-x_2)}
-    $$
+
+$$
+h_0(x)=\frac{(x-x_1)^2(x-x_2)}{(x_0-x_1)^2(x_0-x_2)}
+$$
 
     - 类似地，可以得到
 
-    $$
-    h_2(x)=\frac{(x-x_0)(x-x_1)^2}{(x_2-x_0)(x_2-x_1)^2}
-    $$
+
+$$
+h_2(x)=\frac{(x-x_0)(x-x_1)^2}{(x_2-x_0)(x_2-x_1)^2}
+$$
 
     对于$h_1(x)$，有根$x_0,x_2$，都是单根。所以其形式为
 
-    $$
-    h_1(x)=(Ax+B)(x-x_0)(x-x_2)
-    $$
+
+$$
+h_1(x)=(Ax+B)(x-x_0)(x-x_2)
+$$
 
     通过计算 $h_1(x_1)=1$，$h'_1(x_1)=0$，可以得到 $A$ 和 $B$ 的值。此处略。
 
     - 然后构造 $\hat{h}_1(x)$，使得 $\hat{h}_1(x_i)=0$，$\hat{h}'_1(x_1)=1$。对于 $\hat{h}_1(x)$，有根 $x_0,x_1,x_2$，所以
 
-    $$
-    \hat{h}_1(x)=C(x-x_0)(x-x_1)(x-x_2)
-    $$
+
+$$
+\hat{h}_1(x)=C(x-x_0)(x-x_1)(x-x_2)
+$$
 
     - 又因为 $\hat{h}'_1(x_1)=1$，所以可以通过计算得到 $C$ 的值。此处略。
 
@@ -425,7 +423,8 @@ $$
 
     考虑关于函数 $f(x) = \dfrac{1}{1 + x^2}$ 在点 $x_i = -5 + \dfrac{10}{n}i \in [-5, 5] \ (i = 0, \dots, n)$ 的拉格朗日多项式 $P_n(x)$
 
-    <div style="text-align: center"><img src="images/image-13.png" width=60%/></div>
+    
+
 
     无法用多项式（这些彩色曲线）准确地近似函数（黑色曲线）。增加多项式的阶数不一定能保证更好的近似结果，因为高阶多项式更容易发生**振荡**(oscillation)，反而会加大误差（即**龙格现象(Runge's phenomenon)**）。
 
@@ -434,9 +433,11 @@ $$
     **按段线性插值**(piecewise linear interpolation)
     思路：在每个子区间 $[x_i, x_{i+1}]$ 上，通过线性多项式近似表示 $f(x)$，即：
 
-    $$
-    f(x) \approx P_1(x) = \dfrac{x - x_{i+1}}{x_i - x_{i+1}}y_i + \dfrac{x - x_i}{x_{i+1} - x_i} y_{i+1} \text{ for } x \in [x_i, x_{i+1}]
-    $$
+
+$$
+f(x) \approx P_1(x) = \dfrac{x - x_{i+1}}{x_i - x_{i+1}}y_i + \dfrac{x - x_i}{x_{i+1} - x_i} y_{i+1} \text{ for } x \in [x_i, x_{i+1}]
+$$
+
 
     令 $h = \max |x_{i+1} - x_i|$，那么 $P_1^h(x) \xrightarrow{\text{uniform}} f(x), h \rightarrow 0$
 
@@ -453,7 +454,8 @@ $$
 
     给定一个定义在 $[a, b]$ 上的函数 $f$，以及一组节点 $a = x_0 < x_1 \dots < x_n = b$，关于 $f$ 的**三次样条插值器**(cubic spline interpolant) $S$ 是一个满足下面条件的函数：
 
-    <div style="text-align: center"><img src="images/image-14.png" width=90%/></div>
+    
+
 
     $S(x)$ 是一个分段函数，满足以下条件：
 
@@ -474,7 +476,7 @@ $$
 令 $h_j = x_j - x_{j-1}$ 且在 $x \in [x_{j-1}, x_j]$ 上, $S(x) = S_j(x),S'(x)=S_j '(x),S''(x)=S_j ''(x)$
 
 - 由于 $S(x)$ 是一个三次多项式，那么 $S_j''(x)$ 是一个一阶多项式，并能由 $f$ 上的2个节点值确定
-假设 $S_j''(x_{j-1}) = M_{j-1}, S_j''(x_j) = M_j$，那么 $\forall x \in [x_{j-1}, x_j]$，有
+  假设 $S_j''(x_{j-1}) = M_{j-1}, S_j''(x_j) = M_j$，那么 $\forall x \in [x_{j-1}, x_j]$，有
 
 $$
 S_j''(x) = M_{j-1} \dfrac{x_j - x}{h_j} + M_j \dfrac{x - x_{j-1}}{h_j}
@@ -511,16 +513,16 @@ $$
 也就是说，我们有 $n+1$ 个未知数，但只有 $n-1$ 个方程，所以还需要 2 个额外的边界条件。
 
 - **固定边界**(clamped boundary)：$S'(a) = y_0', S'(b) = y_n'$
-    - $[a, x_1]$: $S_1'(x) = -M_0 \dfrac{(x_1 - x)^2}{2h_1} + M_1 \dfrac{(x - a)^2}{2h_1} + f[x_0, x_1] - \dfrac{M_1 - M_0}{6}h_1$
-    - 在 $[x_{n-1}, b]$ 上 $S_n'$ 也是类似的：$\begin{cases}2M_0 + M_1 = \dfrac{6}{h_1} (f[x_0, x_1] - y_0') = g_0 \\ M_{n-1} + 2M_n = \dfrac{6}{h_n} (y_n' - f[x_{n-1}, x_n]) = g_n\end{cases}$
 
+  - $[a, x_1]$: $S_1'(x) = -M_0 \dfrac{(x_1 - x)^2}{2h_1} + M_1 \dfrac{(x - a)^2}{2h_1} + f[x_0, x_1] - \dfrac{M_1 - M_0}{6}h_1$
+  - 在 $[x_{n-1}, b]$ 上 $S_n'$ 也是类似的：$\begin{cases}2M_0 + M_1 = \dfrac{6}{h_1} (f[x_0, x_1] - y_0') = g_0 \\ M_{n-1} + 2M_n = \dfrac{6}{h_n} (y_n' - f[x_{n-1}, x_n]) = g_n\end{cases}$
 - **自由边界**(free boundary)：$S''(a) = y_0'' = M_0, S''(b) = y_n'' = M_n$，且 $M_0 = M_n = 0$ 时
-    - 那么 $\lambda_0 = 0, g_0 = 2y_0'';\ \mu_n = 0, g_n = 2y_n''$
-    - 此时的样条称为**自然样条**(natural spline)
 
+  - 那么 $\lambda_0 = 0, g_0 = 2y_0'';\ \mu_n = 0, g_n = 2y_n''$
+  - 此时的样条称为**自然样条**(natural spline)
 - **周期边界**(periodic boundary)：如果 $f$ 是周期函数，即 $y_n = y_0$ 且 $S'(a^+) = S'(b^-) \Rightarrow M_0 = M_n$
 
-    <div style="text-align: center">
+  <div style="text-align: center">
         <img src="images/image-16.png" width=50%/>
     </div>
 

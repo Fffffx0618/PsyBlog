@@ -1,4 +1,4 @@
-# Chap 9: Approximating Eigenvalues
+# Chap9.Approximating Eigenvalues
 
 ## 9.1 The Power Method
 
@@ -44,35 +44,16 @@ $$
     - 输入：维度 $n$，矩阵 $a[][]$，初始向量 $x0[]$，容忍值 $TOL$，最大迭代次数 $N_{max}$
     - 输出：近似特征值 $\lambda$，近似（规范化的）特征向量
 
-    ```c
-    Step 1  Set k = 1;
-    Step 2  Find index such that [x0[index]] = norm_infty(x0);
-    Step 3  Set x0[] = x0[] / x0[index];    // normalize x0
-    Step 4  while (k <= N_max) do steps 5-11
-            Step 5  x[] = A * x0[];
-            Step 6  lambda = x[index]
-            Step 7  Find index such that [x[index]] = norm_infty(x);
-            Step 8  if x[index] == 0 then
-                        Output("A has the eigenvalue 0", x[0]);
-                        STOP.
-                    // the matrix is singular and user should try a new x0
-            Step 9  err = norm_infty(x0 - x / x[index]);
-                    x0[] = x[] / x[index]      // computer u^k
-            Step 10 if (err < TOL) then
-                        Output(lambda, x0[]);
-                        STOP.
-            Step 11 Set k++;
-    Step 12 Output(Maximum number of iterations exceeded);
-            STOP.    // unsucessful
-    ```
+    ``c     Step 1  Set k = 1;     Step 2  Find index such that [x0[index]] = norm_infty(x0);     Step 3  Set x0[] = x0[] / x0[index];    // normalize x0     Step 4  while (k <= N_max) do steps 5-11             Step 5  x[] = A * x0[];             Step 6  lambda = x[index]             Step 7  Find index such that [x[index]] = norm_infty(x);             Step 8  if x[index] == 0 then                         Output("A has the eigenvalue 0", x[0]);                         STOP.                     // the matrix is singular and user should try a new x0             Step 9  err = norm_infty(x0 - x / x[index]);                     x0[] = x[] / x[index]      // computer u^k             Step 10 if (err < TOL) then                         Output(lambda, x0[]);                         STOP.             Step 11 Set k++;     Step 12 Output(Maximum number of iterations exceeded);             STOP.    // unsucessful     ``
 
 !!! note "注"
 
     - 该方法在有**多重特征值**（即存在 $\lambda_1 = \lambda_2 = \dots = \lambda_r$）的情况下也能生效，因为：
 
-    $$
-    x^{(k)} = \lambda_1^k \Big[ \sum\limits_{j=1}^r \beta_j v_j + \sum\limits_{j=r+1}^n \beta_j \Big(\dfrac{\lambda_j}{\lambda_1}\Big)^k v_j \Big] \approx \lambda_1^k \Big( \sum\limits_{j=1}^r \beta_j v_j \Big)
-    $$
+
+$$
+x^{(k)} = \lambda_1^k \Big[ \sum\limits_{j=1}^r \beta_j v_j + \sum\limits_{j=r+1}^n \beta_j \Big(\dfrac{\lambda_j}{\lambda_1}\Big)^k v_j \Big] \approx \lambda_1^k \Big( \sum\limits_{j=1}^r \beta_j v_j \Big)
+$$
 
     - 若存在类似 $\lambda_1 = -\lambda_2$ 的情况，那么该方法就会失效。
     - 因为我们无法确保对于任意初始近似向量 $\bm{x^{(0)}}$，$\beta_1 \ne 0$，所以在这种情况下的迭代结果可能就不是 $\bm{v_1}$，而时第一个满足 $(\bm{x^{(0)}}, \bm{v_m}) \ne 0$，关联的特征值为 $\lambda_m$。
@@ -120,24 +101,4 @@ $A^{-1}$ 的主特征值 $\Leftrightarrow$ $A$ 的特征值中的最小值
     - 输入：维度 $n$，矩阵 $a[][]$，初始向量 $x0[]$，容忍值 $TOL$，最大迭代次数 $N_{max}$
     - 输出：近似特征值 $\lambda$，近似（规范化的）特征向量
 
-    ```c
-    Step 1  Set q = (x[]^T · A · x[]) / (x^T · x[]);
-    Step 2  Set k = 1;
-    Step 3  Find the smallest integer p with 1 <= p <= n and |x_p| = norm_infty(x);
-    Step 4  Set x[] = x[] / x_p
-    Step 5  while (k <= N_max) do steps 6-12
-            Step 6  Solve the linear system (A - qI)y = x;
-            Step 7  if the system does not have a unique solution, then
-                        Output("q is an eigenvalue", q);
-                        STOP.
-            Step 8  set lambda = y_p;
-            Step 9  Find the smallest integer p with 1 <= p <= n and |y_p| = norm_infty(y);
-            Step 10  err = norm_infty(x[] - y[] / y_p);
-                     x[] = y[] / y_p;
-            Step 11 if (err < TOL) then
-                        Output(lambda, x[]);
-                        STOP.
-            Step 12 Set k++;
-    Step 13 Output(Maximum number of iterations exceeded);
-            STOP.
-    ```
+    ``c     Step 1  Set q = (x[]^T · A · x[]) / (x^T · x[]);     Step 2  Set k = 1;     Step 3  Find the smallest integer p with 1 <= p <= n and |x_p| = norm_infty(x);     Step 4  Set x[] = x[] / x_p     Step 5  while (k <= N_max) do steps 6-12             Step 6  Solve the linear system (A - qI)y = x;             Step 7  if the system does not have a unique solution, then                         Output("q is an eigenvalue", q);                         STOP.             Step 8  set lambda = y_p;             Step 9  Find the smallest integer p with 1 <= p <= n and |y_p| = norm_infty(y);             Step 10  err = norm_infty(x[] - y[] / y_p);                      x[] = y[] / y_p;             Step 11 if (err < TOL) then                         Output(lambda, x[]);                         STOP.             Step 12 Set k++;     Step 13 Output(Maximum number of iterations exceeded);             STOP.     ``

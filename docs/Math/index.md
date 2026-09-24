@@ -7,4 +7,4 @@
 ## 目录
 
 + [离散数学及其应用(DM)](DM/index.md)
-+ [数值分析(NA)](NA/Index.md)
++ [数值分析(NA)](NA/index.md)

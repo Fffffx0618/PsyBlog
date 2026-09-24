@@ -6,6 +6,7 @@
 
 ## 目录
 
++ [数字逻辑设计(DD)](DD/index.md)
 + [计算机组成(CO)](CO/index.md)
-+ [计算机体系结构(CA)](CA/info.md)
-+ [数据库系统(DB)](DB/info.md)
++ [计算机体系结构(CA)](CA/index.md)
++ [数据库系统(DB)](DB/index.md)

@@ -1,4 +1,4 @@
-# Dynamic Programming
+# Lec8.Dynamic Programming
 
 ## 8.1 Theory Background
 
@@ -72,21 +72,22 @@ $$
 
     对于多个矩阵的乘法，乘法的顺序相当关键，如果顺序选择不当，会让计算次数变多。
 
-    <div style="text-align: center"><img src="images/lec8/1.png" width="70%"></div>
+    
+
 
     问题：对于一个给定的多矩阵乘法，请找出最优的乘法顺序。
 
-#### 穷举法 
+#### 穷举法
 
 - 令 $b_n$ 为计算矩阵乘法 $\mathbf{M}_1 \cdot \mathbf{M}_2 \cdot \dots \cdot \mathbf{M}_n$ 的顺序数，易知 $b_2 = 1, b_3 = 2, b_4 = 5, \dots$
 - 令 $\mathbf{M}_{ij} = \mathbf{M}_i \cdot \dots \cdot \mathbf{M}_j$，那么 $\mathbf{M}_{1n} = \mathbf{M}_1 \cdot \dots \cdot \mathbf{M}_n = \mathbf{M}_{1i} \cdot \mathbf{M}_{i+1\ n}$
 - 令 $b_n$ 为 $\mathbf{M}_{1n}$ 的乘法顺序数，$b_i$ 为 $\mathbf{M}_{1i}$ 的乘法顺序数，$b_{n - i}$ 为 $\mathbf{M}_{i + 1\ n}$ 的乘法顺序数
 
-    $$
-    \Rightarrow b_n = \sum\limits_{i = 1}^{n - 1}b_i b_{n - i}，\text{其中 } n > 1 \text{ 且 } b_1 = 1
-    $$
+  $$
+  Rightarrow b_n = \sum\limits_{i = 1}^{n - 1}b_i b_{n - i}，\text{其中 } n > 1 \text{ 且 } b_1 = 1
+  $$
 
-    经计算，$b_n = O(\dfrac{4^n}{n\sqrt{n}})$，且 $b_n$ 是一个**卡特兰数 (Catalan number)**
+  经计算，$b_n = O(\dfrac{4^n}{n\sqrt{n}})$，且 $b_n$ 是一个**卡特兰数 (Catalan number)**
 
 #### DP
 
@@ -94,9 +95,10 @@ $$
 
     假设计算 $n$ 个矩阵的乘法为 $\mathbf{M}_1 \cdot \dots \cdot \mathbf{M}_n$，其中 $\mathbf{M}_i$ 是规模为 $r_{i-1} \times r_i$ 的矩阵。令计算矩阵乘法 $\mathbf{M}_i \cdot \dots \cdot \mathbf{M}_j$ 的最优成本为 $m_{ij}$，可以得到以下递推关系式：
 
-    $$
-    m_{ij} = \begin{cases}0 & \text{if}\ i = j \\ \min\limits_{i \le l < j}\{m_{il} + m_{l+1\ j} + r_{i-1}r_lr_j\} & \text{if}\ j > i\end{cases}
-    $$
+
+$$
+m_{ij} = \begin{cases}0 & \text{if}\ i = j \\ \min\limits_{i \le l < j}\{m_{il} + m_{l+1\ j} + r_{i-1}r_lr_j\} & \text{if}\ j > i\end{cases}
+$$
 
     > 此处是将 $m_{ij}$ 分割为 $m_{il},M_l,M_{l+1\space j}$，再将三者相乘
 
@@ -132,26 +134,26 @@ void OptMatrix(const long r[], int N, TwoDimArray) {
 ```
 
 - 循环顺序是==先循环 k 再循环 i ==
-    - 如果先循环 `i`，当 `i` 很小，`k` 很大时，`j` 的取值也可以很大，那么在计算 `M[i][j]` 时，`M[L + 1][j]` 这项还没有算出来（`L + 1 > i`），因此无法得到正确结果。
+  - 如果先循环 `i`，当 `i` 很小，`k` 很大时，`j` 的取值也可以很大，那么在计算 `M[i][j]` 时，`M[L + 1][j]` 这项还没有算出来（`L + 1 > i`），因此无法得到正确结果。
 
 !!! question "如何保存乘法的顺序？"
 
     ```cpp
     // Compute optimal ordering of matrix multiplication
     // c contains number of columns for each of the n matrices
-    // c[0] is the number of rows in matrix 1 
-    // Minimum number of multiplications is left in M[1][n] 
-    // Actual ordering can be computed via 
-    // another procedure using last_change 
-    // M and last_change are indexed starting at 1, instead of zero 
+    // c[0] is the number of rows in matrix 1
+    // Minimum number of multiplications is left in M[1][n]
+    // Actual ordering can be computed via
+    // another procedure using last_change
+    // M and last_change are indexed starting at 1, instead of zero
 
     void opt_matrix(int c[], unsigned int n, two_d_array M, two_d_array last_change) {
         int i, k, Left, Right, this_M;
 
         for (Left = 1; Left <= n; Left++)
             M[Left][Left] = 0;
-        for (k = 1; k < n; k++)    // k is Right-Left 
-            for (Left = 1; Left <= n - k; Left++) {    // for each position 
+        for (k = 1; k < n; k++)    // k is Right-Left
+            for (Left = 1; Left <= n - k; Left++) {    // for each position
                 Right = Left + k;
                 M[Left][Right] = INT_MAX;
                 for (i = Left; i < Right; i++) {
@@ -180,7 +182,8 @@ void OptMatrix(const long r[], int N, TwoDimArray) {
 
     - 下面给出一个程序用到的关键词以及对应的词频：
 
-     <div style="text-align: center"><img src="images/lec8/3.png" width="90%"></div>
+     
+
 
 构造OBST与计算矩阵乘法的最优顺序类似：
 
@@ -188,11 +191,11 @@ void OptMatrix(const long r[], int N, TwoDimArray) {
 - $c_{ij}$：$T_{ij}$的成本
 - $r_{ij}$：$T_{ij}$的根节点
 - $w_{ij}$：$T_{ij}$的权重，等于$\sum\limits_{k = i}^j p_k$（$w_{ii} = p_i$）
-如果令$w_k = r_{ij}$，那么$T_{ij}$的结构如下所示：
+  如果令$w_k = r_{ij}$，那么$T_{ij}$的结构如下所示：
 
 <div style="text-align: center">
     <img src="images/lec8/5.png" width="60%">
-</div>  
+</div>
 
 这棵树的成本为：
 
@@ -230,16 +233,16 @@ $$
 定义：
 
 - $D^k[i][j] = \min\{\text{length of path}\ i \rightarrow \{l \le k\} \rightarrow j\}$，其中 $l\leq k$ 表示路径上可以经过任何编号不大于 $k$ 的节点（$k \in [0, N - 1]$，共 $N$ 个待判断的点）
-    - 表示在只允许使用前 $k$ 个顶点（即索引为 $0∼k$）作为中间节点时，从 $i$ 到 $j$ 的最短路径长度
+  - 表示在只允许使用前 $k$ 个顶点（即索引为 $0∼k$）作为中间节点时，从 $i$ 到 $j$ 的最短路径长度
 - $D^{-1}[i][j] = \text{Cost}[i][j]$（$k = -1$表示$i, j$之间没有任何节点，即初始状态）
-则从顶点$i$到顶点$j$之间的最短路径长度为$D^{N-1}[i][j]$
+  则从顶点$i$到顶点$j$之间的最短路径长度为$D^{N-1}[i][j]$
 
 **Floyd算法的思路**
 从$D^{-1}$开始，连续得到$D^0, D^1, \dots, D^{N-1}$。如果已经解决了$D^{k-1}$，则此时有两种可能的情况：
 
 - 第$k$个节点并不在最短路内，即$D^k = D^{k - 1}$
 - 第$k$个节点在最短路内，那么满足$D^k[i][j] = D^{k-1}[i][k] + D^{k-1}[k][j]$
-因此有递推关系：
+  因此有递推关系：
 
 $$
 D^k[i][j] = \min\{D^{k-1}[i][j], D^{k-1}[i][k] + D^{k-1}[k][j]\}, k \ge 0
@@ -314,25 +317,25 @@ void all_pairs( two_d_array A, two_d_array D, two_d_array path ) {
 
         现在要求求出最短的组装总时间
 
-        <div style="text-align: center"><img src="images/lec8/20.png" width="90%"></div>
+        
+
 
 1. 定义状态
 
-    <div style="text-align: center">
+   <div style="text-align: center">
         <img src="images/lec8/21.png" width="80%">
     </div>
 
-    - 这张图给出了在*stage*阶段时的最优解（绿点 + 蓝线）
-    - 红色虚线表示虽然有一条同样能在*stage*阶段到达同一个点的路径，但这条路径所花的时间更长，因此被pass掉了
-
+   - 这张图给出了在*stage*阶段时的最优解（绿点 + 蓝线）
+   - 红色虚线表示虽然有一条同样能在*stage*阶段到达同一个点的路径，但这条路径所花的时间更长，因此被pass掉了
 2. 递归地定义最优解的值
 
-    <div style="text-align: center">
+   <div style="text-align: center">
         <img src="images/lec8/22.png" width="40%">
     </div>
 
-    - 在*stage*阶段时，我们有两种到达对应点的路径：要么来自第一条组装线，要么来自第二条组装线
-    - 因此，我们不难得出以下递推关系式：
+   - 在*stage*阶段时，我们有两种到达对应点的路径：要么来自第一条组装线，要么来自第二条组装线
+   - 因此，我们不难得出以下递推关系式：
 
 $$
 \begin{align}
@@ -380,7 +383,7 @@ for (stage = 1; stage <= n; stage++) {
             L[line][stage] = line;
         } else {
             f[line][stage] = f_move;
-            L[line][stage] = 1 - line;       
+            L[line][stage] = 1 - line;     
         }
     }
 }

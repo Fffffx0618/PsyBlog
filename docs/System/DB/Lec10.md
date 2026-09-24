@@ -1,4 +1,4 @@
-# Query Processing
+# Lec10.Query Processing
 
 ## 10.1 Overview
 
@@ -7,7 +7,7 @@
 
 - CPU 不能直接操作磁盘上的数据，数据必须先被读入内存。
 - 磁盘容量增长速度远快于磁盘读写速度增长速度。
-    - 20 年内，磁盘容量可能增长约 $1000$ 倍，但读写速度只增长约 $40$ 倍。
+  - 20 年内，磁盘容量可能增长约 $1000$ 倍，但读写速度只增长约 $40$ 倍。
 - 磁盘寻道速度的提升又慢于数据传输速度的提升。
 
 因此，查询处理的核心矛盾通常不是“CPU 算得快不快”，而是：
@@ -21,14 +21,18 @@
 查询处理的基本步骤：
 
 1. **Parsing and translation（语法分析与翻译）**
-    - Parser 检查 SQL 语法，并验证涉及的 relation / attribute 是否存在
-    - 将 SQL 翻译成内部形式，通常是 **extended relational algebra（扩展关系代数, ERA）**
+
+   - Parser 检查 SQL 语法，并验证涉及的 relation / attribute 是否存在
+   - 将 SQL 翻译成内部形式，通常是 **extended relational algebra（扩展关系代数, ERA）**
 2. **Optimization（查询优化）**
-    1. 对于同一个 SQL 查询，可能对应多个等价的关系代数表达式
-    2. 同一个关系代数操作也可能有多种执行算法
-    - 因此 Optimizer 需要在多个可行方案中选择估计**代价最低的方案**
+
+   1. 对于同一个 SQL 查询，可能对应多个等价的关系代数表达式
+   2. 同一个关系代数操作也可能有多种执行算法
+
+   - 因此 Optimizer 需要在多个可行方案中选择估计**代价最低的方案**
 3. **Evaluation（执行）**
-    - Query-execution engine 根据 query-evaluation plan 执行查询，并返回结果
+
+   - Query-execution engine 根据 query-evaluation plan 执行查询，并返回结果
 
 ### Basic Steps: Optimization
 
@@ -58,19 +62,21 @@ $$
 
 !!! example
 
-    <div style="text-align: center"><img src="images/image-94.png" width="60%"></div>
+    
 
-    $$
-    \Pi_{\text{customer-name}}(\sigma_{\text{branch-city=‘Brooklyn’}}(\text{branch} \bowtie\text{account} \bowtie \text{depositor}) )
-    $$
+
+
+$$
+\Pi_{\text{customer-name}}(\sigma_{\text{branch-city=‘Brooklyn’}}(\text{branch} \bowtie\text{account} \bowtie \text{depositor}) )
+$$
 
 优化器考虑的两个主要因素：
 
 - **执行算法本身的代价**：例如 selection 用 linear scan 还是 index scan
 - **数据库目录中的统计信息**
-    - relation 的 tuple 数量，tuple 大小
-    - relation 占用的 block 数
-    - attribute value 的分布等
+  - relation 的 tuple 数量，tuple 大小
+  - relation 占用的 block 数
+  - attribute value 的分布等
 
 ---
 
@@ -84,9 +90,9 @@ $$
 这里主要估计 **disk access cost**：磁盘 I/O 是主要瓶颈；磁盘访问代价相对容易估算
 
 - 磁盘代价主要由三部分组成：
-    1. Number of seek operations performed
-    2. Number of blocks **read** $\times$ average-block-read-cost
-    3. Number of blocks **written** $\times$ average-block-write-cost
+  1. Number of seek operations performed
+  2. Number of blocks **read** $\times$ average-block-read-cost
+  3. Number of blocks **written** $\times$ average-block-write-cost
 - 写 block 通常比读 block 更贵：因为写入后可能需要重新读出来，确认写入成功
 
 ### Simplified Cost Model
@@ -110,7 +116,8 @@ $$
 
 - 内存越大，需要的磁盘访问越少
 - 实际可用 buffer 受并发进程和 OS 状态影响，不一定能提前准确知道
-因此常用两类估计：
+  因此常用两类估计：
+
 1. **Worst case estimate**：假设只有该操作所需的最小内存
 2. **Best case estimate**：假设相关数据已经在 buffer 中，或内存足够大
 
@@ -183,8 +190,8 @@ $$
 $$
 
 2. 如果查找的是 non-key attribute：
-    - 找到第一个满足条件的 tuple 后，还要继续读包含所有匹配记录的 blocks
-    - 根据使用条件，匹配的记录的存储是连续的
+   - 找到第一个满足条件的 tuple 后，还要继续读包含所有匹配记录的 blocks
+   - 根据使用条件，匹配的记录的存储是连续的
 
 $$
 \text{Block transfer}=\lceil \log_2(b_r) \rceil + \left\lceil \frac{sc(A,r)}{f_r} \right\rceil - 1
@@ -214,7 +221,7 @@ $$
 **适用场景**：primary index，equality condition，并且search key 不是 key attribute
 
 - 会返回多条记录，但因为是 primary / clustering index，匹配记录通常位于连续 blocks 中
-若匹配记录占用 $b$ 个 blocks：$b = \left\lceil \dfrac{sc(A,r)}{f_r} \right\rceil$
+  若匹配记录占用 $b$ 个 blocks：$b = \left\lceil \dfrac{sc(A,r)}{f_r} \right\rceil$
 - 先沿索引树定位到第一个匹配记录，然后顺序扫描连续的数据 blocks
 
 $$
@@ -226,14 +233,14 @@ $$
 **适用场景**：secondary index 并且 equality condition
 
 1. 如果 search key 是 candidate key：
-    - 最多返回一条记录，代价类似 A3
+   - 最多返回一条记录，代价类似 A3
 
 $$
 \text{Cost}=(h_i + 1)(t_T + t_S)
 $$
 
 2. 如果 search key 不是 candidate key：
-    - 可能返回 $n$ 条匹配记录，这些记录可能散布在不同的数据 block 中
+   - 可能返回 $n$ 条匹配记录，这些记录可能散布在不同的数据 block 中
 
 $$
 \text{Cost}=(h_i + n)(t_T + t_S)
@@ -258,6 +265,7 @@ $$
 **基于主索引的比较**，主要分两种情况
 
 - 此时不一定要用 index，因为文件本身按 primary search key 排序
+
 1. 对于 $\sigma_{A \ge V}(r)$：
    使用 primary index 找到第一个满足 $A \ge V$ 的 tuple，然后从那里开始顺序扫描 relation
 2. 对于 $\sigma_{A \le V}(r)$：
@@ -271,6 +279,7 @@ $$
    使用 secondary index 找到第一个 $A \ge V$ 的 index entry，然后顺序扫描 index leaf pages，获得记录指针。
 2. 对于 $\sigma_{A \le V}(r)$：
    从 index leaf pages 开始扫描，直到遇到第一个 $A > V$ 的 entry
+
 - 然后根据指针取回实际 records。
 
 !!! tip
@@ -323,21 +332,21 @@ $$
 
 - 通常使用 linear scan
 - 如果满足 $\neg \theta$ 的记录非常少，并且 $\theta$ 可用索引：
-    - 可以先用索引找出满足目标的记录
+  - 可以先用索引找出满足目标的记录
 
 ---
 
 ## 10.4 \*Sorting
 
 - Why：Sorting 的两个主要用途：
-    - 用户显式要求排序输出
-    - 某些 join 算法需要输入有序，例如 merge-join
+  - 用户显式要求排序输出
+  - 某些 join 算法需要输入有序，例如 merge-join
 - 可以通过索引按顺序读取 relation：
-    - 逻辑上是有序的，但物理上 relation 未必按该顺序连续存放
-    - 如果用 secondary index 顺序访问，可能每个 tuple 都要访问一个新的 disk block，代价很高
+  - 逻辑上是有序的，但物理上 relation 未必按该顺序连续存放
+  - 如果用 secondary index 顺序访问，可能每个 tuple 都要访问一个新的 disk block，代价很高
 - How：
-    - 如果 relation 能全部放入内存：可使用 quicksort 等内存排序算法
-    - 如果 relation 放不进内存：使用 external sort-merge（外部排序归并）
+  - 如果 relation 能全部放入内存：可使用 quicksort 等内存排序算法
+  - 如果 relation 放不进内存：使用 external sort-merge（外部排序归并）
 
 ### 10.4.1 External Sort-Merge
 
@@ -374,8 +383,8 @@ P = \left\lceil \log_{M-1}\left(\frac{b_r}{M}\right) \right\rceil
 $$
 
 - Initial run creation 和每一轮 merge pass 都需要**完整读+写一遍数据**：
-    - 因此每轮大约 $2b_r$ block transfers
-    - 但 final pass 的输出通常不计写回磁盘的代价，因为可以直接传给父操作
+  - 因此每轮大约 $2b_r$ block transfers
+  - 但 final pass 的输出通常不计写回磁盘的代价，因为可以直接传给父操作
 - 因此 block transfers：
 
 $$
@@ -384,17 +393,17 @@ $$
 
 ==Seek cost==：
 
-- Run generation 阶段： 
-    - 每次：seek → 连续读 $M$ blocks → 内部排序 → seek → 连续写 $M$ blocks
-    - 一共 $2 \lceil \dfrac{b_r}{M} \rceil$ 个 run，每个 run 读写各一次 seek
+- Run generation 阶段：
+  - 每次：seek → 连续读 $M$ blocks → 内部排序 → seek → 连续写 $M$ blocks
+  - 一共 $2 \lceil \dfrac{b_r}{M} \rceil$ 个 run，每个 run 读写各一次 seek
 
 $$
 \text{Seek}_{\text{run}}=2\left\lceil \frac{b_r}{M} \right\rceil
 $$
 
 - Merge 阶段，设一次连续读写 $b_b$ 个 blocks：
-    - 每轮 merge 需要读全部 $b_r$ 个 blocks + 写全部 $b_r$ 个 blocks
-    - 每个轮读写各一次 seek，但最后一轮不用写，省掉一轮 seek
+  - 每轮 merge 需要读全部 $b_r$ 个 blocks + 写全部 $b_r$ 个 blocks
+  - 每个轮读写各一次 seek，但最后一轮不用写，省掉一轮 seek
 
 $$
 \left\lceil \frac{b_r}{b_b} \right\rceil(2P - 1)
@@ -434,7 +443,7 @@ for each tuple tr in r:
 ```
 
 - 不需要索引，可以用于任意 join condition
-- 代价很高，因为要检查所有 tuple pairs  
+- 代价很高，因为要检查所有 tuple pairs
 
 !!! info "Worst case："
 
@@ -450,18 +459,19 @@ for each tuple tr in r:
 
     ??? info "关于 seek 的分析"
 
-        | |次数|原因|
-        |---|---|---|
-        |内层扫描|**每轮 1 次** seek|的 blocks **连续存放**，读完一个紧接着下一个，顺序 I/O|
-        |外层读取|**每个 block 1 次** seek|每次读的下一个 block 之前，磁头已经被扫描带到了远处，必须 seek 回来|
+|          | 次数                            | 原因                                                                |
+| -------- | ------------------------------- | ------------------------------------------------------------------- |
+| 内层扫描 | **每轮 1 次** seek       | 的 blocks**连续存放**，读完一个紧接着下一个，顺序 I/O         |
+| 外层读取 | **每个 block 1 次** seek | 每次读的下一个 block 之前，磁头已经被扫描带到了远处，必须 seek 回来 |
 
         **本质**：不是"读几个 block 就要几次 seek"，而是**访问是否连续**。连续读 100 个 block 也只要 1 次 seek；但如果中间被打断（比如去扫描了别的东西），每次回来都要重新 seek。
 
     **Best case**：如果较小 relation 能全部放入内存，并作为 inner relation：
 
-    $$
-    (b_r + b_s) \text{ block transfers} + 2 \text{ seeks}
-    $$
+
+$$
+(b_r + b_s) \text{ block transfers} + 2 \text{ seeks}
+$$
 
 !!! tip
 
@@ -472,7 +482,7 @@ for each tuple tr in r:
 
 <div style="text-align: center"><img src="images/image-95.png" width="60%"></div>
 
-Block nested-loop join 是 nested-loop join 的改进： 
+Block nested-loop join 是 nested-loop join 的改进：
 
 - 对 outer relation 的每个 *block* 扫描 inner relation
 
@@ -534,9 +544,11 @@ for each block Br of r:
         - 每个 outer tuple 都要对 inner relation 做一次 index lookup
     - 开销：
 
-    $$
-    \text{Cost}=\underbrace{b_r(t_T + t_S)}_{\text{读取 outer relation }r} + \underbrace{n_r \cdot c}_{\text{对每个 tuple 做一次索引查找}}
-    $$
+
+$$
+\text{Cost}=\underbrace{b_r(t_T + t_S)}_{\text{读取 outer relation }r} + \underbrace{n_r \cdot c}_{\text{对每个 tuple 做一次索引查找}}
+$$
+
 
         - 加号前的部分是针对 outer relation 的 tranfer 以及 seek 的开销
             - ⚠️索引查找完之后，磁头已经移动到 $s$ 的位置，再 transfer $r$ 时需要 seek
@@ -582,7 +594,7 @@ $$
 1. 将已排序 relation 与 B+ tree 的 leaf entries 合并（按值匹配）
 2. 将合并结果按物理地址排序
 3. 按**物理地址顺序**扫描未排序 relation，将地址替换为实际 tuple
-    - 这样可以避免大量随机 lookup，尽量转化为顺序扫描
+   - 这样可以避免大量随机 lookup，尽量转化为顺序扫描
 
 ### 10.5.5 Hash-Join
 
@@ -590,9 +602,9 @@ $$
 **核心思想**：两个 relation 太大无法直接在内存中 join，那就**先用 hash 分区**，把大问题拆成多个小问题，每个小问题都能在内存中完成。
 
 - 使用 hash function $h$ 按 join attribute 将两个 relation 分成多个 partition
-    - 设：$h: \text{JoinAttrs} \rightarrow \{0,1,\dots,n\}$
-    - 将 $r$ 分成：$r_0,r_1,\dots,r_n$，将 $s$ 分成：$s_0,s_1,\dots,s_n$
-    - 若 $t_r$ 与 $t_s$ 满足 join condition，则它们 join attribute 值相同，因此一定被 hash 到同一个 $i$，只需比较 $r_i$ 与 $s_i$
+  - 设：$h: \text{JoinAttrs} \rightarrow \{0,1,\dots,n\}$
+  - 将 $r$ 分成：$r_0,r_1,\dots,r_n$，将 $s$ 分成：$s_0,s_1,\dots,s_n$
+  - 若 $t_r$ 与 $t_s$ 满足 join condition，则它们 join attribute 值相同，因此一定被 hash 到同一个 $i$，只需比较 $r_i$ 与 $s_i$
 - 只有落在同一个 partition 中的 tuples 才可能匹配
 
 #### Hash-Join Algorithm
@@ -604,8 +616,8 @@ $s$ 被称为 **build input**，$r$ 被称为 **probe input**
 1. 使用 hash function $h$ 对 build relation $s$ 分区
 2. 使用同一个 $h$ 对 probe relation $r$ 分区
 3. 对每个 partition $i$：
-    - 将 $s_i$ 读入内存，在 $s_i$ 上基于 join attribute 建立内存 hash index
-    - 顺序读取 $r_i$，对 $r_i$ 中每个 tuple，查刚刚建立的 hash index，输出匹配结果
+   - 将 $s_i$ 读入内存，在 $s_i$ 上基于 join attribute 建立内存 hash index
+   - 顺序读取 $r_i$，对 $r_i$ 中每个 tuple，查刚刚建立的 hash index，输出匹配结果
 
 !!! tip
 
@@ -639,20 +651,20 @@ Hash-table overflow 发生在 build partition $s_i$ 无法放入内存时，常�
 解决方法：
 
 - **Overflow resolution**
-    - 对溢出的 partition 用另一个 hash function 继续分区
-    - 对应的 probe partition 也必须相同方式分区
+  - 对溢出的 partition 用另一个 hash function 继续分区
+  - 对应的 probe partition 也必须相同方式分区
 - **Overflow avoidance**
-    - 在 build phase 更谨慎地分区，例如先分成更多 partitions，再合并合适的小 partitions
+  - 在 build phase 更谨慎地分区，例如先分成更多 partitions，再合并合适的小 partitions
 - 如果重复值极多，上述方法失败：
-    - 对溢出部分退化使用 block nested-loop join
+  - 对溢出部分退化使用 block nested-loop join
 
 ### 10.5.6 Cost of Hash-Join
 
 如果不需要 recursive partitioning：
 
 - 分区时读写 partition：
-    - Transfer：读 + 写 =  $2(b_r+b_s)$
-    - Seek：每次连续读/写 $b_b$ 个 blocks 需要 $1$ 次 seek，读写各 $\lceil \dfrac{b_r}{b_b} \rceil+ \lceil \dfrac{b_s}{b_b} \rceil$ 次
+  - Transfer：读 + 写 =  $2(b_r+b_s)$
+  - Seek：每次连续读/写 $b_b$ 个 blocks 需要 $1$ 次 seek，读写各 $\lceil \dfrac{b_r}{b_b} \rceil+ \lceil \dfrac{b_s}{b_b} \rceil$ 次
 - 建立 hash table：$\text{Cost of transfer}= b_s$
 - Probe (寻找匹配的值)：$\text{Cost of transfer}= b_r$
 
@@ -667,8 +679,8 @@ $$
 $$
 
 - 其中：
-    - $n_h$ 是 partition 数（修正项，partition 填不满的碎片 blocks）
-    - $4n_h$ 近似表示 partially filled partition blocks 带来的额外 I/O
+  - $n_h$ 是 partition 数（修正项，partition 填不满的碎片 blocks）
+  - $4n_h$ 近似表示 partially filled partition blocks 带来的额外 I/O
 
 如果需要 recursive partitioning：
 
@@ -709,14 +721,14 @@ Hybrid hash-join 适用于：内存相对较大，build input 仍然大于内存
 Hybrid Hash-Join：
 
 1. **分区阶段**（Partitioning Phase）
-    - 对于哈希值为 **0** 的那部分数据，**直接留在内存里**，不写磁盘
-    - 对于哈希值为 1 到 N-1 的数据，因为内存装不下了，所以**写入磁盘**
+   - 对于哈希值为 **0** 的那部分数据，**直接留在内存里**，不写磁盘
+   - 对于哈希值为 1 到 N-1 的数据，因为内存装不下了，所以**写入磁盘**
 2. 探测阶段（Probing Phase）
    这时内存以及存在一个现成的 **Partition 0** 的哈希表
-    - 开始扫描表 S（Probe Input）
-    - 遇到属于 **Partition 0** 的元组：直接拿它跟内存里现成的表进行匹配（Probe）
-    - 遇到属于 **1 到 N-1** 的元组：先**写入磁盘**，等后面再处理
-因此可以减少一部分 partition 的写盘和读盘代价
+   - 开始扫描表 S（Probe Input）
+   - 遇到属于 **Partition 0** 的元组：直接拿它跟内存里现成的表进行匹配（Probe）
+   - 遇到属于 **1 到 N-1** 的元组：先**写入磁盘**，等后面再处理
+     因此可以减少一部分 partition 的写盘和读盘代价
 
 ### 10.5.8 Complex Joins
 
@@ -751,10 +763,10 @@ $$
 Duplicate elimination 可以通过 sorting 或 hashing 实现
 
 - Sorting 方法：
-    - 排序后重复的 tuples 会相邻；保留一份，删除其余重复项
-    - 优化：在 run generation 和 intermediate merge 阶段就可以提前删除重复项。
+  - 排序后重复的 tuples 会相邻；保留一份，删除其余重复项
+  - 优化：在 run generation 和 intermediate merge 阶段就可以提前删除重复项。
 - Hashing 方法：
-    - 重复 tuples 会进入同一个 bucket，在 bucket 内去重
+  - 重复 tuples 会进入同一个 bucket，在 bucket 内去重
 
 ### 10.6.2 Projection
 
@@ -799,9 +811,9 @@ Hashing 实现思路：
 
 1. 用相同 hash function 分区两个 relation：$r_0,\dots,r_n$ 和 $s_0,\dots,s_n$
 2. 对每个 partition $i$：
-    - 将 $r_i$ 读入内存
-    - 使用另一个 hash function 建立内存 hash index
-    - 处理 $s_i$
+   - 将 $r_i$ 读入内存
+   - 使用另一个 hash function 建立内存 hash index
+   - 处理 $s_i$
 
 对于 union：
 
@@ -837,10 +849,10 @@ $$
 如果修改 hash-join：
 
 - 若 $r$ 是 probe relation：
-    - probe 时发现没有匹配，就输出 null padded tuple
+  - probe 时发现没有匹配，就输出 null padded tuple
 - 若 $r$ 是 build relation：
-    - probing 时记录哪些 $r$ tuples 被匹配过
-    - 最后输出未匹配的 $r$ tuples，并补 null
+  - probing 时记录哪些 $r$ tuples 被匹配过
+  - 最后输出未匹配的 $r$ tuples，并补 null
 
 Right outer join 和 full outer join 可类似处理
 
@@ -933,8 +945,8 @@ Pipelined evaluation（流水线执行）：
 
 - Hybrid hash join 可以对保留在内存中的 partition 立即输出匹配结果
 - Double-pipelined join 可以同时缓存两个 relation 的 partition 0：
-    - 新的 $r_0$ tuple 到来时，与已有 $s_0$ tuples 匹配并输出
-    - 新的 $s_0$ tuple 到来时，与已有 $r_0$ tuples 匹配并输出
+  - 新的 $r_0$ tuple 到来时，与已有 $s_0$ tuples 匹配并输出
+  - 新的 $s_0$ tuple 到来时，与已有 $r_0$ tuples 匹配并输出
 
 ### 10.7.3 Multiway Join and Example
 
@@ -965,10 +977,10 @@ $$
 再与 `customer` join。
 
 3. 将多个 join 合成一个 special-purpose operation：
-    - 在 `loan.loan-number` 上建索引。
-    - 在 `customer.customer-name` 上建索引。
-    - 对 `depositor` 中每个 tuple，分别查找对应的 `loan` 和 `customer` tuples。
-    - 每个 `depositor` tuple 只检查一次。
+   - 在 `loan.loan-number` 上建索引。
+   - 在 `customer.customer-name` 上建索引。
+   - 对 `depositor` 中每个 tuple，分别查找对应的 `loan` 和 `customer` tuples。
+   - 每个 `depositor` tuple 只检查一次。
 
 第三种方法把两个二元 join 合并成一个更专用的操作，可能比逐个执行两个 join 更高效。
 

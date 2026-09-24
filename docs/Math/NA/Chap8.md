@@ -1,4 +1,4 @@
-# Chap 8: Approximation Theory
+# Chap8.Approximation Theory
 
 > 逼近和插值的区别在于，插值是要求通过所有的数据点，而逼近没有这个限制，而是要求逼近的函数和原函数的误差尽可能小——尽可能接近每个点。
 
@@ -13,16 +13,18 @@ $$
     - 这用初等技术无法解决
 2. Absolute problem：
 
-    $$
-    \sum_{i=1}^{m}|P(x_i)-y_i|
-    $$
+
+$$
+\sum_{i=1}^{m}|P(x_i)-y_i|
+$$
 
     - 绝对值函数在零点不可微，可能无法求解多元函数的最小值
 3. Least-Squares method
 
-    $$
-    \sum_{i=1}^{m}|P(x_i)-y_i|^2
-    $$
+
+$$
+\sum_{i=1}^{m}|P(x_i)-y_i|^2
+$$
 
     - 此即为**最小二乘**的误差表达，也是最常用的逼近方法
 
@@ -32,8 +34,7 @@ $$
 
     确定一个多项式 $P_n(x) = a_0 + a_1 x + \dots a_n x^n$，用于近似表示一组数据 $\{(x_i, y_i)\ |\ i = 1, 2, \dots, m\}$，使得最小二乘误差 $E_2 = \sum\limits_{i=1}^m [P_N(x_i) - y_i]^2$ 最小化，其中 $n \ll m$
 
--  $E_2$ 实际上是一个关于 $a_0, a_1, \dots, a_n$ 的函数，即 $E_2(a_0, a_1, \dots, a_n) = \sum\limits_{i=1}^m [a_0 + a_1 x_i + \dots + a_n x_i^n - y_i]^2$。要想让 $E_2$ 最小化，必要条件是 $\dfrac{\partial E_2}{\partial a_k} = 0, k = 0, \dots, n$
-
+- $E_2$ 实际上是一个关于 $a_0, a_1, \dots, a_n$ 的函数，即 $E_2(a_0, a_1, \dots, a_n) = \sum\limits_{i=1}^m [a_0 + a_1 x_i + \dots + a_n x_i^n - y_i]^2$。要想让 $E_2$ 最小化，必要条件是 $\dfrac{\partial E_2}{\partial a_k} = 0, k = 0, \dots, n$
 - 因此可以得到如下的方程：
 
 $$
@@ -90,7 +91,8 @@ $$
 
 !!! example
 
-    <div style="text-align: center"><img src="images/image-17.png" width=80%/></div>
+    
+
 
     **Method 1**:
     令 $y \approx P(x) = \dfrac{x}{ax + b}$，寻找 $a, b$，使得 $E_2(a, b) = \sum\limits_{i=1}^m \Big(\dfrac{x_i}{ax_i + b} - y_i\Big)^2$ 最小化。
@@ -141,11 +143,17 @@ $$
 
 ### 权重函数 (weight function)
 
-- **离散**的情况下，为了在某些点上分配不同程度的重要性，我们在计算离散最小二乘逼近的误差表达式时附上权重： 
+- **离散**的情况下，为了在某些点上分配不同程度的重要性，我们在计算离散最小二乘逼近的误差表达式时附上权重：
 
- $$
+$$
+$
+$$
+
  E = \sum w_i (P(x_i) - y_i)^2
- $$
+
+$$
+$
+$$
 
 - **连续**版本：一个在区间 $I$ 上的可积分的函数 $w$ 被称为==权重函数==，它满足 $\forall x \in I, w(x) \ge 0$，但 $w(x)$ 不会在 $I$ 的任意子区间上消失。
 
@@ -161,7 +169,7 @@ $$
 (f, g) = \begin{cases}\sum\limits_{i=1}^m w_i f(x_i) g(x_i) & \text{discrete version} \\ \int_a^b w(x) f(x) g(x) dx & \text{continuous version} \end{cases}
 $$
 
-我们定义**范数**为 
+我们定义**范数**为
 
 $$
 \|f\| = \sqrt{(f, f)}
@@ -189,7 +197,8 @@ $$
 
     - Solution
 
-    <div style="text-align: center"><img src="images/image-18.png" width=90%/></div>
+    
+
 
 ### 构造式
 
@@ -199,11 +208,12 @@ $$
 
 !!! note "theorem"
 
-    对于一组在 $[a, b]$ 的多项式函数 $\{\varphi_0(x), \varphi_1(x), \dots, \varphi_n(x)\}$ 以及一个权重函数 $w$，当满足以下条件时，我们认为这些函数是正交的：   
+    对于一组在 $[a, b]$ 的多项式函数 $\{\varphi_0(x), \varphi_1(x), \dots, \varphi_n(x)\}$ 以及一个权重函数 $w$，当满足以下条件时，我们认为这些函数是正交的：
 
-     $$
-     \varphi_0 (x) = 1, \varphi_1(x) = x - B_1, \varphi_k(x) = (x - B_k)\varphi_{k-1}(x) - C_k \varphi_{k-2}(x)
-     $$
+
+$$
+\varphi_0 (x) = 1, \varphi_1(x) = x - B_1, \varphi_k(x) = (x - B_k)\varphi_{k-1}(x) - C_k \varphi_{k-2}(x)
+$$
 
      其中 $B_k = \dfrac{(x \varphi_{k-1}, \varphi_{k-1})}{(\varphi_{k-1}, \varphi_{k-1})}, C_k = \dfrac{(x \varphi_{k-1}, \varphi_{k-2})}{( \varphi_{k-2}, \varphi_{k-2})}$
 
@@ -211,7 +221,8 @@ $$
 
     （和之前基本一样）使用 $y = c_0 + c_1 x + c_2 x^2, w \equiv 1$ 近似点集 $\{(1, 4), (2, 10), (3, 18), (4, 26)\}$
 
-    <div style="text-align: center"><img src="images/image-19.png" width=90%/></div>
+    
+
 
 ### 正交多项式近似
 
@@ -264,7 +275,7 @@ $$
 - 如果 $f \in C[a, b]$ 且 $f$ **不是**一个 $n$ 阶多项式，那么存在一个唯一的多项式 $P_n(x)$，使得 $\|P_n - f\|_{\infty}$ 最小化
 - $P_n(x)$ 存在，且必须同时有正负偏差点（否则有更小的误差）
 - **切比雪夫定理**(Chebyshev Theorem)
-    - $P_n(x)$ 最小化  $\|P_n - f\|_{\infty}\ \Leftrightarrow P_n(x)$ 至少有 $n+2$ 个关于 $f$ 的正负偏差点。也就是说，存在一组点 $a \le t_1 < \dots < t_{n+2} \le b$ ，使得 
+  - $P_n(x)$ 最小化  $\|P_n - f\|_{\infty}\ \Leftrightarrow P_n(x)$ 至少有 $n+2$ 个关于 $f$ 的正负偏差点。也就是说，存在一组点 $a \le t_1 < \dots < t_{n+2} \le b$ ，使得
 
 $$
 P_n(t_k) - f(t_k) = \pm(-1)^k \|P_n - f\|_{\infty}
@@ -305,7 +316,7 @@ $$
 切比雪夫多项式的性质：
 
 - $T_n(x)$ 假设在 $t_k = \cos \Big(\dfrac{k}{n} \pi\Big) (k = 0, 1, \dots, n)$ 上，在最大值1和最小值-1之间交替变换
-    - 也就是说 $T_n(t_k) = (-1)^k \|T_n(x)\|_{\infty}$
+  - 也就是说 $T_n(t_k) = (-1)^k \|T_n(x)\|_{\infty}$
 - $T_n(x)$ 有 $n$ 个根 $x_k = \cos \Big(\dfrac{2k - 1}{2n} \pi \Big)(k = 1, \dots, n)$
 - $T_n(x)$ 有递推关系式：
 
@@ -314,21 +325,22 @@ $$
 $$
 
     - $T_n(x)$ 是一个最高阶系数为 $2^{n-1}$ 的 $n$ 阶多项式
+
 - $\{T_0(x), T_1(x), \dots\}$ 在 $[-1, 1]$ 上关于权重函数 $w(x) = \dfrac{1}{\sqrt{1 - x^2}}$ 上正交，也就是说
 
-    $$
-    (T_n, T_m) = \int_{-1}^1 \dfrac{T_n(x) T_m(x)}{\sqrt{1-x^2}} dx = \begin{cases}0 & n \ne m \\ \pi & n = m = 0 \\ \dfrac{\pi}{2} & n = m \ne 0\end{cases}
-    $$
+  $$
+  T_n, T_m) = \int_{-1}^1 \dfrac{T_n(x) T_m(x)}{\sqrt{1-x^2}} dx = \begin{cases}0 & n \ne m \\ \pi & n = m = 0 \\ \dfrac{\pi}{2} & n = m \ne 0\end{cases}
+  $$
 
 回到之前提到的目标：
 
 - 目标 3.0：找到多项式 $P_{n-1}(x)$，使得 $\|x^n - P_{n-1}(x)\|_{\infty}$ 在 $[-1, 1]$ 上最小。
-    - 此时 $w_n(x) = x^n - P_{n-1}(x) = \dfrac{T_n(x)}{2^{n-1}}$
+  - 此时 $w_n(x) = x^n - P_{n-1}(x) = \dfrac{T_n(x)}{2^{n-1}}$
 - 目标 2.1：找到 $\{x_1, \dots, x_n\}$ 使得 $\|w_n\|_{\infty}$ 在 $[-1, 1]$ 最小化，其中 $w_n(x) = \prod\limits_{i=1}^n (x - x_i)$
-    - 此时 $\min\limits_{w_n \in \widetilde{\Pi}_n} \|w_n\|_{\infty} = \Big\|\dfrac{T_n(x)}{2^{n-1}} \Big\|_{\infty} = \dfrac{1}{2^{n-1}}$。
-    - 其中：$\widetilde{\Pi}_n$ 是 $n$ 阶的**首一多项式**，所以差值点 $\{x_1, \dots, x_n\}$ 是 $T_n(x)$ 的 $n$ 个根
+  - 此时 $\min\limits_{w_n \in \widetilde{\Pi}_n} \|w_n\|_{\infty} = \Big\|\dfrac{T_n(x)}{2^{n-1}} \Big\|_{\infty} = \dfrac{1}{2^{n-1}}$。
+  - 其中：$\widetilde{\Pi}_n$ 是 $n$ 阶的**首一多项式**，所以差值点 $\{x_1, \dots, x_n\}$ 是 $T_n(x)$ 的 $n$ 个根
 - 目标 2.0：确定插值点 $\{x_0, \dots, x_n\}$ 使得 $P_n(x)$ 最小化余项 $|P_n(x) - f(x)| = |R_n(x)| = \Big|\dfrac{f^{(n+1)}(\xi)}{(n+1)!} \prod\limits_{i=0}^n (x - x_i)\Big|$
-    - 取 $T_{n+1}(x)$ 上的 $n+1$ 个根作为插值点 $\{x_0, \dots, x_n\}$ 能够使得余项最小，即
+  - 取 $T_{n+1}(x)$ 上的 $n+1$ 个根作为插值点 $\{x_0, \dots, x_n\}$ 能够使得余项最小，即
 
 $$
 \max_{x\in[-1,1]}|f(x)-P_n(x)|\leq \frac{1}{2^n(n+1)!}\max_{x\in [-1,1]}|f^{(n+1)}(x)|
@@ -340,7 +352,8 @@ $$
 
     找到在 $[0, 1]$ 上关于 $f(x) = e^x$ 的最佳近似多项式，使得绝对误差不超过 $0.5 \times 10^{-4}$。
 
-    <div style="text-align: center"><img src="images/image-21.png" width=90%/></div>
+    
+
 
 ### 3. Economization of Power Series
 
@@ -356,5 +369,3 @@ $$
     - 另一种方法是用 $T_0(x), \dots, T_k(x)$ 的线性组合来表示每一项 $x^k$。比如，$x = T_1(x)$，且 $x^3 = [T_3(x) + 3T_1(x)] / 4$。然后只要从原始多项式中移除切比雪夫函数就行了。
 
 !!! example
-
-    <div style="text-align: center"><img src="images/image-22.png" width=90%/></div>

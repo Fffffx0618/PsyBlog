@@ -1,4 +1,4 @@
-# Backtracking
+# Lec6.Backtracking
 
 ## 6.1 Introduction
 
@@ -43,29 +43,30 @@ bool Backtracking (int i) {
 
 !!! info "可行解"
 
-    <div style="text-align: center"><img src="images/lec6/1.png" width="80%"></div>
+    
+
 
 用数学化的语言描述问题：
 
 - 令$Q_i$为棋盘上第$i$行的皇后，$x_i$为$Q_i$的列索引，$S_i$为$x_i$可取值的集合
 - 限制条件为：
-    - $S_i = \{1, 2, 3, 4, 5, 6, 7, 8\}$，其中$1 \le i \le 8$
-        - 一共有$8^8$种可能解
-    - 当$i \ne j$时，$x_i \ne x_j$
-        - 每个解是$1, 2, \dots, 8$的排列，所以可能解的个数降到$8!$个
-    - $\dfrac{x_i - x_j}{i - j} \ne \pm 1$
-        - 用于确保“不在同一对角线”的限制条件
+  - $S_i = \{1, 2, 3, 4, 5, 6, 7, 8\}$，其中$1 \le i \le 8$
+    - 一共有$8^8$种可能解
+  - 当$i \ne j$时，$x_i \ne x_j$
+    - 每个解是$1, 2, \dots, 8$的排列，所以可能解的个数降到$8!$个
+  - $\dfrac{x_i - x_j}{i - j} \ne \pm 1$
+    - 用于确保“不在同一对角线”的限制条件
 
 #### Method
 
 1. 构建一棵**博弈树**(game tree)
 
-    <div style="text-align: center">
+   <div style="text-align: center">
         <img src="images/lec6/2.png" width="80%">
     </div>
 
-    - 每一条从根节点到叶子节点的路径即为一种可能的解
-    - 节点内的数字表示搜索的顺序(post-order-traversal)，深度为 $i$ 的节点表示第 $i$ 行上的皇后
+   - 每一条从根节点到叶子节点的路径即为一种可能的解
+   - 节点内的数字表示搜索的顺序(post-order-traversal)，深度为 $i$ 的节点表示第 $i$ 行上的皇后
 2. 通过执行**深度优先搜索**(depth-first search)（后序遍历）来检验每一条可能的路径
 
 ### 2. Turnpike Reconstruction
@@ -122,26 +123,26 @@ bool Backtracking (int i) {
 
             if (!Found) {  // if option 1 does not work
                 // option 2: X[left] = X[N] - D_max
-                OK = Check(X[N] - D_max, N, left, right); 
-                if (OK) { 
+                OK = Check(X[N] - D_max, N, left, right);
+                if (OK) {
                     X[left] = X[N] - D_max;
                     for (i = 1; i < left; i++)
                         Delete(abs(X[left] - X[i]), D);
                     for (i = right + 1; i <= N; i++)
                         Delete(abs(X[left] - X[i]), D);
                     Found = Reconstruct(X, D, N, left + 1, right);
-                    if (!Found) { 
+                    if (!Found) {
                         for (i = 1; i < left; i++)
                             Insert(abs(X[left] - X[i]), D);
                         for (i = right + 1; i <= N; i++)
                             Insert(abs(X[left] - X[i]), D);
                     }
-                } 
+                }
                 // finish checking option 2
             }  // finish checking all the option
 
             return Found;
-    }    
+    }
     ```
 
 ### 3. Games: Tic-tac-toe
@@ -150,9 +151,11 @@ bool Backtracking (int i) {
 
 !!! question "问题描述"
 
-    **井字棋**(tic-tac-toe)：在 $3 \times 3$ 的棋盘上，一位玩家画圈，另一位玩家画叉，轮流下棋。如果某位玩家在棋盘上的所有标记中有3个位于同一行、同一列或同一对角线上，则该玩家获胜。    
+    **井字棋**(tic-tac-toe)：在 $3 \times 3$ 的棋盘上，一位玩家画圈，另一位玩家画叉，轮流下棋。如果某位玩家在棋盘上的所有标记中有3个位于同一行、同一列或同一对角线上，则该玩家获胜。
 
-    <div style="text-align: center"><img src="images/lec6/14.png" width="40%"></div> 
+    
+
+
 
     - 一共有 $9!$ 种可能的下棋顺序（不考虑当前的棋子是圈还是叉）
     - 一共有$3^9$种可能的棋局（每个格子上有圈、叉、空三种情况，不考虑获胜后停止下
@@ -171,24 +174,24 @@ bool Backtracking (int i) {
         - 人类在第二轮中应选择第二种情况，因为它的评估函数值最小，获胜的希望更大
     3. 第一轮是**计算机**下棋，因此第 0 轮的评估函数值为第一轮评估函数中的**最大值**
 
-     <div style="text-align: center"><img src="images/lec6/18.png" width="70%"></div> 
+     
+
 
 **$\alpha-\beta$ 剪枝**（pruning）：它结合了 $\alpha$ 剪枝和 $\beta$ 剪枝，能够将博弈树的搜索规模限制在 $O(\sqrt{N})$ 个节点（$N$ 为博弈树的节点数），提升搜索的效率
 
 - $\alpha$ 剪枝：对下列情况，不需要再搜索根节点为 `?` 的子树
 
-    <div style="text-align: center">
+  <div style="text-align: center">
         <img src="images/lec6/19.png" width="35%">
-    </div> 
+    </div>
 
-    - 若`? >= 40`，第二层的节点`40`不会更新，因为该节点取的是左右孩子的最小值
-    - 若 `? < 40`，虽然第二层节点的 `40` 会更新，但是不影响第一层的节点，因为第一层节点取的是左右孩子的最大值，而最大值原来就不是这个更新的节点
-
+  - 若`? >= 40`，第二层的节点`40`不会更新，因为该节点取的是左右孩子的最小值
+  - 若 `? < 40`，虽然第二层节点的 `40` 会更新，但是不影响第一层的节点，因为第一层节点取的是左右孩子的最大值，而最大值原来就不是这个更新的节点
 - $\beta$剪枝：对于下列情况，我们不需要再搜索根节点为`?`的子树
 
-    <div style="text-align: center">
+  <div style="text-align: center">
         <img src="images/lec6/20.png" width="37%">
-    </div> 
+    </div>
 
-    - 若`? <= 68`，第二层的节点`68`不会更新，因为该节点取的是左右孩子的最大值
-    - 若`? > 68`，虽然第二层节点的`68`会更新，但是不影响第一层的节点，因为第一层节点取的是左右孩子的最小值，而最小值原来就不是这个更新的节点
+  - 若`? <= 68`，第二层的节点`68`不会更新，因为该节点取的是左右孩子的最大值
+  - 若`? > 68`，虽然第二层节点的`68`会更新，但是不影响第一层的节点，因为第一层节点取的是左右孩子的最小值，而最小值原来就不是这个更新的节点

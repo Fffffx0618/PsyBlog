@@ -1,4 +1,4 @@
-# Query Optimization
+# Lec11.Query Optimization
 
 ## 11.1 Introduction
 
@@ -7,7 +7,7 @@
 - 同一个 SQL 查询可能有多个逻辑等价的关系代数表达式
 - 每个关系代数操作又可能有多个物理执行算法
 - 不同执行计划的代价可能差别极大：有的计划几秒完成，有的计划可能跑上几天
-==Query optimizer== 的目标：
+  ==Query optimizer== 的目标：
 - 在语义等价的候选执行计划中，选择估计代价最低的那个。
 
 ### Cost-Based Query Optimization
@@ -21,11 +21,11 @@
 计划代价的估计主要依赖：
 
 - relation 的统计信息，例如：
-    - tuple 数，block 数，某个属性的 distinct value 数
+  - tuple 数，block 数，某个属性的 distinct value 数
 - 对中间结果统计信息的估计：
-    - 用于估计复杂表达式的后续操作代价
+  - 用于估计复杂表达式的后续操作代价
 - 各类算法的代价公式：
-    - 例如上一讲中的 selection、join、sort 代价
+  - 例如上一讲中的 selection、join、sort 代价
 
 !!! abstract
 
@@ -39,13 +39,13 @@
 ### 11.2.1 Equivalence of Expressions
 
 - 两个关系代数表达式等价，当且仅当：
-    - 对每个合法数据库实例，它们<u>生成相同的 tuple 集合</u>（不考虑 tuple 的顺序）
-    - 如果某个数据库实例违反完整性约束，则不要求两个表达式在该实例上的结果也相同
+  - 对每个合法数据库实例，它们<u>生成相同的 tuple 集合</u>（不考虑 tuple 的顺序）
+  - 如果某个数据库实例违反完整性约束，则不要求两个表达式在该实例上的结果也相同
 - 在 SQL 中：
-    - 输入和输出通常是 **multisets of tuples**，而不是 set
-    - 因此 SQL 语义下的等价要考虑 tuple 的**重复次数**
+  - 输入和输出通常是 **multisets of tuples**，而不是 set
+  - 因此 SQL 语义下的等价要考虑 tuple 的**重复次数**
 - **Equivalence rule**：说明两种表达式形式等价
-    - 优化器可以在不改变查询语义的前提下，用一种形式替换另一种形式
+  - 优化器可以在不改变查询语义的前提下，用一种形式替换另一种形式
 
 ### 11.2.2 Equivalence Rules
 
@@ -306,8 +306,8 @@ $$
 $$
 
 - 核心优化思路：
-    1. 使用 join associativity 改变 join 顺序。
-    2. 将 $\sigma_{\text{dept\_name}=\text{"Music"} \land \text{year}=2009}$ 拆分并下推。
+  1. 使用 join associativity 改变 join 顺序。
+  2. 将 $\sigma_{\text{dept\_name}=\text{"Music"} \land \text{year}=2009}$ 拆分并下推。
 - 最终可以先计算：
 
 $$
@@ -434,12 +434,12 @@ $$
 #### 2. Comparison Selection
 
 - 对于：$\sigma_{A \le v}(r)$
-    - 如果 catalog 中保存了 $\min(A,r)$ 和 $\max(A,r)$：
-        - 如果 $v < \min(A,r)$，那么 $c = 0$
-        - 如果 $z$，那么 $c = n_r$
-        - 其他情况按均匀分布估计：$c = n_r \cdot \dfrac{v-\min(A,r)}{\max(A,r)-\min(A,r)}$
+  - 如果 catalog 中保存了 $\min(A,r)$ 和 $\max(A,r)$：
+    - 如果 $v < \min(A,r)$，那么 $c = 0$
+    - 如果 $z$，那么 $c = n_r$
+    - 其他情况按均匀分布估计：$c = n_r \cdot \dfrac{v-\min(A,r)}{\max(A,r)-\min(A,r)}$
 - 对于：$\sigma_{A \ge v}(r)$
-    - 对称处理：$c =n_r \cdot \dfrac{\max(A,r)-v}{\max(A,r)-\min(A,r)}$
+  - 对称处理：$c =n_r \cdot \dfrac{\max(A,r)-v}{\max(A,r)-\min(A,r)}$
 - 如果有直方图（histograms）：可以借助直方图进一步细化估计
 - 如果完全没有可用统计信息，通常粗略估计为：$c \approx \frac{n_r}{2}$
 
@@ -653,7 +653,7 @@ $$
 - Union：$|r \cup s| \le |r| + |s|$
 - Intersection：$|r \cap s| \le \min(|r|, |s|)$
 - Difference：$|r-s| \le |r|$
-这些估计可能不够准确，但通常能提供一个 upper bound
+  这些估计可能不够准确，但通常能提供一个 upper bound
 
 #### 6. Estimation of Number of Distinct Values
 
@@ -664,9 +664,9 @@ $$
 对于：$\sigma_\theta(r)$
 
 - 如果 $\theta$ 强制 $A$ 只能取某个指定值：$V(A,\sigma_\theta(r)) = 1$
-    - 例如：$A=3$
+  - 例如：$A=3$
 - 如果 $\theta$ 强制 $A$ 只能从某个指定集合中取值：$V(A,\sigma_\theta(r)) =\text{number of specified values}$
-    - 例如：$A=1 \lor A=3 \lor A=4$
+  - 例如：$A=1 \lor A=3 \lor A=4$
 - 如果 $\theta$ 是一般选择条件，且选择率为 $s$：$V(A,\sigma_\theta(r)) \approx V(A,r)\cdot s$
 - 其他情况可用下面的保守近似：$V(A,\sigma_\theta(r)) \approx \min(V(A,r), |\sigma_\theta(r)|)$
 
@@ -683,7 +683,7 @@ V(A,r \bowtie s)
 $$
 
 - 如果 $A$ 同时包含来自 $r$ 和 $s$ 的属性，可以使用下面的近似公式：
-    - 设 $A=A_1 \cup A_2$，其中 $A_1$ 来自 $r$，$A_2$ 来自 $s$
+  - 设 $A=A_1 \cup A_2$，其中 $A_1$ 来自 $r$，$A_2$ 来自 $s$
 
 $$
 V(A,r \bowtie s)
@@ -759,7 +759,7 @@ $$
 
 - 当 $n=7$ 时，数量为 $665280$
 - 当 $n=10$ 时，数量超过 $176$ billion
-因此不能简单枚举所有 join orders
+  因此不能简单枚举所有 join orders
 
 ==Dynamic programming== 的思想：
 
@@ -894,18 +894,18 @@ Physical equivalence rules 可将逻辑查询计划（logical query plan）转�
 ### 11.4.8 Structure of Query Optimizers
 
 - 许多优化器只考虑 left-deep join orders：
-    - 降低优化复杂度，生成更适合流水线执行的计划
-    - 同时会做：selections 下推，projections 下推
+  - 降低优化复杂度，生成更适合流水线执行的计划
+  - 同时会做：selections 下推，projections 下推
 - 部分系统采用分阶段策略：
-    - 先对 nested block structure 和 aggregation 做 heuristic rewriting
-    - 再对每个 block 做 cost-based join-order optimization
+  - 先对 nested block structure 和 aggregation 做 heuristic rewriting
+  - 再对每个 block 做 cost-based join-order optimization
 - 另一些系统（如 SQL Server）会对整个 query 统一应用 transformations，而不是局限于原来的 block structure
 - 实际系统还会用：
-    - **Optimization cost budget**
-        - 如果继续优化的成本超过潜在收益，就提前停止优化
-    - **Plan caching**
-        - 如果相同结构的 query 再次提交，可以复用之前算出的 plan
-        - 即使 query 中的常量不同，也可能复用同一个 plan 模板
+  - **Optimization cost budget**
+    - 如果继续优化的成本超过潜在收益，就提前停止优化
+  - **Plan caching**
+    - 如果相同结构的 query 再次提交，可以复用之前算出的 plan
+    - 即使 query 中的常量不同，也可能复用同一个 plan 模板
 
 <div style="text-align: center"><img src="images/image-100.png" width="60%"></div>
 
@@ -1038,8 +1038,8 @@ GROUP BY dept_name;
 
 - 简单方法：每次底层 relation 更新时，重新计算整个 view
 - 更好方法：**Incremental view maintenance**
-    - 根据底层 relation 的变化量，计算 view 的变化量
-    - 只更新 view 中受影响的部分
+  - 根据底层 relation 的变化量，计算 view 的变化量
+  - 只更新 view 中受影响的部分
 
 维护方式：
 
@@ -1055,7 +1055,7 @@ relation 或 expression 的变化量称为 **differential**
 
 - $i_r$：插入到 relation $r$ 的 tuple 集合
 - $d_r$：从 relation $r$ 删除的 tuple 集合
-为了简化过程，update 可看成先删除旧 tuple，再插入新 tuple
+  为了简化过程，update 可看成先删除旧 tuple，再插入新 tuple
 
 #### Join Operation
 
@@ -1128,11 +1128,11 @@ $$
 
 - 对 projection 结果中的每个 tuple 维护一个 count，记录它由多少个原始 tuple 推导而来
 - 插入时：
-    - 若投影 tuple 已存在，count 加 1
-    - 否则插入新 tuple，count 设为 1
+  - 若投影 tuple 已存在，count 加 1
+  - 否则插入新 tuple，count 设为 1
 - 删除时：
-    - 对应 projection tuple 的 count 减 1
-    - 若 count 变为 0，删除该 projection tuple
+  - 对应 projection tuple 的 count 减 1
+  - 若 count 变为 0，删除该 projection tuple
 
 #### Aggregation Operation
 
@@ -1276,13 +1276,13 @@ $$
 **Index selection**：决定哪些索引值得创建
 
 - 二者密切相关，但 index selection 通常更简单
-选择依据通常是：
+  选择依据通常是：
 - 典型 workload：
-    - queries
-    - updates
+  - queries
+  - updates
 - 目标：
-    - 在空间约束下最小化 workload 执行时间
-    - 满足关键 queries / updates 的时间要求
-这是 database tuning 的一部分
+  - 在空间约束下最小化 workload 执行时间
+  - 满足关键 queries / updates 的时间要求
+    这是 database tuning 的一部分
 
 商业数据库通常提供 tuning assistants，tuning wizards，助 DBA 选择合适的索引和 materialized views

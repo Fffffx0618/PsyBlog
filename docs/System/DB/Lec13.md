@@ -1,4 +1,4 @@
-# Concurrency Control
+# Lec13.Concurrency Control
 
 !!! abstract
 
@@ -16,11 +16,12 @@ Lock-based protocol 要求 transaction 在访问 data item 之前先获得对应
 
 1. **Shared lock**, `S` (共享锁)：只允许读，不允许写
 2. **Exclusive lock**, `X`（排他锁）：同时允许读和写
-锁请求向并发控制管理器（concurrency-control manager）发出，事务**在请求被批准后**才能执行。
+   锁请求向并发控制管理器（concurrency-control manager）发出，事务**在请求被批准后**才能执行。
 
 !!! info "Lock compatibility matrix"
 
-    <div style="text-align: center"><img src="images/image-108.png" width="35%"></div>
+    
+
 
     - 如果请求的锁与该数据项上其他事务已持有的锁**兼容**，则可以授予事务**在该数据项上的锁**。
     - 任意数量的事务可以持有**该数据项上的共享锁**，但如果任何事务持有该数据项上的**排他锁**，则其他任何事务都不能持有该数据项上的任何锁。
@@ -33,15 +34,7 @@ Lock-based protocol 要求 transaction 在访问 data item 之前先获得对应
 
 !!! example "Example of a transaction performing locking"
 
-    ```text
-    T2: lock-S(A)
-    	 read(A)
-    	 unlock(A)
-    	 lock-S(B)
-    	 read(B)
-    	 unlock(B)
-    	 display(A + B)
-    ```
+    ``text     T2: lock-S(A)     	 read(A)     	 unlock(A)     	 lock-S(B)     	 read(B)     	 unlock(B)     	 display(A + B)     ``
 
     如果在 $T_2$ 读完 $A$ 并且释放锁之后，有另外一个事务修改了 $A$ 的值，那么这时 $\text{display}(A + B)$ 可能既不是旧状态的和，也不是新状态的和，所以需要更严格的 locking protocol。
 
@@ -66,7 +59,7 @@ Lock-based protocol 可能带来两个典型问题：<u>Deadlock 和 Starvation<
 
 - 一个事务可能正在等待某个数据项上的排他锁，而此时一系列其他事务不断地请求并获得该数据项上的共享锁。
 - 同一个事务因为死锁而被反复回滚，某一事务多次作为牺牲者被回滚
-解决时通常需要公平的等待队列，或者记录 transaction 被 rollback 的次数。
+  解决时通常需要公平的等待队列，或者记录 transaction 被 rollback 的次数。
 
 #### The Two-Phase Locking Protocol
 
@@ -89,9 +82,9 @@ Lock-based protocol 可能带来两个典型问题：<u>Deadlock 和 Starvation<
 **关于 2PL 的两种更严格的策略**：
 
 - ==Strict Two-Phase Locking==：要求 transaction 持有所有 `X` locks 直到 commit 或 abort
-    - 保证 strict schedule，避免 cascading rollback，恢复的过程更简单
+  - 保证 strict schedule，避免 cascading rollback，恢复的过程更简单
 - ==Rigorous 2PL==：要求 transaction 持有所有 locks，包括 `S` 和 `X` locks，直到 commit 或 abort
-    - schedule 的 commit order 就是 serial order；实现简单，但并发度更低
+  - schedule 的 commit order 就是 serial order；实现简单，但并发度更低
 
 !!! abstract "2PL & Conflict Serializability"
 
@@ -104,13 +97,13 @@ Lock-based protocol 可能带来两个典型问题：<u>Deadlock 和 Starvation<
 **Two-phase locking with lock conversions**:
 
 1. Growing phase 中允许：
-    - acquire `S` lock
-    - acquire `X` lock
-    - convert `S` lock to `X` lock（upgrade）
+   - acquire `S` lock
+   - acquire `X` lock
+   - convert `S` lock to `X` lock（upgrade）
 2. Shrinking phase 中允许：
-    - release `S` lock
-    - release `X` lock
-    - convert `X` lock to `S` lock（downgrade）
+   - release `S` lock
+   - release `X` lock
+   - convert `X` lock to `S` lock（downgrade）
 
 #### Automatic Acquisition of Locks
 
@@ -151,7 +144,8 @@ write(Q):
     - 锁管理器会维护**锁表（lock table）**，用来记录已经授予的锁，以及正在等待处理的锁请求
     - 锁表通常为一个**内存中的哈希表（in-memory hash table）**，以被加锁的数据项名称作为索引
 
-    <div style="text-align: center"><img src="images/image-110.png" width="60%"></div>
+    
+
 
 ### 13.1.3 Graph-Based Protocols
 
@@ -178,8 +172,8 @@ Tree protocol 的优点：
 
 - Guarantees conflict serializability and deadlock freedom
 - 不要求遵守 2PL，允许在之后继续申请别的 lock 前释放某些 lock
-    - 缩短了等待时间，增强了并行性；没有死锁，不需要 rollback
-但它也有缺点：
+  - 缩短了等待时间，增强了并行性；没有死锁，不需要 rollback
+    但它也有缺点：
 - 可能需要锁住一些本来不需要访问的数据项，只是为了到达目标节点
 - 可能产生 cascading rollback，因为 release lock 比较早
 
@@ -187,12 +181,12 @@ Tree protocol 的优点：
 
 ## 13.2 \*Timestamp-Based Protocols
 
-每个事务进入系统时都会被分配一个**时间戳（timestamp）**。如果一个较早进入系统的事务 $T_i$ 的时间戳为 $TS (T_i)$，那么后来进入系统的新事务 $T_j$ ​ 会被分配一个时间戳 $TS(T_j)$，满足：$TS(T_i)<TS(T_j)$
+每个事务进入系统时都会被分配一个**时间戳（timestamp）**。如果一个较早进入系统的事务 $T_i$ 的时间戳为 $TS (T_i)$，那么后来进入系统的新事务 $T_j$  会被分配一个时间戳 $TS(T_j)$，满足：$TS(T_i)<TS(T_j)$
 
 - 该协议通过管理事务的并发执行，使得**时间戳顺序决定事务的可串行化顺序（serializability order）**。
 - 为了保证这一性质，协议会为每个数据项 $Q$ 维护两个时间戳：
-    1. W-timestamp(Q)：所有成功执行过 `write(Q)` 的事务中，时间戳最大的那个事务的时间戳
-    2. R-timestamp(Q)：所有成功执行过 `read(Q)` 的事务中，时间戳最大的那个事务的时间戳
+  1. W-timestamp(Q)：所有成功执行过 `write(Q)` 的事务中，时间戳最大的那个事务的时间戳
+  2. R-timestamp(Q)：所有成功执行过 `read(Q)` 的事务中，时间戳最大的那个事务的时间戳
 - timestamp ordering protocol 确保了任何冲突的读写操作都按照<u>时间戳的顺序</u>执行
 
 !!! info "具体操作"
@@ -233,15 +227,15 @@ Tj commits
 Ti aborts
 ```
 
-- 此时 $T_j$ 必须回滚；如果 $T_j$ ​在此之前已经 commit，那么该调度将不是**可恢复的（recoverable）**
-- 此外，任何读取过由 $T_j$ ​ 写入数据项的事务，也都必须回滚，这可能导致**级联回滚**
+- 此时 $T_j$ 必须回滚；如果 $T_j$ 在此之前已经 commit，那么该调度将不是**可恢复的（recoverable）**
+- 此外，任何读取过由 $T_j$  写入数据项的事务，也都必须回滚，这可能导致**级联回滚**
 
  **Solutions**:
 
 1. 将所有写操作放在事务末尾执行 (事务先完成所有计算，最后统一执行写操作)
 2. 所有写操作作为**一个原子动作**执行
 3. 回滚事务重新启动时获得新的时间戳
-通过这种方式可以实现 **Strict Timestamp Ordering**，从而避免级联回滚并保证调度具有可恢复性。
+   通过这种方式可以实现 **Strict Timestamp Ordering**，从而避免级联回滚并保证调度具有可恢复性。
 
 ### Thomas' Write Rule
 
@@ -249,7 +243,7 @@ Thomas' write rule 是 timestamp-ordering protocol 的一个优化
 
 - 在 Basic timestamp ordering 中，如果 $TS(T_i) < \text{W-timestamp}(Q)$，则 $T_i$ rollback。
 - 但在 Thomas' write rule 中，**对于已经过时（obsolete）的写操作，可以直接忽略这次写操作**
-    - 如果 $T_i$ 的 write 已经 obsolete，就直接 ignore 这个 write，不需要 rollback $T_i$。
+  - 如果 $T_i$ 的 write 已经 obsolete，就直接 ignore 这个 write，不需要 rollback $T_i$。
 
 !!! tip
 
@@ -262,11 +256,11 @@ Thomas' write rule 是 timestamp-ordering protocol 的一个优化
 Validation-based protocol 也被称为 **optimistic concurrency control**（乐观并发控制），因为事务会完全执行，寄希望于在验证期间一切顺利
 
 - 事务 $T_i$ 的执行分为三个阶段
-    1. **Read and execution phase**：事务 $T_i$ ​仅写入临时局部变量
-    2. **Validation phase**：事务 $T_i$ ​执行“验证测试”以确定是否可以在不违反可串行性的情况下写入局部变量。
-    3. **Write phase**：如果 $T_i$ ​通过验证，则将更新应用到数据库；否则，$T_i$ ​回滚。
+  1. **Read and execution phase**：事务 $T_i$ 仅写入临时局部变量
+  2. **Validation phase**：事务 $T_i$ 执行“验证测试”以确定是否可以在不违反可串行性的情况下写入局部变量。
+  3. **Write phase**：如果 $T_i$ 通过验证，则将更新应用到数据库；否则，$T_i$ 回滚。
 - 并发执行事务的三个阶段可以交错，但每个事务必须按顺序经历这三个阶段。
-    - 为简单起见，假设验证和写阶段同时发生，具有原子性和串行性，即一次只有一个事务执行验证/写操作。
+  - 为简单起见，假设验证和写阶段同时发生，具有原子性和串行性，即一次只有一个事务执行验证/写操作。
 
 每一个事务 $T_i$ 都有三个特定的时间戳
 
@@ -310,7 +304,7 @@ $$
 \text{write-set}(T_i) \cap \text{read-set}(T_j)=\emptyset
 $$
 
-    虽然时间重叠，但 $T_i$ ​ 写的东西，$T_j$ ​ 并没有读。
+    虽然时间重叠，但 $T_i$  写的东西，$T_j$  并没有读。
 
 - 如果所有的 $T_i$ 都满足上述条件，那么 $T_j$ 验证通过，可以提交；否则 $T_j$ 必须回滚
 
@@ -346,7 +340,7 @@ Multiple granularity 的主要问题是：
 
 - $T_1$ 已经在 $r_{a_1}$ 上加了 X-lock，$T_2$ 已经在 $F_b$ 上加了 S-lock
 - 此时 $T_3$ 想在 $F_a$ 上加 S-lock，$T_4$ 想在整个 database 上加 S-lock
-如果没有额外信息，$T_4$ 要判断能不能锁整个 database，就可能需要遍历整棵树。
+  如果没有额外信息，$T_4$ 要判断能不能锁整个 database，就可能需要遍历整棵树。
 
 !!! note "解决方法是使用 ==intention lock（意向锁）==："
 
@@ -359,12 +353,12 @@ Multiple granularity 的主要问题是：
 Multiple granularity 中有三种 intention lock modes：
 
 1. **Intention-shared**（$IS$，共享型意向锁）
-    - 表明其后代存在 S 锁
+   - 表明其后代存在 S 锁
 2. **Intention-exclusive**（$IX$，排他型意向锁）
-    - 表明其后代存在 X 锁
+   - 表明其后代存在 X 锁
 3. **Shared and intention-exclusive**（$SIX$，共享排他型意向锁）
-    - 以该节点为根的子树（即整个表或该层级下的所有数据）被显式加了 S-lock
-    - 同时，事务**意图**对较低层级进行显式的排他锁（X 锁）操作
+   - 以该节点为根的子树（即整个表或该层级下的所有数据）被显式加了 S-lock
+   - 同时，事务**意图**对较低层级进行显式的排他锁（X 锁）操作
 
 !!! info "Intention locks 的作用"
 
@@ -406,13 +400,13 @@ Transaction $T_i$ 可以按照下面的规则 lock 一个 node $Q$：
 Multiversion schemes 通过保存 data item 的旧版本来提高并发度。
 
 - 主要有两类：
-    1. **Multiversion Timestamp Ordering**
-    2. **Multiversion Two-Phase Locking**
+  1. **Multiversion Timestamp Ordering**
+  2. **Multiversion Two-Phase Locking**
 - 核心思想：
-    - 每次 successful write 都会创建被写 data item 的一个新版本。
-    - 使用 timestamps 给不同版本做标记。
-    - 当执行 `read(Q)` 时，根据 transaction 的 timestamp 选择一个合适版本返回。
-    - 因为系统总能返回某个合适版本，所以 **reads never have to wait**
+  - 每次 successful write 都会创建被写 data item 的一个新版本。
+  - 使用 timestamps 给不同版本做标记。
+  - 当执行 `read(Q)` 时，根据 transaction 的 timestamp 选择一个合适版本返回。
+  - 因为系统总能返回某个合适版本，所以 **reads never have to wait**
 
 ### 13.5.1 Timestamp Ordering
 
@@ -458,12 +452,12 @@ $$
 并且在所有满足条件的版本中，$\text{W-timestamp}(Q_k)$ 最大。也就是说，$Q_k$ 是 $T_i$ 按 timestamp 应该看到的最新版本。
 
 1. 如果 $T_i$ 执行 `read(Q)`：
-    - 系统直接返回 $Q_k$ 的 content
-    - 因此 read 总是可以成功，不需要等待
+   - 系统直接返回 $Q_k$ 的 content
+   - 因此 read 总是可以成功，不需要等待
 2. 如果 $T_i$ 执行 `write(Q)`：
-    - 如果 $TS(T_i)<\text{R-timestamp}(Q_k)$，则 $T_i$ rollback
-    - 如果 $TS(T_i)=\text{W-timestamp}(Q_k)$，则直接 overwrite $Q_k$ 的 content
-    - 否则，创建 $Q$ 的一个新版本
+   - 如果 $TS(T_i)<\text{R-timestamp}(Q_k)$，则 $T_i$ rollback
+   - 如果 $TS(T_i)=\text{W-timestamp}(Q_k)$，则直接 overwrite $Q_k$ 的 content
+   - 否则，创建 $Q$ 的一个新版本
 
 ### 13.5.2 Two-Phase Locking
 
@@ -513,8 +507,8 @@ T1: write(X)        T2: write(Y)
 
 - 系统处于 **deadlock state** 的定义是：存在一个 transaction 集合，使得集合中的每个 transaction 都在等待集合中的另一个 transaction。
 - 处理 deadlock 有两类方法：
-    1. **Deadlock prevention**
-    2. **Deadlock detection and deadlock recovery**
+  1. **Deadlock prevention**
+  2. **Deadlock detection and deadlock recovery**
 
 ### 13.6.1 Deadlock Prevention
 
@@ -522,13 +516,13 @@ Deadlock prevention protocols 保证系统永远不会进入 deadlock state
 常见策略：
 
 1. **Predeclaration / Conservative 2PL**
-    - 要求每个 transaction 在开始执行之前锁住所有需要的数据项
-    - 要么所有 locks 都获得，要么一个都不获得
-    - 缺点是 concurrency 差，而且很难提前预测所有需要的数据项
+   - 要求每个 transaction 在开始执行之前锁住所有需要的数据项
+   - 要么所有 locks 都获得，要么一个都不获得
+   - 缺点是 concurrency 差，而且很难提前预测所有需要的数据项
 2. **Ordering of data items**
-    - 对所有 data items 施加一个 partial ordering
-    - Transaction 只能按照这个 order 加锁
-    - 这样 wait-for graph 中不会形成 cycle（Graph-based protocol）
+   - 对所有 data items 施加一个 partial ordering
+   - Transaction 只能按照这个 order 加锁
+   - 这样 wait-for graph 中不会形成 cycle（Graph-based protocol）
 
 !!! tip "Starvation Prevention"
 
@@ -543,11 +537,11 @@ Deadlock prevention protocols 保证系统永远不会进入 deadlock state
 Timeout-based scheme 的规则很简单：事务在请求锁时，只允许等待一段指定的时间。如果在这个时间内未能成功获取锁，系统就会判定等待超时，并直接将该事务回滚。
 
 - **优点**：
-    - **绝对避免死锁**：没有任何事务会无限期地等待，循环等待的条件被彻底打破
-    - **实现简单**：不需要像时间戳方案那样维护复杂的优先级和回滚逻辑，只需要一个计时器即可
+  - **绝对避免死锁**：没有任何事务会无限期地等待，循环等待的条件被彻底打破
+  - **实现简单**：不需要像时间戳方案那样维护复杂的优先级和回滚逻辑，只需要一个计时器即可
 - **缺点**：
-    - **饥饿问题**：超时机制不区分事务的年龄。一个事务可能因为运气不好，每次都在超时前一刻被别人抢走锁，导致它被反复回滚，永远无法推进。
-    - **超时阈值难以设定**：很难确定一个完美的超时时间
+  - **饥饿问题**：超时机制不区分事务的年龄。一个事务可能因为运气不好，每次都在超时前一刻被别人抢走锁，导致它被反复回滚，永远无法推进。
+  - **超时阈值难以设定**：很难确定一个完美的超时时间
 
 #### More Deadlock Prevention Strategies
 
@@ -559,7 +553,7 @@ Wait-die 是 **non-preemptive** 的
 
 - Older transaction 可以等待 younger transaction 释放 data item
 - Younger transaction 不能等待 older transaction，而是 rollback
-特点：
+  特点：
 - 一个 transaction 可能 die several times，才能获得需要的数据项。
 - 被 rollback 的 transaction 重新启动时使用原来的 timestamp。
 
@@ -568,11 +562,11 @@ Wait-die 是 **non-preemptive** 的
 Wound-wait 是 **preemptive** 的
 
 - 规则：
-    - Older transaction 不等待 younger transaction，而是 wound younger transaction，即强制 younger rollback
-    - Younger transaction 可以等待 older transaction。
+  - Older transaction 不等待 younger transaction，而是 wound younger transaction，即强制 younger rollback
+  - Younger transaction 可以等待 older transaction。
 - 特点：
-    - 相比 wait-die，wound-wait 可能产生更少的 rollbacks
-    - rollback 后重新启动时同样使用原 timestamp
+  - 相比 wait-die，wound-wait 可能产生更少的 rollbacks
+  - rollback 后重新启动时同样使用原 timestamp
 
 !!! tip
 
@@ -606,21 +600,22 @@ $$
 
     The system is in a deadlock state iff the wait-for graph has a cycle.
 
-    <div style="text-align: center"><img src="images/image-116.png" width="60%"></div>
+    
+
 
 ### 13.6.3 Deadlock Recovery
 
 一旦检测到 deadlock，就必须 rollback 某些 transaction 来打破 deadlock，具体包括三件事：
 
 1. **Victim selection**
-    - 选择一个 transaction 作为 victim
-    - 通常选择 rollback cost 最小的 transaction
+   - 选择一个 transaction 作为 victim
+   - 通常选择 rollback cost 最小的 transaction
 2. **Rollback**
-    - Total rollback：abort 整个 transaction，然后 restart
-    - Partial rollback：只回滚到足以打破 deadlock 的位置，通常更有效，但实现更复杂
+   - Total rollback：abort 整个 transaction，然后 restart
+   - Partial rollback：只回滚到足以打破 deadlock 的位置，通常更有效，但实现更复杂
 3. **Starvation prevention**
-    - 如果总是选择同一个 transaction 作为 victim，它可能一直无法完成
-    - 因此 victim selection 的 cost factor 中应该包含 rollback 次数
+   - 如果总是选择同一个 transaction 作为 victim，它可能一直无法完成
+   - 因此 victim selection 的 cost factor 中应该包含 rollback 次数
 
 ---
 
@@ -629,9 +624,9 @@ $$
 如果使用 2PL，insert 和 delete 也需要遵守 locking rules
 
 1. Delete operation
-    - 只有当 transaction 对要删除的 tuple 持有 `X-lock` 时，才能删除该 tuple
+   - 只有当 transaction 对要删除的 tuple 持有 `X-lock` 时，才能删除该 tuple
 2. Insert operation
-    - 当 transaction 插入一个新 tuple 时，系统会给它这个 tuple 上的 `X-mode lock`
+   - 当 transaction 插入一个新 tuple 时，系统会给它这个 tuple 上的 `X-mode lock`
 
 但 insertions 和 deletions 会引出一个额外问题：==phantom phenomenon==。
 
@@ -693,8 +688,8 @@ Index locking protocol 的规则：
 - Index structures 和普通 database items 不太一样，因为它们的作用只是帮助访问数据。
 - 并且 index structures 被访问得非常频繁，远多于普通 data items。
 - 如果把 index nodes 当作普通数据项，用普通 2PL 去锁：
-    - 会导致 very low concurrency。
-    - 尤其是在 B+ tree 这样的结构中，root 和 internal nodes 会成为热点。
+  - 会导致 very low concurrency。
+  - 尤其是在 B+ tree 这样的结构中，root 和 internal nodes 会成为热点。
 - 因此可以使用更专门的 index concurrency protocols。
 
 ### Key Idea

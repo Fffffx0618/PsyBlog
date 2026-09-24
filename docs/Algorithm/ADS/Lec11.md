@@ -1,4 +1,4 @@
-# Approximation
+# Lec11.Approximation
 
 ## 11.1 Introduction
 
@@ -23,11 +23,11 @@ $$
 【Definition】**近似方案**(approximation scheme) 是关于优化问题的一种近似算法，满足对于给定的输入实例，$\forall \varepsilon > 0$，它是一个 $(1 + \varepsilon)$ 近似算法。
 
 - **polynomial-time approximation scheme, PTAS**
-    - 对于任意固定的值 $\varepsilon > 0$，当输入实例规模为 $n$ 时，该方案能在多项式时间内完成计算
-    - 时间复杂度可记为 $O(f(n,\varepsilon))$, 其中 $f(n,\varepsilon)$ 关于 $n$ 是多项式
+  - 对于任意固定的值 $\varepsilon > 0$，当输入实例规模为 $n$ 时，该方案能在多项式时间内完成计算
+  - 时间复杂度可记为 $O(f(n,\varepsilon))$, 其中 $f(n,\varepsilon)$ 关于 $n$ 是多项式
 - **fully polynomial-time approximation scheme, FPTAS**
-    - 在PTAS的基础上，要求该方案的运行时间关于 $n$ 和 $\varepsilon$ 都是多项式级的
-    - 时间复杂度可记为 $O(f(n,\varepsilon))$, 其中 $f(n,\varepsilon)$ 关于 $n$ 和 $\dfrac{1}{\varepsilon}$ 是多项式
+  - 在PTAS的基础上，要求该方案的运行时间关于 $n$ 和 $\varepsilon$ 都是多项式级的
+  - 时间复杂度可记为 $O(f(n,\varepsilon))$, 其中 $f(n,\varepsilon)$ 关于 $n$ 和 $\dfrac{1}{\varepsilon}$ 是多项式
 
 ---
 
@@ -41,11 +41,11 @@ $$
 
 ??? tip "从 Partition Problem 归约"
 
-    - 假设有一个 Partition 实例：$a_1​,a_2​,\dots,a_n$ ​，总和为 $T$，判断是否能分成两个和为 $T/2$ 的子集
+    - 假设有一个 Partition 实例：$a_1,a_2,\dots,a_n$ ，总和为 $T$，判断是否能分成两个和为 $T/2$ 的子集
 
     可以构造一个 Bin Packing 实例如下：
 
-    - 每个物品大小为 $s_i​=a_i​/T$，$s_i < 1$
+    - 每个物品大小为 $s_i=a_i/T$，$s_i < 1$
     - 总共有 n 个物品
     - 问题：**能否用 2 个箱子装下所有物品？**
 
@@ -81,14 +81,15 @@ Void NextFit () {
         **等价命题**：如果该算法能得到 $2M$ 或 $2M + 1$ 个桶，那么最优解至少是 $M + 1$ 个桶，证明如下：
         令$S(B_i)$为第$i$个桶所装物品的大小，那么可以得到：
 
-        $$
-        \begin{align}
+
+$$
+\begin{align}
         S(B_1) + S(B_2) & > 1 \notag \\
         S(B_3) + S(B_4) & > 1 \notag \\
         \dots \notag \\
         S(B_{2M - 1}) + S(B_{2M}) & > 1 \notag
         \end{align}
-        $$
+$$
 
         累加得：$\sum\limits_{i = 1}^{2M} S(B_i) > M$
         最优解至少需要 $\lceil \sum\limits_{i = 1}^{2M} S(B_i)\rceil$ 个桶
@@ -220,13 +221,14 @@ void FirstFit() {
 
     通过已知条件，可以得到下列不等式：
 
-    $$
-    \begin{align}
+
+$$
+\begin{align}
     p_{\text{max}} & \le P_{\text{opt}} \le P_{\text{frac}} \notag \\
     p_{\text{max}} & \le P_{\text{greedy}} \notag \\
     P_{\text{opt}} & \le P_{\text{greedy}} + p_{\text{max}} \notag
     \end{align}
-    $$
+$$
 
     其中，$p_{\text{max}} = \max\limits_{1 \le i \le n}\{p_i\}$，$P_{\text{opt}}$ 表示本题的最优解，$P_{\text{frac}}$ 表示分数背包问题的解，$P_{\text{greedy}}$ 表示本题的贪心解。
 
@@ -238,9 +240,10 @@ void FirstFit() {
 
     根据这三个不等式，可以推出：
 
-    $$
-    \dfrac{P_{\text{opt}}}{P_{\text{greedy}}} \le 1 + \dfrac{p_{\text{max}}}{P_{\text{greedy}}} \le 2
-    $$
+
+$$
+\dfrac{P_{\text{opt}}}{P_{\text{greedy}}} \le 1 + \dfrac{p_{\text{max}}}{P_{\text{greedy}}} \le 2
+$$
 
     根据近似比的定义，便可得到近似比为2。
 
@@ -248,9 +251,9 @@ void FirstFit() {
 
 - 令$W_{i, p}$为物品1到物品$i$之间的最小质量，而这些物品的总价值为$p = \sum\limits_{k = 1}^i p_k$
 - 分类讨论：
-    - 取物品$i$：$W_{i, p} = w_i + W_{i - 1, p - p_i}$
-    - 不取物品$i$：$W_{i, p} = W_{i - 1, p}$
-    - 不可能得到价值$p$：$W_{i, p} = \infty$
+  - 取物品$i$：$W_{i, p} = w_i + W_{i - 1, p - p_i}$
+  - 不取物品$i$：$W_{i, p} = W_{i - 1, p}$
+  - 不可能得到价值$p$：$W_{i, p} = \infty$
 - 状态转移方程为：
 
 $$
@@ -281,7 +284,7 @@ $$
 
 <div style="text-align: center">
 <img src="images/lec11/6.png" width="60%">
-</div>  
+</div>
 
 **符号化的定义**：
 
@@ -299,13 +302,15 @@ $$
 
 <div style="text-align: center">
     <img src="images/lec11/7.png" width="60%">
-</div>  
+</div>
 
 !!! failure
 
     如图所示，假设整个点集包括两个相距很远的子集，且$K = 2$。此时第一个中心点就会被放在两个子集的中间，但最优解应该是中心点位于子集的中间位置的时候，所以贪心策略失效了
 
-    <div style="text-align: center"><img src="images/lec11/8.png" width="80%"></div>  
+    
+
+
 
 ### 2r Greedy
 
@@ -327,24 +332,25 @@ Centers Greedy-2r(Sites S[], int n, int K, double r) {
 ```
 
 1. 预备知识：在改进的贪心算法中，我们直接挑选某个地址作为中心点。
-    - 这种做法之所以可行，是因为某个中心点覆盖半径为 $r$ 的区域，可以近似为以（接近）区域边界上一点 $s$ 为新的中心点，$2r$ 为半径的区域。这个区域明显比原区域大，同时也能保证覆盖原区域所能覆盖的点。
-    - 这样的话我们就不必通过繁琐的计算算出中心点，而是从原有的地址中选择中心点。下图说明了这一点：
+   - 这种做法之所以可行，是因为某个中心点覆盖半径为 $r$ 的区域，可以近似为以（接近）区域边界上一点 $s$ 为新的中心点，$2r$ 为半径的区域。这个区域明显比原区域大，同时也能保证覆盖原区域所能覆盖的点。
+   - 这样的话我们就不必通过繁琐的计算算出中心点，而是从原有的地址中选择中心点。下图说明了这一点：
 
 <div style="text-align: center">
     <img src="images/lec11/10_light.png" width="40%">
-</div>  
+</div>
 
 2. 关于参数 $r$（$C^*$ 为最优中心点集，令 $r(C^*) \le r$）：
-    假如我们知道了最大半径 $r_{\text{max}}$，此时由于 $r$ 的范围是已知的（$0 < r \le r_{\text{max}}$）我们可以使用**二分查找**来找到 $r$ 的值，具体来说：
-    - 先令$r = \dfrac{0 + r_{\max}}{2}$
-    - 如果能够在这个 $r$ 下面找到满足要求的 $K$ 个中心点，说明这个界还是比较宽松的，需要减小 $r$；否则的话增加 $r$（都是用二分法改变 $r$ 值）
-    - 时间复杂度：$O(\log r_{\max})$
+   假如我们知道了最大半径 $r_{\text{max}}$，此时由于 $r$ 的范围是已知的（$0 < r \le r_{\text{max}}$）我们可以使用**二分查找**来找到 $r$ 的值，具体来说：
 
+   - 先令$r = \dfrac{0 + r_{\max}}{2}$
+   - 如果能够在这个 $r$ 下面找到满足要求的 $K$ 个中心点，说明这个界还是比较宽松的，需要减小 $r$；否则的话增加 $r$（都是用二分法改变 $r$ 值）
+   - 时间复杂度：$O(\log r_{\max})$
 3. 回到贪心算法上：
-    - 从输入点集中随机选取第一个点作为中心，然后删除**以该点为中心，$2r$ 为半径的圆**内部的所有点
-    - 然后在剩余点中随机选择第二个中心，以此类推
-    - 如果该 $r$ 值确实是最优解，那么这一算法在 $K$ 步之内必然停止，且得到的解是最优解的2倍，即该算法是一个**2-近似算法**
-    - 定理：假设该算法选择的中心点数超过 $K$，那么对于任意规模至多为 $K$ 的中心点集 $C^*$，覆盖半径为 $r(C^*) > r$
+
+   - 从输入点集中随机选取第一个点作为中心，然后删除**以该点为中心，$2r$ 为半径的圆**内部的所有点
+   - 然后在剩余点中随机选择第二个中心，以此类推
+   - 如果该 $r$ 值确实是最优解，那么这一算法在 $K$ 步之内必然停止，且得到的解是最优解的2倍，即该算法是一个**2-近似算法**
+   - 定理：假设该算法选择的中心点数超过 $K$，那么对于任意规模至多为 $K$ 的中心点集 $C^*$，覆盖半径为 $r(C^*) > r$
 
 ### Smarter Greedy
 
@@ -361,11 +367,11 @@ Centers Greedy-Kcenter(Sites S[], int n, int K) {
 ```
 
 - 这里的贪心法策略是：
-    - 第一个点还是任意取的
-    - 之后<u>选择离中心点集中的点尽可能远的点</u>作为新的中心点
-    - 循环$K$遍结束循环
+  - 第一个点还是任意取的
+  - 之后<u>选择离中心点集中的点尽可能远的点</u>作为新的中心点
+  - 循环$K$遍结束循环
 - 定理：该算法返回包含规模为$K$的中心点集$C$，使得$r(C) \le 2r(C^*)$，其中$C^*$表示最优中心点集
-    - 本质上依旧是一个2-近似算法。
+  - 本质上依旧是一个2-近似算法。
 
 ## 11.5 Appendix
 
@@ -374,13 +380,13 @@ Centers Greedy-Kcenter(Sites S[], int n, int K) {
     - **绝对近似比**（Absolute Approximation Ratio）：对所有输入实例 $I$ ， $\text{result}\le \rho \cdot OPT(I)$
     - **渐近近似比**（Asymptotic Approximation Ratio）：存在常数 $c$ ，使得对所有 $I$，$\text{result}\le \rho \cdot OPT(I) + c$
 
-| 问题                        | 最优近似结果（多项式时间）                                                                                      | 结论（复杂性含义）                                                |
-| ------------------------- | -------------------------------------------------------------------------------------------------- | -------------------------------------------------------- |
-| 0-1 背包                    | 存在 FPTAS：对任意  $\varepsilon ﹥ 0$ ，可在 $\text{poly}(n, 1/\varepsilon)$ 时间内得到 $(1+\varepsilon)$ -近似解   | ✅ 可任意精度近似；是少数容易近似的 NP-hard                               |
-| K-center                  | 存在 2-近似算法，且对所有实例满足  $R \leq 2 \cdot \text{OPT}$                                                    | ❌ 除非 P = NP，否则不存在  $(2 - \varepsilon)$ -近似算法；2 是紧的绝对近似比  |
-| Bin Packing               | 不存在多项式时间算法满足$\text{ALG} \leq (3/2 - \varepsilon) \cdot \text{OPT}$                                 | ⚠️ 1.5 是绝对近似比的下界；实际算法在渐近意义下优于 1.5，但无法保证对所有实例 ≤ 1.5 × OPT |
-| Vertex Cover Problem      | 存在 2-近似算法，且对所有实例满足  $R \leq 2 \cdot \text{OPT}$                                                    |                                                          |
-| Set Cover                 | 贪心算法达到  $H_n \approx \ln n + 1$  近似<br>对任意  $\varepsilon ﹥ 0$ ，不存在  $(1 - \varepsilon)\ln n$ -近似算法 | ❌ 无法做到常数近似； $\Theta(\ln n)$  是紧的近似界                      |
-| 广义 TSP                    | 对任意常数 $\rho$ ，不存在 $\rho$ -近似算法（除非 P = NP）；甚至对某些版本，近似比需为指数级                                         | 🚫 完全不可近似（无常数因子近似算法）                                     |
-| Maximum Clique            | 最好已知近似比约为  $O(n / \log^2 n)$ <br>对任意 $\varepsilon ﹥ 0$，不存在  $n^{1 - \varepsilon}$ -近似算法（除非 P = NP） | 🧱 几乎无法近似；近似比必须随 $n$ 多项式增长                               |
-| Multiprocessor Scheduling | List Scheduling 算法的近似比 $\dfrac{C_{LS}}{C_{OPT}}\le 2-\dfrac{1}{m}$                                 |                                                          |
+| 问题                      | 最优近似结果（多项式时间）                                                                                                  | 结论（复杂性含义）                                                                            |
+| ------------------------- | --------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| 0-1 背包                  | 存在 FPTAS：对任意$\varepsilon ﹥ 0$ ，可在 $\text{poly}(n, 1/\varepsilon)$ 时间内得到 $(1+\varepsilon)$ -近似解      | ✅ 可任意精度近似；是少数容易近似的 NP-hard                                                   |
+| K-center                  | 存在 2-近似算法，且对所有实例满足$R \leq 2 \cdot \text{OPT}$                                                              | ❌ 除非 P = NP，否则不存在$(2 - \varepsilon)$ -近似算法；2 是紧的绝对近似比                 |
+| Bin Packing               | 不存在多项式时间算法满足$\text{ALG} \leq (3/2 - \varepsilon) \cdot \text{OPT}$                                            | ⚠️ 1.5 是绝对近似比的下界；实际算法在渐近意义下优于 1.5，但无法保证对所有实例 ≤ 1.5 × OPT |
+| Vertex Cover Problem      | 存在 2-近似算法，且对所有实例满足$R \leq 2 \cdot \text{OPT}$                                                              |                                                                                               |
+| Set Cover                 | 贪心算法达到$H_n \approx \ln n + 1$  近似对任意  $\varepsilon ﹥ 0$ ，不存在  $(1 - \varepsilon)\ln n$ -近似算法      | ❌ 无法做到常数近似；$\Theta(\ln n)$  是紧的近似界                                          |
+| 广义 TSP                  | 对任意常数$\rho$ ，不存在 $\rho$ -近似算法（除非 P = NP）；甚至对某些版本，近似比需为指数级                             | 🚫 完全不可近似（无常数因子近似算法）                                                         |
+| Maximum Clique            | 最好已知近似比约为$O(n / \log^2 n)$ 对任意 $\varepsilon ﹥ 0$，不存在  $n^{1 - \varepsilon}$ -近似算法（除非 P = NP） | 🧱 几乎无法近似；近似比必须随$n$ 多项式增长                                                 |
+| Multiprocessor Scheduling | List Scheduling 算法的近似比$\dfrac{C_{LS}}{C_{OPT}}\le 2-\dfrac{1}{m}$                                                   |                                                                                               |
