@@ -1,3 +1,16 @@
+/* 两档根字号：默认字号 16px 时为 20px / 22px。
+   按窗口的 CSS 像素宽度区分，无法直接检测显示器英寸。
+   :root 覆盖主题 html 上的 1600px、2000px 字号规则。 */
+:root {
+  font-size: 125%;
+}
+
+@media screen and (min-width: 2000px) {
+  :root {
+    font-size: 137.5%;
+  }
+}
+
 /* 强制正文字体 */
 .md-typeset,
 .md-header,

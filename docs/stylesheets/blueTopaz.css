@@ -21,11 +21,8 @@
 :root {
     /* 字体族 */
     --font-text: "LXGW WenKai Screen", "Microsoft YaHei", sans-serif;
-    font-size: 22px;
-    /* 增加根字体大小 */
     --font-monospace: "JetBrains Mono", "Sarasa Mono SC", "Consolas", monospace;
-    font-size: 20px;
-    /* 增加根字体大小 */
+    /* 根字号在 extra.css 中统一设置两档响应式规则。 */
     /* 基础尺寸 */
     --radius-s: 5px;
     --radius-m: 8px;
