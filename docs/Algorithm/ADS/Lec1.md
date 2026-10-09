@@ -47,12 +47,7 @@
 
 > 旋转的是 **trouble finder** 和它的**儿子节点**
 
-- 以 LL 为例
-
-| **"初始状态"**           | **"旋转"** | **"结果"** |
-| ------------------------------ | ---------------- | ---------------- |
-|                                |                  |                  |
-| PPT 给出的**左旋**示意图 |                  |                  |
+PPT 给出的**左旋**示意图 
 
 <div style="text-align: center">
 <img src="images/lec1/26.png" width="80%">
@@ -70,19 +65,9 @@ PPT 给出的**右旋**示意图
 
 > 双旋需要关注三个节点（**trouble finder**、trouble finder 的**儿子节点**和**孙子节点**），而单旋不需要关注孙子节点。下面将以 LR 为例介绍双旋的过程：
 
-##### 过程演示
+##### 过程演示  
 
-| **"初始状态"**             | **"先「右旋」"**                                     |                      |
-| -------------------------------- | ---------------------------------------------------------- | -------------------- |
-|                                  |                                                            |                      |
-| Trouble maker 的具体位置并不重要 | 首先，通过右旋交换孙子节点（黄色）和它的父亲（橙色）的位置 |                      |
-| **"中间结果"**             | **"后「左旋」"**                                     | **"最终结果"** |
-|                                  |                                                            |                      |
-|                                  | 然后，通过左旋交换黄色节点与 trouble maker（红色）的位置。 |                      |
-
-##### PPT 流程演示
-
-**"来自 PPT 的 LR 过程"**
+**LR 过程**
 
 <div style="text-align: center">
 <img src="images/lec1/10.png" width="70%">
@@ -295,12 +280,11 @@ $$
 
     将 Accounting Method 中的「credit」转化为「势能差」，即 $\hat{c}_i - c_i = \Phi(D_i) - \Phi(D_{i-1})$，其中 $D_i$ 表示经历了 i 次运算后的数据结构，$\Phi(D_i)$ 表示该数据结构的**势能函数**(potential function)。经过一些转化，可以得到：
 
+    $$
+    \begin{align}\sum\limits_{i = 1}^n\hat{c}_i= & \sum\limits_{i=1}^n(c_i + \Phi(D_i) - \Phi(D_{i-1})) \notag \\= & (\sum\limits_{i=1}^nc_i) + \Phi(D_n) - \Phi(D_0) \notag\end{align}
+    $$
 
-$$
-\begin{align}\sum\limits_{i = 1}^n\hat{c}_i= & \sum\limits_{i=1}^n(c_i + \Phi(D_i) - \Phi(D_{i-1})) \notag \\= & (\sum\limits_{i=1}^nc_i) + \Phi(D_n) - \Phi(D_0) \notag\end{align}
-$$
-
-     因此只需考虑始末势能之差，确保它们的势能差 $\Phi(D_n) - \Phi(D_0) \ge 0$ 即可（通常会令 $\Phi(D_0) = 0$），关键在于设计一个合理的势能函数。
+    因此只需考虑始末势能之差，确保它们的势能差 $\Phi(D_n) - \Phi(D_0) \ge 0$ 即可（通常会令 $\Phi(D_0) = 0$），关键在于设计一个合理的势能函数。
 
 **Example**
 还是接着 MultiPop 的例子，
@@ -313,7 +297,7 @@ $$
 - `MultiPop`：$\Phi(D_i) - \Phi(D_{i-1}) = (sizeof(S) - k') - sizeof(S) = -k'$
   $\Rightarrow \hat{c}_i = c_i + \Phi(D_i) - \Phi(D_{i-1}) = k' - k' = 0$
 
-  $$
+$$
   therefore \sum\limits_{i = 1}^n\hat{c}_i = \sum\limits_{i = 1}^nO(1) = O(n) \ge \sum\limits_{i=1}^nc_i \Rightarrow T_{amortized} = \dfrac{O(n)}{n} = 1
   $$
 
@@ -366,22 +350,25 @@ $$
 - 旋转后，$S(X) \ge S(P) + S(G)$，根据引理知，$\log S(P) + \log S(G) \le 2 \log S(X) - 2$，即 $R_{k+1}(P) + R_{k+1}(G)\le 2 R_{k+1}(X) - 2$
 - 旋转前，$P$ 是 $X$ 的父节点，因此 $R_k(P) \ge R_k(X)$
 - 通过上述的转换和抵消，可以得到最终的不等式
-  $$
+  
+$$
   \begin{align}
   \hat{c}_i = & 2 + (R_{k+1}(X) - R_k(X)) + (R_{k+1}(P) - R_k(P)) + (R_{k+1}(G) - R_k(G))\notag \\
   = & (2 +R_{k+1}(P) + R_{k+1}(G))+ (R_{k+1}(X) - R_{k}(G))-(R_k(X) + R_k(P))
   \\
   \le & 2(R_{k+1}(X) - R_k(X)) \notag
   \end{align}
-  $$
+$$
 
 ##### 3. zig-zig
 
 <img src="images/lec1/18.png" width="70%"/>
+
 - 旋转后的 $X$ 的大小 = 旋转前的 $G$ 的大小，所以 $R_{k+1}(X) = R_k(G)$
 - 观察旋转前的 X 子树和旋转后的 G 子树，不难发现它们加起来的大小 $\le$ 旋转后的 X 树的大小，所以用上面的引理，可得 $R_{k+1}(G) + R_k(X) \le 2R_{k+1}(X) - 2$
 - 由图可知 $R_{k+1}(P) \le R_{k+1}(X), R_k(P) \ge R_k(X)$
 -  最终我们得到了正确的不等式
+  
 $$
         \begin{align}
         \hat{c}_i & = 2 + (R_{k+1}(X) - R_k (X)) + (R_{k+1}(P) - R_k (P)) + (R_{k+1}(G) - R_k (G))\notag \\
@@ -392,17 +379,25 @@ $$
 $$
 ##### 4. Sum
 将这三部分并起来，得到最终的摊还成本。但在此之前，我们需要进一步的放缩，便于后续计算：
+
 $$
     \begin{align}
     \hat{c}_{zig} & \le 1 + 3(R_{k+1}(X) - R_k(X)) \notag \\
     \hat{c}_{zig-zag} & \le 2(R_{k+1}(X) - R_k(X)) \le 3(R_{k+1}(X) - R_k(X)) \notag \\
     \hat{c}_{zig-zig} & \le 3(R_{k+1}(X) - R_k(X)) \notag
     \end{align}
-    $$
-在最终计算之前，还得先确定这3种操作的总次数$k$，不难得到：$$k = \begin{cases}\dfrac{H(X)}{2} & H(X) \text{ is even} \\ \dfrac{H(X) - 1}{2} + 1 & H(X) \text{ is odd}\end{cases}$$
+$$
+
+在最终计算之前，还得先确定这3种操作的总次数$k$，不难得到：
+
+$$
+k = \begin{cases}\dfrac{H(X)}{2} & H(X) \text{ is even} \\ \dfrac{H(X) - 1}{2} + 1 & H(X) \text{ is odd}\end{cases}
+$$
+
 - 当 $k$ 为偶数时，每次操作要么是zig-zig，要么是zig-zag
 - 当 $k$ 为奇数时，前 $k-1$ 次操作是zig-zig或zig-zag，最后一次操作是zig
     将所有旋转操作对应的摊还成本加起来：
+
 $$
     \begin{align}
     \sum\limits_{i=1}^{k+1}\widehat{c_i} & = \hat{c}_{zig} + \sum \hat{c}_{zig-zag} + \sum \hat{c}_{zig-zig} \notag \\
@@ -411,4 +406,5 @@ $$
     & = O(\log N) \notag
     \end{align}
     $$
-    这样，我们成功证明了 Splay 树的摊还复杂度。
+
+  这样，我们成功证明了 Splay 树的摊还复杂度。

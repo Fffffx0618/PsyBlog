@@ -61,7 +61,7 @@ code {
 .md-typeset :is(.admonition, details) {
   --callout-rgb: 0 111 230;
   --callout-tint: 10%;
-  font-size: 1em;
+  font-size: 0.8rem;
   border-width: 0;
   box-shadow: none;
   background-color: rgb(var(--callout-rgb) / var(--callout-tint));
@@ -106,7 +106,7 @@ code {
   border-radius: 0;
   border-collapse: collapse;
   box-shadow: none;
-  font-size: .95em;
+  font-size: 0.76rem;
 }
 .md-typeset table:not([class]) th,
 .md-typeset table:not([class]) td {
@@ -187,3 +187,9 @@ code {
 .md-typeset pre > code {
   line-height: 1.5;
 }
+
+/* 字号统一相对根元素计算；保持原先 0.8rem 正文的字号比例。 */
+.md-typeset { font-size: 0.8rem; }
+.md-typeset code { font-size: 0.68rem; }
+.md-typeset kbd { font-size: 0.6rem; }
+.md-typeset .footnote-ref { font-size: 0.6rem; }

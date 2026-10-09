@@ -379,13 +379,13 @@ Way to cope with failure: *Redundancy 冗余*
 !!! example
 
     |字段|含义|
-|---|---|
-|`90.7u`|User CPU seconds = 90.7 秒 → 用户态代码占用 CPU 的时间|
-|`12.9s`|System CPU seconds = 12.9 秒 → 系统调用占用 CPU 的时间|
-|`2:39`|Wall-clock time = 2 分 39 秒 = 159 秒 → 总 elapsed time|
-|`65%`|CPU utilization = (90.7 + 12.9) / 159 ≈ 65% → CPU 实际忙碌比例|
+    |---|---|
+    |`90.7u`|User CPU seconds = 90.7 秒 → 用户态代码占用 CPU 的时间|
+    |`12.9s`|System CPU seconds = 12.9 秒 → 系统调用占用 CPU 的时间|
+    |`2:39`|Wall-clock time = 2 分 39 秒 = 159 秒 → 总 elapsed time|
+    |`65%`|CPU utilization = (90.7 + 12.9) / 159 ≈ 65% → CPU 实际忙碌比例|
 
-> <div style="text-align: center"><img src="images/image-13.png" width="80%"></div>
+    <div style="text-align: center"><img src="images/image-13.png" width="80%"></div>
 
 ### 3. Reporting Performance Results
 
@@ -422,17 +422,17 @@ $$
     - 通常而言，一般情况比不常见的情况更简单，执行速度更快
 - **阿姆达尔定律**(Amdahl's Law)：<u>simple is fast</u>
 
-$$
-\text{Speedup}=\frac{1}{(1-f)+\dfrac{f}{s}}
-$$
+    $$
+    \text{Speedup}=\frac{1}{(1-f)+\dfrac{f}{s}}
+    $$
 
     - 其中 $f$ 为性能提升的部分占比，$s$ 为提升的比例。
+
 - **CPU 性能计算公式**
     - CPU 时间的计算公式：
 
-$$
-\text{CPU time}  = \text{CPU clock cycles} \times \text{Clock cycle time} = \dfrac{\text{CPU clock cycles}}{\text{Clock rate}} 
-$$
+    $$
+    \text{CPU time}  = \text{CPU clock cycles} \times \text{Clock cycle time} = \dfrac{\text{CPU clock cycles}}{\text{Clock rate}} $$
 
     - CPI (clock cycles per instruction)，以及它的倒数 IPC
 
@@ -442,7 +442,7 @@ $$
 
     - 因此 CPU 时间计算公式可以改写为：
 
-      $$
+    $$
       \dfrac{\text{Instructions}}{\text{Program}} \times\dfrac{\text{Clock cycles}}{\text{Instruction}} \times\dfrac{\text{Seconds}}{\text{Clock cycle}} =\dfrac{\text{Seconds}}{\text{Program}} = \text{CPU time}
       $$
 

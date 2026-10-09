@@ -27,7 +27,7 @@ ELementType FindMax (PriorityQueue H);
 
 1.
 
-    $$
+$$
     index \space of \space parent (i) =
     \begin{cases} 
     \left\lfloor i/2 \right\rfloor & \text{if } i \neq 1 \\
@@ -37,7 +37,7 @@ ELementType FindMax (PriorityQueue H);
 
 2.
 
-    $$
+$$
     index \space of \space left\space child (i) =
     \begin{cases} 
     2 i & \text{if } 2 i \leq n \\
@@ -47,7 +47,7 @@ ELementType FindMax (PriorityQueue H);
 
 3.
 
-    $$
+$$
     index \space of \space right\space child (i) =
     \begin{cases} 
     2 i+1 & \text{if } 2 i+1 \leq n \\

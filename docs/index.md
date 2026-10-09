@@ -6,7 +6,7 @@
 <img src="assets/computerDuck.jpg" width="100%">
 </div>
 
-<div align="center" style="font-size:32px;font-weight:bold">
+<div align="center" style="font-size:1.6rem;font-weight:bold">
         我是个精神状态正常的浙大学生!
 </div>
 

@@ -533,7 +533,11 @@ $$
 \frac{\text{每次传输需要的CPU周期个数}}{\text{每秒传输的次数}}=\frac{(1000+500)\frac{\text{cycles}}{\text{transfer}}}{0.002\frac{\text{seconds}}{\text{transfer}}}=＝750\times 10^3 \frac{\text{clock cycles}}{\text{second}}
 $$
 
-CPU 占比：$\dfrac{750\times 10^3}{500\times 10^6} = 0.2\%$
+CPU 占比：
+
+$$
+\dfrac{750\times 10^3}{500\times 10^6} = 0.2\%
+$$
 
 ---
 
@@ -587,7 +591,7 @@ $$
 - **计算所需磁盘数量**
     - 单次 I/O 时间（Disk Time）
 
-$$
+    $$
 \begin{align}
 \text{Time per I/O at disk} &= \text{Seek/rotational time} + \text{Transfer time}\\
 &= 6 \text{ms} ＋ \frac{\text{64KB}}{\text{75MB/sec}} = 6.9 \text{ms}
@@ -595,21 +599,22 @@ $$
 $$
 
     - This means each disk can complete <u>1000ms/6.9ms = 146 I/Os per second</u>. To saturate the bus, the system need <u>10000/146 ≈ 69 disks</u>.
+
 - **计算所需 SCSI 控制器数量**
 
-$$
+    $$
 \text{Number of controllers}=⌈ \frac{69}{7} ⌉=10
 $$
 
     - 每块磁盘的平均传输速率
 
-$$
+    $$
 \text{Transfer rate}=\frac{\text{Transfer size}}{\text{Transfer time}}​=\frac{6.9 \text{ms}}{64\text{KB}}​​\approx9.56 \text{MB/s}
 $$
 
     - 7 块磁盘的总传输速率
 
-$$
+    $$
 7\times9.56 \text{MB/s}\approx 66.92 \text{MB/s}<320 \text{MB/s}
 $$
 
