@@ -408,9 +408,9 @@ PC = PC + sign_extend(imm[20] | imm[10:1] | imm[11] | imm[19:12] << 1)
 - 在调用过程 B 之前先将`x1`的值压入栈内，这样就保存了 A 的返回地址。现在`x1`就可以用来存储过程 B 的返回地址  
 - 过程 A 返回前，从栈中取回 `x1` 原来的值（A 的返回地址）  
 
-C Code  
+C code
 
-```c
+```C
 int fact(int n)
 {
 	if (n < 1) return (1);
@@ -451,37 +451,40 @@ RISC-V assembly code
     <div style="text-align: center"><img src="images/image-193.png" width="30%"></div> 
 
 **Text**  
-• 存储机器指令，即编译后的可执行代码   
-• 通常只读，防止程序意外修改自身指令   
-• PC（程序计数器）指向当前执行的指令地址  
+
+- 存储机器指令，即编译后的可执行代码   
+- 通常只读，防止程序意外修改自身指令   
+- PC（程序计数器）指向当前执行的指令地址  
 
 **Static data**  
-• 包含全局变量、常量数组和字符串等  
 
+- 包含全局变量、常量数组和字符串等  
 - C语言中对应static变量和const声明的内容   
-• x3寄存器（全局指针）初始化为该段起始地址，允许通过±偏移访问其中数据  
+- x3寄存器（全局指针）初始化为该段起始地址，允许通过±偏移访问其中数据  
 
-**Dynamic data**（动态数据 - 堆）  
-• 运行时动态分配的内存  
-• 图中显示位于栈下方，与栈形成上下增长的结构  
+**Dynamic data**（动态数据 - 堆） 
+
+- 运行时动态分配的内存  
+- 图中显示位于栈下方，与栈形成上下增长的结构  
 
 **Stack**（栈 - 自动存储）  
-• 存储局部变量、函数参数和返回地址等自动变量   
-• 栈向低地址方向生长（向下增长），SP（栈指针）指示当前栈顶位置   
-• 函数调用时自动压入栈帧，返回时弹出，实现自动内存管理  
+
+- 存储局部变量、函数参数和返回地址等自动变量   
+- 栈向低地址方向生长（向下增长），SP（栈指针）指示当前栈顶位置   
+- 函数调用时自动压入栈帧，返回时弹出，实现自动内存管理  
 
 ## 2.9 Communicating with People 
 
 ### 1. Character Data
 
-Byte-encoded character sets 
+**Byte-encoded character sets**
 
 - ASCII ( American Standard Code for Information Interchange )  
     - 128 characters：95 graphic, 33 control  
 - Latin-1: 256 characters  
     - ASCII, +96 more graphic characters  
 
-Unicode: 32-bit character set  
+**Unicode: 32-bit character set**
 
 - Used in Java, C++ wide characters, …  
 - Most of the world’s alphabets, plus symbols  
@@ -782,9 +785,11 @@ sc.d rd, (rs1), rs2
 1. Place code and data modules symbolically in  
 
     - 分配虚拟地址空间，规划布局  
+
 2. Determine the addresses of data and instruction labels  
 
     - 确定最终地址   
+
 3. Patch both the internal and external references (Address of invoke)  
 
     - 把原来占位符或相对地址替换为真实的绝对地址  

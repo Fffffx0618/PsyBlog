@@ -88,11 +88,13 @@ $$
 
 ### 3.3.3 Latency & Ini/Repeat Interval
 
-==延迟（Latency）==：“the number of **intervening cycles** between an instruction that produces a result and an instruction that uses the result”
+==延迟（Latency）==："the number of **intervening cycles** between an instruction that produces a result and an instruction that uses the result"
 
 - **“数据依赖”的等待时间**，下一条指令为了拿到正确的数据，需要额外等多久
 - 假设指令 1 是 `ADD F1, F2, F3`，指令 2 是 `ADD F4, F1, F5`，指令 1 在 EX 阶段一算出结果，硬件就可以利用 Forwarding 把数据送回 ALU 的输入端。指令 2 刚好在这个时候进入 EX 阶段。整个过程不需要任何额外等待，所以延迟是 0
-==启动间隔 / 重复间隔（Initiation / Repeat Interval）==：“the number of cycles that must **elapse** between issuing two operations of a given type”
+
+==启动间隔 / 重复间隔（Initiation / Repeat Interval）==："the number of cycles that must **elapse** between issuing two operations of a given type"
+
 - **吞吐率的倒数**，即“多久能发射下一条同类指令”
 - 衡量的是**硬件部件的吞吐能力和流水线化程度**
 - 假设连续执行两条浮点除法指令
@@ -514,14 +516,14 @@ Loop: fld    f0, 0(x1)    # highest-address element of x[i]
     - 可以进一步优化流水线，达到 3.5-CC per op
 
     ```nasm
-    Loop: fld    f0, 0(x1)
-          fld    f6, -8(x1) 
+    Loop: fld     f0, 0(x1)
+          fld     f6, -8(x1) 
           fld 	  f0, -16(x1)
-          fld 	 f14, -24(x1)
-          fadd.d f4, f0, f2 
-          fadd.d f8, f6, f2
-          fadd.d f12, f0, f2
-          fadd.d f16, f14, f2 
+          fld 	  f14, -24(x1)
+          fadd.d  f4, f0, f2 
+          fadd.d  f8, f6, f2
+          fadd.d  f12, f0, f2
+          fadd.d  f16, f14, f2 
           fsd 	  f4, 0(x1) 
           fsd 	  f8, -8(x1)
           fsd 	  f12, -16(x1) 
@@ -549,6 +551,7 @@ Loop: fld    f0, 0(x1)    # highest-address element of x[i]
 
 - 把这些基本块里的操作看作一个整体，然后压缩成更少、更宽的指令
 - 即在一个时钟周期内并行执行更多指令
+
 1. **Trace Selection**：找到那条**最频繁的路径**
 2. **Trace Compaction**：把路径上的指令**压缩**进更少、更宽的指令包里
     - ==VLIW（Very long instruction word）== 处理器通过把可以并行的指令压缩在一起发射，每个时钟周期可以同时发射多条指令。Trace Compaction 就是把长路径上的指令**重新排列**，尽可能填满每个时钟周期的槽位，减少空闲（bubble）。
@@ -583,8 +586,7 @@ Loop: fld    f0, 0(x1)    # highest-address element of x[i]
 
 !!! tip "Fixup Code"
 
-    **"copy instructions to ensure correctness of all paths"**
-    （复制指令以确保所有路径的正确性）
+    **"copy instructions to ensure correctness of all paths"**（复制指令以确保所有路径的正确性）
 
     <div style="text-align: center"><img src="images/image-64.png" width="70%"></div>
 
@@ -702,8 +704,7 @@ Loop: fld    f0, 0(x1)    # highest-address element of x[i]
     - 使用**PC索引**，映射到 BHT 中的一个特定的 entry
     - entry 是一个 $m$ 位的**移位寄存器（Branch History Register, BHR）**，记录这一条特定指令过去 $m$ 次的执行历史
     - 输出的**BHR值**（即执行历史），作为 Direction predictor 的**索引/地址**
-    - **方向预测器**根据存储的值判断是否跳转
-    （下方是从 BTB 中读取跳转指令的地址）
+    - **方向预测器**根据存储的值判断是否跳转（下方是从 BTB 中读取跳转指令的地址）
 
 !!! example
 
@@ -866,7 +867,9 @@ TAGE = **多个带标签的全局历史表 + 几何级数的 history 长度 + �
 - **Issue（发射/ issuing）**：
     1. FU 空闲（避免结构冲突）
     2. 正在执行的指令不写回与本指令相同的 Rd（避免 WAW）
+
     - 满足上述两条规则就“发射”指令
+
 - **Read operands（读取操作数）**：
     - 等待数据准备好（没有 RAW 冲突），然后读取源操作数
 - **Execution（执行）**：
@@ -877,7 +880,7 @@ TAGE = **多个带标签的全局历史表 + 几何级数的 history 长度 + �
 
 > "Omit memory access because the out-of-order focuses more on FP operations"
 >
-> - 为了简化模型，这里**省略了“内存访问”阶段**
+> 为了简化模型，这里**省略了“内存访问”阶段**
 
 #### Functional unit status
 

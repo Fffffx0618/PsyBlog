@@ -1,13 +1,16 @@
 # Thread-Level Parallelism
 
-本章主要介绍从 ==ILP (instruction-level parallelism)== 到 ==TLP (thread-level parallelism)== 的扩展，以及多处理器共享内存系统中最核心的问题：**cache coherence（缓存一致性）**
+!!! summary
+    本章主要介绍从 ==ILP (instruction-level parallelism)== 到 ==TLP (thread-level parallelism)== 的扩展，以及多处理器共享内存系统中最核心的问题：**cache coherence（缓存一致性）**
 
-- 前面章节讨论单个处理器内部如何提升并行度；
-- 本章开始关注多个处理器 / core 执行不同线程时，如何共享内存、通信，以及保证多个 cache 中同一份数据不会互相矛盾。
-本章内容可以分成三部分：
-- **多处理器架构**(multiprocessor architecture)
-- **集中式共享内存**(centralized shared memory)
-- **分布式共享内存**(distributed shared memory)
+    - 前面章节讨论单个处理器内部如何提升并行度；
+    - 本章开始关注多个处理器 / core 执行不同线程时，如何共享内存、通信，以及保证多个 cache 中同一份数据不会互相矛盾。
+
+    本章内容可以分成三部分：
+
+    - **多处理器架构**(multiprocessor architecture)
+    - **集中式共享内存**(centralized shared memory)
+    - **分布式共享内存**(distributed shared memory)
 
 ---
 
@@ -31,7 +34,9 @@ Multiprocessors: computers consisting of **tightly coupled processors**
 
 - 协调与使用通常由单个操作系统来控制；
 - 它们通过 shared address space 共享内存。
+
 按照处理器集成方式，可以分为：
+
 - **multicore**：单个 chip 中集成多个 cores；
 - **multi-chip computers**：系统中有多个 chips，每个 chip 本身也可能是 multicore
 
@@ -71,6 +76,7 @@ Multiprocessors: computers consisting of **tightly coupled processors**
 - 增加 memory bandwidth，因为多个 nodes 可以并行服务内存访问；
 - 降低 local memory latency，因为 processor 访问自身节点的 memory 更快；
 - 支持更多 processors，扩展性比单一 centralized memory 更好。
+
 但是，分布式共享内存的访问时间取决于数据所在位置，因此也叫 ==NUMA (nonuniform memory access)==：<u>访问 local memory 快，访问 remote memory 慢。</u>
 
 <div style="text-align: center"><img src="images/image-107.png" width="60%"></div>
@@ -242,6 +248,7 @@ A memory system is ==Coherent== if any read of a data item returns <u>the most r
 ### Coherence Property
 
 一个 memory system 如果是 coherent，至少需要满足下面三个性质：
+
 **性质 1：同一 processor 的 write-read 顺序必须保持**
 
 - <u>自己写的东西，自己一定能看到。</u>
@@ -723,13 +730,16 @@ Directory protocol 的核心优势是减少 broadcast。Home directory 知道谁
 !!! info "硬件原语（Hardware Primitives）"
 
     - 这些操作都是原子性的，不能被打断。一旦开始执行这条指令，直到它执行完毕之前，不会有其他指令插入，也不会有其他核心干扰这块内存的状态。
+
     1. **Atomic Exchange (原子交换)**
         - 寄存器与内存交换，常用于实现简单的自旋锁（Spinlock）
         - 这条指令会将寄存器中的值写入内存地址，同时将内存地址原本的旧值读回到寄存器中。这两个动作是同时完成的。
+  
     2. **Test-and-set (测试并设置)**
         - 测试某一位的值，并将其设置为 1。
         - 读取内存中的一个布尔值，如果它是 0，就把它改成 1，并返回旧值（0）；如果它已经是 1，就保持为 1，并返回旧值（1）。整个过程不可分割。
         - 实现互斥锁：如果返回 0，说明锁是开的；如果返回 1，说明锁被占了。
+
     3. **Fetch-and-increment (取出并加一 / 获取并增加)**
         - 读取内存中的数值返回给寄存器，同时将内存中的数值加 1。
         - 常用于生成唯一的序列号、ID 分配，保证排队的公平性。

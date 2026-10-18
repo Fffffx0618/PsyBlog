@@ -67,7 +67,7 @@ $$
 T_{\text{improved}}=\frac{T_{\text{affected}}}{\text{improvement factor}}+T_{\text{unaffected}}
 $$
 
-【Corollary】：*Make the common case fast*
+【Corollary】：==Make the common case fast==
 
 **MIPS: Millions of Instructions Per Second**
 

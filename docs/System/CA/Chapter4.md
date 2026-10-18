@@ -75,7 +75,7 @@ Dynamic Register Typing（动态寄存器类型）其核心是：
         - 标量代码需要显式循环，每次处理一个元素
 
     ```nasm
-    	  fld     f0,a              # Load scalar a
+    	fld     f0,a              # Load scalar a
         addi    x28,x5,#256       # Last address to load
     Loop:
         fld     f1,0(x5)          # Load X[i]
@@ -385,7 +385,7 @@ VLTS  V1, Rs, 1600    # 写入 D[0][3], D[1][3], D[2][3], ... 到 V1
     - bank busy time = 6 cycles
     - total memory latency = 12 cycles
 
-    ** If vector length = 64, Stride = 1**
+    **If vector length = 64, Stride = 1**
 
     - 8 个 bank 编号 0~7，连续访问依次命中，由于 bank 的数量大于 busy time ，因此**永远不会冲突**。流水线完全启动后，**每周期返回 1 个元素**。总时间：$12+64=76\text{ cycles}$
 
@@ -463,7 +463,7 @@ Multimedia SIMD 可以看作“**固定宽度的小型向量处理**”，更适
     	   fld      f0, a          # Load scalar a 
     	   splat.4D f0, f0.        # Make 4 copies of a 
     	   addi     x28, x5, #256  # Last address to load 
-    Loop: fld.4D   f1, 0(x5)      # Load X[i] ... X[i+3] 
+    Loop:  fld.4D   f1, 0(x5)      # Load X[i] ... X[i+3] 
     	   fmul.4D  f1, f1, f0     # a×X[i] ... a×X[i+3] 
     	   fld.4D   f2, 0(x6)      # Load Y[i] ... Y[i+3] 
     	   fadd.4D  f2, f2, f1     # a×X[i]+Y[i]... 
@@ -570,6 +570,7 @@ name<<<dimGrid, dimBlock>>>(parameter_list);
 - `blockIdx` 表示当前 block 的编号；
 - `threadIdx` 表示当前 thread 在 block 内的编号；
 - `blockDim` 表示每个 block 中的 thread 数量，来自 `dimBlock`
+
 这些变量共同决定一个 thread 要处理哪一个数据元素。
 
 !!! example "DAXPY in CUDA"
