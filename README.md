@@ -1,6 +1,6 @@
 # PsyBlog
 
-基于 MkDocs Material 的课程笔记。`docs/` 存放网站使用的 Markdown；
+基于 Zensical（classic 外观）的课程笔记。`docs/` 存放网站使用的 Markdown；
 `example/` 中的 Obsidian 原稿和 PDF 用于比对，不参与构建。
 
 ## 本地预览
@@ -10,10 +10,10 @@
 ```sh
 conda activate mkdocs-env
 python -m pip install -r requirements.txt
-mkdocs serve
+zensical serve
 ```
 
-打开终端显示的本地地址。仅生成静态网页时运行 `mkdocs build`，产物在 `site/`。
+打开终端显示的本地地址。仅生成静态网页时运行 `zensical build`，产物在 `site/`。
 
 ## 从 Obsidian 迁移笔记
 
@@ -71,9 +71,40 @@ mkdocs serve
 
 ## 样式与检查
 
-`docs/stylesheets/extra.css` 在 `blueTopaz.css` 后加载，调整标题、列表、浅蓝提示框、
-表格和强调色，使正文接近参考 PDF。窄屏保留表头并横向滚动表格。
-网页会随屏幕宽度重排，不复刻 PDF 的 A4 分页。
+网站通过 `mkdocs.yml` 的 `extra_css` 加载唯一的正文主题文件
+`docs/stylesheets/blue-topaz.css`。Zensical 继续使用兼容的 YAML 配置。
+`about-me.css` 只供独立的 `AboutMe.html` 使用，不加载到笔记页面。
+
+主题选取本地 Blue Topaz `theme.css` 的默认浅色／深色阅读配色，
+保留原变量名，并通过 `--md-*` 变量和 `.md-typeset` 选择器映射到 Zensical：
+
+| Blue Topaz | Zensical / Markdown |
+| --- | --- |
+| `.theme-light` / `.theme-dark` | `default` / `slate` |
+| `--background-primary`、`--text-normal`、`--text-muted` | 页面背景、正文、次要文字 |
+| `--h1-color` … `--h6-color` | 六级标题；深色模式保留原来的彩色标题 |
+| `--accent-strong`、`--accent-em`、`--strong-em-color-*` | 粗体、斜体、粗斜体渐变 |
+| `--text-accent`、`--text-selection` | 链接、选中文字 |
+| `--text-highlight-bg`、`--bg-color-highlight-*` | 普通、斜体、粗体、粗斜体高亮 |
+| `--text-color-code`、`--background-code-2` | 行内代码文字和底色 |
+| `code-theme-bt-default`（叠加主题共用代码配色） | Pygments 对应的 `--md-code-hl-*` 语义颜色 |
+| 原站引用配色、`--text-normal` | 引用保留灰色文字／边线和透明背景；无序列表标记跟随正文 |
+| `--table-*-color` | 表格背景、表头、边框、斑马纹和悬停 |
+
+Obsidian 的 CodeMirror/Prism 与 Zensical 的 Pygments 分词不同，代码颜色按语义对应，
+不会保证每一段代码的每个 token 完全相同。提示框沿用 Obsidian 核心的类型配色，
+映射为原生 admonition / details，保留图标、折叠和嵌套。
+此移植不加载 Obsidian 编辑器、插件界面、背景图片或可选配色方案。
+Blue Topaz 的 MIT 许可已保留在样式文件头部。
+
+字号设置集中在文件顶部：根字号 `125%`，正文 `--bt-body-size: .8rem`，
+浏览器默认字号为 16 时正文仍为 16；增大浏览器默认字号或页面缩放时同步放大。
+标题使用 `rem`（沿用原主题的标题／正文比例），代码、表格等使用 `em` 跟随上下文。
+不再按显示器宽度突然切换根字号。正文最大宽度使用 `rem`，图片自适应，
+表格和宽公式在窄屏横向滚动。修改整体正文大小时，也可同时调整标题的 `rem` 值。
+
+官方扩展方式与字体变量说明：[自定义样式](https://zensical.org/docs/customization/)、
+[字体](https://zensical.org/docs/setup/fonts/)。
 
 迁移脚本测试：
 
@@ -82,5 +113,5 @@ python -m pip install -r requirements-dev.txt
 python -m unittest discover -s tests -v
 ```
 
-同步新增/删除笔记后，更新 `mkdocs.yml` 的导航并运行 `mkdocs build --strict`，
+同步新增/删除笔记后，更新 `mkdocs.yml` 的导航并运行 `zensical build --clean`，
 检查目录和文章链接是否仍指向存在的文件。

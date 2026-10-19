@@ -1,0 +1,334 @@
+/* Blue Topaz Markdown → Zensical classic.
+ * Source: Blue-Topaz_Obsidian-css-master/theme.css
+ * Only reading-view tokens are ported; no Obsidian app/plugin selectors.
+ *
+MIT License
+
+Copyright (c) 2020 whyt-byte
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
+
+/* Relative to the user's browser default; neutralize the theme's viewport-based
+   root sizing so text does not jump when moving between monitors. */
+html { font-size: 125%; }
+:root {
+  --md-text-font: "LXGW WenKai Screen", "Microsoft YaHei";
+  --md-code-font: "JetBrains Mono", "Sarasa Mono SC", Consolas;
+  --bt-body-size: .8rem;
+}
+
+/* Blue Topaz .theme-light reading-view palette. */
+[data-md-color-scheme="default"] {
+  --background-primary: #ffffff;
+  --background-secondary: #fcfcfc;
+  --background-modifier-border: #dddddd;
+  --background-modifier-border-hr: #bfbfbf;
+  --text-normal: #0e0e0e;
+  --text-muted: #7f7f7f;
+  --text-faint: #7f7f7f;
+  --accent-strong: #000000;
+  --accent-em: #099d4e;
+  --text-selection: #a9d1c859;
+  --bt-quote-text: #0000008a;
+  --bt-quote-border: #00000052;
+  --background-code: #e6e6e671;
+  --background-code-2: #cccccc62;
+  --text-color-code: #e95d00;
+  --code-normal: #000000;
+  --table-background-color: #f1f1f176;
+  --table-background-color-odd: #ffffff70;
+  --table-border-color: hsla(var(--accent-h), var(--accent-s), var(--accent-l), 0.20);
+  --table-thead-background-color: hsl(207 77% 54% / 10%);
+  --table-hover-raw-color: #85bfee2f;
+  --table-header-color: var(--text-normal);
+  --bg-color-highlight-1: #ff000034;
+  --bg-color-highlight-2: #0fc41835;
+  --bg-color-highlight-3: #4ca6ff51;
+  --text-red: #ff4343;
+  --h1-color: hsl(216, 88%, 26%);
+  --h2-color: hsl(212, 100%, 33%);
+  --h3-color: hsl(210, 86%, 39%);
+  --h4-color: hsl(208, 58%, 49%);
+  --h5-color: hsl(209, 70%, 62%);
+  --h6-color: hsl(209, 65%, 72%);
+  --accent-h: 207;
+  --accent-s: 77%;
+  --accent-l: 54%;
+  --text-accent: #3a79aa;
+  --text-accent-hover: #1e3f8b;
+  --text-highlight-bg: hsla(34, 100%, 80%, .847);
+  --strong-em-color-1: #1048ff;
+  --strong-em-color-2: #14c8ff;
+  --md-code-fg-color: #000000;
+  --md-code-bg-color: #e6e6e671;
+  --md-code-hl-number-color: #ff5370;
+  --md-code-hl-special-color: #3bd4da;
+  --md-code-hl-function-color: #BF616A;
+  --md-code-hl-constant-color: #f78c6c;
+  --md-code-hl-keyword-color: #3bd4da;
+  --md-code-hl-string-color: #c3e88d;
+  --md-code-hl-name-color: #f07178;
+  --md-code-hl-operator-color: #89ddff;
+  --md-code-hl-punctuation-color: #000000;
+  --md-code-hl-comment-color: #676e95;
+  --md-code-hl-generic-color: #7f7f7f;
+  --md-code-hl-variable-color: #b74ff3;
+}
+
+/* Blue Topaz .theme-dark reading-view palette. */
+[data-md-color-scheme="slate"] {
+  --background-primary: #202020;
+  --background-secondary: #151515;
+  --background-modifier-border: #343434;
+  --background-modifier-border-hr: #3f3f3f;
+  --text-normal: #c6c6c6;
+  --text-muted: #8a8a8a;
+  --text-faint: #797979;
+  --accent-strong: #e7e7e7;
+  --accent-em: #a4ca8e;
+  --text-selection: #3b767160;
+  --bt-quote-text: hsla(var(--md-hue), 15%, 90%, .56);
+  --bt-quote-border: hsla(var(--md-hue), 15%, 90%, .32);
+  --background-code: #1111118c;
+  --background-code-2: #4c4c4cb0;
+  --text-color-code: #d58000;
+  --code-normal: #d0d0d0;
+  --table-background-color: #2f2f2f32;
+  --table-background-color-odd: #00000033;
+  --table-border-color: hsla(var(--accent-h), var(--accent-s), var(--accent-l), 0.20);
+  --table-thead-background-color: hsl(208 64% 49% / 10%);
+  --table-hover-raw-color: #08569a21;
+  --table-header-color: var(--text-normal);
+  --bg-color-highlight-1: #c865656f;
+  --bg-color-highlight-2: #54b9476f;
+  --bg-color-highlight-3: #1e83d086;
+  --text-red: #ff4f4f;
+  --h1-color: hsl(78, 62%, 47%);
+  --h2-color: hsl(118, 42%, 49%);
+  --h3-color: hsl(180, 53%, 48%);
+  --h4-color: hsl(216, 69%, 68%);
+  --h5-color: hsl(258, 79%, 77%);
+  --h6-color: hsl(290, 85%, 81%);
+  --accent-h: 208;
+  --accent-s: 64%;
+  --accent-l: 49%;
+  --text-accent: hsl(var(--accent-h) var(--accent-s) var(--accent-l));
+  --text-accent-hover: hsl(var(--accent-h) var(--accent-s) 51.45%);
+  --text-highlight-bg: hsla(57, 40%, 38%, .541);
+  --strong-em-color-1: #43d3ff;
+  --strong-em-color-2: #baaaff;
+  --md-code-fg-color: #ebdbb2;
+  --md-code-bg-color: #1111118c;
+  --md-code-hl-number-color: #ff5370;
+  --md-code-hl-special-color: #478fee;
+  --md-code-hl-function-color: #cac685 ;
+  --md-code-hl-constant-color: #f78c6c;
+  --md-code-hl-keyword-color: #478fee;
+  --md-code-hl-string-color: #abd58e ;
+  --md-code-hl-name-color: #db7c84 ;
+  --md-code-hl-operator-color: #a89984;
+  --md-code-hl-punctuation-color: #abb2bf ;
+  --md-code-hl-comment-color: #568060 ;
+  --md-code-hl-generic-color: #ffcb6b;
+  --md-code-hl-variable-color: #53ada3;
+}
+
+/* Zensical's semantic variables: one bridge for content and built-in widgets.
+   Syntax colors follow Blue Topaz's default code-theme-bt-default cascade. */
+[data-md-color-scheme] {
+  --md-default-bg-color: var(--background-primary);
+  --md-default-fg-color: var(--text-normal);
+  --md-default-fg-color--light: var(--text-muted);
+  --md-default-fg-color--lighter: var(--text-faint);
+  --md-default-fg-color--lightest: var(--background-modifier-border);
+  --md-typeset-color: var(--text-normal);
+  --md-typeset-a-color: var(--text-accent);
+  --md-accent-fg-color: var(--text-accent-hover);
+  --md-typeset-mark-color: var(--text-highlight-bg);
+  --md-typeset-table-color: var(--table-border-color);
+  --md-typeset-table-color--light: var(--table-hover-raw-color);
+  --md-code-hl-color: var(--text-selection);
+}
+
+
+/* Preserve the site's original navigation palette independently of Markdown. */
+[data-md-color-scheme="default"] {
+  --bt-header-bg: rgba(210, 230, 255, .75);
+  --bt-tabs-bg: rgba(240, 245, 250, .7);
+  --bt-nav-text: #0e0e0e;
+  --bt-nav-active: #3c65c5;
+  --bt-search-bg: rgba(0, 0, 0, .06);
+}
+[data-md-color-scheme="slate"] {
+  --bt-header-bg: rgba(26, 27, 30, .85);
+  --bt-tabs-bg: rgba(26, 27, 30, .8);
+  --bt-nav-text: #e3e5e8;
+  --bt-nav-active: #58a6ff;
+  --bt-search-bg: rgba(255, 255, 255, .08);
+}
+.md-header {
+  background-color: var(--bt-header-bg);
+  color: var(--bt-nav-text);
+  backdrop-filter: blur(.9rem) saturate(160%);
+  -webkit-backdrop-filter: blur(.9rem) saturate(160%);
+}
+.md-header__title,
+.md-header__button { color: var(--bt-nav-text); }
+.md-tabs {
+  background-color: var(--bt-tabs-bg);
+  backdrop-filter: blur(.9rem);
+  -webkit-backdrop-filter: blur(.9rem);
+  border-bottom: .05rem solid rgba(0, 0, 0, .05);
+}
+.md-tabs__link { color: var(--bt-nav-text); opacity: .8; }
+.md-tabs__item--active .md-tabs__link,
+.md-tabs__link--active { color: var(--bt-nav-active); opacity: 1; }
+.md-header .md-search__form { background-color: var(--bt-search-bg); }
+.md-sidebar {
+  --md-typeset-a-color: var(--bt-nav-active);
+  --md-accent-fg-color: var(--bt-nav-active);
+}
+
+.md-typeset { font-size: var(--bt-body-size); line-height: 1.6; }
+.md-typeset p { margin-block: .5em; }
+.md-typeset :is(h1, h2, h3, h4, h5, h6) {
+  font-weight: 700;
+  letter-spacing: normal;
+  text-transform: none;
+  margin-block: 1.2em .5em;
+}
+.md-typeset h1 { color: var(--h1-color); font-size: 1.25rem; }
+.md-typeset h2 { color: var(--h2-color); font-size: 1.15rem; }
+.md-typeset h3 { color: var(--h3-color); font-size: 1.05rem; }
+.md-typeset h4 { color: var(--h4-color); font-size: .95rem; }
+.md-typeset h5 { color: var(--h5-color); font-size: .85rem; }
+.md-typeset h6 { color: var(--h6-color); font-size: .8rem; }
+.md-typeset strong { color: var(--accent-strong); }
+.md-typeset em { color: var(--accent-em); }
+.md-typeset :is(strong > em, em > strong) {
+  background: linear-gradient(120deg, var(--strong-em-color-1), var(--strong-em-color-2) 80%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+.md-typeset :is(strong > em, em > strong):has(> mark) { background: none; }
+.md-typeset a {
+  text-decoration: none;
+  border-bottom: .05rem solid transparent;
+  transition: color .3s, border-bottom-color .3s;
+}
+.md-typeset a:hover {
+  color: var(--text-accent-hover);
+  border-bottom-color: currentColor;
+}
+.md-typeset ::selection { background: var(--text-selection); }
+.md-typeset mark { color: var(--text-normal); }
+.md-typeset em > mark { background: var(--bg-color-highlight-1); }
+.md-typeset strong > mark { background: var(--bg-color-highlight-2); }
+.md-typeset :is(strong > em, em > strong) > mark {
+  background: var(--bg-color-highlight-3);
+  font-style: normal;
+  font-weight: normal;
+}
+/* Restore the original neutral blockquote palette and native spacing. */
+.md-typeset blockquote {
+  --md-default-fg-color--light: var(--bt-quote-text);
+  --md-default-fg-color--lighter: var(--bt-quote-border);
+}
+.md-typeset hr { border-color: var(--background-modifier-border-hr); }
+.md-typeset code { font-size: .825em; }
+.md-typeset :not(pre) > code {
+  color: var(--text-color-code);
+  background: var(--background-code-2);
+}
+.md-typeset pre { line-height: 1.5; }
+.md-typeset kbd { font-size: .8em; }
+.md-typeset :is(ul, ol) { margin-block: .5em; padding-inline-start: 1.25em; margin-inline-start: 0; }
+.md-typeset li { margin-inline-start: 0; margin-bottom: .15em; }
+.md-typeset li p { margin-block: .15em; }
+.md-typeset ul { list-style-type: disc; }
+.md-typeset ul ul { list-style-type: circle; }
+.md-typeset ul ul ul { list-style-type: square; }
+.md-typeset ul > li::marker { color: var(--text-normal); }
+.md-typeset ol > li::marker { color: var(--text-muted); }
+.md-typeset .task-list-item { list-style-type: none; }
+.md-typeset .task-list-indicator::before { background-color: var(--text-muted); }
+.md-typeset .task-list-item [type="checkbox"]:checked + .task-list-indicator::before {
+  background-color: var(--text-accent);
+}
+.md-typeset table:not([class]) {
+  width: 100%;
+  font-size: .9375em;
+  background: var(--table-background-color);
+  border-color: var(--table-border-color);
+  border-collapse: collapse;
+}
+.md-typeset table:not([class]) :is(th, td) { padding: .5em .75em; }
+.md-typeset table:not([class]) th {
+  color: var(--table-header-color);
+  background: var(--table-thead-background-color);
+}
+.md-typeset table:not([class]) tbody tr:nth-child(odd) { background: var(--table-background-color-odd); }
+.md-typeset table:not([class]) tbody tr:hover { background: var(--table-hover-raw-color); }
+
+/* Obsidian core callouts → admonition/details; icons and folding stay native.
+   Each box resets its own token so nested callouts do not inherit their parent. */
+.md-typeset :is(.admonition, details) {
+  --bt-callout: 8, 109, 221;
+  font-size: inherit;
+  border: 0;
+  box-shadow: none;
+  background: rgba(var(--bt-callout), .1);
+}
+.md-typeset :is(.admonition, details):is(.abstract, .summary, .tldr) { --bt-callout: 0, 191, 188; }
+.md-typeset :is(.admonition, details):is(.info, .todo) { --bt-callout: 8, 109, 221; }
+.md-typeset :is(.admonition, details):is(.tip, .hint, .important) { --bt-callout: 0, 191, 188; }
+.md-typeset :is(.admonition, details):is(.success, .check, .done) { --bt-callout: 8, 185, 78; }
+.md-typeset :is(.admonition, details):is(.question, .help, .faq, .warning, .caution, .attention) { --bt-callout: 236, 117, 0; }
+.md-typeset :is(.admonition, details):is(.failure, .fail, .missing, .danger, .error, .bug) { --bt-callout: 233, 49, 71; }
+.md-typeset :is(.admonition, details).example { --bt-callout: 120, 82, 238; }
+.md-typeset :is(.admonition, details):is(.quote, .cite) { --bt-callout: 158, 158, 158; }
+.md-typeset :is(.admonition, details) > :is(.admonition-title, summary) {
+  color: rgb(var(--bt-callout));
+  background: transparent;
+}
+.md-typeset :is(.admonition, details) > :is(.admonition-title, summary)::before { background-color: currentColor; }
+
+/* Content compatibility and fluid layout. Math retains its renderer's fonts. */
+.md-typeset .text-red { color: var(--text-red); }
+.md-typeset img { max-width: 100%; height: auto; }
+.md-typeset div.arithmatex { overflow-x: auto; overflow-y: hidden; }
+.md-grid { max-width: 67rem; }
+
+/* Original content card; the header retains its existing frosted glass. */
+[data-md-color-scheme="default"] { --bt-content-bg: #fcfcfc; }
+[data-md-color-scheme="slate"] { --bt-content-bg: #242528; }
+.md-content__inner {
+  background-color: var(--bt-content-bg);
+  border-radius: .75rem;
+  box-shadow: 0 .2rem 1.25rem rgba(0, 0, 0, .05);
+  padding: 1.5rem 2rem;
+}
+@media (min-width: 67.25em) {
+  .md-content__inner { padding-inline: 1rem; }
+}
+@media (max-width: 44.984375em) {
+  .md-content__inner { padding: 1rem .8rem; }
+}

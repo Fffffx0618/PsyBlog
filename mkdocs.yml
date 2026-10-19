@@ -30,9 +30,8 @@ theme:
     - search.highlight
     - toc.follow
 
-  font:
-    text: LXGW WenKai Screen, Microsoft YaHei, sans-serif
-    code: JetBrains Mono, Sarasa Mono SC, Consolas, monospace
+  # Fonts are loaded explicitly below; CSS defines the font stacks.
+  font: false
 
   icon:
     repo: fontawesome/brands/github
@@ -114,8 +113,7 @@ extra_javascript:
 extra_css:
   - https://gcore.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.1.0/style.css
   - https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap
-  - stylesheets/blueTopaz.css
-  - stylesheets/extra.css
+  - stylesheets/blue-topaz.css
 
   
 
