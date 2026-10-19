@@ -34,6 +34,7 @@ theme:
   font: false
 
   icon:
+    search: fontawesome/solid/magnifying-glass
     repo: fontawesome/brands/github
     logo: material/notebook-edit-outline
     previous: fontawesome/solid/angle-left
@@ -70,6 +71,7 @@ theme:
         name: Switch to light mode
 
   favicon: assets/icon.png
+
 markdown_extensions:
   - nl2br             # 保留笔记中的段内换行；块之间仍需空行
   - tables

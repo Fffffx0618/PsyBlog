@@ -31,7 +31,7 @@ html { font-size: 125%; }
 :root {
   --md-text-font: "LXGW WenKai Screen", "Microsoft YaHei";
   --md-code-font: "JetBrains Mono", "Sarasa Mono SC", Consolas;
-  --bt-body-size: .8rem;
+  --bt-body-size: .82rem;
 }
 
 /* Blue Topaz .theme-light reading-view palette. */
@@ -331,4 +331,19 @@ html { font-size: 125%; }
 }
 @media (max-width: 44.984375em) {
   .md-content__inner { padding: 1rem .8rem; }
+}
+
+/* 缩小卡片顶部留白 */
+.md-content__inner {
+  padding-top: 1.0rem;
+}
+
+/* 去掉主题自带的顶部占位 */
+.md-content__inner::before {
+  display: none;
+}
+
+/* 页面主标题不需要额外上边距 */
+.md-content__inner > h1 {
+  margin-top: 0;
 }
