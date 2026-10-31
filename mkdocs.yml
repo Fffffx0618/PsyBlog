@@ -254,3 +254,17 @@ nav:
       - AI/NLP/Model_Compression.md
       - AI/NLP/Reinforcement_Learning.md
       - AI/NLP/GPTs.md
+
+  - 科研资料:
+    - Paper/index.md
+    - 论文概览: Paper/Notes/index.md
+    - KV-Cache 管理: Paper/Notes/KV-Cache Management.md
+    - Mooncake: Paper/Notes/Mooncake.md
+    - Agentix: Paper/Notes/Agentix.md
+    - Continuum: Paper/Notes/Continuum.md
+    - ThunderAgent: Paper/Notes/ThunderAgent.md
+    - MORI: Paper/Notes/MORI.md
+    - Strata: Paper/Notes/Strata.md
+    - Libra: Paper/Notes/Libra.md
+    - SAECache: Paper/Notes/SAECache.md
+    - XSched: Paper/XSched/XSched.md

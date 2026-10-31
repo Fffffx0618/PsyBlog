@@ -273,8 +273,11 @@ html { font-size: 125%; }
 .md-typeset .task-list-item [type="checkbox"]:checked + .task-list-indicator::before {
   background-color: var(--text-accent);
 }
+.md-typeset .md-typeset__table { display: block; }
 .md-typeset table:not([class]) {
-  width: 100%;
+  display: table;
+  width: auto;
+  margin-inline: auto;
   font-size: .9375em;
   background: var(--table-background-color);
   border-color: var(--table-border-color);
