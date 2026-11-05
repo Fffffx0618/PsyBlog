@@ -641,3 +641,6 @@ a:focus-visible, button:focus-visible { outline: 3px solid #60a5fa; outline-offs
 .skip-link:focus { transform: translateY(0); }
 @media (max-width: 768px) { .nav-links { width: 100%; align-items: stretch; } }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+/* Source-file timestamps at the bottom of each page. */
+.page-dates { display: flex; flex-wrap: wrap; justify-content: center; gap: .35rem 1.2rem; margin-top: 2rem; padding: 1rem; border-top: 1px solid currentColor; color: var(--md-default-fg-color--light, #737373); font-size: .75rem; line-height: 1.8; }

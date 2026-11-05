@@ -350,3 +350,5 @@ html { font-size: 125%; }
 .md-content__inner > h1 {
   margin-top: 0;
 }
+/* Source-file timestamps at the bottom of each page. */
+.page-dates { display: flex; flex-wrap: wrap; justify-content: center; gap: .35rem 1.2rem; margin-top: 2rem; padding: 1rem; border-top: 1px solid currentColor; color: var(--md-default-fg-color--light, #737373); font-size: .75rem; line-height: 1.8; }

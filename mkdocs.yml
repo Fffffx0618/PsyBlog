@@ -110,6 +110,7 @@ plugins:
   - search
 
 extra_javascript:
+  - javascripts/comments.js
   - javascripts/lazy-renderers.js
 
 extra_css:

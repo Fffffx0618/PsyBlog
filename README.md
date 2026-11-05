@@ -13,7 +13,7 @@ python -m pip install -r requirements.txt
 zensical serve
 ```
 
-打开终端显示的本地地址。仅生成静态网页时运行 `zensical build`，产物在 `site/`。
+打开终端显示的本地地址。仅生成静态网页时运行 `python scripts/build.py`，产物在 `site/`。
 
 ## 从 Obsidian 迁移笔记
 
@@ -113,5 +113,26 @@ python -m pip install -r requirements-dev.txt
 python -m unittest discover -s tests -v
 ```
 
-同步新增/删除笔记后，更新 `mkdocs.yml` 的导航并运行 `zensical build --clean`，
+同步新增/删除笔记后，更新 `mkdocs.yml` 的导航并运行 `python scripts/build.py`，
 检查目录和文章链接是否仍指向存在的文件。
+
+## GitHub 评论区
+
+除首页外，各笔记页面底部通过 `docs/javascripts/comments.js` 加载 Utterances，
+按页面路径关联本仓库的 GitHub Issue，支持 GitHub 登录留言和深浅色主题切换。
+评论公开存储在 Issues 中，无需在网站配置 OAuth 密钥。
+
+首次启用需由仓库管理员完成：
+
+1. 确认 `Fffffx0618/PsyBlog` 为公开仓库，且已开启 Issues。
+2. 在 <https://github.com/apps/utterances> 安装应用，并授权访问该仓库。
+3. 部署网站后，使用 GitHub 登录并提交一条评论，确认对应 Issue 自动创建。
+
+更换仓库时，同步修改脚本中的 `repo` 属性及 Issues 链接。
+
+## 页面时间
+
+运行 `python scripts/build.py` 构建并在每页底部添加创建时间和最近编辑时间（北京时间）。
+时间来自源文件 Git 历史，创建时间为最早提交，最近编辑为最后一次提交；重命名会追溯历史。
+未提交的新文件暂用本地文件时间。CI 拉取完整 Git 历史以确保日期准确。
+`zensical serve` 仍可预览正文；查看时间信息请使用上述构建命令后预览 `site/`。
