@@ -258,8 +258,7 @@ nav:
 
   - 科研资料:
     - Paper/index.md
-    - 论文概览: Paper/Notes/index.md
-    - KV-Cache 管理: Paper/Notes/KV-Cache Management.md
+    - KV-Cache: Paper/Notes/KV-Cache Management.md
     - Mooncake: Paper/Notes/Mooncake.md
     - Agentix: Paper/Notes/Agentix.md
     - Continuum: Paper/Notes/Continuum.md

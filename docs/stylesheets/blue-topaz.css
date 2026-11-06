@@ -352,3 +352,51 @@ html { font-size: 125%; }
 }
 /* Source-file timestamps at the bottom of each page. */
 .page-dates { display: flex; flex-wrap: wrap; justify-content: center; gap: .35rem 1.2rem; margin-top: 2rem; padding: 1rem; border-top: 1px solid currentColor; color: var(--md-default-fg-color--light, #737373); font-size: .75rem; line-height: 1.8; }
+
+/* Subtle page entrance and responsive navigation controls. */
+@keyframes bt-content-enter {
+  from { opacity: 0; transform: translateY(.35rem); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.md-content__inner {
+  animation: bt-content-enter .24s ease-out both;
+}
+
+.md-header__button,
+.md-tabs__link,
+.md-sidebar a,
+.md-nav__link,
+.md-search__icon,
+.md-top {
+  transition: color .18s ease, background-color .18s ease, opacity .18s ease,
+    transform .18s ease;
+}
+.md-header__button:hover,
+.md-search__icon:hover,
+.md-top:hover {
+  transform: translateY(-1px);
+}
+.md-tabs__link:hover,
+.md-nav__link:hover,
+.md-sidebar a:hover {
+  color: var(--bt-nav-active);
+}
+.md-header__button:active,
+.md-tabs__link:active,
+.md-nav__link:active,
+.md-search__icon:active,
+.md-top:active {
+  transform: scale(.97);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .md-content__inner { animation: none; }
+  .md-header__button,
+  .md-tabs__link,
+  .md-sidebar a,
+  .md-nav__link,
+  .md-search__icon,
+  .md-top {
+    transition: none;
+  }
+}
